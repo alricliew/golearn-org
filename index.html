@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/about.html >
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../assets/js/firebase.js"></script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../assets/css/tutor-portal.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="./" class="simple-text logo-mini" style="padding: 0.5rem">
+			    <img src="../assets/img/golearn-school-logo.svg" style="width: 200px; height: auto;" alt=""></img>
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="./">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="report/">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="class/">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item">
+            <a class="nav-link" href="student/">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="teacher/">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="invoice/">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="salary/">
+              <i class="fas fa-money-bill-wave fa-fw nav-icon"></i>
+              <p>Salaries</p>
+            </a>
+          </li>
+          <li class="nav-item" id="navPayroll" style="display: none;">
+            <a class="nav-link" href="payroll/">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="transaction/">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <h4 class="nav-link" style="margin-left: 1rem;">Public</h4>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="course/">
+              <i class="fas fa-book-open fa-fw nav-icon"></i>
+              <p>My Public Courses
+                <span style="background-color: #2e74b6;padding: 0.2em 0.5em 0.2em 0.5em;color: white;border-radius: 3px;font-size: x-small;">New</span>
+              </p>
+            </a>
+          </li>
+		  		<li class="nav-item">
+            <a class="nav-link" href="job/">
+              <i class="fas fa-briefcase fa-fw nav-icon"></i>
+              <p>Tuition Jobs</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="settings/">
+              <i class="fas fa-user-cog fa-fw nav-icon"></i>
+              <p>Update Information</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">About</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                </div>
+              </li>
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="./edit-profile.html">Edit Profile</a>
+                  <a id="navPublicProfile" class="dropdown-item" href="#">My Public Profile</a>
+									<a class="display:block; dropdown-item" href="./about.html">About</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+									<div class="dropdown-divider"></div>
+									<a style="font-weight: 500 ;padding: 0.5em ;text-align: center; width: 200px; background-color: #428dd4 ;display: block; color: #fff;" href="https://golearn.com.my/pricing/" target="_blank" id="btnUpgradeToPro">Upgrade to Pro</a>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+
+       <!-- Sign-out modal -->
+       <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container-fluid">
+          <!-- your content here -->
+          <div class="row" id="card-faq" onclick="window.open('https://golearn.com.my/faq/', '_blank');">
+            <div class="col-md-12">
+              <div class="card-course card-music">
+                <h3>FAQ </h3>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="card-upgrade-to-pro" onclick="window.open('https://golearn.com.my/pricing/', '_blank');">
+            <div class="col-md-12">
+              <div class="card-course" style="background-color: #2e74b6;">
+                <h3 style="color: white;">Upgrade to Pro </h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" id="card-tos" onclick="window.open('https://golearn.com.my/terms-of-service/', '_blank');">
+            <div class="col-md-12">
+              <div class="card-course card-kpm">
+                <h3>Term of Service </h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" id="card-privacy" onclick="window.open('https://golearn.com.my/privacy-policy/', '_blank');">
+            <div class="col-md-12">
+              <div class="card-course card-ib">
+                <h3>Privacy Policy </h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" id="card-visit-our-website" onclick="window.open('http://golearn.com.my/', '_blank');">
+            <div class="col-md-12">
+              <div class="card-course card-cambridge">
+                <h3>Visit Our Website </h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" id="card-contact-us" onclick="window.open('http://golearn.com.my/contact-us/', '_blank');">
+            <div class="col-md-12">
+              <div class="card-course card-language-and-english-exam">
+                <h3>Contact Us </h3>
+              </div>
+            </div>
+          </div>
+
+		    </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <script src="../assets/js/core/jquery.min.js"></script>
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <!-- Common constants -->
+  <script src="../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../assets/js/const.js" type="text/javascript"></script>
+  <!-- Global Var -->
+  <script src="../assets/js/globalvar.js" type="text/javascript"></script>
+  <!-- Core Tutor Js -->
+  <script src="../assets/js/tutor-core.js" type="text/javascript"></script>
+
+  <script>
+
+    // Initialization
+    // AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+      // Do nothing
+
+      console.log(toDateTime(1660185179))
+      // Thu Aug 11 2022 02:32:59 GMT+0800 (Malaysia Time)
+
+      console.log(toDateTime(1660196166))
+      // Thu Aug 11 2022 05:36:06 GMT+0800 (Malaysia Time)
+      //
+
+      // current 1660196166
+
+    }
+
+    function toDateTime(secs) {
+        var t = new Date(1970, 0, 1); // Epoch
+        t.setSeconds(secs);
+        return t;
+    }
+
+  </script>
+
+  <script>
+		$( document ).ready(function() {
+
+		});
+
+  </script>
+
+</body>
+
+</html>
