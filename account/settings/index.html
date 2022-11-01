@@ -1,0 +1,2937 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/settings/ >
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/';
+  </script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!-- GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <link href="../../assets/css/multistepform.css" rel="stylesheet" />
+  <link href="../../assets/css/multitabform.css" rel="stylesheet" />
+  <link href="../../assets/css/mc-calendar.min.css" rel="stylesheet"/>
+  <link href="../../assets/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+  <link href="../../assets/css/intlTelInput.css"rel="stylesheet">
+  <link href="../../assets/css/tutor.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../salary/" name="param-link">
+              <i class="fas fa-money-bill-wave fa-fw nav-icon"></i>
+              <p>Salaries</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Settings <span><i class="material-icons" style="color: gray;">chevron_right</i></span> Update Information</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                </div>
+              </li>
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="../settings/" name="param-link">Update Information</a>
+                  <a class="dropdown-item" href="../team/" name="param-link">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="../../">Back to Home</a>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+
+      <!-- Uploading Progress modal -->
+      <div class="row">
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Uploading...</h5>
+              </div>
+              <div class="modal-body" id="uploadModalBody">
+                <div id="myProgress" style="width: 100%; background-color: grey;">
+                  <div id="myBar" style="width: 1%; height: 30px; background-color: green;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save modal -->
+      <div class="row">
+        <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Save & Close</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="saveModalBody">
+                Are you sure you want to continue?
+
+                <p style="font-style:italic; font-size: small;">Note: Saving process may take up to 1 minute.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btnSaveModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time slot Modal -->
+      <div class="row">
+        <div class="modal fade" id="timeSlotModal" tabindex="-1" role="dialog" aria-labelledby="timeSlotModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="timeSlotModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- <label ></label> -->
+                <h5 >Availability</h5>
+
+                <form>
+                  <div class="form-group">
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="radio-open" value="option1" >
+                        Open
+                        <span class="circle">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="radio-busy" value="option2">
+                        Busy
+                        <span class="circle">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="radio-closed" value="option3">
+                        Closed
+                        <span class="circle">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnTimeSlotModalUpdate">Update</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign-out modal -->
+      <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container overflow-hidden">
+          <!-- Back button -->
+          <div class="row d-flex">
+            <!-- <div class="p-2"> -->
+              <!-- <a href="./" class="btn btn-outline-primary btn-round" id="btnBack"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">west</i> Back</a> -->
+            <!-- </div> -->
+            <div class="p-2">
+              <button class="btn btn-primary btn-round" id="btnSave" data-toggle="modal" data-target="#saveModal" style="background-color: grey; pointer-events: none;"><i class="material-icons" style="color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;">save</i> Save</button>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <!--multitabs-form navbar-->
+              <div class="row" >
+                <div class="col-12 col-lg-12 ml-auto mr-auto mb-4">
+                  <div class="d-flex flex-wrap multitabs-form__progress">
+                    <!-- <button class="multitabs-form__progress-btn js-active" type="button" title="Profile">Profile</button> -->
+                    <button class="multitabs-form__progress-btn js-active" type="button" title="Profile">Profile</button>
+                    <button class="multitabs-form__progress-btn" type="button" title="About">About</button>
+                    <button class="multitabs-form__progress-btn" type="button" title="Schedule">Schedule</button>
+                    <button class="multitabs-form__progress-btn" type="button" title="Subject">Subjects</button>
+                    <button class="multitabs-form__progress-btn" type="button" title="Corporate">Corporate</button>
+
+                  </div>
+                </div>
+              </div>
+
+              <!--multitabs-form-->
+              <div class="multitabs-form" id="multitabs_form">
+                <!--form panels-->
+                <div class="row">
+                  <div class="col-12">
+                    <form class="multitabs-form__form">
+
+                      <!-- Profile form panel-->
+                      <div id="tabBasic"  class="multitabs-form__panel shadow p-4 rounded bg-transparent js-active" data-animation="scaleIn" style="margin: 0 !important; padding: 0!important">
+                        <h4 class="multitabs-form__title">Profile</h4>
+                        <div class="multitabs-form__content">
+                          <!-- Main content -->
+                          <div class="row">
+
+                            <style>
+                              .card-profile{
+                                margin-top: 50px !important;
+                                padding-bottom: calc(37.5% - 50px) !important;
+                              }
+                              .card-avatar{
+                                margin: -80px auto 0 !important
+                              }
+
+                              .cardTop{
+                                padding-left: 150px !important;
+                                padding-right: 150px !important;
+                              }
+
+                              @media (max-width:768px) {
+                                .cardTop{
+                                  padding-left: 15px !important;
+                                  padding-right: 15px !important;
+                                }
+                              }
+
+
+                              @media (max-width:375px) {
+                                .cardTop{
+                                  padding-left: 15px !important;
+                                  padding-right: 15px !important;
+                                }
+                              }
+                            </style>
+
+                            <div class="col-12 cardTop" >
+                              <!-- style="background: url('../../assets/img/empty-photo.png'); background-repeat: no-repeat; background-size: 100%; background-position: center center;" -->
+                              <div class="card card-profile" id='coverImgUrl'
+                              style="
+                              background-repeat: no-repeat;
+                              background-size: 100%;
+                              background-position: center center;">
+
+
+                                <div class="card-avatar" style="height: 150px; width: 150px; position: relative;">
+
+                                  <a href="javascript:;" >
+                                    <img class="img1" id="imgUrl" style="height: 100%; width:100%; object-fit: cover; border-radius: 50%; pointer-events: none;" src="../../assets/img/empty-photo.png"/>
+                                  </a>
+
+                                </div>
+                                <div class="card-body text-left m-0 py-0"  style="position: absolute; right: 0; top: 1rem;">
+                                  <a class="float-right " href="javascript:;" id="editCoverImg">
+                                    <i class="fas fa-pen"></i>
+                                  </a>
+                                  <input type="file" id="selectImgUrl" name="image" style="display:none" accept="image/x-png,image/jpeg"> </input>
+                                  <input type="file" id="selectCoverImgUrl" name="image" style="display:none" accept="image/x-png,image/jpeg"> </input>
+
+                                </div>
+
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">account_box</i>
+                                  </div>
+                                  <!-- <p class="card-category">One or two relevant academic qualifications is just nice.</p> -->
+                                  <h3 class="card-title" id="main_subject_sentence">
+
+                                  </h3>
+                                </div>
+                                <div class="card-body" style="text-align: left;">
+
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Display Name</span>
+                                    <input type="text" class="form-control" id="name">
+                                  </div>
+
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Phone</span>
+                                    <input type="text" class="form-control" id="phone">
+                                  </div>
+
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Email</span>
+                                    <input type="text" class="form-control" id="email">
+                                  </div>
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Address</span>
+                                    <textarea type="text" class="form-control" id="address"></textarea>
+                                  </div>
+
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                        <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">State</span>
+                                        <select class="form-control" title="Select State" id="state_drop">
+                                          <option value="">State</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                        <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">City</span>
+
+                                        <select class="form-control" title="Select City" id="area_drop">
+                                        <option value="">City</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+
+
+                          </div>
+
+
+                        </div>
+                      </div>
+
+                      <!-- About form panel-->
+                      <div id="tabDescription"  class="multitabs-form__panel shadow p-4 rounded bg-transparent" data-animation="scaleIn" style="margin: 0 !important; padding: 0!important">
+                        <h4 class="multitabs-form__title">About</h4>
+                        <div class="multitabs-form__content">
+                          <!-- Main content -->
+                          <div class="row">
+                            <div class="col-12">
+                              <!-- Teaching Approach -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-success card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">military_tech</i>
+                                  </div>
+                                  <p class="card-category">An eye catching headline that summary everything!</p>
+                                  <h3 class="card-title" id="main_subject_sentence">
+                                    Headline
+                                  </h3>
+                                </div>
+                                <div class="card-body" style="text-align: left;">
+                                  <div class="form-group">
+                                    <textarea class="form-control" id="oneLiner" rows="5" placeholder="Write something..." disabled></textarea>
+                                  </div>
+                                </div>
+
+                              </div>
+
+
+                            </div>
+
+                            <div class="col-12">
+                              <!-- Introduction -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">menu_book</i>
+                                  </div>
+                                  <p class="card-category">Describe your organization, how the classes are conducted, the learning environment, <br/>and how your student can improve by attending your class.</p>
+                                  <h3 class="card-title" id="main_subject_sentence">
+                                    Introduction
+                                  </h3>
+                                </div>
+                                <div class="card-body" style="text-align: left;">
+                                  <div class="form-group">
+                                    <textarea class="form-control" id="intro" rows="5" placeholder="Write something..." disabled></textarea>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+
+                              <!-- Teaching Language -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-warning card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">translate</i>
+                                  </div>
+                                  <p class="card-category">Language(s) used in your lesson.</p>
+                                  <h3 class="card-title">Teaching Language</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table">
+                                    <tbody>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="lanEng"  disabled>
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>English</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="lanBm" disabled>
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Bahasa Melayu</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="lanBc" disabled>
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Mandarin</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="lanBt" disabled>
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Bahasa Tamil</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="lanOther" disabled>
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Subject languge (Spanish, ...)</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Schedule form panel-->
+                      <div class="multitabs-form__panel shadow p-4 rounded bg-transparent" data-animation="scaleIn" style="margin: 0 !important; padding: 0!important">
+                        <h4 class="multitabs-form__title">Schedule</h4>
+                        <div class="multitabs-form__content">
+
+                          <div class="row">
+                            <!-- Dummy column -->
+                            <div class="col-md-12">
+                              <div class="card">
+                                <div class="card-header card-header-primary">
+                                <h4 class="card-title">My Time Slot</h4>
+                                <p class="card-category">Let your future clients know your availability.</p>
+                                </div>
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-12" id="time-slot-block"  style="padding: 0.1rem; margin: 0;">
+                                      <div class="table-responsive" >
+
+                                        <table class="table table-borderless table-sm" id="time-slot-table" style="overflow-x: auto;">
+                                          <thead>
+                                            <tr class="time-slot-table-thead-tr">
+                                              <!-- class="time-slot-table-thead-tr-th_null" -->
+                                              <th scope="col" style="background: #d6d6d6;"></th>
+                                              <th scope="col" class="time-slot-table-thead-tr-th" >8am - 12pm</th>
+                                              <th scope="col" class="time-slot-table-thead-tr-th_shaded">12pm - 3pm</th>
+                                              <th scope="col" class="time-slot-table-thead-tr-th" >3pm - 6pm</th>
+                                              <th scope="col" class="time-slot-table-thead-tr-th_shaded">6pm onward</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr class="time-slot-table-tbody-item-row">
+                                              <th scope="row" class="time-slot-table-first-col">Mon</th>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9; " id="mon8am" data-toggle="modal" data-target="#timeSlotModal" data-key="tMon8am"  data-datetime="Monday, 8am - 12pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="mon12pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tMon12pm" data-datetime="Monday, 12pm - 3pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="mon3pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tMon3pm" data-datetime="Monday, 3pm - 6pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="mon6pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tMon6pm" data-datetime="Monday, 6pm onward">Closed</td>
+                                            </tr>
+                                            <tr class="time-slot-table-tbody-item-row">
+                                              <th scope="row" class="time-slot-table-first-col-shaded">Tue</th>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="tue8am" data-toggle="modal" data-target="#timeSlotModal" data-key="tTue8am" data-datetime="Tuesday, 8am - 12pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="tue12pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tTue12pm" data-datetime="Tuesday, 12pm - 3pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="tue3pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tTue3pm" data-datetime="Tuesday, 3pm - 6pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="tue6pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tTue6pm" data-datetime="Tuesday, 6pm onward">Closed</td>
+                                            </tr>
+                                            <tr class="time-slot-table-tbody-item-row">
+                                              <th scope="row" class="time-slot-table-first-col">Wed</th>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="wed8am" data-toggle="modal" data-target="#timeSlotModal" data-key="tWed8am" data-datetime="Wednesday, 8am - 12pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="wed12pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tWed12pm" data-datetime="Wednesday, 12pm - 3pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="wed3pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tWed3pm" data-datetime="Wednesday, 3pm - 6pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="wed6pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tWed6pm" data-datetime="Wednesday, 6pm onward">Closed</td>
+                                            </tr>
+                                            <tr class="time-slot-table-tbody-item-row">
+                                              <th scope="row" class="time-slot-table-first-col-shaded">Thu</th>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="thu8am" data-toggle="modal" data-target="#timeSlotModal" data-key="tThu8am" data-datetime="Thursday, 8am - 12pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="thu12pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tThu12pm" data-datetime="Thursday, 12pm - 3pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="thu3pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tThu3pm" data-datetime="Thursday, 3pm - 6pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="thu6pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tThu6pm" data-datetime="Thursday, 6pm onward">Closed</td>
+                                            </tr>
+                                            <tr class="time-slot-table-tbody-item-row">
+                                              <th scope="row" class="time-slot-table-first-col">Fri</th>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="fri8am" data-toggle="modal" data-target="#timeSlotModal" data-key="tFri8am" data-datetime="Friday, 8am - 12pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="fri12pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tFri12pm" data-datetime="Friday, 12pm - 3pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="fri3pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tFri3pm" data-datetime="Friday, 3pm - 6pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="fri6pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tFri6pm" data-datetime="Friday, 6pm onward">Closed</td>
+                                            </tr>
+                                            <tr class="time-slot-table-tbody-item-row">
+                                              <th scope="row" class="time-slot-table-first-col-shaded">Sat</th>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="sat8am" data-toggle="modal" data-target="#timeSlotModal" data-key="tSat8am" data-datetime="Saturday, 8am - 12pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="sat12pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tSat12pm" data-datetime="Saturday, 12pm - 3pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="sat3pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tSat3pm" data-datetime="Saturday, 3pm - 6pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #d6d6d6;" id="sat6pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tSat6pm" data-datetime="Saturday, 6pm onward">Closed</td>
+                                            </tr>
+                                            <tr class="time-slot-table-tbody-item-row">
+                                              <th scope="row" class="time-slot-table-first-col">Sun</th>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="sun8am" data-toggle="modal" data-target="#timeSlotModal" data-key="tSun8am" data-datetime="Sunday, 8am - 12pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="sun12pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tSun12pm" data-datetime="Sunday, 12pm - 3pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="sun3pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tSun3pm" data-datetime="Sunday, 3pm - 6pm">Closed</td>
+                                              <td class="time-slot-table-tbody-item" style="pointer-events: none; background-color: #e9e9e9;" id="sun6pm" data-toggle="modal" data-target="#timeSlotModal" data-key="tSun6pm" data-datetime="Sunday, 6pm onward">Closed</td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <!-- Subjects form panel-->
+                      <div id="tabPreferredSubject" class="multitabs-form__panel shadow p-4 rounded bg-transparent" data-animation="scaleIn" style="margin: 0 !important; padding: 0!important">
+                        <h4 class="multitabs-form__title">Subjects</h4>
+                        <div class="multitabs-form__content">
+
+                          <!-- Main content -->
+                          <div class="row">
+
+                            <!-- Total 160 subjects, 65 / pane -->
+                            <!-- Pane 1 - UPSR(12), PT3(19), SPM(38) Total: 69 -->
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+
+                              <!-- UPSR -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-info card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">child_care</i>
+                                  </div>
+                                  <p class="card-category">Previously known as UPSR</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">National Primary</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="upsr">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                  <div class="card-footer">
+                                    <div class="stats">
+                                      <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- PT3 -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category">School-based assessment</p>
+                                  <h3 class="card-title"  style="font-size: 1.5rem;">PT3</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="pt3">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+                              <!-- SPM -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category">Sijil Pelajaran Malaysia</p>
+                                  <h3 class="card-title"  style="font-size: 1.5rem;">SPM</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="spm">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+                              <!-- STPM -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-success card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face_retouching_natural</i>
+                                  </div>
+                                  <p class="card-category">Sijil Tinggi Pelajaran Malaysia</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">STPM</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="stpm">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <!-- Pane 2 Cambridge Pri(9), Cambridge Sec(10), Cambridge IGCSE(12),
+                            Cambridge A-Level(14), STPM(19) Total: 63 -->
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+
+                              <!-- Cambridge Pri -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-info card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">child_care</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title"  style="font-size: 1.5rem;">Cambridge Primary</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="camPri">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+                              <!-- Cambridge Secondary -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title"  style="font-size: 1.5rem;">Cambridge Lower Secondary</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="camLowerSec">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+
+                              <!-- IGCSE -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">IGCSE</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="igcse">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+
+                              <!-- A-Level -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-success card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face_retouching_natural</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">A-Level</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="alevel">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+
+
+                              <!-- IB Primary Year -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-info card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">child_care</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">IB Primary Years</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="ibPyp">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                  <div class="card-footer">
+                                    <div class="stats">
+                                      <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- IB Middle Year -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">IB Middle Years</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="ibMyp">
+                                    <tbody>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check" style="margin-top: -1.2em;">
+                                            <label class="form-check-label" >
+                                              <input class="form-check-input" type="checkbox" value="" id="ibMidMath" disabled onchange="change(this, 'ibMyp')">
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Mathematics</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check" style="margin-top: -1.2em;">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="ibMidScience" disabled onchange="change(this, 'ibMyp')">
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Sciences</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check" style="margin-top: -1.2em;">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="ibMidLanAcq" disabled onchange="change(this, 'ibMyp')">
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Language Acquisition</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check" style="margin-top: -1.2em;">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="ibMidLanLit" disabled onchange="change(this, 'ibMyp')">
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Language and Literature</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check" style="margin-top: -1.2em;">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="ibMidIndSoc" disabled onchange="change(this, 'ibMyp')">
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Individuals and Societies</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <div class="form-check" style="margin-top: -1.2em;">
+                                            <label class="form-check-label">
+                                              <input class="form-check-input" type="checkbox" value="" id="ibMidArt" disabled onchange="change(this, 'ibMyp')">
+                                              <span class="form-check-sign">
+                                                <span class="check"></span>
+                                              </span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                        <td>Art</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+
+                              <!-- IB Diploma -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-success card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face_retouching_natural</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">IB Diploma</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="ibDiploma">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                  <div class="card-footer">
+                                    <div class="stats">
+                                      <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <!-- Pane 3 IB Pri(5), IB Middle(6), IB Diploma(31), UEC Jun(8), UEC Sen(21)
+                            Total: 71 -->
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+
+                              <!-- UEC Junior -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category">独中统考·初中</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">UEC Junior</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="uecJun">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                  <div class="card-footer">
+                                    <div class="stats">
+                                      <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- UEC Senior -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category">独中统考·高中</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">UEC Senior</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="uecSen">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+                              <!-- Ausmat -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category">Australian Matriculation</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">AUSMAT</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="ausmat">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                  <div class="card-footer">
+                                    <div class="stats">
+                                      <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- Sam -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face</i>
+                                  </div>
+                                  <p class="card-category">South Australian Certificate of Education</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">SACE</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="sam">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                  <div class="card-footer">
+                                    <div class="stats">
+                                      <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <!-- Pane 4 - English Exam(4), Kindergarten(10), Cambridge Nursery(4),
+                            IB Early Year(4), Adult Lan(17), Music(5), Computer Lan(10) Total: 57 -->
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+
+                              <!-- English exam -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-success card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face_retouching_natural</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">English Exam</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="engExam">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+
+                              <!-- Kindergarten -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-info card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">child_care</i>
+                                  </div>
+                                  <p class="card-category">Taska, Tadika, Tabika or Preschool</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">Kindergarten</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="kindergarten">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+                              <!-- Nursery - Cambridge -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-info card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">child_care</i>
+                                  </div>
+                                  <p class="card-category">Cambridge Syllabus</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">Nursery / Reception</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="recep">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+                              <!-- IB Early Years -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-info card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">child_care</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">IB Early Years</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="ibEyp">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+                              <!-- Adult Languages -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-success card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">face_retouching_natural</i>
+                                  </div>
+                                  <p class="card-category">General and Business Communication</p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">Adult Language</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="adultLanguage">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+
+                              <!-- Music -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-primary card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">music_note</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">Music</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="music">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+
+
+                              <!-- Computer Programming -->
+                              <div class="card card-stats">
+                                <div class="card-header card-header-warning card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">code</i>
+                                  </div>
+                                  <p class="card-category"></p>
+                                  <h3 class="card-title" style="font-size: 1.5rem;">Computer Programming</h3>
+                                </div>
+
+                                <div class="card-body" style="text-align: left;">
+                                  <table class="table-sm" name="computer">
+                                    <tbody>
+
+                                    </tbody>
+                                  </table>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <!-- <i class="material-icons">date_range</i> Updated: 25 May, 2021 -->
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+                          </div>
+
+
+                        </div>
+                      </div>
+
+                      <!-- Corporate-->
+                      <div id="tabDescription"  class="multitabs-form__panel shadow p-4 rounded bg-transparent" data-animation="scaleIn" style="margin: 0 !important; padding: 0!important">
+                        <h4 class="multitabs-form__title">Corporate</h4>
+                        <div class="multitabs-form__content">
+                          <!-- Main content -->
+                          <div class="row">
+                            <div class="col-12">
+                              <div class="card card-stats">
+                                <div class="card-header card-header-danger card-header-icon">
+                                  <div class="card-icon">
+                                    <i class="material-icons">school</i>
+                                  </div>
+                                  <!-- <p class="card-category">One or two relevant academic qualifications is just nice.</p> -->
+                                  <h3 class="card-title" id="main_subject_sentence">
+
+                                  </h3>
+                                </div>
+                                <div class="card-body" style="text-align: left;">
+
+
+                                  <div class="form-group">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Company Name</span>
+                                    <input class="form-control" id="corp"></input>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Company Id</span>
+                                    <input class="form-control" id="corpId"></input>
+                                  </div>
+                                </div>
+
+                                <div class="card-footer">
+                                  <div class="stats">
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+          <ul>
+            <!-- <li>
+            <a href="https://golearn.com.my/join-us" target="_blank">
+              Visit GoLearn Tutor
+            </a>
+            </li> -->
+          </ul>
+          </nav>
+          <!-- <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>
+            , made with <i class="material-icons">favorite</i> by <a href="#" >GoLearn Team</a>
+          </div> -->
+          <!-- your footer here -->
+        </div>
+      </footer>
+    </div>
+
+  </div>
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script> -->
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Organization -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+  <!-- Datepicker -->
+  <script src="../../assets/js/mc-calendar.min.js" type="text/javascript"></script>
+  <!-- ClockPicker -->
+  <script type="text/javascript" src="../../assets/js/bootstrap-clockpicker.min.js"></script>
+  <script src="../../assets/js/star-rating.js" type="text/javascript"></script>
+  <script src="../../assets/js/star-rating-theme.js" type="text/javascript"></script>
+  <!-- International Telephone Input -->
+  <script src="../../assets/js/plugins/intlTelInput/intlTelInput.js"></script>
+
+  <script>
+
+    var timeSlotArr_temp = [];
+    var preferredSubjectArr_temp = [];
+    const PREFFERED_SUBJECT_LIMIT = 40;
+
+    var isFirstTimeLoad = true;
+    var oriPreferredSubjectList = [];
+    var oriTutoringApproach = '';
+    var oriModeHomeTutorToStudent = false;
+    var oriModeHomeStudentToTutor = false;
+    var oriModeGroup = false;
+    var oriModeOnline = false;
+    var oriModeOnlineGroup = false;
+
+		var db = firebase.firestore();
+		db.settings({ timestampsInSnapshots: true });
+
+    const nameEnt = document.getElementById('name');
+    const phoneEnt = document.getElementById('phone');
+    const emailEnt = document.getElementById('email');
+    const addressEnt = document.getElementById('address');
+    const stateEnt = document.getElementById("state_drop");
+    const areaEnt = document.getElementById("area_drop");
+    const imgUrlEnt = document.getElementById("imgUrl");
+    const coverImgUrlEnt = document.getElementById("coverImgUrl")
+    const oneLinerEnt = document.getElementById('oneLiner');
+    const introEnt = document.getElementById('intro');
+    const lanEngEnt = document.getElementById("lanEng");
+    const lanBmEnt = document.getElementById("lanBm");
+    const lanBcEnt = document.getElementById("lanBc");
+    const lanBtEnt = document.getElementById("lanBt");
+    const lanOtherEnt = document.getElementById("lanOther");
+
+    const corpEnt = document.getElementById("corp");
+    const corpIdEnt = document.getElementById("corpId");
+
+    const mon8am = document.querySelector("#mon8am");
+    const mon12pm = document.querySelector("#mon12pm");
+    const mon3pm = document.querySelector("#mon3pm");
+    const mon6pm = document.querySelector("#mon6pm");
+
+    const tue8am = document.querySelector("#tue8am");
+    const tue12pm = document.querySelector("#tue12pm");
+    const tue3pm = document.querySelector("#tue3pm");
+    const tue6pm = document.querySelector("#tue6pm");
+
+    const wed8am = document.querySelector("#wed8am");
+    const wed12pm = document.querySelector("#wed12pm");
+    const wed3pm = document.querySelector("#wed3pm");
+    const wed6pm = document.querySelector("#wed6pm");
+
+    const thu8am = document.querySelector("#thu8am");
+    const thu12pm = document.querySelector("#thu12pm");
+    const thu3pm = document.querySelector("#thu3pm");
+    const thu6pm = document.querySelector("#thu6pm");
+
+    const fri8am = document.querySelector("#fri8am");
+    const fri12pm = document.querySelector("#fri12pm");
+    const fri3pm = document.querySelector("#fri3pm");
+    const fri6pm = document.querySelector("#fri6pm");
+
+    const sat8am = document.querySelector("#sat8am");
+    const sat12pm = document.querySelector("#sat12pm");
+    const sat3pm = document.querySelector("#sat3pm");
+    const sat6pm = document.querySelector("#sat6pm");
+
+    const sun8am = document.querySelector("#sun8am");
+    const sun12pm = document.querySelector("#sun12pm");
+    const sun3pm = document.querySelector("#sun3pm");
+    const sun6pm = document.querySelector("#sun6pm");
+
+    const timeSlotFullArr =
+    [mon8am,mon12pm,mon3pm,mon6pm,
+    tue8am,tue12pm,tue3pm,tue6pm,
+    wed8am,wed12pm,wed3pm,wed6pm,
+    thu8am,thu12pm,thu3pm,thu6pm,
+    fri8am,fri12pm,fri3pm,fri6pm,
+    sat8am,sat12pm,sat3pm,sat6pm,
+    sun8am,sun12pm,sun3pm,sun6pm]
+
+    // $('#timeSlotModal').modal('hide')
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+
+      // Init temperary val
+      timeSlotArr_temp = ent_timeSlotArr;
+      preferredSubjectArr_temp = ent_preferredSubArr
+
+
+      //-----------Preferred Subject -----------//
+      initPreferredSubject();
+
+      // Update page content
+      updatePageContent();
+
+    }
+
+    // Update page content
+    function updatePageContent(){
+
+      //------ Basic Details -------------//
+      nameEnt.value = ent_name;
+      phoneEnt.value = ent_phone;
+      emailEnt.value = ent_email;
+      addressEnt.value = ent_addr;
+
+      imgUrlEnt.src = ent_imgUrl == "" ? '../../assets/img/empty-photo.png' : ent_imgUrl;
+      // Re-Enable img upload and save button
+      imgUrlEnt.setAttribute("style", "height: 100%; width:100%; object-fit: cover; border-radius: 50%; pointer-events: auto;");
+
+      coverImgUrlEnt.setAttribute('style', `background: url("`+ent_coverImgUrl+`"); background-repeat: no-repeat; background-size: 100%; background-position: center center;`)
+
+      // Init area / state
+      initAreaState();
+
+      //------ Description -------------//
+      oneLinerEnt.value = ent_oneLiner;
+      oneLinerEnt.removeAttribute('disabled');
+      oneLinerEnt.setAttribute('style','pointer-events: auto; ');
+
+      introEnt.value = ent_intro;
+      introEnt.removeAttribute('disabled');
+      introEnt.setAttribute('style','pointer-events: auto; ');
+
+      ent_lan.forEach((lan) => {
+        if(lan === LAN_ENGLISH) lanEngEnt.checked = true;
+        if(lan === LAN_BM) lanBmEnt.checked = true;
+        if(lan === LAN_BC) lanBcEnt.checked = true;
+        if(lan === LAN_BT) lanBtEnt.checked = true;
+        if(lan === LAN_OTHER) lanOtherEnt.checked = true;
+      })
+
+      corpEnt.value = ent_corp;
+      corpIdEnt.value = ent_corpId;
+
+      // ------ Schedule -------------//
+      initSchedule(ent_timeSlotArr);
+
+      // ------ Preferred Subject -------------//
+      loadPreferredSubject();
+
+      // Get the ori copy of subject and area list.
+      if (isFirstTimeLoad){
+        oriPreferredSubjectList = ent_preferredSubArr;
+        // oriTutoringApproach = currentTutoringApproach;
+
+        isFirstTimeLoad = false;
+      }
+
+      //------ Save Button -------------//
+      document.getElementById('btnSave').removeAttribute('disabled');
+      document.getElementById('btnSave').setAttribute('style','background-color: #2e74b6; pointer-events: auto; ');
+
+      //------ Load success, Renabled the inputs -------------//
+      let inputBasic = document.getElementById("tabBasic").querySelectorAll("input");
+      // var inputList = Array.prototype.slice.call(input);
+      inputBasic.forEach(item => {
+        // console.log(item.id);
+        item.removeAttribute('disabled');
+      });
+
+      var inputDesc = document.getElementById("tabDescription").querySelectorAll("input");
+      // var inputList = Array.prototype.slice.call(input);
+      inputDesc.forEach(item => {
+        // console.log(item.id);
+        item.removeAttribute('disabled');
+      });
+
+    }
+    // Init Area / State
+    function initAreaState(areaId, stateId){
+
+      // Set default
+      if ( stateId == '' &&  areaId == '') {
+        // ------State Dropdown init------- //
+        for (var i = 0; i < MYAllState.length; i++) {
+          let opt = MYAllState[i];
+          let el = document.createElement("option");
+          // el.setAttribute("value", MYAllStateId[i]);
+          el.textContent = opt;
+          el.value = MYAllStateId[i];
+          stateEnt.appendChild(el);
+        }
+
+
+      }
+      else  {
+        // ------State Dropdown init------- //
+        for (let i = 0; i < MYAllState.length; i++) {
+          let opt = MYAllState[i];
+          let el = document.createElement("option");
+          // el.setAttribute("value", stateId[i]);
+          el.textContent = opt;
+          el.value = MYAllStateId[i];
+          stateEnt.appendChild(el);
+          if (MYAllStateId[i] == stateId){
+            el.selected = true;
+          }
+
+        }
+
+        // ------City Dropdown init------- //
+        var areaInfo = selectCityListBasedOnStateId(stateId);
+        var areaOptions = areaInfo[0];
+        var areaOptionIds = areaInfo[1];
+
+        if (areaOptions == null || areaOptions == "") {
+          // Do nothing
+        }else{
+          for (var i = 0; i < areaOptions.length; i++) {
+            var opt = areaOptions[i];
+            var optId = areaOptionIds[i];
+            var el = document.createElement("option");
+            el.textContent = opt;
+            el.value = optId;
+            areaEnt.appendChild(el);
+            if (optId == areaId){
+              el.selected = true;
+            }
+          }
+        }
+
+
+      }
+    }
+
+    // Init Timetable
+    function initSchedule(timeSlotArr) {
+      // Init to close
+      timeSlotFullArr.forEach((ele) => {
+        ele.setAttribute("style", "background-color: #e9e9e9")
+        ele.textContent = "Closed";
+      })
+
+      // Loop through all keys
+      for (var key in timeSlotArr) {
+        if (timeSlotArr.hasOwnProperty(key)) {
+          // console.log(key + " -> " + timeSlotArr[key]);
+
+          switch (key) {
+            case TUTOR_TIME_SLOT_MON_8AM_KEY:
+              checkTimeSlotKeyValue(mon8am, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_MON_12PM_KEY:
+              checkTimeSlotKeyValue(mon12pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_MON_3PM_KEY:
+              checkTimeSlotKeyValue(mon3pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_MON_6PM_KEY:
+              checkTimeSlotKeyValue(mon6pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_TUE_8AM_KEY:
+              checkTimeSlotKeyValue(tue8am, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_TUE_12PM_KEY:
+              checkTimeSlotKeyValue(tue12pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_TUE_3PM_KEY:
+              checkTimeSlotKeyValue(tue3pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_TUE_6PM_KEY:
+              checkTimeSlotKeyValue(tue6pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_WED_8AM_KEY:
+              checkTimeSlotKeyValue(wed8am, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_WED_12PM_KEY:
+              checkTimeSlotKeyValue(wed12pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_WED_3PM_KEY:
+              checkTimeSlotKeyValue(wed3pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_WED_6PM_KEY:
+              checkTimeSlotKeyValue(wed6pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_THU_8AM_KEY:
+              checkTimeSlotKeyValue(thu8am, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_THU_12PM_KEY:
+              checkTimeSlotKeyValue(thu12pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_THU_3PM_KEY:
+              checkTimeSlotKeyValue(thu3pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_THU_6PM_KEY:
+              checkTimeSlotKeyValue(thu6pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_FRI_8AM_KEY:
+              checkTimeSlotKeyValue(fri8am, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_FRI_12PM_KEY:
+              checkTimeSlotKeyValue(fri12pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_FRI_3PM_KEY:
+              checkTimeSlotKeyValue(fri3pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_FRI_6PM_KEY:
+              checkTimeSlotKeyValue(fri6pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_SAT_8AM_KEY:
+              checkTimeSlotKeyValue(sat8am, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_SAT_12PM_KEY:
+              checkTimeSlotKeyValue(sat12pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_SAT_3PM_KEY:
+              checkTimeSlotKeyValue(sat3pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_SAT_6PM_KEY:
+              checkTimeSlotKeyValue(sat6pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_SUN_8AM_KEY:
+              checkTimeSlotKeyValue(sun8am, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_SUN_12PM_KEY:
+              checkTimeSlotKeyValue(sun12pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_SUN_3PM_KEY:
+              checkTimeSlotKeyValue(sun3pm, timeSlotArr[key])
+              break;
+            case TUTOR_TIME_SLOT_SUN_6PM_KEY:
+              checkTimeSlotKeyValue(sun6pm, timeSlotArr[key])
+              break;
+
+          }
+        }
+      }
+
+      function checkTimeSlotKeyValue(ele, timeStatus){
+        (timeSlotArr[key] === TUTOR_TIME_SLOT_OPEN_KEY) ? timeOpen(ele) :
+                (timeSlotArr[key] === TUTOR_TIME_SLOT_BUSY_KEY) ? timeBusy(ele) : timeClose(ele)
+      }
+    }
+
+    function timeOpen(ele){
+      ele.setAttribute("style", "background-color: #93FAC2")
+      ele.textContent = "Open";
+    }
+    function timeBusy(ele){
+      ele.setAttribute("style", "background-color: #FF9C94")
+      ele.textContent = "Busy";
+    }
+    function timeClose(ele){
+      ele.setAttribute("style", "background-color: #e9e9e9")
+      ele.textContent = "Closed";
+    }
+
+    // Init Subject
+    function initPreferredSubject(){
+
+      CategoryId.forEach((categoryId) =>{
+        // console.log(categoryId)
+        let elem = document.getElementsByName(categoryId)[0].querySelector("tbody");
+
+        let subjectListInfo = selectSubjectListBasedOnLevelId(categoryId);
+        let subjectNameArr = subjectListInfo[0]; // get the subject array
+        let subjectIdArr = subjectListInfo[1]; // get the subjectId array
+
+        subjectIdArr.forEach((subjectId, index) => {
+          let subjectName = subjectNameArr[index];
+          createSubject(elem, categoryId, subjectId, subjectName);
+
+        });
+      });
+    }
+
+    // Preferred Subject: Create subject element
+    function createSubject(elem, categoryId, subjectId, subjectName){
+      // <tr>
+      //   <td>
+      //     <div class="form-check" style="margin-top: -1.2em;">
+      //       <label class="form-check-label" >
+      //         <input class="form-check-input" type="checkbox" value="" id="priBm" disabled onclick="change(this, 'upsr')">
+      //         <span class="form-check-sign">
+      //           <span class="check"></span>
+      //         </span>
+      //       </label>
+      //     </div>
+      //   </td>
+      //   <td>Bahasa Melayu</td>
+      // </tr>
+      let input = document.createElement("input");
+      input.className = "form-check-input";
+      input.setAttribute("id", subjectId);
+      input.setAttribute("type", "checkbox");
+      input.setAttribute("onclick", "changeSubject(this, '"+categoryId+"')");
+      input.setAttribute("disabled", "true");
+
+      let innerSpanHtml = "<span class='check'></span>";
+      let span = document.createElement("span");
+      span.className = "form-check-sign";
+      span.innerHTML = innerSpanHtml;
+
+      let label = document.createElement("label");
+      label.className = "form-check-label";
+      label.appendChild(input);
+      label.appendChild(span);
+
+      let div = document.createElement("div");
+      div.className = "form-check";
+      div.setAttribute("style", "margin-top: -1.2em;");
+      div.appendChild(label);
+
+      let td1 = document.createElement("td");
+      td1.appendChild(div)
+
+      let td2 = document.createElement("td");
+      td2.innerHTML = subjectName;
+
+      let tr = document.createElement("tr");
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+
+      elem.appendChild(tr);
+
+    }
+
+    // Load Subject Data
+    function loadPreferredSubject(){
+
+      if ( preferredSubjectArr_temp == null || preferredSubjectArr_temp.length == 0){
+        // If the preferredSubjectArr_temp is null in db, remake this var into a empty array
+        preferredSubjectArr_temp = []
+        // Subject list is null. It must be a new account. Do nothing and enable all checker input.
+        disableUncheckedInputSubject(false);
+      }
+      else{
+        // console.log("preferredSubjectArr_temp init:"+preferredSubjectArr_temp);
+        // Pre-check all the subjecy in the list - TYPE 1
+        for (let i = preferredSubjectArr_temp.length -1; i>=0; i--){
+          let arr = [];
+          arr = preferredSubjectArr_temp[i].split('-');
+          // console.log(arr);
+          // console.log(getIdBasedOnCategoryAndSubject(arr[0], arr[1]));
+          // document.getElementById([getIdBasedOnCategoryAndSubject(arr[0], arr[1])]).checked = true;
+
+          // Check if a DOM element exits. If exist, check it.
+          if(document.getElementById([arr[1]])){
+            document.getElementById([arr[1]]).checked = true;
+          }else{
+            preferredSubjectArr_temp.splice(i, 1);
+            // Do nothing if subjects do not exist.
+          }
+        }
+        // console.log("preferredSubjectArr_temp after init:");
+        // console.log(preferredSubjectArr_temp);
+
+
+        // // Pre-check all the subjecy in the list - TYPE 2
+        // preferredSubjectArr_temp.forEach(item => {
+        //   let arr = [];
+        //   arr = item.split('-');
+        //   console.log(arr);
+        //   // console.log(getIdBasedOnCategoryAndSubject(arr[0], arr[1]));
+        //   // document.getElementById([getIdBasedOnCategoryAndSubject(arr[0], arr[1])]).checked = true;
+
+        //   // Check if a DOM element exits. If exist, check it.
+        //   if(document.getElementById([arr[1]])){
+        //     document.getElementById([arr[1]]).checked = true;
+        //   }else{
+        //     // Do nothing if subjects do not exist.
+        //   }
+        // });
+
+
+        // Check if the subject exceeded the limit
+        if (preferredSubjectArr_temp.length >= PREFFERED_SUBJECT_LIMIT){
+          // alert("Limit reached! : "+ preferredSubjectArr_temp.length);
+          disableUncheckedInputSubject(true);
+        }else{
+          disableUncheckedInputSubject(false);
+        }
+
+      }
+
+    }
+
+    // Check every single check box
+    function changeSubject(elem, categoryId) {
+      var element = $(elem);
+
+      // let preferredSubjectPlusCategory = categoryId + "-" + element[0].id;
+
+      // if (element[0].checked){
+      //   preferredSubjectArr_temp.push(preferredSubjectPlusCategory);
+      // }else{
+      //   preferredSubjectArr_temp.splice(preferredSubjectArr_temp.indexOf(preferredSubjectPlusCategory), 1);
+      // }
+
+      preferredSubjectArr_temp = getSubjectList();
+      // console.log(preferredSubjectArr_temp);
+
+      if (preferredSubjectArr_temp.length >= PREFFERED_SUBJECT_LIMIT){
+        // alert("Limit reached! : "+ PREFFERED_SUBJECT_LIMIT.length);
+        disableUncheckedInputSubject(true);
+      }else{
+        disableUncheckedInputSubject(false);
+      }
+    }
+
+    // Get Subjecy List
+    function getSubjectList(){
+      var input = document.getElementById("tabPreferredSubject").querySelectorAll("input");
+
+      let list = [];
+      input.forEach(item => {
+        // console.log(item.id);
+        let categoryId = '';
+        let elem = item;
+        for (i = 0; i<10; i++){ //10 is just a big magic number
+          elem = elem.parentNode;
+          // console.log(elem)
+          // console.log(elem.tagName)
+
+          if(elem.tagName === 'TABLE'){
+            categoryId  = elem.getAttribute("name");
+            break;
+          }
+        }
+
+        if (item.checked){
+
+          list.push(categoryId+"-"+item.id);
+        }
+
+      });
+
+      return list;
+    }
+
+
+    // Preferred Subject: Disable unchecked box if exceed limit
+    function disableUncheckedInputSubject(exceedLimit){
+
+      var input = document.getElementById("tabPreferredSubject").querySelectorAll("input");
+      // var input = document.getElementsByTagName("input");
+      // var inputList = Array.prototype.slice.call(input);
+      if (exceedLimit){
+        input.forEach(item => {
+          // console.log(item.id);
+          if (!item.checked){
+            item.setAttribute('disabled',true);
+          }else{
+            item.removeAttribute('disabled');
+          }
+        });
+      }
+      else{
+        input.forEach(item => {
+          item.removeAttribute('disabled');
+        });
+      }
+
+    }
+
+    function getSubString(inString, stringLength) {
+      let inStringLength = inString.length;
+      if (inStringLength > stringLength){
+        let revealedApproachTextIndex = stringLength;
+        for (i=0; i<50; i++){ // Allow up to 50 chars joined with the last char.
+          if (inString[stringLength + i] == " " || inString[stringLength + i] == "-"
+          || inString[stringLength + i] == "/" || inString[stringLength + i] == ":"){
+            // Right at the end of a word. Do nothing
+            break;
+          }else {
+            revealedApproachTextIndex = revealedApproachTextIndex + 1;
+          }
+        }
+        return inString.substring(0, revealedApproachTextIndex);
+      }else {
+        return inString;
+      }
+      // console.log(inString);
+    }
+
+
+  </script>
+
+  <script>
+    // Global var
+    var KEY = ""; // Extract info from data-* attributes
+    var DATETIME = ""; // Extract info from data-* attributes
+    var gState ='';
+    var gArea ='';
+
+    $( document ).ready(function() {
+
+      // Populate Area based on selected State
+      $('#state_drop').on('change', function(){
+
+        // Reasign area after the statre change. It suppose to be defaulted to "City"
+        gArea = '';
+
+        var StateId = $(this).val(); // Value of the selected item
+        gState = StateId;
+
+        // Get the text of the selected item
+        var select_state = document.getElementById("state_drop");
+
+        var select_area = document.getElementById("area_drop");
+
+        // Clear the area option first, except the first one. 50 is a huge magic number. :D
+        for(i=1; i <= 300; i++){
+          select_area.remove(1);
+        }
+        var areaInfo = selectCityListBasedOnStateId(StateId);
+        var options = areaInfo[0];
+        var optionIds = areaInfo[1];
+
+        if (options == null || options == "") {
+          // Do nothing
+        }else{
+          for (var i = 0; i < options.length; i++) {
+            var opt = options[i];
+            var optId = optionIds[i];
+            var el = document.createElement("option");
+            el.textContent = opt;
+            el.value = optId;
+            select_area.appendChild(el);
+          }
+        }
+
+      });
+      // ------State Dropdown End------- //
+
+      // ------Area Dropdown Start------- //
+      $('#area_drop').on('change', function(){
+        var select_area = $(this).val()
+        gArea = select_area;
+
+      });
+      // ------Area Dropdown End------- //
+
+      //-----------Schedule -----------//
+      $('#timeSlotModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        KEY = button.data('key') // Extract info from data-* attributes
+        DATETIME = button.data('datetime') // Extract info from data-* attributes
+
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text(DATETIME)
+        modal.find('.modal-body input').val(KEY);
+
+        updateTimeSlotValueToModal()
+
+        function updateTimeSlotValueToModal(){
+
+          for (var key in ent_timeSlotArr) {
+
+            if (ent_timeSlotArr.hasOwnProperty(key)) {
+
+              if (KEY === key){
+                document.getElementById("radio-open").checked = (ent_timeSlotArr[key] == "open") ? true : false;
+                document.getElementById("radio-closed").checked = (ent_timeSlotArr[key] == "closed") ?  true : false;
+                document.getElementById("radio-busy").checked = (ent_timeSlotArr[key] == "busy") ?  true : false;
+              }
+
+            }
+
+          }
+
+        }
+
+      });
+
+      // Update Time Slot
+      $('#btnTimeSlotModalUpdate').on('click', function (e) {
+        let timeSlotStatus = TUTOR_TIME_SLOT_CLOSE_KEY;
+        if (document.getElementById("radio-open").checked){
+          timeSlotStatus = TUTOR_TIME_SLOT_OPEN_KEY;
+        }else if (document.getElementById("radio-closed").checked){
+          timeSlotStatus = TUTOR_TIME_SLOT_CLOSE_KEY;
+        }else if (document.getElementById("radio-busy").checked){
+          timeSlotStatus = TUTOR_TIME_SLOT_BUSY_KEY;
+        }else{
+          timeSlotStatus = TUTOR_TIME_SLOT_CLOSE_KEY;
+        }
+
+        timeSlotArr_temp[KEY] = timeSlotStatus;
+
+        console.log(timeSlotArr_temp)
+
+        // Update schedule
+        initSchedule(timeSlotArr_temp);
+
+		  });
+
+      // Clear key and fields in modal when modal dismiss
+      $('#timeSlotModal').on('hide.bs.modal', function (event) {
+        KEY = "";
+        DATETIME = "";
+        document.getElementById("radio-open").checked = false;
+        document.getElementById("radio-closed").checked = true;
+        document.getElementById("radio-busy").checked = false;
+      });
+
+
+      $('#btnSaveModalUpdate').on('click', function (e) {
+
+        document.getElementById('btnSaveModalUpdate').setAttribute('disabled', true);
+        document.getElementById('btnSaveModalUpdate').textContent = " Saving... Please wait.";
+        document.getElementById('btnSave').setAttribute('disabled', true);
+        document.getElementById('btnSave').innerHTML = "<i class='material-icons' style='color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;'>save</i> Saving ...";
+
+        // Actions:
+        // 1. Update to org > v1 > org > {accId}
+        // 2. (Condition) Update to public > v1 > tutor > ...
+        const promiseArray = [];
+
+        // 1. Update to org > v1 > org > {accId}\
+        var name_temp = nameEnt.value
+        var phone_temp = phoneEnt.value
+        var email_temp = emailEnt.value
+        var address_temp = addressEnt.value
+
+        var oneLiner_temp = oneLinerEnt.value;
+        var intro_temp = introEnt.value;
+
+        var lan_temp = []
+        if (lanEngEnt.checked) lan_temp.push(LAN_ENGLISH);
+        if (lanBmEnt.checked) lan_temp.push(LAN_BM);
+        if (lanBcEnt.checked) lan_temp.push(LAN_BC);
+        if (lanBtEnt.checked) lan_temp.push(LAN_BT);
+        if (lanOtherEnt.checked) lan_temp.push(LAN_OTHER);
+
+        var corp_temp = corpEnt.value;
+        var corpId_temp = corpIdEnt.value;
+
+        var data ={
+          [ORG_ORG_NAME]: name_temp,
+          [ORG_ORG_PHONE]: phone_temp,
+          [ORG_ORG_EMAIL]: email_temp,
+          [ORG_ORG_ADDRESS]: address_temp,
+          [ORG_ORG_AREA]: gArea,
+          [ORG_ORG_STATE]: gState,
+          [ORG_ORG_ONE_LINER]: oneLiner_temp,
+          [ORG_ORG_INTRO]: intro_temp,
+          [ORG_ORG_LAN]: lan_temp,
+          [ORG_ORG_TIME_SLOT_ARR]: timeSlotArr_temp,
+          [ORG_ORG_PREFERRED_SUBJECT_ARR]: preferredSubjectArr_temp,
+          [ORG_ORG_CORP]: corp_temp,
+          [ORG_ORG_CORP_ID]: corpId_temp,
+        }
+
+        console.log(data)
+        console.log(ent_id)
+
+        var docRef = db.collection("org").doc('v1').collection('org').doc(ent_id);
+
+        promiseArray.push(docRef.update(data));
+
+        // 2. Update to all roles belongs to this entity.
+        var roleData ={
+          [ORG_ROLE_ORG_NAME]: name_temp,
+        }
+
+        var roleDocRef = null;
+        var pathArray = window.location.pathname.split('/');
+        var type = (pathArray[1] === 'account') ? ORG_TYPE_ACC : ((pathArray[1] === 'organization') ? ORG_TYPE_ORG : 'INVALID')
+        if (type === ORG_TYPE_ORG){
+          roleDocRef =
+            db.collection("org")
+              .doc('v1')
+              .collection('role')
+              .where(ORG_ROLE_ORG_ID, '==', ent_id)
+              .where(ORG_ROLE_TYPE, '==', ORG_TYPE_ORG)
+        }
+        else { // ORG_TYPE_ACC
+          roleDocRef =
+            db.collection("org")
+              .doc('v1')
+              .collection('role')
+              .where(ORG_ROLE_ACC_ID, '==', ent_id)
+              .where(ORG_ROLE_TYPE, '==', ORG_TYPE_ACC)
+        }
+        promiseArray.push(roleDocRef.get());
+
+        // 2. (Condition) Update to public > v1 > tutor > ...
+
+        // // Compare the very first part of the original and updated tutoring approach.
+        // let approachChanged =  getSubString(tutoringApproach_temp, 80) !=  getSubString(oriTutoringApproach, 80);
+
+        // // Compare the original and updated teaching mode
+        // let oriTeachingMode = [false, false];
+        // let oriPhysicaMode = oriModeHomeTutorToStudent || oriModeHomeStudentToTutor || oriModeGroup
+        // oriTeachingMode[0] = physicaMode == null ? false : oriPhysicaMode;
+        // let oriOnlineMode = oriModeOnline || oriModeOnlineGroup;
+        // oriTeachingMode[1] = oriOnlineMode == null ? false : oriOnlineMode;
+        // let oriModeChanged = !oriTeachingMode.equals(teachingMode);
+
+        // // Get the first 80 or full words char.
+        // var publicTutoringApproach = getSubString(tutoringApproach_temp, 80);
+        // // console.log(publicTutoringApproach)
+
+        const promiseAll = Promise.all(promiseArray);
+
+        promiseAll.then((snapshots)=> {
+
+          var promiseAllLayer2 = []
+          snapshots[1].forEach((doc) => {
+            let roleDocRefTemp =
+              db.collection("org")
+                .doc('v1')
+                .collection('role')
+                .doc(doc.id)
+
+            promiseAllLayer2.push(roleDocRefTemp.update(roleData))
+
+          })
+
+          return Promise.all(promiseAllLayer2)
+
+        })
+        .then(()=> {
+
+          document.getElementById('btnSaveModalUpdate').removeAttribute('disabled');
+          document.getElementById('btnSaveModalUpdate').textContent = "Confirm";
+
+          $('#saveModal').modal('hide');
+
+
+          document.getElementById('btnSave').removeAttribute('disabled');
+          document.getElementById('btnSave').innerHTML = "<i class='material-icons' style='color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;'>save</i> Save";
+
+          // loadUserInfo(tutorId); // tutor-core.js
+          func.showNotification('top','center', 'success', 'check_circle', "Information updated.");
+
+          isFirstTimeLoad = true; // Reactivate the load
+
+        })
+        .then(() => {
+
+          // Force refresh storage
+          var pathArray = window.location.pathname.split('/');
+          var type = (pathArray[1] === 'account') ? ORG_TYPE_ACC : ((pathArray[1] === 'organization') ? ORG_TYPE_ORG : 'INVALID')
+
+          loadOrgInfo(orgEnt, type);
+        })
+
+      });
+
+      // Script to trigger the select image
+      $('#imgUrl').click(function(){
+         $('#selectImgUrl').trigger('click');
+      });
+
+      $('#selectImgUrl').on('change', function () {
+        if ( !( window.File && window.FileReader && window.FileList && window.Blob ) ) {
+          alert('The File APIs are not fully supported in this browser.');
+          return false;
+        }
+
+        targetImgType = 'imgUrl';
+
+        readfiles(this.files, imgUrlEnt, targetImgType);
+      });
+
+      $('#editCoverImg').click(function(){
+         $('#selectCoverImgUrl').trigger('click');
+      });
+
+      $('#selectCoverImgUrl').on('change', function () {
+        if ( !( window.File && window.FileReader && window.FileList && window.Blob ) ) {
+          alert('The File APIs are not fully supported in this browser.');
+          return false;
+        }
+
+        targetImgType = 'coverImgUrl';
+
+        readfiles(this.files, coverImgUrlEnt, targetImgType);
+      });
+
+
+    });
+
+  </script>
+
+  <!-- Image & Cover Photo Upload -->
+  <script>
+
+    var fileinputImgUrl = document.getElementById('selectImgUrl');
+    var fileinputCoverImgUrl = document.getElementById('selectCoverImgUrl');
+
+    var form = imgUrlEnt;
+
+    function processfile(file, targetImgEle, targetImgType) {
+
+        if( !( /image/i ).test( file.type ) )
+        {
+          alert( "File "+ file.name +" is not an image." );
+          return false;
+        }
+
+        // read the files
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onload = function (event) {
+          // blob stuff
+          var blob = new Blob([event.target.result]); // create blob...
+          window.URL = window.URL || window.webkitURL;
+          var blobURL = window.URL.createObjectURL(blob); // and get it's URL
+
+          // helper Image object
+          var image = new Image();
+          image.src = blobURL;
+          //preview.appendChild(image); // preview commented out, I am using the canvas instead
+          image.onload = function() {
+            // have to wait till it's loaded
+            var resizedImg = resizeMe(image); // send it to canvas
+            var newinput = document.createElement("input");
+            newinput.type = 'hidden';
+            newinput.name = 'images[]';
+            newinput.value = resizedImg; // put result from canvas into new hidden input
+            // form.appendChild(newinput);
+            // form.src = newinput;
+
+            if (targetImgType === 'imgUrl'){
+              targetImgEle.src = resizedImg;
+            }else if (targetImgType === 'coverImgUrl'){
+              // targetImgEle.style.background = `url("`+resizedImg+`")`;
+              targetImgEle.setAttribute('style', `background: url("`+resizedImg+`"); background-repeat: no-repeat; background-size: 100%; background-position: center center;`)
+            }
+
+
+
+            var head = 'data:image/png;base64,';
+            // console.log(Math.round((resizedImg.length - head.length)*3/4));
+            size = Math.round((resizedImg.length - head.length)*3/4)
+
+            // Meta data
+            var metadata = {
+              // contentType: type, // Prede/fined by firestore
+              customMetadata: {
+                'id': org_uid,
+                'size': size,
+                'width': width,
+                'height': height
+              }
+            };
+
+
+            uploadImage(resizedImg, metadata, targetImgType);
+          }
+        };
+    }
+
+    function readfiles(files, targetImgEle, targetImgType) {
+
+      // Note: targetImgType is used to differentiate between imgUrl and coverImgUrl
+
+      // remove the existing canvases and hidden inputs if user re-selects new pics
+      var existinginputs = document.getElementsByName('images[]');
+      var existingcanvases = document.getElementsByTagName('canvas');
+      while (existinginputs.length > 0) { // it's a live list so removing the first element each time
+        // DOMNode.prototype.remove = function() {this.parentNode.removeChild(this);}
+        targetImgEle.removeChild(existinginputs[0]);
+        // preview.removeChild(existingcanvases[0]);
+      }
+
+      for (var i = 0; i < files.length; i++) {
+        // console.log(i)
+        processfile(files[i], targetImgEle, targetImgType); // process each file at once
+      }
+
+      if (targetImgType === 'imgUrl'){
+        fileinputImgUrl.value = ""; //remove the original files from fileinputImgUrl
+      }else if (targetImgType === 'coverImgUrl'){
+        fileinputCoverImgUrl.value = ""; //remove the original files from fileinputImgUrl
+      }
+
+
+    }
+
+    // // this is where it starts. event triggered when user selects files
+    // fileinputImgUrl.onchange = function(){
+    //   if ( !( window.File && window.FileReader && window.FileList && window.Blob ) ) {
+    //     alert('The File APIs are not fully supported in this browser.');
+    //     return false;
+    //     }
+    //   readfiles(fileinputImgUrl.files);
+    // }
+
+
+    function uploadImage( file, metadata, targetImgType){
+
+      if(file != null) {
+        $('#uploadModal').modal('show');
+
+        // Create a root reference
+        var storageRef = firebase.storage().ref("uploads");
+
+
+        // Upload file and metadata to the object 'images/mountains.jpg'
+        // var uploadTask = storageRef.child('img-org-user/' + org_uid).put(file, metadata);
+
+        let storageChildRef = '';
+        if (targetImgType === 'imgUrl'){
+          storageChildRef = 'img-org-entity-img/' + ent_id;
+
+        }else if (targetImgType === 'coverImgUrl'){
+          storageChildRef = 'img-org-entity-cover-img/' + ent_id;
+        }
+
+        // var uploadTask = storageRef.child('img-org-user/' + org_uid).putString(file, 'data_url', metadata);
+        var uploadTask = storageRef.child(storageChildRef).putString(file, 'data_url', metadata);
+
+        var elem = document.getElementById("myBar");
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            elem.style.width = progress + "%";
+
+            // if (progress == 100){
+            //   $('#uploadModal').modal('hide');
+            // }
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                // alert("Upload is paused. Please try again.")
+                // $('#uploadModal').modal('hide');
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload is paused. Please try again." );
+
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+
+          },
+          (error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+              case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                // alert("Upload failed. Please try again.")
+                func.showNotification('top','center', 'danger', 'error_outline', "You do not have permission to upload. Please contact us." );
+
+                $('#uploadModal').modal('hide');
+                break;
+              case 'storage/canceled':
+                // User canceled the upload
+                // alert("Upload canceled.")
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload canceled." );
+
+                $('#uploadModal').modal('hide');
+                break;
+
+              // ...
+
+              case 'storage/unknown':
+                // alert("Upload failed. Please try again.");
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload failed. Please try again." );
+
+                $('#uploadModal').modal('hide');
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+            }
+          },
+          () => {
+            // Upload completed successfully, now we can get the download URL
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+
+              imgUrl_temp = downloadURL;
+
+              var promiseAll = []
+              var docRef = db.collection("org").doc('v1').collection('org').doc(ent_id);
+
+              if (targetImgType === 'imgUrl'){
+                let data = {
+                  [ORG_ORG_IMG_URL]: imgUrl_temp
+                }
+                promiseAll.push(docRef.update(data))
+              }
+              else if (targetImgType === 'coverImgUrl'){
+                let data = {
+                  [ORG_ORG_COVER_IMG_URL]: imgUrl_temp
+                }
+                promiseAll.push(docRef.update(data))
+              }
+
+              var roleDocRef = null;
+              var pathArray = window.location.pathname.split('/');
+              var type = (pathArray[1] === 'account') ? ORG_TYPE_ACC : ((pathArray[1] === 'organization') ? ORG_TYPE_ORG : 'INVALID')
+              if (type === ORG_TYPE_ORG){
+                roleDocRef =
+                  db.collection("org")
+                    .doc('v1')
+                    .collection('role')
+                    .where(ORG_ROLE_ORG_ID, '==', ent_id)
+                    .where(ORG_ROLE_TYPE, '==', ORG_TYPE_ORG)
+              }
+              else { // ORG_TYPE_ACC
+                roleDocRef =
+                  db.collection("org")
+                    .doc('v1')
+                    .collection('role')
+                    .where(ORG_ROLE_ACC_ID, '==', ent_id)
+                    .where(ORG_ROLE_TYPE, '==', ORG_TYPE_ACC)
+              }
+              promiseAll.push(roleDocRef.get());
+
+              return Promise.all(promiseAll);
+
+            })
+            // Layer 2: Update img url in all role docs
+            .then((snapshots) => {
+
+              var promiseAllLayer2 = [];
+
+              snapshots[1].forEach((doc) => {
+                let roleDocRefTemp =
+                  db.collection("org")
+                    .doc('v1')
+                    .collection('role')
+                    .doc(doc.id)
+
+                let roleData = {}
+                if (targetImgType === 'imgUrl'){
+                  roleData = {
+                    [ORG_ROLE_ORG_IMG_URL]: imgUrl_temp
+                  }
+                }
+                else if (targetImgType === 'coverImgUrl'){
+                  roleData = {
+                    [ORG_ROLE_ORG_COVER_IMG_URL]: imgUrl_temp
+                  }
+                }
+
+                promiseAllLayer2.push(roleDocRefTemp.update(roleData))
+
+              })
+
+              return Promise.all(promiseAllLayer2)
+
+            })
+            .then(() => {
+              func.showNotification('top','center', 'success', 'check_circle', "Your profile picture is updated.");
+
+              $('#uploadModal').modal('hide');
+
+              // Force refresh storage
+              var pathArray = window.location.pathname.split('/');
+              var type = (pathArray[1] === 'account') ? ORG_TYPE_ACC : ((pathArray[1] === 'organization') ? ORG_TYPE_ORG : 'INVALID')
+
+              loadOrgInfo(orgEnt, type);
+            })
+
+          }
+        );
+
+      }
+    }
+
+    // === RESIZE ====
+    var max_height = 1024;
+    var max_width = 1024;
+    var width = 0;
+    var height = 0;
+    function resizeMe(img) {
+
+      var canvas = document.createElement('canvas');
+
+      // console.log(width,height )
+      width = img.width;
+      height = img.height;
+      // calculate the width and height, constraining the proportions
+      if (width > height) {
+        if (width > max_width) {
+          //height *= max_width / width;
+          height = Math.round(height *= max_width / width);
+          width = max_width;
+        }
+      } else {
+        if (height > max_height) {
+          //width *= max_height / height;
+          width = Math.round(width *= max_height / height);
+          height = max_height;
+        }
+      }
+
+      // resize the canvas and draw the image data into it
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // preview.appendChild(canvas); // do the actual resized preview
+
+      return canvas.toDataURL("image/jpeg",0.7); // get the data from canvas as 70% JPG (can be also PNG, etc.)
+
+    }
+
+  </script>
+
+  <!-- Multiform-specific script -->
+  <script>
+    //DOM elements
+    const DOMstrings = {
+      stepsBtnClass: 'multitabs-form__progress-btn',
+      stepsBtns: document.querySelectorAll(`.multitabs-form__progress-btn`),
+      stepsBar: document.querySelector('.multitabs-form__progress'),
+      stepsForm: document.querySelector('.multitabs-form__form'),
+      stepsFormTextareas: document.querySelectorAll('.multitabs-form__textarea'),
+      stepFormPanelClass: 'multitabs-form__panel',
+      stepFormPanels: document.querySelectorAll('.multitabs-form__panel'),
+      stepPrevBtnClass: 'js-btn-prev',
+      stepNextBtnClass: 'js-btn-next',
+      stepSendBtnClass: 'js-btn-send' };
+
+
+    //remove class from a set of items
+    const removeClasses = (elemSet, className) => {
+
+      elemSet.forEach(elem => {
+
+        elem.classList.remove(className);
+
+      });
+
+    };
+
+    //return exect parent node of the element
+    const findParent = (elem, parentClass) => {
+
+      let currentNode = elem;
+
+      while (!currentNode.classList.contains(parentClass)) {
+        currentNode = currentNode.parentNode;
+      }
+
+      return currentNode;
+
+    };
+
+    //get active button step number
+    const getActiveStep = elem => {
+      return Array.from(DOMstrings.stepsBtns).indexOf(elem);
+    };
+
+    //set all steps before clicked (and clicked too) to active
+    const setActiveStep = activeStepNum => {
+
+      //remove active state from all the state
+      removeClasses(DOMstrings.stepsBtns, 'js-active');
+
+      //set picked items to active
+      DOMstrings.stepsBtns.forEach((elem, index) => {
+
+        if (index == activeStepNum) {
+          elem.classList.add('js-active');
+        }
+
+      });
+    };
+
+    //get active panel
+    const getActivePanel = () => {
+
+      let activePanel;
+
+      DOMstrings.stepFormPanels.forEach(elem => {
+
+        if (elem.classList.contains('js-active')) {
+
+          activePanel = elem;
+
+        }
+
+      });
+
+      return activePanel;
+
+    };
+
+    //open active panel (and close unactive panels)
+    const setActivePanel = activePanelNum => {
+
+      //remove active class from all the panels
+      removeClasses(DOMstrings.stepFormPanels, 'js-active');
+
+      //show active panel
+      DOMstrings.stepFormPanels.forEach((elem, index) => {
+        if (index === activePanelNum) {
+
+          elem.classList.add('js-active');
+
+          setFormHeight(elem);
+
+        }
+      });
+
+    };
+
+    //set form height equal to current panel height
+    const formHeight = activePanel => {
+
+      const activePanelHeight = activePanel.offsetHeight;
+
+      DOMstrings.stepsForm.style.height = `${activePanelHeight}px`;
+
+    };
+
+    const setFormHeight = () => {
+      const activePanel = getActivePanel();
+
+      formHeight(activePanel);
+    };
+
+    //STEPS BAR CLICK FUNCTION
+    DOMstrings.stepsBar.addEventListener('click', e => {
+
+      //check if click target is a step button
+      const eventTarget = e.target;
+
+      if (!eventTarget.classList.contains(`${DOMstrings.stepsBtnClass}`)) {
+        return;
+      }
+
+
+
+      //get active button step number
+      const activeStep = getActiveStep(eventTarget);
+
+      //set all steps before clicked (and clicked too) to active
+      setActiveStep(activeStep);
+
+      //open active panel
+      setActivePanel(activeStep);
+    });
+
+    //PREV/NEXT BTNS CLICK
+    DOMstrings.stepsForm.addEventListener('click', e => {
+
+      const eventTarget = e.target;
+
+      //check if we clicked on `PREV` or NEXT` buttons
+      if (eventTarget.classList.contains(`${DOMstrings.stepSendBtnClass}`))
+      {
+        // Create Class btn is clicked
+        // /Class/v1/Class/ZGeLtRmzIaOPuBkbhHTH
+        var docRef = db.collection("Class")
+          .doc("v1")
+          .collection("Class")
+          .doc();
+
+        // Notice that I use .add(..), instead of .set(..). This is because the docRef do not specify the docId.
+
+        // func.showNotification('top','center', 'success', 'check_circle', "Class created.");
+      }
+      else if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`) || eventTarget.classList.contains(`${DOMstrings.stepNextBtnClass}`))
+      {
+        // Proceed to move to next / prev page
+      }else{
+        // Do nothing and return
+        return;
+
+      }
+
+      //find active panel
+      const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
+
+      let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
+      getAllTimeSlots()
+      //set active step and active panel onclick
+      if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`)) {
+        activePanelNum--;
+
+        setActiveStep(activePanelNum);
+        setActivePanel(activePanelNum);
+      } else {
+
+        if (!validateForm(activePanelNum)){
+
+        }else{
+          activePanelNum++;
+          setActiveStep(activePanelNum);
+          setActivePanel(activePanelNum);
+        }
+      }
+      // setActiveStep(activePanelNum);
+      // setActivePanel(activePanelNum);
+    });
+
+    //SETTING PROPER FORM HEIGHT ONLOAD
+    window.addEventListener('load', setFormHeight, false);
+
+    //SETTING PROPER FORM HEIGHT ONRESIZE
+    window.addEventListener('resize', setFormHeight, false);
+
+    //changing animation via animation select !!!YOU DON'T NEED THIS CODE (if you want to change animation type, just change form panels data-attr)
+
+    const setAnimationType = newType => {
+      DOMstrings.stepFormPanels.forEach(elem => {
+        elem.dataset.animation = newType;
+      });
+    };
+
+    function validateForm(activePanelNum) {
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("multitabs-form__panel");
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =x[activePanelNum].querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        // document.getElementsByClassName("step")[activePanelNum].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+  </script>
+
+</body>
+
+</html>

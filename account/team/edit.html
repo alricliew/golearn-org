@@ -1,0 +1,2106 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/teacher/edit-teacher.html>
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/';
+  </script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!-- GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <link href="../../assets/css/multistepform.css" rel="stylesheet" />
+  <link href="../../assets/css/multitabform.css" rel="stylesheet" />
+  <link href="../../assets/css/mc-calendar.min.css" rel="stylesheet"/>
+  <link href="../../assets/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+  <link href="../../assets/css/intlTelInput.css" rel="stylesheet" >
+
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Teams <span><i class="material-icons" style="color: gray;">chevron_right</i></span> Edit</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                </div>
+              </li>
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="../../">Back to Home</a>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+      <!-- Delete Employee modal -->
+      <div class="row">
+        <div class="modal fade" id="delPersonModal" tabindex="-1" role="dialog" aria-labelledby="delPersonModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="delPersonModalLabel">Are you absolutely sure? </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>This action cannot be <strong style="color: red;">undone</strong>. This will permanently delete the teacher's details.</p>
+                <p>The teacher will <strong style="color: #2e74b6 ;">continue with their existing classes</strong> until they are changed or removed. </p>
+                <p>If you still want to keep this teacher, you may set the Employment Status to <strong style="color: #2e74b6 ;">Inactive</strong>.</p>
+
+                <p>Please type <strong>DELETE</strong> to confirm.</p>
+
+
+                <input type="text" class="form-control" id="delTeacherModalIn">
+
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnDelTeacherModalUpdate" style="white-space: normal; word-wrap: break-word;" disabled>I understand the consequences. Delete this person.</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Person modal -->
+      <div class="row">
+        <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Save & Close</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="saveModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btnSaveModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!-- Sign-out modal -->
+       <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container">
+          <!-- Back button -->
+          <div class="row d-flex"  style="margin: auto 10px 0 10px;">
+            <div class="p-2">
+              <a href="./" class="btn btn-outline-primary btn-round" id="btnBack" name="param-link"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">west</i> Back</a>
+            </div>
+            <div class="p-2">
+              <a href="javascript:;" class="btn btn-primary btn-round" id="btnSave"><i class="material-icons" style="color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;">save</i> Save</a>
+            </div>
+
+            <div class="ml-auto p-2">
+              <!-- <a href="javascript:;" class="btn btn-danger btn-round" data-toggle="modal" data-target="#delStuModal"><i class="material-icons" style="color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;">remove</i> Remove</a> -->
+            </div>
+          </div>
+
+          <div class="container overflow-hidden">
+            <div class="row">
+              <div class="col-md-12">
+                <!--multitabs-form navbar-->
+                <div class="row" >
+                  <div class="col-12 col-lg-12 ml-auto mr-auto mb-4">
+                    <div class="d-flex flex-wrap multitabs-form__progress">
+                      <button class="multitabs-form__progress-btn js-active" type="button" title="Employee Profile">Employee Profile</button>
+                      <button class="multitabs-form__progress-btn" type="button" title="Role">Role</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!--multitabs-form-->
+                <div class="multitabs-form" id="multitabs_form">
+                  <!--form panels-->
+                  <div class="row">
+                    <div class="col-12">
+                      <form class="multitabs-form__form">
+                        <!-- Employee panel-->
+                        <div class="multitabs-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn" id="teacherForm">
+                          <h4 class="multitabs-form__title">Employee Profile</h4>
+                          <div class="multitabs-form__content">
+
+                            <!-- Info -->
+                            <div class="row">
+                              <div class="col-md-4">
+                                <div class="row">
+                                  <div class="col-md-12 text-center">
+                                    <div style="height: 140px; width: 140px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%;">
+                                      <img id="empImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/empty-photo.png"/>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-8">
+
+
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Name*</span>
+                                    <input id="empName"  type="text" value='' class="form-control" data-compulsory="true" oninput="this.className = 'form-control'">
+                                  </div>
+                                  <div class="col-md-6">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Phone*</span>
+                                    <div class="input-group">
+                                      <input id="empPhone" type="text" value='' class="form-control" data-compulsory="true">
+                                      <span id="valid-msg" class="hide" style="color: #42ba96;">✓ Valid</span>
+                                      <span id="error-msg" class="hide" style="color: #F32013;"></span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Email</span>
+                                    <input id="empEmail"  type="text" value='' class="form-control" data-compulsory="false" oninput="this.className = 'form-control'">
+
+                                  </div>
+
+                                  <div class="col-md-6">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Gender</span>
+                                    <div class="form-group">
+                                      <div class="form-check form-check-radio form-check-inline">
+                                        <label class="form-check-label">
+                                          <input class="form-check-input" type="radio" name="empGender" id="empGenderMale" value="optionActive" data-compulsory="false" checked>
+                                          Male
+                                          <span class="circle">
+                                            <span class="check"></span>
+                                          </span>
+                                        </label>
+                                      </div>
+                                      <div class="form-check form-check-radio form-check-inline">
+                                        <label class="form-check-label">
+                                          <input class="form-check-input" type="radio" name="empGender" id="empGenderFemale" value="optionInactive" data-compulsory="false">
+                                          Female
+                                          <span class="circle">
+                                            <span class="check"></span>
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                            <!-- Employement Details -->
+                            <div class="row">
+                              <div class="col-md-12">
+                                <span>Other Details</span>
+                                <span class="tooltiptext-trigger">?
+                                  <span class="tooltiptext-general">
+                                    <h6>Other Details</h6>
+                                    <p>Filling up details here will make running a payroll easier!</p>
+                                  </span>
+                                </span>
+                              </div>
+                              <!-- Bank Name -->
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Bank Name</span>
+                                  <input type="text" class="form-control" id="bankName" data-compulsory="false" oninput="this.className = 'form-control'" >
+                                </div>
+                              </div>
+
+                              <!-- Bank Account Number -->
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Bank Account No</span>
+                                  <input type="text" class="form-control" id="bankAcc" data-compulsory="false" oninput="this.className = 'form-control'" >
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <!-- EPF No -->
+                              <div class="col-md-4">
+                                <div class="form-group" >
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">EPF No</span>
+                                  <input type="text" class="form-control" id="epf" data-compulsory="false" oninput="this.className = 'form-control'">
+                                </div>
+                              </div>
+
+                              <!-- Socso No -->
+                              <div class="col-md-4">
+                                <div class="form-group" >
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Socso No</span>
+                                  <input type="text" class="form-control" id="socsoNo" data-compulsory="false" oninput="this.className = 'form-control'">
+                                </div>
+                              </div>
+
+                              <!-- Socso No -->
+                              <div class="col-md-4">
+                                <div class="form-group" >
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Tax No</span>
+                                  <input type="text" class="form-control" id="taxNo" data-compulsory="false" oninput="this.className = 'form-control'">
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Role panel-->
+                        <div class="multitabs-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                          <h4 class="multitabs-form__title">Employment Details</h4>
+                          <div class="multitabs-form__content">
+
+                            <!-- Role Details -->
+                            <div class="row">
+                              <div class="col-md-12">
+                                <span>Job Details</span>
+                                <span class="tooltiptext-trigger">?
+                                  <span class="tooltiptext-general">
+                                    <h6>Job Details</h6>
+                                    <p>The position and role that this person hold in your organization.</p>
+                                  </span>
+                                </span>
+                              </div>
+                              <!-- Bank Name -->
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Employee No.</span>
+                                  <input type="text" class="form-control" id="empRef" data-compulsory="false" oninput="this.className = 'form-control'" >
+                                </div>
+                              </div>
+
+
+                              <!-- Designation -->
+                              <div class="col-md-8">
+                                <div class="form-group">
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Designation / Job Title</span>
+                                  <input type="text" class="form-control" id="empTitle" data-compulsory="false" oninput="this.className = 'form-control'" >
+                                </div>
+                              </div>
+
+                              <!-- Reporting manager -->
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Report to</span>
+                                  <input type="text" class="form-control" id="empReportTo" data-compulsory="false" oninput="this.className = 'form-control'" >
+                                </div>
+                              </div>
+
+                              <!-- Role -->
+                              <div class="col-md-8">
+                                <div class="form-group">
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Role</span>
+                                  <span class="tooltiptext-trigger">?
+                                    <span class="tooltiptext-general">
+                                      <h6>Role</h6>
+                                      <p>A role is given to each person who logs into your account to <strong>define what they can and can't do</strong>. <br/>
+                                        This means that some persons can have large control over your account while others will only be able to view certain content.<br/>
+                                        By default, 3 roles are offered. You may grant more or reduce the permissions of a person in <strong>Permissions</strong> below
+                                      </p>
+                                    </span>
+                                  </span>
+                                  <select class="custom-select" id="empRole">
+                                    <option value="owner" style="display: none;">Owner</option>
+                                    <option value="superAdmin" style="display: none;">Super Admin</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="staff" selected>Staff</option>
+                                    <option value="assistant">Assistant</option>
+                                    <option value="noRole">Not An Employee</option>
+                                  </select>
+                                </div>
+
+
+                              </div>
+
+
+                            </div>
+
+                            <!-- Permissions -->
+                            <div class="row" name="permission">
+
+                              <div class="col-md-12">
+                                <span>Permissions</span>
+                                <span class="tooltiptext-trigger">?
+                                  <span class="tooltiptext-general">
+                                    <h6>Permissions</h6>
+                                    <p>The permissions define what a person can and can't do.</p>
+                                  </span>
+                                </span>
+                              </div>
+
+                              <!-- Class Permissions -->
+                              <div class="col-md-4">
+                                <h6 class="">Class</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addClass">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Class
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editClass">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Class
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delClass">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Class
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewClass">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Class
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addLesson">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Lesson
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editLesson">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Lesson
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delLesson">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Lesson
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewLesson">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Lesson
+                                  </label>
+                                </div>
+
+                                <h6 class="">Student</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addStudent">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Student
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editStudent">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Student
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delStudent">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Student
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewStudent">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Student
+                                  </label>
+                                </div>
+
+                                <h6 class="">Teacher</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addTeacher">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Teacher
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editTeacher">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Teacher
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delTeacher">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Teacher
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewTeacher">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Teacher
+                                  </label>
+                                </div>
+
+                              </div>
+
+                              <!-- Invoice & payroll Permissions -->
+                              <div class="col-md-4">
+                                <h6 class="">Financial - Invoice</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addInv">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Invoice
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editInv">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Invoice
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="recordPaymentInv">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Record Invoice Payment
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delInv">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Invoice
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewInv">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Invoice
+                                  </label>
+                                </div>
+
+                                <h6 class="">Financial - Payroll</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addPayroll">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Run payroll
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editPayroll">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit payroll
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delPayroll">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete payroll
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewPayroll">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View payroll
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addPayslip">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Payslip
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editPayslip">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Payslip
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="recordPaymentPayslip">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Record Payslip Payment
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delPayslip">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Payslip
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewPayslip">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Payslip
+                                  </label>
+                                </div>
+
+                              </div>
+
+                              <!-- Role & Insight Permissions -->
+                              <div class="col-md-4">
+                                <h6 class="">Roles</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addAdmin">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Admin
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editAdmin">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Admin
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delAdmin">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Admin
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewAdmin">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Admin
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addStaff">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Staff
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editStaff">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Staff
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delStaff">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Staff
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewStaff">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Staff
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addAssistant">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Add Assistant
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editAssistant">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Assistant
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delAssistant">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Assistant
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewAssistant">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Assistant
+                                  </label>
+                                </div>
+
+                                <h6 class="">Account</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editAccountProfile">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Account Profile
+                                  </label>
+                                </div>
+                                <!-- <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="addAdmin">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Account Business Profile
+                                  </label>
+                                </div> -->
+                                <h6 class="">Insight</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewInsight">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Insights
+                                  </label>
+                                </div>
+
+                              </div>
+
+
+                              <div class="col-md-4">
+
+                              </div>
+                            </div>
+
+                            <!-- Delete Employee & Role -->
+                            <div class="row">
+                              <div class="col-sm-12 text-left">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: grey;">Remove This Person</span>
+                                <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em;">!
+                                  <span class="tooltiptext-general" style="border: thin solid red;">
+                                    <h6 style="color: red;">Remove This Person</h6>
+                                    <p>This action cannot be <strong style="color: red;">undone</strong>. This will permanently delete the person's details and removed from this account. The person will no longer be able to access this account.</p>
+                                  </span>
+                                </span>
+                              </div>
+                              <div class="col-md-12" >
+                                <a class="btn btn-sm btn-outline-danger btn-round" id="btnDelClass" style="color: red; background-color: white;" data-toggle='modal' data-target='#delPersonModal'>Delete Person <i class="fas fa-exclamation-triangle" style="color: red;"></i></a>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+          <ul>
+            <!-- <li>
+            <a href="https://golearn.com.my/join-us" target="_blank">
+              Visit GoLearn Tutor
+            </a>
+            </li> -->
+          </ul>
+          </nav>
+          <!-- <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>
+            , made with <i class="material-icons">favorite</i> by <a href="#" >GoLearn Team</a>
+          </div> -->
+          <!-- your footer here -->
+        </div>
+      </footer>
+    </div>
+
+  </div>
+
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Tutor Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+  <!-- International Telephone Input -->
+  <script src="../../assets/js/plugins/intlTelInput/intlTelInput.min.js"  charset="utf-8"></script>
+  <script>
+
+    const empName = document.getElementById("empName");
+    // const empPhone = document.getElementById("empPhone");
+    const empEmail = document.getElementById("empEmail");
+    const empImgUrl = document.getElementById("empImgUrl");
+    // const empGender = document.getElementById("empGender");
+    const bankName = document.getElementById("bankName");
+    const bankAcc = document.getElementById("bankAcc");
+    const epf = document.getElementById("epf");
+    const socsoNo = document.getElementById("socsoNo");
+    const taxNo = document.getElementById("taxNo");
+
+    const empRef = document.getElementById("empRef");
+    const empTitle = document.getElementById("empTitle");
+    const empReportTo = document.getElementById("empReportTo");
+    const empRole = document.getElementById("empRole");
+
+    // Init Tutor Phone
+    var inputEmpPhone = document.querySelector("#empPhone");
+    var itiEmpPhone = intlTelInput(inputEmpPhone,{
+      autoHideDialCode: false,
+      preferredCountries: ['my', 'sg'],
+      separateDialCode: true,
+      utilsScript: "https://golearn.com.my/assets/js/plugins/intlTelInput/utils.js",
+      });
+
+    // Store the current emp & role
+    var currentEmpObj = null;
+    var currentRoleObj = null;
+
+    const empid = new URL(window.location.href).searchParams.get("empid")
+    const roleid = new URL(window.location.href).searchParams.get("roleid")
+
+    var oriPhone = "";
+
+    // getStudentObject()
+    getEmployeeAndRole()
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+      // Do nothing
+    }
+
+    function getEmployeeAndRole() {
+      if (empid == null || empid == '' || roleid == null || roleid == ''){
+        func.showNotification('top','center', 'danger', 'error_outline', "Error: No class id in params." );
+        alert('Error.')
+        window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+      }
+      else {
+        let empDocRef =
+          db.collection("org")
+            .doc('v1')
+            .collection('employee')
+            .doc(empid);
+
+        let roleDocRef =
+          db.collection("org")
+            .doc('v1')
+            .collection('role')
+            .doc(roleid);
+
+        var promiseAll = []
+        promiseAll.push(empDocRef.get())
+        promiseAll.push(roleDocRef.get())
+
+        Promise.all(promiseAll).then((snapshots)=> {
+
+          if (snapshots[0].exists){
+            currentEmpObj = snapshots[0].data()
+            console.log(snapshots[0].data())
+
+            oriPhone = snapshots[0].data()[ORG_EMP_PHONE]
+
+            if (snapshots[1].exists){
+              currentRoleObj = snapshots[1].data()
+
+              console.log(snapshots[1].data())
+
+              updatePageContent(currentEmpObj, currentRoleObj)
+
+            }
+
+            else {
+
+              func.showNotification('top','center', 'danger', 'error_outline', "Error: No such role." );
+              alert('Error: No such role.')
+              window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+            }
+
+          }
+
+          else{
+            func.showNotification('top','center', 'danger', 'error_outline', "Error: No such employee." );
+            alert('Error: No such employee.')
+            window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+          }
+
+
+
+        })
+
+      }
+
+    }
+
+    function updatePageContent(empData, roleData){
+      // Employee Profile
+
+      empName.value = empData[ORG_EMP_NAME];
+      itiEmpPhone.setNumber(empData[ORG_EMP_PHONE]);
+      empEmail.value = empData[ORG_EMP_EMAIL];
+      empData[ORG_EMP_GENDER] == 0 ? document.getElementById("empGenderMale").checked = true: document.getElementById("empGenderFemale").checked  = true;
+      // document.getElementById("viewTutorDateAdd").value = new Date(data[TUTOR_DATE_ADD].seconds * 1000).toLocaleDateString("en-GB");
+
+      // Check if img is valid. If no, create a 2 chars avatar
+      if (empData[ORG_EMP_IMG_URL] == null || empData[ORG_EMP_IMG_URL] == ""
+      || empData[ORG_EMP_IMG_URL] == "empData:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"
+      || tutorImgUrlChecker(empData[ORG_EMP_IMG_URL])){
+        let AvatarText = empData[ORG_EMP_NAME][0] + empData[ORG_EMP_NAME][1];
+        empImgUrl.src = generateAvatar(AvatarText, "#eaeaea", "#f6f6f6", "100px");
+      }
+      else {
+        empImgUrl.src = empData[ORG_EMP_IMG_URL];
+      }
+
+      bankName.value = (empData[ORG_EMP_BANK_NAME] == null)? '' : empData[ORG_EMP_BANK_NAME];
+      bankAcc.value = (empData[ORG_EMP_BANK_ACC] == null) ?  '' : empData[ORG_EMP_BANK_ACC];
+      epf.value = (empData[ORG_EMP_EPF] == null )? '' : empData[ORG_EMP_EPF];
+      socsoNo.value = (empData[ORG_EMP_SOCSO] == null)? '' : empData[ORG_EMP_SOCSO];
+      taxNo.value = (empData[ORG_EMP_TAX_NO] == null )? '' : empData[ORG_EMP_TAX_NO];
+
+
+      // Role Details
+      empRef.value = roleData[ORG_ROLE_EMP_REF];
+      empTitle.value = roleData[ORG_ROLE_EMP_TITLE];
+      empReportTo.value = roleData[ORG_ROLE_REPORT_TO];
+      empRole.value = roleData[ORG_ROLE_EMP_ROLE];
+
+      if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN)
+        empRole.disabled = true
+      else{
+        empRole.disabled = false
+      }
+
+      // let role_temp = "";
+      // if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN ||
+      //   roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ADMIN ||roleData[ORG_ROLE_STAFF] === ORG_ROLE_ASSISTANT ||
+      //   roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_NO_ROLE ){
+      //   role_temp = roleData[ORG_ROLE_EMP_ROLE]
+      // }
+
+      // initPermissionBasedOnRole(roleData[ORG_ROLE_EMP_ROLE],  roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR])
+
+      uncheckPermission();
+
+      if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER){
+        checkPermission(allPermissionArr);
+        disablePermission(allPermissionArr);
+      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN){
+        checkPermission(allPermissionArr);
+        disablePermission(allPermissionArr);
+      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ADMIN){
+        checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+        disablePermission(disablePermissionArrAdmin);
+        finishingPermission();
+      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_STAFF){
+        checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+        disablePermission(disablePermissionArrStaff);
+        finishingPermission();
+      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ASSISTANT){
+        checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+        disablePermission(disablePermissionArrAssistant);
+        finishingPermission();
+      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_NO_ROLE){
+        checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+        disablePermission(disablePermissionArrNoRole);
+      }else{
+        checkPermission([]);
+        disablePermission(allPermissionArr);
+      }
+
+    }
+
+    // This function check the validity of imgUrl. Return true when invalid.
+    function tutorImgUrlChecker(imgUrl){
+      // Tutor Panel
+      let isHelloGifExist = false ;
+      let helloGifArr =  imgUrl.match(/hello.gif/gi)
+      if ( helloGifArr != null) {
+        if (helloGifArr.length > 0){
+          isHelloGifExist = true;
+        }
+      }
+      let isEmptyPhotoPngExist = false;
+      let emptyPhotoPngArr = imgUrl.match(/empty-photo.png/gi)
+      if ( emptyPhotoPngArr != null) {
+        if (emptyPhotoPngArr.length > 0){
+          isEmptyPhotoPngExist = true;
+        }
+      }
+      let isGeneratedAvatar = false;
+      let generatedAvatarArr = imgUrl.match(/data:image\/png;base64,/gi)
+      if ( generatedAvatarArr != null) {
+        if (generatedAvatarArr.length > 0){
+          isGeneratedAvatar = true;
+        }
+      }
+
+      if (isHelloGifExist || isEmptyPhotoPngExist || isGeneratedAvatar)
+        return true;
+      else
+        return false;
+    }
+
+    // Update Student Info
+    function UpdateEmployeeAndRole(){
+
+      let empName = document.getElementById("empName").value;
+      let empPhone = itiEmpPhone.getNumber();
+      let empEmail = document.getElementById("empEmail").value;
+      let empGender = document.getElementById("empGenderMale").checked ? 0 : 1;
+      let bankName = document.getElementById("bankName").value;
+      let bankAcc = document.getElementById("bankAcc").value;
+      let epf = document.getElementById("epf").value;
+      let socsoNo = document.getElementById("socsoNo").value;
+      let taxNo = document.getElementById("taxNo").value;
+
+      let empRef = document.getElementById("empRef").value;
+      let empTitle = document.getElementById("empTitle").value;
+      let empReportTo = document.getElementById("empReportTo").value;
+      let empRole = document.getElementById("empRole").value;
+
+      let allowedPermission = getCheckedPermission();
+
+
+      let empDocRef =
+        db.collection("org")
+          .doc('v1')
+          .collection('employee')
+          .doc(empid)
+
+      let roleDocRef =
+        db.collection("org")
+          .doc('v1')
+          .collection('role')
+          .doc(roleid);
+
+      let empData = {
+        // [ORG_EMP_ID] : empDocRef.id,
+        // [ORG_EMP_UID]  : "",
+        // [ORG_EMP_URL] : ent_url,
+        // [ORG_EMP_ORG_ID] : ent_orgId,
+        // [ORG_EMP_ACC_ID]  : ent_id,
+        // [ORG_EMP_TYPE] : ORG_TYPE_ACC,
+        // [ORG_EMP_OID]  : ent_oid,
+        // [ORG_EMP_STATUS] : ORG_EMP_STATUS_ACTIVE,
+
+        [ORG_EMP_NAME]  : empName,
+        [ORG_EMP_PHONE] : empPhone,
+        [ORG_EMP_EMAIL] : empEmail,
+        [ORG_EMP_GENDER]  : empGender,
+        // [ORG_EMP_IMG_URL]  : "",
+
+        [ORG_EMP_DATE_JOINED] : new Date(),
+        [ORG_EMP_BANK_NAME] : bankName,
+        [ORG_EMP_BANK_ACC]  : bankAcc,
+        [ORG_EMP_EPF] : epf,
+        [ORG_EMP_SOCSO] : socsoNo,
+        [ORG_EMP_TAX_NO]  : taxNo,
+      }
+
+      let roleData = {
+        // [ORG_ROLE_ID] : roleDocRef.id,
+        // [ORG_ROLE_UID]  : "",
+        // [ORG_ROLE_URL] : ent_url,
+        // [ORG_ROLE_ORG_ID] : ent_orgId,
+        // [ORG_ROLE_ACC_ID]  : ent_id,
+        // [ORG_ROLE_TYPE] : ORG_TYPE_ACC,
+        // [ORG_ROLE_OID]  : ent_oid,
+        // [ORG_ROLE_EMP_STATUS]  : ORG_EMP_STATUS_ACTIVE,
+
+        // [ORG_ROLE_EMP_ID] : empDocRef.id,
+        [ORG_ROLE_EMP_NAME]  : empName,
+        [ORG_ROLE_EMP_PHONE]  : empPhone,
+        [ORG_ROLE_EMP_EMAIL]  : empEmail,
+        // [ORG_ROLE_EMP_IMG_URL]  : '',
+
+        [ORG_ROLE_EMP_REF] : empRef,
+        [ORG_ROLE_REPORT_TO] : empReportTo,
+        [ORG_ROLE_EMP_TITLE]  : empTitle,
+        [ORG_ROLE_EMP_ROLE] :  empRole,
+        [ORG_ROLE_ALLOWED_PERMISSION_ARR] : allowedPermission,
+
+        [ORG_ROLE_ORG_NAME]  : ent_name,
+        [ORG_ROLE_ORG_IMG_URL] : ent_imgUrl,
+        [ORG_ROLE_ORG_COVER_IMG_URL]  : ent_coverImgUrl,
+      }
+
+      var promiseAll = []
+      console.log(empData)
+      console.log(roleData)
+
+      promiseAll.push(empDocRef.update(empData));
+      promiseAll.push(roleDocRef.update(roleData));
+
+      Promise.all(promiseAll).then(() => {
+        func.showNotification('top','center', 'success', 'check_circle', "Updated successfully!");
+
+        $('#saveModal').modal('hide');
+      })
+      .then(() => {
+        // Disable the submit button
+        document.getElementById("btnSaveModalUpdate").removeAttribute('disabled');
+        document.getElementById("btnSaveModalUpdate").textContent = "Confirm";
+        // getEmployeeAndRole();
+      })
+
+    }
+
+    // Delete Teacher
+    function DeleteTeacher(tid){
+      var docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Tutor")
+          .doc(tid);
+
+      var data = {
+        [TUTOR_DATE_EDIT]: new Date(),
+        [TUTOR_DATE_DEL] :  new Date(),
+        [TUTOR_STATUS_ADMIN]: TUTOR_STATUS_TYPE_DELETE,
+      }
+
+      // ----- Get the Teacher Number doc ----- //
+      // So we can update it the next stage.
+      let teacherNumReportDocRef = db.collection("dev")
+        .doc("v2")
+        .collection("General")
+        .where(NUM_ADMIN_ID, "==", ent_id)
+        .where(NUM_TYPE, "==", NUM_TYPE_TEACHER);
+
+      var promiseAll = []
+      promiseAll.push(docRef.delete())
+      promiseAll.push(teacherNumReportDocRef.get())
+
+     Promise.all(promiseAll).then((snapshots) => {
+
+
+        return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_TEACHER, 'desc', 1) )
+      })
+      .then(() => {
+
+        window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+
+      })
+      .catch((e) => {
+        alert(e.message)
+      })
+
+
+
+    }
+
+
+  </script>
+  <script>
+    $( document ).ready(function() {
+
+      $('#empRole').on('change', function(e) {
+
+        initPermissionBasedOnRole(this.value, 'default');
+
+        // console.log(getCheckedPermission())
+      })
+
+      $('div[name=permission]').on('change', function(e) {
+        let role = document.getElementById('empRole').value;
+        if (role === ORG_ROLE_OWNER || role === ORG_ROLE_SUPER_ADMIN || role === ORG_ROLE_ADMIN ||
+          role === ORG_ROLE_STAFF || role === ORG_ROLE_ASSISTANT ){
+          finishingPermission()
+        }
+        // NoRole or unknown role
+        else {
+        }
+      })
+
+      // Save student info
+      $('#btnSave').on('click', function (e) {
+
+
+        let currentPhone = itiEmpPhone.getNumber();
+
+
+        let phoneValid =  ValidatePhone("empPhone");
+        let fieldValid = ValidateFields("teacherForm");
+
+        if (phoneValid && fieldValid){
+          $('#saveModal').modal('show');
+
+          // Changing a new person's phone.
+          if (oriPhone !== currentPhone && currentEmpObj[ORG_EMP_UID] === "" ){
+            alert("Warning: You're changing the person's phone.")
+
+
+        }
+        }
+        else{
+          // Do nothing
+        }
+
+      });
+
+      $('#btnSaveModalUpdate').on('click', function (e) {
+
+        // Disable the submit button
+        document.getElementById("btnSaveModalUpdate").setAttribute('disabled', true);
+        document.getElementById("btnSaveModalUpdate").textContent = 'Please wait...';
+
+        UpdateEmployeeAndRole();
+      });
+
+      $('#btnSaveModalClose1').on('click', function (e) {
+        $('#saveModal').modal('hide');
+      });
+
+      $('#btnSaveModalClose2').on('click', function (e) {
+        $('#saveModal').modal('hide');
+      });
+
+
+      // Delete Teacher
+      $('#delTeacherModalIn').on('input', function(){
+        if (this.value === 'DELETE'){
+          $('#btnDelTeacherModalUpdate').prop('disabled', false);
+        }
+        else{
+          $('#btnDelTeacherModalUpdate').prop('disabled', true);
+        }
+      });
+
+      // Delete Class btn clicked
+      $('#btnDelTeacherModalUpdate').on('click', function (event) {
+        DeleteTeacher(currentTeacherObj[TUTOR_ID]);
+      });
+
+    });
+
+  </script>
+
+  <!-- Permissions -->
+  <script>
+    const addClass = document.getElementById('addClass');
+    const editClass = document.getElementById('editClass');
+    const delClass = document.getElementById('delClass');
+    const viewClass = document.getElementById('viewClass');
+
+    const addLesson = document.getElementById('addLesson');
+    const editLesson = document.getElementById('editLesson');
+    const delLesson = document.getElementById('delLesson');
+    const viewLesson = document.getElementById('viewLesson');
+    const addStudent = document.getElementById('addStudent');
+    const editStudent = document.getElementById('editStudent');
+    const delStudent = document.getElementById('delStudent');
+    const viewStudent = document.getElementById('viewStudent');
+    const addTeacher = document.getElementById('addTeacher');
+    const editTeacher = document.getElementById('editTeacher');
+    const delTeacher = document.getElementById('delTeacher');
+    const viewTeacher = document.getElementById('viewTeacher');
+
+    const addInv = document.getElementById('addInv');
+    const editInv = document.getElementById('editInv');
+    const recordPaymentInv = document.getElementById('recordPaymentInv');
+    const delInv = document.getElementById('delInv');
+    const viewInv = document.getElementById('viewInv');
+
+    const addPayroll = document.getElementById('addPayroll');
+    const editPayroll = document.getElementById('editPayroll');
+    const delPayroll = document.getElementById('delPayroll');
+    const viewPayroll = document.getElementById('viewPayroll');
+    const addPayslip = document.getElementById('addPayslip');
+    const editPayslip = document.getElementById('editPayslip');
+    const recordPaymentPayslip = document.getElementById('recordPaymentPayslip');
+    const delPayslip = document.getElementById('delPayslip');
+    const viewPayslip = document.getElementById('viewPayslip');
+    const addAdmin = document.getElementById('addAdmin');
+    const editAdmin = document.getElementById('editAdmin');
+    const delAdmin = document.getElementById('delAdmin');
+    const viewAdmin = document.getElementById('viewAdmin');
+    const addStaff = document.getElementById('addStaff');
+    const editStaff = document.getElementById('editStaff');
+    const delStaff = document.getElementById('delStaff');
+    const viewStaff = document.getElementById('viewStaff');
+    const addAssistant = document.getElementById('addAssistant');
+    const editAssistant = document.getElementById('editAssistant');
+    const delAssistant = document.getElementById('delAssistant');
+    const viewAssistant = document.getElementById('viewAssistant');
+
+    const editAccountProfile = document.getElementById('editAccountProfile');
+    const viewInsight = document.getElementById('viewInsight');
+
+    const allPermissionArr =
+      ["addClass", "editClass", "delClass", "viewClass",
+      "addLesson", "editLesson", "delLesson", "viewLesson",
+      "addStudent", "editStudent", "delStudent", "viewStudent",
+      "addTeacher", "editTeacher", "delTeacher", "viewTeacher",
+      "addInv", "editInv", "recordPaymentInv", "delInv", "viewInv",
+      "addPayroll", "editPayroll", "delPayroll", "viewPayroll",
+      "addPayslip", "editPayslip", "recordPaymentPayslip", "delPayslip", "viewPayslip",
+      "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
+      "addStaff", "editStaff", "delStaff", "viewStaff",
+      "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
+      "viewInsight", "editAccountProfile"
+      ]
+    const disablePermissionArrAdmin =
+      ["delInv", "delPayroll", "delPayslip",
+      "addAdmin", "editAdmin", "delAdmin", "viewAdmin"]
+    const  disablePermissionArrStaff =
+      ["delInv", "delPayroll", "delPayslip",
+      "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
+      "addStaff", "editStaff", "delStaff", "viewStaff",
+      "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "viewInsight", "editAccountProfile"]
+    const disablePermissionArrAssistant =
+      ["delClass",
+      "delLesson",
+      "delStudent",
+      "delTeacher",
+      "delInv", "delPayroll", "delPayslip",
+      "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
+      "addStaff", "editStaff", "delStaff", "viewStaff",
+      "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "viewInsight", "editAccountProfile"
+      ]
+    const disablePermissionArrNoRole =
+      ["addClass", "editClass", "delClass",
+      "addLesson", "editLesson", "delLesson", "viewLesson",
+      "addStudent", "editStudent", "delStudent",
+      "addTeacher", "editTeacher", "delTeacher",
+      "addInv", "editInv", "recordPaymentInv", "delInv", "viewInv",
+      "addPayroll", "editPayroll", "delPayroll", "viewPayroll",
+      "addPayslip", "editPayslip", "recordPaymentPayslip", "delPayslip", "viewPayslip",
+      "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
+      "addStaff", "editStaff", "delStaff", "viewStaff",
+      "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
+      "viewInsight", "editAccountProfile"
+      ]
+    function initPermissionBasedOnRole(role, permissionArr) {
+    //   const DefaultPermissions =
+    // ["addClass", "editClass", "delClass", "viewClass",
+    // "addLesson", "editLesson", "delLesson", "viewLesson",
+    // "addStudent", "editStudent", "delStudent", "viewStudent",
+    // "addTeacher", "editTeacher", "delTeacher", "viewTeacher",
+    // "addInv", "editInv", "recordPaymentInv", "delInv", "viewInv",
+    // "addPayroll", "editPayroll", "delPayroll", "viewPayroll",
+    // "addPayslip", "editPayslip", "recordPaymentPayslip", "delPayslip", "viewPayslip",
+    // "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
+    // "addStaff", "editStaff", "delStaff", "viewStaff",
+    // "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+    // "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
+    // "viewInsight", "editAccountProfile"
+    // ]
+      uncheckPermission();
+
+      let checkPermissionArr = [];
+      let disablePermissionArr = [];
+      switch (role) {
+        case ORG_ROLE_OWNER:
+          checkPermission(allPermissionArr);
+          disablePermission(allPermissionArr);
+          finishingPermission();
+          break;
+        case ORG_ROLE_SUPER_ADMIN:
+          checkPermission(allPermissionArr);
+          disablePermission(allPermissionArr);
+          finishingPermission();
+          break;
+        case ORG_ROLE_ADMIN:
+
+          checkPermissionArr =
+          ["addClass", "editClass", "delClass", "viewClass",
+          "addLesson", "editLesson", "delLesson", "viewLesson",
+          "addStudent", "editStudent", "delStudent", "viewStudent",
+          "addTeacher", "editTeacher", "delTeacher", "viewTeacher",
+          "addInv", "editInv", "recordPaymentInv", "viewInv",
+          "addPayroll", "editPayroll", "viewPayroll",
+          "addPayslip", "editPayslip", "recordPaymentPayslip", "viewPayslip",
+          "addStaff", "editStaff", "viewStaff",
+          "addAssistant", "editAssistant", "viewAssistant",
+          "editAccountProfile"
+          ]
+          checkPermission(checkPermissionArr);
+          disablePermission(disablePermissionArrAdmin);
+          finishingPermission();
+          break;
+        case ORG_ROLE_STAFF:
+          checkPermissionArr =
+          ["addClass", "editClass", "viewClass",
+          "addLesson", "editLesson", "viewLesson",
+          "addStudent", "editStudent", "viewStudent",
+          "addTeacher", "editTeacher", "viewTeacher",
+          ]
+          checkPermission(checkPermissionArr);
+          disablePermission(disablePermissionArrStaff);
+          finishingPermission();
+          break;
+        case ORG_ROLE_ASSISTANT:
+          checkPermissionArr =
+          ["viewClass",
+          "viewLesson",
+          "viewStudent",
+          "viewTeacher",
+          ]
+          checkPermission(checkPermissionArr);
+          disablePermission(disablePermissionArrAssistant);
+          finishingPermission();
+          break;
+        case ORG_ROLE_NO_ROLE:
+          checkPermission([]);
+          disablePermission(disablePermissionArrNoRole);
+          break;
+        default:
+          checkPermission([]);
+          disablePermission(allPermissionArr);
+          break;
+      }
+
+    }
+
+
+    function uncheckPermission(){
+      let elemList = document.getElementsByName("permission")[0].querySelectorAll("input");
+      elemList.forEach((ele) => {
+        ele.checked = false;
+        ele.disabled = false;
+      })
+    }
+    // uncheckPermission()
+
+    function checkPermission(arr){
+      let elemList = document.getElementsByName("permission")[0].querySelectorAll("input");
+
+      elemList.forEach((ele) => {
+
+        if (arr.includes(ele.id))
+          ele.checked = true;
+      })
+
+    }
+    // checkPermission(['addPayroll', 'addClass'])
+
+    function disablePermission(arr){
+      let elemList = document.getElementsByName("permission")[0].querySelectorAll("input");
+
+      elemList.forEach((ele) => {
+
+        if (arr.includes(ele.id))
+          ele.disabled = true;
+
+
+      })
+
+    }
+    // disablePermission(['viewInsight', 'addPayroll'])
+
+    function getCheckedPermission() {
+      let elemList = document.getElementsByName("permission")[0].querySelectorAll("input");
+
+      let checkedPermissionArr=[]
+      elemList.forEach((ele) => {
+        if (ele.checked)
+          checkedPermissionArr.push(ele.id);
+      })
+
+      return checkedPermissionArr;
+    }
+
+    // Make sure certain permission is checked if some other permissions are checked
+    // i.e If Add/Edit/Delete Class is checked, View Class will be checked and disabled.
+    function finishingPermission(){
+
+
+      if (addClass.checked || editClass.checked || delClass.checked) {
+        viewClass.checked = true;
+        viewClass.disabled = true;
+      }else if (!addClass.checked && !editClass.checked && !delClass.checked){
+        viewClass.disabled = false;
+      }
+
+      if (!viewClass.checked){
+        addLesson.checked = false;
+        addLesson.disabled = true;
+        editLesson.checked = false;
+        editLesson.disabled = true;
+        delLesson.checked = false;
+        delLesson.disabled = true;
+        viewLesson.checked = false;
+        viewLesson.disabled = true;
+      }
+      else {
+        addLesson.disabled = false;
+        editLesson.disabled = false;
+        delLesson.disabled = false;
+
+        // Check Lesson
+        if (addLesson.checked || editLesson.checked || delLesson.checked) {
+          viewLesson.checked = true;
+          viewLesson.disabled = true;
+        }else if (!addLesson.checked && !editLesson.checked && !delLesson.checked){
+          viewLesson.disabled = false;
+        }
+
+      }
+
+
+      if (addStudent.checked || editStudent.checked || delStudent.checked) {
+        viewStudent.checked = true;
+        viewStudent.disabled = true;
+      }else if (!addStudent.checked && !editStudent.checked && !delStudent.checked){
+        viewStudent.disabled = false;
+      }
+
+
+      if (addTeacher.checked || editTeacher.checked || delTeacher.checked) {
+        viewTeacher.checked = true;
+        viewTeacher.disabled = true;
+      }else if (!addTeacher.checked && !editTeacher.checked && !delTeacher.checked){
+        viewTeacher.disabled = false;
+      }
+
+      if (addInv.checked || editInv.checked || recordPaymentInv.checked || delInv.checked) {
+        viewInv.checked = true;
+        viewInv.disabled = true;
+      }else if (!addInv.checked && !editInv.checked && !recordPaymentInv.checked && !delInv.checked){
+        viewInv.disabled = false;
+      }
+      if (addPayroll.checked || editPayroll.checked || delPayroll.checked ) {
+        viewPayroll.checked = true;
+        viewPayroll.disabled = true;
+      }else if (!addPayroll.checked && !editPayroll.checked && !delPayroll.checked){
+        viewPayroll.disabled = false;
+      }
+
+      if (!viewPayroll.checked){
+        addPayslip.checked = false;
+        addPayslip.disabled = true;
+        editPayslip.checked = false;
+        editPayslip.disabled = true;
+        recordPaymentPayslip.checked = false;
+        recordPaymentPayslip.disabled = true;
+        viewPayslip.checked = false;
+        viewPayslip.disabled = true;
+      }else {
+        addPayslip.disabled = false;
+        editPayslip.disabled = false;
+        recordPaymentPayslip.disabled = false;
+
+        // Check Lesson
+        if (addPayslip.checked || editPayslip.checked || recordPaymentPayslip.checked ) {
+          viewPayslip.checked = true;
+          viewPayslip.disabled = true;
+        }else if (!addPayslip.checked && !editPayslip.checked && !recordPaymentPayslip.checked){
+          viewPayslip.disabled = false;
+        }
+      }
+
+      if (addAdmin.checked || editAdmin.checked || delAdmin.checked) {
+        viewAdmin.checked = true;
+        viewAdmin.disabled = true;
+      }else if (!addAdmin.checked && !editAdmin.checked && !delAdmin.checked){
+        viewAdmin.disabled = false;
+      }
+      if (addStaff.checked || editStaff.checked || delStaff.checked) {
+        viewStaff.checked = true;
+        viewStaff.disabled = true;
+      }else if (!addStaff.checked && !editStaff.checked && !delStaff.checked){
+        viewStaff.disabled = false;
+      }
+      if (addAssistant.checked || editAssistant.checked || delAssistant.checked) {
+        viewAssistant.checked = true;
+        viewAssistant.disabled = true;
+      }else if (!addAssistant.checked && !editAssistant.checked && !delAssistant.checked){
+        viewAssistant.disabled = false;
+      }
+
+    }
+
+  </script>
+
+  <!-- Multiform-specific script -->
+  <script>
+    //DOM elements
+    const DOMstrings = {
+      stepsBtnClass: 'multitabs-form__progress-btn',
+      stepsBtns: document.querySelectorAll(`.multitabs-form__progress-btn`),
+      stepsBar: document.querySelector('.multitabs-form__progress'),
+      stepsForm: document.querySelector('.multitabs-form__form'),
+      stepsFormTextareas: document.querySelectorAll('.multitabs-form__textarea'),
+      stepFormPanelClass: 'multitabs-form__panel',
+      stepFormPanels: document.querySelectorAll('.multitabs-form__panel'),
+      stepPrevBtnClass: 'js-btn-prev',
+      stepNextBtnClass: 'js-btn-next',
+      stepSendBtnClass: 'js-btn-send' };
+
+    //remove class from a set of items
+    const removeClasses = (elemSet, className) => {
+
+      elemSet.forEach(elem => {
+
+        elem.classList.remove(className);
+
+      });
+
+    };
+
+    //return exect parent node of the element
+    const findParent = (elem, parentClass) => {
+
+      let currentNode = elem;
+
+      while (!currentNode.classList.contains(parentClass)) {
+        currentNode = currentNode.parentNode;
+      }
+
+      return currentNode;
+
+    };
+
+    //get active button step number
+    const getActiveStep = elem => {
+      return Array.from(DOMstrings.stepsBtns).indexOf(elem);
+    };
+
+    //set all steps before clicked (and clicked too) to active
+    const setActiveStep = activeStepNum => {
+
+      //remove active state from all the state
+      removeClasses(DOMstrings.stepsBtns, 'js-active');
+
+      //set picked items to active
+      DOMstrings.stepsBtns.forEach((elem, index) => {
+
+        if (index == activeStepNum) {
+          elem.classList.add('js-active');
+        }
+
+      });
+    };
+
+    //get active panel
+    const getActivePanel = () => {
+
+      let activePanel;
+
+      DOMstrings.stepFormPanels.forEach(elem => {
+
+        if (elem.classList.contains('js-active')) {
+
+          activePanel = elem;
+
+        }
+
+      });
+
+      return activePanel;
+
+    };
+
+    //open active panel (and close unactive panels)
+    const setActivePanel = activePanelNum => {
+
+      //remove active class from all the panels
+      removeClasses(DOMstrings.stepFormPanels, 'js-active');
+
+      //show active panel
+      DOMstrings.stepFormPanels.forEach((elem, index) => {
+        if (index === activePanelNum) {
+
+          elem.classList.add('js-active');
+
+          setFormHeight(elem);
+
+        }
+      });
+
+    };
+
+    //set form height equal to current panel height
+    const formHeight = activePanel => {
+
+      const activePanelHeight = activePanel.offsetHeight;
+
+      DOMstrings.stepsForm.style.height = `${activePanelHeight}px`;
+
+    };
+
+    const setFormHeight = () => {
+      const activePanel = getActivePanel();
+
+      formHeight(activePanel);
+    };
+
+    //STEPS BAR CLICK FUNCTION
+    DOMstrings.stepsBar.addEventListener('click', e => {
+
+      //check if click target is a step button
+      const eventTarget = e.target;
+
+      if (!eventTarget.classList.contains(`${DOMstrings.stepsBtnClass}`)) {
+        return;
+      }
+
+
+
+      //get active button step number
+      const activeStep = getActiveStep(eventTarget);
+
+      //set all steps before clicked (and clicked too) to active
+      setActiveStep(activeStep);
+
+      //open active panel
+      setActivePanel(activeStep);
+    });
+
+    //PREV/NEXT BTNS CLICK
+    DOMstrings.stepsForm.addEventListener('click', e => {
+
+      const eventTarget = e.target;
+
+      //check if we clicked on `PREV` or NEXT` buttons
+      if (eventTarget.classList.contains(`${DOMstrings.stepSendBtnClass}`))
+      {
+
+        // Notice that I use .add(..), instead of .set(..). This is because the docRef do not specify the docId.
+
+        // func.showNotification('top','center', 'success', 'check_circle', "Class created.");
+      }
+      else if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`) || eventTarget.classList.contains(`${DOMstrings.stepNextBtnClass}`))
+      {
+        // Proceed to move to next / prev page
+      }else{
+        // Do nothing and return
+        return;
+
+      }
+
+      //find active panel
+      const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
+
+      let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
+      getAllTimeSlots()
+      //set active step and active panel onclick
+      if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`)) {
+        activePanelNum--;
+
+        setActiveStep(activePanelNum);
+        setActivePanel(activePanelNum);
+      } else {
+
+        if (!validateForm(activePanelNum)){
+
+        }else{
+          activePanelNum++;
+          setActiveStep(activePanelNum);
+          setActivePanel(activePanelNum);
+        }
+      }
+      // setActiveStep(activePanelNum);
+      // setActivePanel(activePanelNum);
+    });
+
+    //SETTING PROPER FORM HEIGHT ONLOAD
+    window.addEventListener('load', setFormHeight, false);
+
+    //SETTING PROPER FORM HEIGHT ONRESIZE
+    window.addEventListener('resize', setFormHeight, false);
+
+    //changing animation via animation select !!!YOU DON'T NEED THIS CODE (if you want to change animation type, just change form panels data-attr)
+
+    const setAnimationType = newType => {
+      DOMstrings.stepFormPanels.forEach(elem => {
+        elem.dataset.animation = newType;
+      });
+    };
+
+    function validateForm(activePanelNum) {
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("multitabs-form__panel");
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =x[activePanelNum].querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        // document.getElementsByClassName("step")[activePanelNum].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+  </script>
+
+  <!-- Teacher's Phone related -->
+  <script>
+    var errorMsg = document.querySelector("#error-msg");
+    var validMsg = document.querySelector("#valid-msg");
+
+    // here, the index maps to the error code returned from getValidationError - see readme
+    var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    var reset = function() {
+      inputEmpPhone.classList.remove("error");
+      errorMsg.innerHTML = "";
+      errorMsg.classList.add("hide");
+      validMsg.classList.add("hide");
+    };
+
+    // on blur: validate
+    inputEmpPhone.addEventListener('blur', function() {
+      reset();
+      if (inputEmpPhone.value.trim()) {
+        if (itiEmpPhone.isValidNumber()) {
+          validMsg.classList.remove("hide");
+
+          // Remove the invalid tag on the phone input
+          document.getElementById("empPhone").className = "form-control"
+        } else {
+          inputEmpPhone.classList.add("error");
+          var errorCode = itiEmpPhone.getValidationError();
+          errorMsg.innerHTML = errorMap[errorCode];
+          errorMsg.classList.remove("hide");
+        }
+      }
+    });
+
+    // on keyup / change flag: reset
+    inputEmpPhone.addEventListener('change', reset);
+    inputEmpPhone.addEventListener('keyup', reset);
+    // Validate fields in based on parents.
+    function ValidateFields(parentId){
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementById(parentId);
+      y =x.querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      return valid; // return the valid status
+    }
+
+    // Validate fields - Phone Input specific.
+    function ValidatePhone(phoneId){
+      var valid = true;
+      let inPhone = document.querySelector("#"+phoneId);
+      // console.log(inPhone.value)
+      if (inPhone.value.trim()) {
+        if (itiEmpPhone.isValidNumber()) {
+          // Do nothing
+        } else {
+          inPhone.className += " invalid";
+          valid = false;
+        }
+      }
+      return valid; // return the valid status
+    }
+
+  </script>
+
+
+</body>
+
+</html>

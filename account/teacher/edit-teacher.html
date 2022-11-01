@@ -1,0 +1,1292 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/teacher/edit-teacher.html>
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/';
+  </script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!-- GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <link href="../../assets/css/multistepform.css" rel="stylesheet" />
+  <link href="../../assets/css/multitabform.css" rel="stylesheet" />
+  <link href="../../assets/css/mc-calendar.min.css" rel="stylesheet"/>
+  <link href="../../assets/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="../../assets/css/intlTelInput.css">
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden active" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Teachers <span><i class="material-icons" style="color: gray;">chevron_right</i></span> Edit</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                </div>
+              </li>
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="../../">Back to Home</a>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+      <!-- Delete Class modal -->
+      <div class="row">
+        <div class="modal fade" id="delClassModal" tabindex="-1" role="dialog" aria-labelledby="delClassModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="delClassModalLabel">Are you absolutely sure? </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnDelClassModalClose1">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="delClassModalBody">
+                <p>This action cannot be <strong style="color: red;">undone</strong>. This will permanently delete the teacher's details.</p>
+                <p>The teacher will <strong style="color: #2e74b6 ;">continue with their existing classes</strong> until they are changed or removed. </p>
+                <p>If you still want to keep this teacher, you may set the Employment Status to <strong style="color: #2e74b6 ;">Inactive</strong>.</p>
+
+                <p>Please type <strong>DELETE</strong> to confirm.</p>
+
+
+                <input type="text" class="form-control" id="delTeacherModalIn">
+
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnDelTeacherModalUpdate" style="white-space: normal; word-wrap: break-word;" disabled>I understand the consequences. Delete this person.</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save modal -->
+      <div class="row">
+        <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Save & Close</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnSaveModalClose1">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="saveModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnSaveModalClose2">Cancel</button>
+                <button type="button" class="btn btn-primary hidden" data-dismiss="modal" id="btnSaveModalUpdate" perm='teach-teacher-edit'>Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Different Tutor Id Warning  modal -->
+      <div class="row">
+        <div class="modal fade" id="diffTutorIdWarningModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Phone number Change Detected:
+                  <span id="diffTutorIdWarningTitle"></span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnDiffTutorIdWarningModalClose1">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Changing the teacher's phone number will not change the original phone number used by the teacher to access the classes assigned to him/her.</p>
+                <p>You need to <strong style="color: #2e74b6;">manually remove and add back the teacher to his/her previous class</strong> for he/she to continue teaching.</p>
+                <p>Are you sure you want to continue?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDiffTutorIdWarningModalClose2">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnDiffTutorIdWarningModalUpdate">Continue</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!-- Sign-out modal -->
+       <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container">
+          <!-- Back button -->
+          <div class="row d-flex"  style="margin: auto 10px 0 10px;">
+            <div class="p-2">
+              <a href="./" class="btn btn-outline-primary btn-round" id="btnBack" name="param-link"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">west</i> Back</a>
+            </div>
+            <div class="p-2">
+              <a href="javascript:;" class="btn btn-primary btn-round hidden" id="btnSave" perm='teach-teacher-edit'><i class="material-icons" style="color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;">save</i> Save</a>
+            </div>
+
+            <div class="ml-auto p-2">
+              <!-- <a href="javascript:;" class="btn btn-danger btn-round" data-toggle="modal" data-target="#delStuModal"><i class="material-icons" style="color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;">remove</i> Remove</a> -->
+            </div>
+          </div>
+
+          <div class="container overflow-hidden">
+            <div class="row">
+              <div class="col-md-12">
+                <!--multitabs-form navbar-->
+                <div class="row" >
+                  <div class="col-12 col-lg-12 ml-auto mr-auto mb-4">
+                    <div class="d-flex flex-wrap multitabs-form__progress">
+                      <button class="multitabs-form__progress-btn js-active" type="button" title="Student Info">Teacher Profile</button>
+                      <button class="multitabs-form__progress-btn" type="button" title="Guardian Info">Employment Details  <span class='card-class-status-label'>Admin</span></button>
+                    </div>
+                  </div>
+                </div>
+
+                <!--multitabs-form-->
+                <div class="multitabs-form" id="multitabs_form">
+                  <!--form panels-->
+                  <div class="row">
+                    <div class="col-12">
+                      <form class="multitabs-form__form">
+                        <!-- Teacher form panel-->
+                        <div class="multitabs-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn" id="teacherForm">
+                          <h4 class="multitabs-form__title">Teacher Profile</h4>
+                          <div class="multitabs-form__content">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <div class="row">
+                                  <div class="col-md-12 text-center">
+                                    <div style="height: 140px;width: 140px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%;">
+                                      <img id="viewTutorImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/empty-photo.png"/>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-12 text-center">
+                                    <a type="button" class="btn btn-primary" href="#" id="btnViewTutorModalFullProfile" style="display: none;">View Full Profile</a>
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                              <div class="col-md-8">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Name</span>
+                                <input id="viewTutorName"  type="text" value='' class="form-control" data-compulsory="true" oninput="this.className = 'form-control'">
+
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Phone</span>
+                                    <div class="input-group">
+                                      <input id="viewTutorPhone" type="text" value='' class="form-control" data-compulsory="true">
+                                      <span id="valid-msg" class="hide" style="color: #42ba96;">✓ Valid</span>
+                                      <span id="error-msg" class="hide" style="color: #F32013;"></span>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Email</span>
+                                    <input id="viewTutorEmail"  type="text" value='' class="form-control">
+
+                                  </div>
+                                </div>
+
+
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Gender</span>
+                                    <div class="form-group">
+                                      <div class="form-check form-check-radio form-check-inline">
+                                        <label class="form-check-label">
+                                          <input class="form-check-input" type="radio" name="tutorGender" id="viewTutorGenderRadioMale" value="optionActive" data-compulsory="false">
+                                          Male
+                                          <span class="circle">
+                                            <span class="check"></span>
+                                          </span>
+                                        </label>
+                                      </div>
+                                      <div class="form-check form-check-radio form-check-inline">
+                                        <label class="form-check-label">
+                                          <input class="form-check-input" type="radio" name="tutorGender" id="viewTutorGenderRadioFemale" value="optionInactive" data-compulsory="false">
+                                          Female
+                                          <span class="circle">
+                                            <span class="check"></span>
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Age</span>
+                                    <input id="viewTutorAge"  type="number" value='' class="form-control">
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Date Joined</span>
+                                    <input id="viewTutorDateAdd"  type="text" value='' class="form-control" style="pointer-events: none;" readonly>
+                                  </div>
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <!-- Employment Details form panel-->
+                        <div class="multitabs-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                          <h4 class="multitabs-form__title">Employment Details</h4>
+                          <div class="multitabs-form__content">
+
+
+                            <div class="row">
+                               <!-- Bank Name -->
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Bank Name</span>
+                                  <input type="text" class="form-control" id="inBankName" data-compulsory="false" oninput="this.className = 'form-control'" >
+                                </div>
+                              </div>
+
+                              <!-- Bank Account Number -->
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Bank Account No</span>
+                                  <input type="text" class="form-control" id="inBankAcNo" data-compulsory="false" oninput="this.className = 'form-control'" >
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <div class="row">
+                              <!-- EPF No -->
+                              <div class="col-md-6">
+                                <div class="form-group" >
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">EPF No</span>
+                                  <input type="text" class="form-control" id="inEPFNo" data-compulsory="false" oninput="this.className = 'form-control'">
+                                </div>
+                              </div>
+
+                              <!-- Socso No -->
+                              <div class="col-md-6">
+                                <div class="form-group" >
+                                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Socso No</span>
+                                  <input type="text" class="form-control" id="inSocsoNo" data-compulsory="false" oninput="this.className = 'form-control'">
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <!-- Status -->
+                            <div class="row">
+                              <div class="col-sm-12 text-left">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray;">Employment Status</span>
+                                <span class="tooltiptext-trigger">?
+                                  <span class="tooltiptext-general">
+                                    <h6>Employment Status</h6>
+                                    <p>Set to <strong style="color: #2e74b6;">Inactive</strong> to keep the teacher profile, but disallowed from joining future classes and payrolls.</p>
+                                  </span>
+                                </span>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <div class="form-check form-check-radio form-check-inline">
+                                    <label class="form-check-label">
+                                      <input class="form-check-input" type="radio" name="employmentStatus" id="employmentStatusRadioActive" value="optionActive" data-compulsory="false" checked>
+                                      Active
+                                      <span class="circle">
+                                        <span class="check"></span>
+                                      </span>
+                                    </label>
+                                  </div>
+                                  <div class="form-check form-check-radio form-check-inline">
+                                    <label class="form-check-label">
+                                      <input class="form-check-input" type="radio" name="employmentStatus" id="employmentStatusRadioInactive" value="optionInactive" data-compulsory="false">
+                                      Inactive
+                                      <span class="circle">
+                                        <span class="check"></span>
+                                      </span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Delete Teacher -->
+                            <div class="row hidden" perm='teach-teacher-del'>
+                              <div class="col-sm-12 text-left">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: grey;">Remove This Teacher / Employee</span>
+                                <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em;">!
+                                  <span class="tooltiptext-general" style="border: thin solid red;">
+                                    <h6 style="color: red;">Remove This Teacher / Employee</h6>
+                                    <p>This action cannot be <strong style="color: red;">undone</strong>. This will permanently delete the teacher's details. The teacher will still continue with their existing classes until they are changed or removed.</p>
+                                  </span>
+                                </span>
+                              </div>
+                              <div class="col-md-12" >
+                                <a class="btn btn-sm btn-outline-danger btn-round" id="btnDelClass" style="color: red; background-color: white;" data-toggle='modal' data-target='#delClassModal'>Delete Person <i class="fas fa-exclamation-triangle" style="color: red;"></i></a>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+          <ul>
+            <!-- <li>
+            <a href="https://golearn.com.my/join-us" target="_blank">
+              Visit GoLearn Tutor
+            </a>
+            </li> -->
+          </ul>
+          </nav>
+          <!-- <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>
+            , made with <i class="material-icons">favorite</i> by <a href="#" >GoLearn Team</a>
+          </div> -->
+          <!-- your footer here -->
+        </div>
+      </footer>
+    </div>
+
+  </div>
+
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Tutor Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+  <!-- International Telephone Input -->
+  <script src="../../assets/js/plugins/intlTelInput/intlTelInput.min.js"></script>
+
+  <script>
+
+    const inBankName = document.getElementById("inBankName");
+    const inBankAcNo = document.getElementById("inBankAcNo");
+    const inEPFNo = document.getElementById("inEPFNo");
+    const inSocsoNo = document.getElementById("inSocsoNo");
+
+    // Init Tutor Phone
+    var inputTutor = document.querySelector("#viewTutorPhone");
+    var itiTutor = intlTelInput(inputTutor,{
+      autoHideDialCode: false,
+      preferredCountries: ['my', 'sg'],
+      separateDialCode: true,
+      utilsScript: "https://golearn.com.my/assets/js/plugins/intlTelInput/utils.js",
+      });
+
+    // Check the current CLASS in session Storage - Valid only if user come from class.html
+    var currentTeacherObj = null;
+    const tid = new URL(window.location.href).searchParams.get("tid")
+    // getStudentObject()
+    getTeacher()
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+      // Do nothing
+    }
+
+    function getTeacher() {
+
+      if (tid == null || tid == ''){
+        func.showNotification('top','center', 'danger', 'error_outline', "Error: No class id in params." );
+        alert('Error: No class id in params.')
+        // window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+      }
+      else {
+        let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Tutor")
+          .doc(tid);
+
+        docRef.get().then((doc) => {
+          if (doc.exists) {
+
+            console.log(doc.data())
+            // Store in lacal variable
+            currentTeacherObj = doc.data()
+
+            updatePageContent(doc.data())
+
+          }
+          else {
+            func.showNotification('top','center', 'danger', 'error_outline', "Error: No such teacher." );
+            alert('Error: No such teacher.')
+            window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+
+          }
+        })
+      }
+
+    }
+
+    function getStudentObject(){
+      // Check if there are valid class data in session storage.
+      if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TUTOR_CURRENT_DOC_KEY)) == null ||
+        JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TUTOR_CURRENT_DOC_KEY)).id == null ||
+        JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TUTOR_CURRENT_DOC_KEY)).id == '' ){
+        func.showNotification('top','center', 'danger', 'error_outline', "Error: No student selected." );
+        window.location.href='./';
+        return;
+
+      }else{
+        // Set the fields
+        currentTeacherObj = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TUTOR_CURRENT_DOC_KEY));
+        // console.log(currentTeacherObj);
+        updatePageContent(currentTeacherObj);
+        return;
+
+      }
+    }
+
+    function updatePageContent(data){
+      // Teacher Profile
+      document.getElementById("viewTutorName").value = data[TUTOR_TUTOR_NAME];
+      // document.getElementById("viewTutorPhone").value = data[TUTOR_TUTOR_PHONE];
+      // document.getElementById("viewTutorPhone").value = data[TUTOR_TUTOR_ID];
+      itiTutor.setNumber(data[TUTOR_TUTOR_ID]);
+      document.getElementById("viewTutorEmail").value = data[TUTOR_TUTOR_EMAIL];
+      document.getElementById("viewTutorGenderRadioMale").checked = data[TUTOR_TUTOR_GENDER] == 0 ? true: false;
+      document.getElementById("viewTutorGenderRadioFemale").checked = data[TUTOR_TUTOR_GENDER] == 1 ? true: false;
+      document.getElementById("viewTutorAge").value = data[TUTOR_TUTOR_AGE];
+      document.getElementById("viewTutorDateAdd").value = new Date(data[TUTOR_DATE_ADD].seconds * 1000).toLocaleDateString("en-GB");
+      // document.getElementById("viewTutorImgUrl").src = data[TUTOR_TUTOR_IMG_URL];
+      // Check if img is valid. If no, create a 2 chars avatar
+      if (data[TUTOR_TUTOR_IMG_URL] == null || data[TUTOR_TUTOR_IMG_URL] == ""
+      || data[TUTOR_TUTOR_IMG_URL] == "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"
+      || tutorImgUrlChecker(data[TUTOR_TUTOR_IMG_URL])){
+        let AvatarText = data[TUTOR_TUTOR_NAME][0] + data[TUTOR_TUTOR_NAME][1];
+        document.getElementById("viewTutorImgUrl").src = generateAvatar(AvatarText, "#eaeaea", "#f6f6f6", "100px");
+      }
+      else {
+        document.getElementById("viewTutorImgUrl").src = data[TUTOR_TUTOR_IMG_URL];
+      }
+
+      let url = encode64(data[TUTOR_TUTOR_ID]);
+      document.getElementById("btnViewTutorModalFullProfile").setAttribute('style', 'visibility: visible');
+      document.getElementById("btnViewTutorModalFullProfile").setAttribute('href','https://golearn.com.my/tutor/?tid='+url);
+      document.getElementById("btnViewTutorModalFullProfile").setAttribute('target','_blank');
+
+      // Employment Details
+      inBankName.value = (data[TUTOR_BANK_NAME] == null || data[TUTOR_BANK_NAME] == '')? '' : data[TUTOR_BANK_NAME];
+      inBankAcNo.value = (data[TUTOR_AC_NO] == null || data[TUTOR_AC_NO] == '') ?  '' : data[TUTOR_AC_NO];
+      inEPFNo.value = (data[TUTOR_EPF] == null || data[TUTOR_EPF] == '')? '' : data[TUTOR_EPF];
+      inSocsoNo.value = (data[TUTOR_SOCSO] == null || data[TUTOR_SOCSO] == '')? '' : data[TUTOR_SOCSO];
+
+      document.getElementById("employmentStatusRadioActive").checked = data[TUTOR_STATUS_ADMIN] === TUTOR_STATUS_TYPE_ACTIVE ? true: false;
+      document.getElementById("employmentStatusRadioInactive").checked = data[TUTOR_STATUS_ADMIN] === TUTOR_STATUS_TYPE_ACTIVE ? false: true;
+
+
+
+    }
+
+    // This function check the validity of imgUrl. Return true when invalid.
+    function tutorImgUrlChecker(imgUrl){
+      // Tutor Panel
+      let isHelloGifExist = false ;
+      let helloGifArr =  imgUrl.match(/hello.gif/gi)
+      if ( helloGifArr != null) {
+        if (helloGifArr.length > 0){
+          isHelloGifExist = true;
+        }
+      }
+      let isEmptyPhotoPngExist = false;
+      let emptyPhotoPngArr = imgUrl.match(/empty-photo.png/gi)
+      if ( emptyPhotoPngArr != null) {
+        if (emptyPhotoPngArr.length > 0){
+          isEmptyPhotoPngExist = true;
+        }
+      }
+      let isGeneratedAvatar = false;
+      let generatedAvatarArr = imgUrl.match(/data:image\/png;base64,/gi)
+      if ( generatedAvatarArr != null) {
+        if (generatedAvatarArr.length > 0){
+          isGeneratedAvatar = true;
+        }
+      }
+
+      if (isHelloGifExist || isEmptyPhotoPngExist || isGeneratedAvatar)
+        return true;
+      else
+        return false;
+    }
+
+    // Update Student Info
+    function UpdateTeacherToDB(tid){
+      let docRef = db.collection("dev")
+        .doc('v2')
+        .collection('Tutor')
+        .doc(tid);
+
+      let data = {
+        [TUTOR_TUTOR_ID]: itiTutor.getNumber(),
+        [TUTOR_TUTOR_NAME]: document.getElementById("viewTutorName").value,
+        [TUTOR_TUTOR_PHONE]: itiTutor.getNumber(),
+        [TUTOR_TUTOR_EMAIL]: document.getElementById("viewTutorEmail").value,
+        [TUTOR_TUTOR_GENDER]: document.getElementById("viewTutorGenderRadioMale").checked ? 0 : 1,
+        [TUTOR_TUTOR_AGE]: document.getElementById("viewTutorAge").value,
+        [TUTOR_DATE_EDIT]: new Date(),
+        [TUTOR_BANK_NAME]: inBankName.value,
+        [TUTOR_AC_NO]: inBankAcNo.value,
+        [TUTOR_EPF]: inEPFNo.value,
+        [TUTOR_SOCSO]: inSocsoNo.value,
+        [TUTOR_STATUS_ADMIN]: document.getElementById("employmentStatusRadioActive").checked? TUTOR_STATUS_TYPE_ACTIVE : TUTOR_STATUS_TYPE_PASSIVE,
+      }
+
+      console.log("Update Data: ")
+      console.log(data)
+
+      docRef
+      .update(data)
+      .then(()=> {
+        $('#saveModal').modal('hide');
+        // window.location.href = './'
+        func.showNotification('top','center', 'success', 'check_circle', "Updated successfully!");
+      });
+    }
+
+    // Delete Teacher
+    function DeleteTeacher(tid){
+      var docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Tutor")
+          .doc(tid);
+
+      var data = {
+        [TUTOR_DATE_EDIT]: new Date(),
+        [TUTOR_DATE_DEL] :  new Date(),
+        [TUTOR_STATUS_ADMIN]: TUTOR_STATUS_TYPE_DELETE,
+      }
+
+      // ----- Get the Teacher Number doc ----- //
+      // So we can update it the next stage.
+      let teacherNumReportDocRef = db.collection("dev")
+        .doc("v2")
+        .collection("General")
+        .where(NUM_ADMIN_ID, "==", ent_id)
+        .where(NUM_TYPE, "==", NUM_TYPE_TEACHER);
+
+      var promiseAll = []
+      promiseAll.push(docRef.delete())
+      promiseAll.push(teacherNumReportDocRef.get())
+
+     Promise.all(promiseAll).then((snapshots) => {
+
+        // var promiseAllLayer2 = []
+        // console.log(snapshots[0])
+        // // console.log(snapshots[0].size)
+        // console.log(snapshots[1])
+        // console.log(snapshots[1].size)
+        // if(snapshots[1].size == 0 ) {
+        //   console.log("Empty teacher number report. Ignore ");
+        //   alert('Empty teacher number report. Ignore. Impossible to reach this state')
+
+        // }
+        // else if (snapshots[1].size > 1) {
+        //   console.log("More than 1 teacher number reports. Report Admin ");
+        //   alert('More than 1 teacher number reports. Report Admin')
+
+        //   snapshots[1].forEach((doc) => {
+        //     // console.log(doc.data());
+        //     let reportDocRef = db.collection("dev")
+        //       .doc("v2")
+        //       .collection("General")
+        //       .doc(doc.data()[NUM_ID]);
+
+        //     let reportData ={
+        //       // [NUM_ID]: reportDocRef.id,
+        //       // [NUM_ADMIN_ID]: ent_id,
+        //       // [NUM_TYPE]: ,
+        //       [NUM_VALUE]: (doc.data()[NUM_VALUE] == null || doc.data()[NUM_VALUE] == "" || doc.data()[NUM_VALUE] == 0 || isNaN(doc.data()[NUM_VALUE])) ? 1 : parseInt(doc.data()[NUM_VALUE]) - 1,
+        //       [NUM_DATE_EDIT]: new Date(),
+        //     }
+        //     console.log(reportData)
+        //     promiseAllLayer2.push( reportDocRef.set(reportData, { merge: true }))
+
+        //   });
+
+        // }
+        // else {
+        //   snapshots[1].forEach((doc) => {
+        //     // console.log(doc.data());
+        //     let reportDocRef = db.collection("dev")
+        //       .doc("v2")
+        //       .collection("General")
+        //       .doc(doc.data()[NUM_ID]);
+
+        //     let reportData ={
+        //       // [NUM_ID]: reportDocRef.id,
+        //       // [NUM_ADMIN_ID]: ent_id,
+        //       // [NUM_TYPE]: ,
+        //       [NUM_VALUE]: (doc.data()[NUM_VALUE] == null || doc.data()[NUM_VALUE] == "" || doc.data()[NUM_VALUE] == 0 || isNaN(doc.data()[NUM_VALUE])) ? 1 : parseInt(doc.data()[NUM_VALUE]) - 1,
+        //       [NUM_DATE_EDIT]: new Date(),
+        //     }
+        //     console.log(reportData)
+        //     promiseAllLayer2.push( reportDocRef.update(reportData))
+
+        //   });
+
+        // }
+
+        // return Promise.all(promiseAllLayer2)
+
+        return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_TEACHER, 'desc', 1) )
+      })
+      .then(() => {
+
+        window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+
+      })
+      .catch((e) => {
+        alert(e.message)
+      })
+
+
+      // docRef.delete()
+      // .then(() => {
+      //   updateTeacherNum(1)
+      // });
+
+
+
+    }
+
+    // Report: Update Teacher Number
+    function updateTeacherNum(value){
+
+      let docRef = db.collection("dev")
+        .doc("v2")
+        .collection("General")
+        .where(NUM_ADMIN_ID, "==", ent_id)
+        .where(NUM_TYPE, "==", NUM_TYPE_TEACHER)
+        .limit(1);
+
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+          console.log("Empty. Do nothing ");
+
+        }
+        else {
+
+          querySnapshot.forEach((doc) => {
+
+            console.log(doc.data());
+
+            let reportDocRef = db.collection("dev")
+              .doc("v2")
+              .collection("General")
+              .doc(doc.data()[NUM_ID]);
+
+            reportData ={
+              // [NUM_ID]: reportDocRef.id,
+              // [NUM_ADMIN_ID]: ent_id,
+              // [NUM_TYPE]: ,
+              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(doc.data()[NUM_VALUE]) - parseInt(value),
+              [NUM_DATE_EDIT]: new Date(),
+            }
+
+            console.log(reportData)
+            reportDocRef
+              .set(reportData, { merge: true })
+              .then(() => {
+                window.location = './'
+              });
+
+          });
+
+
+        }
+
+
+      });
+
+    }
+
+
+  </script>
+  <script>
+    $( document ).ready(function() {
+
+      // Save student info
+      $('#btnSave').on('click', function (e) {
+        let oriId = currentTeacherObj[TUTOR_TUTOR_ID];
+        let newId = itiTutor.getNumber();
+        let phoneValid =  ValidatePhone("viewTutorPhone");
+        let fieldValid = ValidateFields("teacherForm");
+
+        if (phoneValid && fieldValid){
+
+          if (oriId == newId){
+            $('#saveModal').modal('show');
+          }else {
+            document.getElementById("diffTutorIdWarningTitle").textContent = oriId +" -> "+ newId;
+            $('#diffTutorIdWarningModal').modal('show');
+          }
+        }
+        else{
+          // Do nothing
+        }
+
+      });
+
+      $('#btnDiffTutorIdWarningModalUpdate').on('click', function (e) {
+        document.getElementById("diffTutorIdWarningTitle").textContent = "";
+        $('#diffTutorIdWarningModal').modal('hide');
+        $('#saveModal').modal('show');
+      });
+
+      // tutor Id change modal
+      $('#btnDiffTutorIdWarningModalClose1').on('click', function (e) {
+        document.getElementById("diffTutorIdWarningTitle").textContent = "";
+        $('#diffTutorIdWarningModal').modal('hide');
+      });
+
+      $('#btnDiffTutorIdWarningModalClose2').on('click', function (e) {
+        document.getElementById("diffTutorIdWarningTitle").textContent = "";
+        $('#diffTutorIdWarningModal').modal('hide');
+      });
+
+      $('#btnSaveModalUpdate').on('click', function (e) {
+
+        // Disable the submit button
+        document.getElementById("btnSaveModalUpdate").setAttribute('disabled', 'disabled');
+
+        // Change the "Submit" text
+        document.getElementById("btnSaveModalUpdate").textContent = 'Please wait...';
+
+        UpdateTeacherToDB(currentTeacherObj[TUTOR_ID]);
+      });
+
+      $('#btnSaveModalClose1').on('click', function (e) {
+        $('#saveModal').modal('hide');
+      });
+
+      $('#btnSaveModalClose2').on('click', function (e) {
+        $('#saveModal').modal('hide');
+      });
+
+
+      // Delete Teacher
+      $('#delTeacherModalIn').on('input', function(){
+        if (this.value === 'DELETE'){
+          $('#btnDelTeacherModalUpdate').prop('disabled', false);
+        }
+        else{
+          $('#btnDelTeacherModalUpdate').prop('disabled', true);
+        }
+      });
+
+      // Delete Class btn clicked
+      $('#btnDelTeacherModalUpdate').on('click', function (event) {
+        DeleteTeacher(currentTeacherObj[TUTOR_ID]);
+      });
+
+    });
+
+  </script>
+
+
+  <!-- Multiform-specific script -->
+  <script>
+    //DOM elements
+    const DOMstrings = {
+      stepsBtnClass: 'multitabs-form__progress-btn',
+      stepsBtns: document.querySelectorAll(`.multitabs-form__progress-btn`),
+      stepsBar: document.querySelector('.multitabs-form__progress'),
+      stepsForm: document.querySelector('.multitabs-form__form'),
+      stepsFormTextareas: document.querySelectorAll('.multitabs-form__textarea'),
+      stepFormPanelClass: 'multitabs-form__panel',
+      stepFormPanels: document.querySelectorAll('.multitabs-form__panel'),
+      stepPrevBtnClass: 'js-btn-prev',
+      stepNextBtnClass: 'js-btn-next',
+      stepSendBtnClass: 'js-btn-send' };
+
+    //remove class from a set of items
+    const removeClasses = (elemSet, className) => {
+
+      elemSet.forEach(elem => {
+
+        elem.classList.remove(className);
+
+      });
+
+    };
+
+    //return exect parent node of the element
+    const findParent = (elem, parentClass) => {
+
+      let currentNode = elem;
+
+      while (!currentNode.classList.contains(parentClass)) {
+        currentNode = currentNode.parentNode;
+      }
+
+      return currentNode;
+
+    };
+
+    //get active button step number
+    const getActiveStep = elem => {
+      return Array.from(DOMstrings.stepsBtns).indexOf(elem);
+    };
+
+    //set all steps before clicked (and clicked too) to active
+    const setActiveStep = activeStepNum => {
+
+      //remove active state from all the state
+      removeClasses(DOMstrings.stepsBtns, 'js-active');
+
+      //set picked items to active
+      DOMstrings.stepsBtns.forEach((elem, index) => {
+
+        if (index == activeStepNum) {
+          elem.classList.add('js-active');
+        }
+
+      });
+    };
+
+    //get active panel
+    const getActivePanel = () => {
+
+      let activePanel;
+
+      DOMstrings.stepFormPanels.forEach(elem => {
+
+        if (elem.classList.contains('js-active')) {
+
+          activePanel = elem;
+
+        }
+
+      });
+
+      return activePanel;
+
+    };
+
+    //open active panel (and close unactive panels)
+    const setActivePanel = activePanelNum => {
+
+      //remove active class from all the panels
+      removeClasses(DOMstrings.stepFormPanels, 'js-active');
+
+      //show active panel
+      DOMstrings.stepFormPanels.forEach((elem, index) => {
+        if (index === activePanelNum) {
+
+          elem.classList.add('js-active');
+
+          setFormHeight(elem);
+
+        }
+      });
+
+    };
+
+    //set form height equal to current panel height
+    const formHeight = activePanel => {
+
+      const activePanelHeight = activePanel.offsetHeight;
+
+      DOMstrings.stepsForm.style.height = `${activePanelHeight}px`;
+
+    };
+
+    const setFormHeight = () => {
+      const activePanel = getActivePanel();
+
+      formHeight(activePanel);
+    };
+
+    //STEPS BAR CLICK FUNCTION
+    DOMstrings.stepsBar.addEventListener('click', e => {
+
+      //check if click target is a step button
+      const eventTarget = e.target;
+
+      if (!eventTarget.classList.contains(`${DOMstrings.stepsBtnClass}`)) {
+        return;
+      }
+
+
+
+      //get active button step number
+      const activeStep = getActiveStep(eventTarget);
+
+      //set all steps before clicked (and clicked too) to active
+      setActiveStep(activeStep);
+
+      //open active panel
+      setActivePanel(activeStep);
+    });
+
+    //PREV/NEXT BTNS CLICK
+    DOMstrings.stepsForm.addEventListener('click', e => {
+
+      const eventTarget = e.target;
+
+      //check if we clicked on `PREV` or NEXT` buttons
+      if (eventTarget.classList.contains(`${DOMstrings.stepSendBtnClass}`))
+      {
+
+        // Notice that I use .add(..), instead of .set(..). This is because the docRef do not specify the docId.
+
+        // func.showNotification('top','center', 'success', 'check_circle', "Class created.");
+      }
+      else if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`) || eventTarget.classList.contains(`${DOMstrings.stepNextBtnClass}`))
+      {
+        // Proceed to move to next / prev page
+      }else{
+        // Do nothing and return
+        return;
+
+      }
+
+      //find active panel
+      const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
+
+      let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
+      getAllTimeSlots()
+      //set active step and active panel onclick
+      if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`)) {
+        activePanelNum--;
+
+        setActiveStep(activePanelNum);
+        setActivePanel(activePanelNum);
+      } else {
+
+        if (!validateForm(activePanelNum)){
+
+        }else{
+          activePanelNum++;
+          setActiveStep(activePanelNum);
+          setActivePanel(activePanelNum);
+        }
+      }
+      // setActiveStep(activePanelNum);
+      // setActivePanel(activePanelNum);
+    });
+
+    //SETTING PROPER FORM HEIGHT ONLOAD
+    window.addEventListener('load', setFormHeight, false);
+
+    //SETTING PROPER FORM HEIGHT ONRESIZE
+    window.addEventListener('resize', setFormHeight, false);
+
+    //changing animation via animation select !!!YOU DON'T NEED THIS CODE (if you want to change animation type, just change form panels data-attr)
+
+    const setAnimationType = newType => {
+      DOMstrings.stepFormPanels.forEach(elem => {
+        elem.dataset.animation = newType;
+      });
+    };
+
+    function validateForm(activePanelNum) {
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("multitabs-form__panel");
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =x[activePanelNum].querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        // document.getElementsByClassName("step")[activePanelNum].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+  </script>
+
+  <!-- Teacher's Phone related -->
+  <script>
+    var errorMsg = document.querySelector("#error-msg");
+    var validMsg = document.querySelector("#valid-msg");
+
+    // here, the index maps to the error code returned from getValidationError - see readme
+    var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    var reset = function() {
+      inputTutor.classList.remove("error");
+      errorMsg.innerHTML = "";
+      errorMsg.classList.add("hide");
+      validMsg.classList.add("hide");
+    };
+
+    // on blur: validate
+    inputTutor.addEventListener('blur', function() {
+      reset();
+      if (inputTutor.value.trim()) {
+        if (itiTutor.isValidNumber()) {
+          validMsg.classList.remove("hide");
+
+          // Remove the invalid tag on the phone input
+          document.getElementById("viewTutorPhone").className = "form-control"
+        } else {
+          inputTutor.classList.add("error");
+          var errorCode = itiTutor.getValidationError();
+          errorMsg.innerHTML = errorMap[errorCode];
+          errorMsg.classList.remove("hide");
+        }
+      }
+    });
+
+    // on keyup / change flag: reset
+    inputTutor.addEventListener('change', reset);
+    inputTutor.addEventListener('keyup', reset);
+    // Validate fields in based on parents.
+    function ValidateFields(parentId){
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementById(parentId);
+      y =x.querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      return valid; // return the valid status
+    }
+
+    // Validate fields - Phone Input specific.
+    function ValidatePhone(phoneId){
+      var valid = true;
+      let inPhone = document.querySelector("#"+phoneId);
+      // console.log(inPhone.value)
+      if (inPhone.value.trim()) {
+        if (itiTutor.isValidNumber()) {
+          // Do nothing
+        } else {
+          inPhone.className += " invalid";
+          valid = false;
+        }
+      }
+      return valid; // return the valid status
+    }
+
+  </script>
+
+
+</body>
+
+</html>

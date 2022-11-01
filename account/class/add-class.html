@@ -1,0 +1,2399 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/class/add-class.html>
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+  </script>
+  <link href="../../assets/css/multistepform.css" rel="stylesheet" />
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!--GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <!-- ClockPicker Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="../../assets/css/bootstrap-clockpicker.min.css">
+  <!-- Color Picker -->
+  <link href="../../assets/css/coloris.min.css" rel="stylesheet" type="text/css">
+  <!-- Ribbon -->
+  <style>
+    .full .clr-field button {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+  </style>
+  <!-- Ribbon -->
+  <!-- https://freefrontend.com/css-ribbons/ -->
+  <style>
+    .ribbon {
+      font-size: small;
+      position: absolute;
+      /* right: var(--right, 10px); */
+      /* top: var(--top, -3px); */
+      left: var(--left, -3px);
+      top: var(--top, 5px);
+      filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.2));
+    }
+    .ribbon > .content {
+      color: white;
+      font-size: 1rem;
+      text-align: center;
+      font-weight: 400;
+      /* background: var(--color, #FA8072) linear-gradient(45deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.25) 100%); */
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 2px 4px;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 100%);
+      width: var(--width, 32px);
+      min-height: var(--height, 32px);
+      transition: clip-path 1s, padding 1s, background 1s;
+    }
+    .ribbon.slant-up > .content {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), 50% calc(100% - 6px), 0 100%);
+    }
+    .ribbon.slant-down > .content {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 6px), 0 calc(100% - 12px));
+    }
+    /* .ribbon.down > .content {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 50% 100%, 0 calc(100% - 8px));
+    } */
+    .ribbon.up > .content {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 8px), 0 100%);
+    }
+    .ribbon.check > .content {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 40% 100%, 0 calc(100% - 12px));
+    }
+    .ribbon.down > .content {
+      /* clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 50% 100%, 0 calc(100% - 8px)); */
+      clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden active" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Classes <span><i class="material-icons" style="color: gray;">chevron_right</i></span> Add Class</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+                <!-- <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a> -->
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a> -->
+                </div>
+              </li>
+              <!-- your navbar here -->
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="../../">Back to Home</a>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+       <!-- List Admins's Teacher modal -->
+       <div class="row">
+        <div class="modal fade" id="myTeacherModal" tabindex="-1" role="dialog" aria-labelledby="myTeacherModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="myTeacherModalLabel">My Teachers</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnMyTeacherModalClose1">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="myTeacherModalBody">
+                <div class="row">
+                  <div class="col-md-12" id="studentTop">
+
+                    <div class="container" id="add-tutor-modal-container">
+                      <!-- Tutor header -->
+                      <div class="row lesson-header text-center">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-3">
+                          <p>Tutor Name</p>
+                        </div>
+                        <div class="col-md-3">
+                          <p>Phone</p>
+                        </div>
+                        <div class="col-md-2">
+                          <p>Age</p>
+                        </div>
+                        <div class="col-md-2">
+                          <p>Action</p>
+                        </div>
+                      </div>
+                      <!-- Myself -->
+                      <div class="row tutor-wrapper text-center">
+                        <div class="col-md-2">
+                          <div style="height: 50px; width: 50px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%;">
+                            <img id="viewTutorMySelfImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/empty-photo.png"/>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <p class="tutor-item" id="viewTutorMySelfName"></p>
+                        </div>
+                        <div class="col-md-3">
+                          <p class="tutor-item" id="viewTutorMySelfPhone"></p>
+                        </div>
+                        <div class="col-md-2">
+                          <p class="tutor-item" id="viewTutorMySelfAge"></p>
+                        </div>
+                        <div class="col-md-2">
+                          <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="btnSelectMyself" disabled>Myself</button>
+                        </div>
+                      </div>
+
+                      <!-- Tutor List Start -->
+
+                      <!-- <div class="row tutor-wrapper text-center">
+                        <div class="col-md-2">
+                          <div style="height: 50px; width: 50px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%;">
+                            <img id="viewTutorImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/test.jpg"/>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <p class="tutor-item">Alric Liew</p>
+                        </div>
+                        <div class="col-md-3">
+                          <p class="tutor-item">Phone</p>
+                        </div>
+                        <div class="col-md-2">
+                          <p class="tutor-item">12</p>
+                        </div>
+
+                        <div class="col-md-2">
+                          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="btnSelectTutor">Select</button>
+                        </div>
+                      </div> -->
+
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-round" id="btnAddTeacherModalLoadMore" >Load More</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"  data-dismiss="modal" id="btnMyTeacherModalClose2">Close</button>
+                <!-- <a type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#addTeacherModal" id="btnAddTeacherModal">Add New Teacher</a> -->
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnMyTeacherModalUpdate">Add</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Teacher Modal -->
+      <div class="row">
+        <div class="modal fade" id="addTeacherModal" tabindex="-1" role="dialog" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addTeacherModalLabel">Add Teacher</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Phone*</label>
+                  <input class="form-control" id="addTeacherModalEmail" placeholder="" type="tel"></input>
+                </div>
+
+                <div class="form-group">
+                  <label class="bmd-label-floating">Name*</label>
+                  <input class="form-control" id="addTeacherModalName" placeholder=""></input>
+                </div>
+
+                <!-- <h5 >Gender</h5> -->
+                <!-- <form> -->
+                  <div class="form-group">
+                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Gender</span>
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="addTeacherModalRadio-male" value="option1" >
+                        Male
+                        <span class="circle">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="addTeacherModalRadio-female" value="option2">
+                        Female
+                        <span class="circle">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+
+                <!-- </form> -->
+
+                <!-- <h5 >Email</h5> -->
+                <div class="form-group">
+                  <label class="bmd-label-floating">Email</label>
+                  <input class="form-control" id="addTeacherModalEmail" placeholder=""></input>
+                </div>
+
+                <!-- <h5 >Address</h5> -->
+                <div class="form-group">
+                  <label class="bmd-label-floating">Address</label>
+                  <textarea class="form-control" id="addTeacherModalAddress" rows="4"></textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAddTeacherModalUpdate" >Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!-- Sign-out modal -->
+       <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="content">
+        <!-- your content here -->
+        <div class="container overflow-hidden">
+          <!-- Back button -->
+          <div class="row">
+            <div class="col-md-4">
+              <a href="./" class="btn btn-outline-primary btn-round" id="btnBack" name="param-link"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">west</i> Back</a>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
+                  <div class="multisteps-form__progress">
+                    <button class="multisteps-form__progress-btn js-active" type="button" title="General Info">General</button>
+                    <button class="multisteps-form__progress-btn" type="button" title="Timeslot">Time</button>
+                    <button class="multisteps-form__progress-btn" type="button" title="Teacher">Teacher</button>
+                    <button class="multisteps-form__progress-btn" type="button" title="Fee">Fee</button>
+                    <button class="multisteps-form__progress-btn" type="button" title="Advanced Settings">Advanced</button>
+                  </div>
+                </div>
+              </div>
+              <!--multisteps-form-->
+              <div class="multisteps-form">
+                <!--progress bar-->
+                <!-- <div class="row">
+                  <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
+                    <div class="multisteps-form__progress">
+                      <button class="multisteps-form__progress-btn js-active" type="button" title="General Info">General Info</button>
+                      <button class="multisteps-form__progress-btn" type="button" title="Timeslot">Timeslot</button>
+                      <button class="multisteps-form__progress-btn" type="button" title="Teacher">Teacher</button>
+                      <button class="multisteps-form__progress-btn" type="button" title="Fee">Fee</button>
+                      <button class="multisteps-form__progress-btn" type="button" title="Advanced Settings">Advanced Settings</button>
+                    </div>
+                  </div>
+                </div> -->
+                <!--form panels-->
+                <div class="row">
+                  <div class="col-12">
+                    <form class="multisteps-form__form">
+                      <!--General form panel-->
+                      <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+                        <h4 class="multisteps-form__title">General Info</h4>
+                        <div class="multisteps-form__content">
+                          <div class="col-md-12">
+
+                            <div class="form-group" style="margin-top: 2rem;">
+                              <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Class Name* <span id="countClassName" style="color: grey; margin-left: 1rem;">0/40</span></span>
+                              <input type="text" class="form-control" id="inClassName" data-compulsory="true" oninput="this.className = 'form-control'" maxlength="40">
+                            </div>
+
+                            <!-- <div class="form-group" style="margin-top: 2rem;">
+                              <p class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 1rem;">Class Icon</p>
+                              <div style="height: 100px;width: 100px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%; cursor: pointer;">
+                                <img id="tutorImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/empty-photo.png"/>
+                              </div>
+                              <input type="file" id="select_image" name="image" style="display:none" accept="image/x-png,image/jpeg"> </input>
+                            </div> -->
+
+                            <div class="form-group" style="margin-top: 1.5rem;" >
+                              <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Class Description <span id="countClassDesc" style="color: grey; margin-left: 1rem;">0/400</span></span>
+                              <textarea class="form-control" maxlength="400" rows="4" id="inClassDesc" data-compulsory="false"></textarea>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 2rem;">
+                              <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Venue <span id="countClassVenue" style="color: grey; margin-left: 1rem;">0/250</span></span>
+                              <textarea class="form-control" maxlength="250" rows="3"  id="inVenue" data-compulsory="false"></textarea>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 2rem;">
+                              <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Class Link</span>
+                              <span class="tooltiptext-trigger">?
+                                <span class="tooltiptext-general">
+                                  <h6>Class Link</h6>
+                                  <p>Link to the platform where this class will be conducted. I.e Google Meet, Zoom or other platforms.</p>
+                                </span>
+                              </span>
+                              <input type="text" class="form-control" id="inUrlClass" data-compulsory="false" oninput="this.className = 'form-control'">
+                            </div>
+
+                            <div class="form-group" style="margin-top: 2rem;">
+                              <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Chat Group Link</span>
+                              <span class="tooltiptext-trigger">?
+                                <span class="tooltiptext-general">
+                                  <h6>Chat Group Link</h6>
+                                  <p>Link to this class chat group. I.e Whatsapp, Telegram, Facebook group or other groups.</p>
+                                </span>
+                              </span>
+                              <input type="text" class="form-control" id="inUrlGroup" data-compulsory="false" oninput="this.className = 'form-control'" >
+                            </div>
+
+                            <div class="form-group" style="margin-top: 2rem;">
+                              <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Lesson Material Link </span>
+                              <span class="tooltiptext-trigger">?
+                                <span class="tooltiptext-general">
+                                  <h6>Lesson Material Link</h6>
+                                  <p>Link to material that will be used for the class. I.e Google Classroom, Drive, or other storage places.</p>
+                                </span>
+                              </span>
+                              <input type="text" class="form-control" id="inUrlMaterial" data-compulsory="false" oninput="this.className = 'form-control'">
+                            </div>
+                          </div>
+
+                          <div class="button-row d-flex mt-4">
+                            <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Time Slot form panel-->
+                      <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h4 class="multisteps-form__title">Class Schedule</h4>
+                        <div class="multisteps-form__content">
+                          <div class="col-md-12" id="timeSlotTop">
+
+                            <div class="container" id="timeSlot-container">
+                              <div class="row" style="padding: 0rem 3rem 0rem 0rem; border: solid #2e74b6; border-width: thin; margin-top: 1rem;" id="timeSlot-1">
+
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray;">Day of Week*</span>
+                                    <select class="form-control" name="tutor_course[]" id="DayOfWeek1" data-compulsory="true" oninput="this.className = 'form-control'">
+                                      <option value="">Select Day Of Week</option>
+                                      <option value="mon">Monday</option>
+                                      <option value="tue">Tuesday</option>
+                                      <option value="wed">Wednesday</option>
+                                      <option value="thu">Thursday</option>
+                                      <option value="fri">Friday</option>
+                                      <option value="sat">Saturday</option>
+                                      <option value="sun">Sunday</option>
+                                    </select>
+                                  </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group"  >
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray;">Start Time*</span>
+                                    <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="margin-top: 0.3rem;">
+                                      <input type="text" class="form-control" value="" data-compulsory="true" oninput="this.className = 'form-control'" style="cursor: not-allowed; pointer-events: none;">
+                                      <span class="d-flex align-items-center input-group-addon">
+                                        <span class="material-icons">
+                                          more_time
+                                        </span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">End Time*</span>
+                                    <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="margin-top: 0.3rem;">
+                                      <input type="text" class="form-control" value="" data-compulsory="true" oninput="this.className = 'form-control'" style="cursor: not-allowed; pointer-events: none;">
+                                      <span class="d-flex align-items-center input-group-addon">
+                                        <span class="material-icons">
+                                          more_time
+                                        </span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                              <!-- New version -->
+                              <!-- <div class="row">
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray;">Date</span>
+                                    <div class="input-group" data-placement="bottom" data-align="top" data-autoclose="true" style="margin-top: 0.3rem;">
+                                      <input id="datepicker" class="form-control" type="text" data-compulsory="true" oninput="this.className = 'form-control'" style="cursor:pointer;" readonly>
+                                    </div>
+
+                                  </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                  <div class="form-group"  >
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray;">Start Time</span>
+                                    <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="margin-top: 0.3rem;">
+                                      <input id="addLessonStart" type="text" class="form-control" data-compulsory="true" oninput="this.className = 'form-control'" style="cursor:pointer;" readonly>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">End Time</span>
+                                    <div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true" style="margin-top: 0.3rem;">
+                                      <input id="addLessonEnd" type="text" class="form-control" data-compulsory="true" oninput="this.className = 'form-control'" style="cursor:pointer;" readonly>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-1  d-flex align-items-center">
+                                  <a class="btn btn-sm btn-outline-danger btn-round" id="btnRemoveTimeSlot3" onclick="removeTimeSlot(X)" style="margin-top: 1.5rem;">
+                                    <i class="material-icons" style="color: red;">remove</i>
+                                  </a>
+                                </div>
+
+                              </div> -->
+
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                              <a class="btn btn-sm btn-outline-primary btn-round" id="btnAddTimeSlot"><i class="material-icons" style="color: #2e74b6; padding-bottom: 0.2em;">add</i></a>
+                            </div>
+                          </div>
+
+                          <div class="button-row d-flex mt-4">
+                            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+                            <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Teacher form panel-->
+                      <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h4 class="multisteps-form__title">Teachers</h4>
+                        <div class="multisteps-form__content">
+                          <!-- Teacher 1  -->
+                          <div class="row" style="margin-top: 1.0rem;">
+                            <div class="col-md-1">
+                              <div style="height: 50px; width: 50px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%; margin-top: 1.5rem;">
+                                <img id="viewTutor1ImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src=""/>
+                              </div>
+                            </div>
+                            <div class="col-md-5">
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Teacher 1's Name*</span>
+                                <input type="text" class="form-control" style="background-color: #f5f5f5;" disabled  id="inTutor1Name" data-tutor1Id="">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Teacher 1's Phone*</span>
+                                <input type="text" class="form-control" style="background-color: #f5f5f5;" disabled  id="inTutor1Phone">
+                              </div>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center">
+                              <a class="btn btn-sm btn-outline-primary btn-round" id="btnAddTeacher1" data-toggle="" data-target="#myTeacherModal" onclick="appendModal('myTeacherModal')" href="javascript:;" style="pointer-events:none; background-color: #f5f5f5;"><i class="material-icons" style="color: #2e74b6;">add</i></a>
+                            </div>
+                          </div>
+                          <!-- Teacher 2  -->
+                          <div class="row" style="margin-top: 1.0rem;">
+                            <div class="col-md-1">
+                              <div style="height: 50px; width: 50px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%; margin-top: 1.5rem;">
+                                <img id="viewTutor2ImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/empty-photo.png"/>
+                              </div>
+                            </div>
+                            <div class="col-md-5">
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Teacher 2's Name</span>
+
+                                <input type="text" class="form-control" style="background-color: #f5f5f5;" disabled id="inTutor2Name" data-tutor2Id="">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group" >
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Teacher 2's Phone</span>
+                                <input type="text" class="form-control" style="background-color: #f5f5f5;" disabled id="inTutor2Phone">
+                              </div>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center">
+                              <a class="btn btn-sm btn-outline-primary btn-round" id="btnAddTeacher2" data-toggle="" data-target="#myTeacherModal" onclick="appendModal('myTeacherModal')" href="javascript:;" style="pointer-events:none; background-color: #f5f5f5;"><i class="material-icons" style="color: #2e74b6;">add</i></a>
+                            </div>
+                          </div>
+                          <div class="button-row d-flex mt-4">
+                            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+                            <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Fee form panel-->
+                      <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h4 class="multisteps-form__title">Fee</h4>
+                        <div class="multisteps-form__content">
+
+                          <div class="form-group" style="margin-top: 2rem;">
+                            <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Fee* (RM)</span>
+                            <input type="number" step=".01" pattern="^\d*(\.\d{0,2})?$" class="form-control" id="inFee" data-compulsory="true" oninput="this.className = 'form-control'">
+                          </div>
+
+                          <div style="margin-top: 1.0rem;"></div>
+                          <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;" >Fee Type</span>
+                          <div class="form-group" >
+                            <div class="form-check form-check-radio form-check-inline">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="feeTypePerMonthRadio" value="option1" data-compulsory="false" checked>
+                                Per Month
+                                <span class="circle">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>
+                            <div class="form-check form-check-radio form-check-inline">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="feeTypePerHourRadio" value="option2" data-compulsory="false">
+                                Per Hour
+                                <span class="circle">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+
+                          <div class="button-row d-flex mt-4">
+                            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+                            <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Advanced form panel-->
+                      <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h4 class="multisteps-form__title">Advanced Settings</h4>
+                        <div class="multisteps-form__content">
+                          <!-- Type -->
+                          <div class="row" style="display: none;">
+                            <div class="col-sm-12 text-left">
+                              <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-top: 1.0rem;">Class Type</span>
+                              <span class="tooltiptext-trigger">?
+                                <span class="tooltiptext-general">
+                                  <h6>Class Type</h6>
+                                  <p>Set to <strong style="color: #2e74b6;">Public</strong> to be discovered by other. </p>
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="form-group"  style="display: none;">
+                            <div class="form-check form-check-radio form-check-inline">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="classTypeRadios" id="classTypeRadioPrivate" value="option1" data-compulsory="false" checked>
+                                Private
+                                <span class="circle">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>
+                            <div class="form-check form-check-radio form-check-inline">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="classTypeRadios" id="classTypeRadioPublic" value="option2" data-compulsory="false">
+                                Public
+                                <span class="circle">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+
+                          <!-- Level and Subject  -->
+                          <div class="row" style="margin: 0.5rem 0 0 0.5rem;  display: none;" id="levelSubjectTop">
+                            <div class="col-md-6">
+                                <!-- Education Level -->
+                              <div class="form-group" >
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray;">Education Level*</span>
+                                <select class="form-control" name="tutor_course[]" id="level_drop" data-compulsory="false" oninput="this.className = 'form-control'">
+                                  <option value="">Select education level</option>
+                                  <!-- <option value="1" >Pre-School</option>
+                                  <option value="2" >Lower Primary (Tahun 1-3)</option>
+                                  <option value="3" >Upper Primary (UPSR)</option>
+                                  <option value="4" >Form 1-3 (PT3)</option>
+                                  <option value="5" >Form 4-5 (SPM)</option>
+                                  <option value="6" >Primary (International Syllabus)</option>
+                                  <option value="7" >Lower Secondary (International Syllabus)</option>
+                                  <option value="8" >Year 10-11 (IGCSE)</option>
+                                  <option value="9" >Others</option> -->
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <!-- Subjects -->
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray;" >Subject*</span>
+                                <select class="form-control" name="tutor_course[]" id="subject_drop" data-compulsory="false" oninput="this.className = 'form-control'">
+                                  <option value="">Select subject</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Online Only  -->
+                          <div class="row" style="margin: 0.5rem 0 0 1.5rem; display: none;" id="onlineOnlyTop">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" value="" id="onlineonly_check" data-compulsory="false">
+                                <span class="form-check-sign">
+                                  <span class="check"></span>
+                                </span>
+                                Online Only?
+                              </label>
+                            </div>
+                          </div>
+
+                          <!-- Area and State -->
+                          <div class="row" style="margin: 0.5rem 0 1.5rem 0.5rem; display: none;" id="areaStateTop">
+                            <div class="col-md-6">
+                                <!-- State -->
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray;">State</span>
+                                <select class="form-control" name="tutor_course[]" id="state_drop" data-compulsory="false">
+                                  <option value="">Select state</option>
+
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <!-- Area -->
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray;" >Area</span>
+                                <select class="form-control" name="tutor_course[]" id="area_drop" data-compulsory="false">
+                                  <option value="">Select area</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Spacer  -->
+                          <!-- <div style="margin-top: 2rem;"></div> -->
+
+                          <!-- Student Limit -->
+                          <div class="form-group" style="margin-top: 0rem;">
+                            <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Student Limit</span>
+                            <input type="number" class="form-control" value="20"  id="inStudentLimit" data-compulsory="true" oninput="this.className = 'form-control'; checkStudentLimit();">
+                          </div>
+
+                          <!-- Spacer  -->
+                          <div style="margin-top: 1.5rem;"></div>
+
+                          <!-- Permission -->
+                          <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Special Permissions</span>
+                          <div class="form-check" style="margin-top: 1.0rem;">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" id="stuAutoJoinEn" checked>
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                              Allow students to join class through invitation link.
+                            </label>
+                          </div>
+
+                          <!-- Invite Link: Show when above is checked -->
+                          <div class="form-group"  style="padding: 0.5rem; margin-top: 1rem; display: none; " id="inAutoJoinLinkTop">
+                            <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Copy Student Registration Link:</span>
+                            <div class="input-group">
+                              <span class="d-flex align-items-center input-group-addon" id="btnCopyAutoJoinLink" style="margin-right: 0.5em; cursor: pointer;" onclick="copyText('inAutoJoinLink')">
+                                <span class="material-icons">
+                                  content_copy
+                                </span>
+                              </span>
+                              <input type="text" value='' class="form-control" style="background-color: #e9ecef; pointer-events: none;" id="inAutoJoinLink">
+                            </div>
+                          </div>
+
+                          <div class="form-check" style="margin-top: 1.0rem;">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" id="tAddEditLessonEn">
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                              Authorize teachers to create and edit lessons.
+                            </label>
+                          </div>
+                          <div class="form-check" style="margin-top: 1.0rem;">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" id="tDelLessonEn">
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                              Authorize teachers to remove lessons.
+                            </label>
+                          </div>
+                          <div class="form-check" style="margin-top: 1.0rem;">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" id="tAddRibbonEn">
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                              Add A Ribbon
+                            </label>
+                          </div>
+                          <!-- Ribbon: Show when above is checked -->
+                          <div class="row" id="inRibbonSettings" style="display: none;">
+
+                            <div class="col-md-4 full">
+                              <p class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Pick A Color</p>
+                              <input type="text" class="coloris" value="" id="inLabelColor">
+
+                              <p class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Content (Max 2 Chars / 1 Emoji ❤️)</p>
+                              <input type="text" class="form-control" id="inLabelText" data-compulsory="false" maxlength="2">
+                            </div>
+                            <div class="col-md-8">
+
+                              <div class="card"  style="height: 70px; width: 200px">
+                                <div class="ribbon down">
+                                  <div class="content" id="inLabelSample"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Spacer  -->
+                          <div style="margin-top: 2rem;"></div>
+
+                          <!-- Status -->
+                          <div class="row">
+                            <div class="col-sm-12 text-left">
+                              <span class="" style="font-size: smaller; font-weight: 300; color: gray;">Class Status</span>
+                              <span class="tooltiptext-trigger">?
+                                <span class="tooltiptext-general">
+                                  <h6>Class Status</h6>
+                                  <p>Set to <strong style="color: #2e74b6;">Inactive</strong> to pause the class new intake, hide from the public, and disallow edits to the class.</p>
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <div class="form-check form-check-radio form-check-inline">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="classStatus" id="classStatusRadioActive" value="optionActive" data-compulsory="false" checked>
+                                Active
+                                <span class="circle">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>
+                            <div class="form-check form-check-radio form-check-inline">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="classStatus" id="classStatusRadioInactive" value="optionInactive" data-compulsory="false" disabled>
+                                Inactive
+                                <span class="circle">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+
+                          <!-- <div class="form-check" style="margin-top: 1.0rem;">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" id="t2AddEditStuEn" disabled>
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                              Teacher 2 Add / Edit Student
+                            </label>
+                          </div>
+                          <div class="form-check" style="margin-top: 1.0rem;">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" id="t2DelStuEn" disabled>
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                              Teacher 2 Remove Student
+                            </label>
+                          </div>
+                          <div class="form-check" style="margin-top: 1.0rem;">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" id="t2AddEditLessonEn" disabled>
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                              Teacher 2 Add / Edit Lesson Details
+                            </label>
+                          </div>
+                          <div class="form-check" style="margin-top: 1.0rem;">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" value="" id="t2DelLessonEn" disabled>
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                              Teacher 2 Remove Lesson Details
+                            </label>
+                          </div> -->
+
+
+                          <div class="button-row d-flex mt-4">
+                            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+                            <button class="btn btn-success ml-auto js-btn-send" type="button" title="Send">Create Class</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+          <ul>
+            <!-- <li>
+            <a href="https://golearn.com.my/join-us" target="_blank">
+              Visit GoLearn Tutor
+            </a>
+            </li> -->
+          </ul>
+          </nav>
+          <!-- <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>
+            , made with <i class="material-icons">favorite</i> by <a href="#" >GoLearn Team</a>
+          </div> -->
+          <!-- your footer here -->
+        </div>
+      </footer>
+    </div>
+
+  </div>
+
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Tutor Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+  <!-- Color Picker -->
+  <script src="../../assets/js/coloris.min.js" type="text/javascript"></script>
+  <script>
+
+    var  tutorBtnNum; // used to differentiate btn Teacher 1 / 2
+    var latestAdminTutorDoc = null;// Store last document - Used for Admin's Tutor Load More btn in Add Teacher Modal
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+
+      initPage();
+
+      // var adminClassNum = sessionStorage.getItem(SESSION_STORAGE_CLASS_NUM_KEY);
+
+      // console.log(adminClassNum)
+      // console.log(current_accountStatus)
+
+      // if (adminClassNum == null || adminClassNum == ""){
+      //   window.location = "./";
+      // }else {
+      //   if (current_accountStatus == DEACTIVATED_ACCOUNT_STATUS_KEY ||
+      //     current_accountStatus == ACTIVE_ACCOUNT_STATUS_KEY){
+      //     // Note: ClassNum_Active = ClassNum_Deactivated
+      //     if (adminClassNum >= ClassNum_Active){
+      //       window.location = "./";
+      //     }
+      //   }
+      //   else if (current_accountStatus == PREMIUM_ACCOUNT_1_STATUS_KEY || current_accountStatus == PREMIUM_ACCOUNT_1_ACTIVE_STATUS_KEY){
+      //     if (adminClassNum >= ClassNum_Premium1){
+      //       window.location = "./";
+      //     }
+      //   }
+      //   else if (current_accountStatus == PREMIUM_ACCOUNT_2_STATUS_KEY || current_accountStatus == PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY ||
+      //     current_accountStatus == PREMIUM_ACCOUNT_3_STATUS_KEY || current_accountStatus == PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY){
+      //     // Note: ClassNum_Premium2 = ClassNum_Premium3
+      //     if (adminClassNum >= ClassNum_Premium2){
+      //       window.location = "./";
+      //     }
+      //   }
+      //   else {
+      //     // Deactivated or other status
+      //     window.location = "./";
+      //   }
+
+      // }
+    }
+
+    // This function check the validity of imgUrl. Return true when invalid.
+    function tutorImgUrlChecker(imgUrl){
+      // Tutor Panel
+      let isHelloGifExist = false ;
+      let helloGifArr =  imgUrl.match(/hello.gif/gi)
+      if ( helloGifArr != null) {
+        if (helloGifArr.length > 0){
+          isHelloGifExist = true;
+        }
+      }
+      let isEmptyPhotoPngExist = false;
+      let emptyPhotoPngArr = imgUrl.match(/empty-photo.png/gi)
+      if ( emptyPhotoPngArr != null) {
+        if (emptyPhotoPngArr.length > 0){
+          isEmptyPhotoPngExist = true;
+        }
+      }
+      let isGeneratedAvatar = false;
+      let generatedAvatarArr = imgUrl.match(/data:image\/png;base64,/gi)
+      if ( generatedAvatarArr != null) {
+        if (generatedAvatarArr.length > 0){
+          isGeneratedAvatar = true;
+        }
+      }
+
+      if (isHelloGifExist || isEmptyPhotoPngExist || isGeneratedAvatar)
+        return true;
+      else
+        return false;
+    }
+
+
+    //---------- Init All Admin's Teacher details ----------//
+    const tutorAdminLoadmore = document.querySelector('#btnAddTeacherModalLoadMore');
+    tutorAdminLoadmore.style.visibility='hidden';
+
+    const tutorAdminLoadMoreHandleClick = () =>{
+      loadAllAdminTeachers(tutorBtnNum)
+    }
+    tutorAdminLoadmore.addEventListener('click', tutorAdminLoadMoreHandleClick );
+
+
+    // Initialized page view
+    function initPage(){
+      document.getElementById("viewTutor1ImgUrl").src = ent_imgUrl;
+      document.getElementById("inTutor1Name").value = ent_name;
+      document.getElementById("inTutor1Phone").value = ent_phone;
+      document.getElementById("inTutor1Name").setAttribute("data-tutor1Id", ent_id);
+      tutor1Id = ent_id;
+      tutor1Name = ent_name;
+      tutor1Phone = ent_phone;
+      tutor1ImgUrl = ent_imgUrl;
+
+      document.getElementById("inTutor2Name").value = "";
+      document.getElementById("inTutor2Name").setAttribute("data-tutor2Id", "");
+      document.getElementById("inTutor2Phone").value = "";
+      tutor2Id = "";
+      tutor2Name = "";
+      tutor2Phone = "";
+      tutor2ImgUrl = "";
+
+      // Enable changes to Tutor 1
+      document.getElementById("btnAddTeacher1").setAttribute("data-toggle", "modal");
+      document.getElementById("btnAddTeacher1").setAttribute("style", "pointer-events: fill; background-color: #fff;");
+      document.getElementById("btnAddTeacher2").setAttribute("data-toggle", "modal");
+      document.getElementById("btnAddTeacher2").setAttribute("style", "pointer-events: none; background-color: #e9ecef;");
+
+      // Update Myself in Add Teacher Modal
+      document.getElementById("viewTutorMySelfImgUrl").src = ent_imgUrl;
+      document.getElementById("viewTutorMySelfName").textContent = ent_name;
+      document.getElementById("viewTutorMySelfPhone").textContent = ent_phone;
+      document.getElementById("viewTutorMySelfAge").textContent =  '-';
+      const btnSelectMyself = document.getElementById("btnSelectMyself");
+      btnSelectMyself.setAttribute('onclick', "AddNewTutorToField('"+ ent_id+"', `"+ent_name+"`, '"+ent_phone+"', `"+ent_imgUrl+"`)");
+
+
+    }
+
+    // Create Class
+    function CreateClass(){
+      var docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Class")
+          .doc();
+
+      let tutor1Id_temp = document.getElementById("inTutor1Name").getAttribute("data-tutor1Id");
+      let tutor1Name_temp = document.getElementById("inTutor1Name").value;
+      let tutor1Phone_temp = document.getElementById("inTutor1Phone").value;
+      let tutor1_imgurl = document.getElementById("viewTutor1ImgUrl").src;
+      // Check if tutor1_imgurl is valid. If no, set to empty
+      if (tutor1_imgurl == null || tutor1_imgurl == "" || tutorImgUrlChecker(tutor1_imgurl)){
+        tutor1_imgurl = "";
+      }
+      else {
+        // Do nothing, remain the same.
+        // tutor1_imgurl = tutor1_imgurl;
+      }
+
+
+        // Notice that I use .add(..), instead of .set(..). This is because the docRef do not specify the docId.
+      let docData = {
+        [CLASS_ID]: docRef.id,
+        [CLASS_NAME]: document.getElementById("inClassName").value,
+        [CLASS_IMG_URL]: '',
+        [CLASS_DESC]: document.getElementById("inClassDesc").value,
+        [CLASS_CATEGORY_KEY]: category,
+        [CLASS_CATEGORY_ID_KEY]: categoryId,
+        [CLASS_SUBJECT_KEY]: subject,
+        [CLASS_SUBJECT_ID_KEY]: subjectId,
+        [CLASS_ONLINE_KEY]: document.getElementById("onlineonly_check").checked,
+        [CLASS_STUDENT_LIMIT]: document.getElementById("inStudentLimit").value,
+        [CLASS_ANNOUNCEMENT]: '',
+        [CLASS_CLASS_URL]: document.getElementById("inUrlClass").value,
+        [CLASS_CHAT_GROUP_URL]: document.getElementById("inUrlGroup").value,
+        [CLASS_MATERIAL_URL]: document.getElementById("inUrlMaterial").value,
+
+        [CLASS_TYPE]: (document.getElementById("classTypeRadioPrivate").checked)? CLASS_TYPE_PRIVATE : CLASS_TYPE_PUBLIC,
+        [CLASS_STATUS]: (document.getElementById("classStatusRadioActive").checked)? CLASS_STATUS_ACTIVE : CLASS_STATUS_INACTIVE,
+        [CLASS_VENUE]: document.getElementById("inVenue").value,
+        [CLASS_STATE_KEY]: gStateName,
+        [CLASS_STATE_ID_KEY]: gState,
+        [CLASS_AREA_KEY]: gAreaName,
+        [CLASS_AREA_ID_KEY]: gArea,
+
+        // Time slot
+        [CLASS_TIMESLOT_DAY_OF_WEEK_ARR]: dayOfWeekArr,
+        [CLASS_TIMESLOT_START_ARR]: startTimeArr,
+        [CLASS_TIMESLOT_END_ARR]: endTimeArr,
+        // IDs
+        [CLASS_ADMIN_ID]: ent_id,
+        [CLASS_TUTOR_ID_ARR]: [tutor1Id_temp, tutor2Id, ent_id],
+        [CLASS_TUTOR_NAME_ARR]: [tutor1Name_temp, tutor2Name],
+        [CLASS_TUTOR_PHONE_ARR]: [tutor1Phone_temp, tutor2Phone],
+        [CLASS_TUTOR_IMG_URL_ARR]: [tutor1_imgurl, tutor2ImgUrl],
+        [CLASS_STUDENT_ID_ARR]: [],
+        [CLASS_VIEWER_ID_ARR]:[],
+        // Fee type
+        [CLASS_FEES_KEY]: document.getElementById("inFee").value,
+        [CLASS_FEES_PER_MONTH_KEY]: (document.getElementById("feeTypePerMonthRadio").checked)? document.getElementById("inFee").value : document.getElementById("inFee").value * 2 * 4,
+        [CLASS_FEES_TYPE_KEY]: (document.getElementById("feeTypePerMonthRadio").checked)? FEES_TYPE_PER_MONTH_KEY : FEES_TYPE_PER_HOUR_KEY,
+        // Special Permission
+        // [CLASS_TUTOR1_ADD_EDIT_STUDENT_ENABLE]: (document.getElementById("t1AddEditStuEn").checked)? true : false,
+        // [CLASS_TUTOR1_REMOVE_STUDENT_ENABLE]: (document.getElementById("t1DelStuEn").checked)? true : false,
+        // [CLASS_TUTOR1_ADD_EDIT_LESSON_ENABLE]: (document.getElementById("t1AddEditLessonEn").checked)? true : false,
+        // [CLASS_TUTOR1_REMOVE_LESSON_ENABLE]: (document.getElementById("t1DelLessonEn").checked)? true : false,
+        // [CLASS_TUTOR2_ADD_EDIT_STUDENT_ENABLE]: (document.getElementById("t2AddEditStuEn").checked)? true : false,
+        // [CLASS_TUTOR2_REMOVE_STUDENT_ENABLE]: (document.getElementById("t2DelStuEn").checked)? true : false,
+        // [CLASS_TUTOR2_ADD_EDIT_LESSON_ENABLE]: (document.getElementById("t2AddEditLessonEn").checked)? true : false,
+        // [CLASS_TUTOR2_REMOVE_LESSON_ENABLE]: (document.getElementById("t2DelLessonEn").checked)? true : false,
+        [CLASS_TUTOR_ADD_EDIT_LESSON_ENABLE]: (document.getElementById("tAddEditLessonEn").checked)? true : false,
+        [CLASS_TUTOR_REMOVE_LESSON_ENABLE]: (document.getElementById("tDelLessonEn").checked)? true : false,
+        [CLASS_STUDENT_AUTO_JOIN_ENABLE]: (document.getElementById("stuAutoJoinEn").checked)? true : false,
+        [CLASS_LABEL_ENABLE]: (document.getElementById("tAddRibbonEn").checked)? true : false,
+        [CLASS_LABEL_COLOR]: document.getElementById("inLabelColor").value,
+        [CLASS_LABEL_TEXT]: document.getElementById("inLabelText").value,
+
+        [CLASS_DATE_ADD]: new Date(),
+        [CLASS_DATE_EDIT]: new Date(),
+        [CLASS_DATE_DEL]: '',
+        [CLASS_EDIT_MSG]: 'Created by '+ ent_name, // Update: CLASS_DATE_EDIT + CLASS_EDIT_MSG
+
+        // [DATE_CREATED_KEY]: new Date(),
+        // [DATE_CLOSED_KEY]: "",
+        [STATUS_KEY]: true,
+      }
+
+      // console.log("Create Class");
+      // console.log(docData);
+
+      // ----- Get the Class Number doc ----- //
+      // So we can update it the next stage.
+      let classNumReportDocRef = db.collection("dev")
+        .doc("v2")
+        .collection("General")
+        .where(NUM_ADMIN_ID, "==", ent_id)
+        .where(NUM_TYPE, "==", NUM_TYPE_CLASS);
+
+      var promiseAll = []
+
+      promiseAll.push(docRef.set( docData, { merge: true }))
+      // promiseAll.push(classNumReportDocRef.get())
+
+      Promise.all(promiseAll).then((snapshots) => {
+
+        // var promiseAllLayer2 = []
+        // console.log(snapshots[0])
+        // // console.log(snapshots[0].size)
+        // console.log(snapshots[1])
+        // console.log(snapshots[1].size)
+        // if(snapshots[1].size == 0 ) {
+        //   console.log("Empty class number report. create a new one ");
+        //   alert('Empty class number report. create a new one')
+        //   let reportDocRef = db.collection("dev")
+        //     .doc("v2")
+        //     .collection("General")
+        //     .doc();
+
+        //   let reportData ={
+        //     [NUM_ID]: reportDocRef.id,
+        //     [NUM_ADMIN_ID]: ent_id,
+        //     [NUM_TYPE]: NUM_TYPE_CLASS,
+        //     [NUM_VALUE]: 1,
+        //     [NUM_DATE_EDIT]: new Date(),
+        //   }
+        //   console.log(reportData)
+        //   promiseAllLayer2.push( reportDocRef.set(reportData, { merge: true }))
+        //   // reportDocRef
+        //   //   .set(reportData, { merge: true })
+        //   //   .then(() => {
+        //   //     window.location.href='./';
+        //   //   });
+        // }
+        // else if (snapshots[1].size > 1) {
+        //   console.log("More than 1 class number reports. Report Admin ");
+        //   alert('More than 1 class number reports. Report Admin')
+
+        // }
+        // else {
+        //   snapshots[1].forEach((doc) => {
+        //     // console.log(doc.data());
+        //     let reportDocRef = db.collection("dev")
+        //       .doc("v2")
+        //       .collection("General")
+        //       .doc(doc.data()[NUM_ID]);
+
+        //     let reportData ={
+        //       // [NUM_ID]: reportDocRef.id,
+        //       // [NUM_ADMIN_ID]: ent_id,
+        //       // [NUM_TYPE]: ,
+        //       [NUM_VALUE]: (doc.data()[NUM_VALUE] == null || doc.data()[NUM_VALUE] == "" || doc.data()[NUM_VALUE] == 0 || isNaN(doc.data()[NUM_VALUE])) ? 1 : parseInt(doc.data()[NUM_VALUE]) + 1,
+        //       [NUM_DATE_EDIT]: new Date(),
+        //     }
+        //     console.log(reportData)
+        //     promiseAllLayer2.push( reportDocRef.update(reportData))
+
+        //     // reportDocRef
+        //     //   .set(reportData, { merge: true })
+        //     //   .then(() => {
+        //     //     window.location.href='./';
+        //     //   });
+
+        //   });
+
+        // }
+
+        // return Promise.all(promiseAllLayer2)
+
+        return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_CLASS, 'asc', 1) )
+
+      })
+      .then(() => {
+        window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+      })
+      .catch((e) => {
+        alert(e.message)
+      })
+
+
+      // docRef.set( docData, { merge: true })
+      // .then(() => {
+      //   // Report: Update the class num in Reporting
+      //   updateClassNum(1);
+
+      // });
+
+
+
+    }
+
+    // Report: Update Class Number
+    function updateClassNum(value){
+
+      let docRef = db.collection("dev")
+        .doc("v2")
+        .collection("General")
+        .where(NUM_ADMIN_ID, "==", ent_id)
+        .where(NUM_TYPE, "==", NUM_TYPE_CLASS)
+        .limit(1);
+
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.size == 0 ) {
+          console.log("Empty. create new doc ");
+          let reportDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("General")
+            .doc();
+
+          reportData ={
+            [NUM_ID]: reportDocRef.id,
+            [NUM_ADMIN_ID]: ent_id,
+            [NUM_TYPE]: NUM_TYPE_CLASS,
+            [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(value),
+            [NUM_DATE_EDIT]: new Date(),
+          }
+
+          console.log(reportData)
+          reportDocRef
+            .set(reportData, { merge: true })
+            .then(() => {
+              window.location.href='./';
+            });
+
+        }
+        else {
+          // console.log("Data found Update: ");
+
+          querySnapshot.forEach((doc) => {
+
+            console.log(doc.data());
+
+            let reportDocRef = db.collection("dev")
+              .doc("v2")
+              .collection("General")
+              .doc(doc.data()[NUM_ID]);
+
+
+            reportData ={
+              // [NUM_ID]: reportDocRef.id,
+              // [NUM_ADMIN_ID]: ent_id,
+              // [NUM_TYPE]: ,
+              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(doc.data()[NUM_VALUE]) + parseInt(value),
+              [NUM_DATE_EDIT]: new Date(),
+            }
+
+            console.log(reportData)
+            reportDocRef
+              .set(reportData, { merge: true })
+              .then(() => {
+                window.location.href='./';
+              });
+
+          });
+
+
+        }
+
+
+      });
+
+    }
+
+
+    // Load All Teachers that owned by class admin.
+    var allTutorModuleDoc = []; // Reset all Tutors doc
+    function loadAllAdminTeachers(tutorBtnNum){
+
+      allTutorModuleDoc = []; // Init All Tutors Doc array
+      // STUDENT Module
+      let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Tutor")
+          .where(TUTOR_ADMIN_ID, "==", ent_id)
+          .where(TUTOR_STATUS_ADMIN, "==", TUTOR_STATUS_TYPE_ACTIVE)
+          .orderBy(TUTOR_TUTOR_NAME, 'asc')
+          .startAfter(latestAdminTutorDoc)
+          .limit(25);
+
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // console.log(doc.data().id);
+          allTutorModuleDoc.push(doc.data());
+          renderAllAdminTeachers(doc, tutorBtnNum);
+        });
+
+        latestAdminTutorDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+        // console.log(querySnapshot.docs.length)
+        // Handle Lesson Load more btn
+        if (querySnapshot.empty){
+          tutorAdminLoadmore.removeEventListener('click', tutorAdminLoadMoreHandleClick );
+        }
+
+        if (querySnapshot.docs.length == 25){
+          tutorAdminLoadmore.style.visibility='visible';
+        }else{
+          tutorAdminLoadmore.style.visibility='hidden';
+        }
+
+
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+
+
+    }
+
+    // Render all teachers view in Add Teachers Modal
+    function renderAllAdminTeachers(doc, tutorBtnNum){
+      //  <div class="row tutor-wrapper text-center">
+      //   <div class="col-md-2">
+      //     <div style="height: 50px; width: 50px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%;">
+      //       <img style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/test.jpg"/>
+      //     </div>
+      //   </div>
+      //   <div class="col-md-3">
+      //     <p class='tutor-item'>Alric Liew</p>
+      //   </div>
+      //   <div class="col-md-3">
+      //     <p class='tutor-item'>Phone</p>
+      //   </div>
+      //   <div class="col-md-2">
+      //     <p class='tutor-item'>12</p>
+      //   </div>
+
+      //   <div class="col-md-2">
+      //     <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="btnSelectTutor">Select</button>
+      //   </div>
+      // </div>
+
+      let imgUrl_temp = "";
+      let img = document.createElement('img');
+      img.setAttribute('style', 'height: 100%; width: 100%; object-fit: cover;');
+      // img.src = doc.data()[TUTOR_TUTOR_IMG_URL];
+
+      // Check if img is valid. If no, create a 2 chars avatar
+      if (doc.data()[TUTOR_TUTOR_IMG_URL] == null || doc.data()[TUTOR_TUTOR_IMG_URL] == ""
+      || doc.data()[TUTOR_TUTOR_IMG_URL] == "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"
+      || tutorImgUrlChecker(doc.data()[TUTOR_TUTOR_IMG_URL])){
+
+        let AvatarText = doc.data()[TUTOR_TUTOR_NAME][0] + doc.data()[TUTOR_TUTOR_NAME][1];
+        img.src = generateAvatar(AvatarText, "#eaeaea", "#f6f6f6", "100px");
+        imgUrl_temp = "";
+
+      }
+      else {
+        img.src = doc.data()[TUTOR_TUTOR_IMG_URL];
+        imgUrl_temp = doc.data()[TUTOR_TUTOR_IMG_URL];
+      }
+
+      let img_div = document.createElement('div');
+      img_div.setAttribute('style', 'height: 50px; width: 50px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%;');
+      img_div.appendChild(img);
+      let imgTop_div = document.createElement('div');
+      imgTop_div.className = "col-md-2";
+      imgTop_div.appendChild(img_div);
+
+
+      let tutorName_p = document.createElement('p');
+      tutorName_p.className = "tutor-item";
+      tutorName_p.textContent = doc.data()[TUTOR_TUTOR_NAME];
+      let tutorName_div = document.createElement('div');
+      tutorName_div.className = "col-md-3";
+      tutorName_div.appendChild(tutorName_p);
+
+      let tutorPhone_p = document.createElement('p');
+      tutorPhone_p.className = "tutor-item";
+      tutorPhone_p.textContent = doc.data()[TUTOR_TUTOR_PHONE];
+      let tutorPhone_div = document.createElement('div');
+      tutorPhone_div.className = "col-md-3";
+      tutorPhone_div.appendChild(tutorPhone_p);
+
+      let tutorAge_p = document.createElement('p');
+      tutorAge_p.className = "tutor-item";
+      tutorAge_p.textContent = doc.data()[TUTOR_TUTOR_AGE];
+      let tutorAge_div = document.createElement('div');
+      tutorAge_div.className = "col-md-2";
+      tutorAge_div.appendChild(tutorAge_p);
+
+      let sel_btn = document.createElement('button');
+      sel_btn.className = "btn btn-primary btn-sm";
+      sel_btn.textContent = 'Select';
+      sel_btn.setAttribute('data-dismiss','modal');
+      sel_btn.setAttribute('type','button')
+      sel_btn.setAttribute('onclick',"AddNewTutorToField('"+ doc.data()[TUTOR_TUTOR_ID]+"', `"+doc.data()[TUTOR_TUTOR_NAME]+"`, '"+doc.data()[TUTOR_TUTOR_PHONE]+"', `"+imgUrl_temp+"`)");
+      let sel_div = document.createElement('div');
+      sel_div.className = "col-md-2";
+      sel_div.appendChild(sel_btn);
+
+      let tutorDetail_div = document.createElement('div');
+      tutorDetail_div.className = 'row tutor-wrapper text-center';
+      tutorDetail_div.appendChild(imgTop_div);
+      tutorDetail_div.appendChild(tutorName_div);
+      tutorDetail_div.appendChild(tutorPhone_div);
+      tutorDetail_div.appendChild(tutorAge_div);
+      tutorDetail_div.appendChild(sel_div);
+
+      const add_tutor_modal_container = document.getElementById("add-tutor-modal-container");
+      add_tutor_modal_container.appendChild(tutorDetail_div);
+
+      // add_tutor_modal_container.insertBefore(tutorDetail_div, add_tutor_modal_container.children[1])
+    }
+
+    // Add the tutor 1 data to fields
+    function AddNewTutorToField(ent_id, tutorName, tutorPhone, tutorImgUrl){
+
+      // Check if img is valid. If no, create a 2 chars avatar
+      if (tutorImgUrl == null || tutorImgUrl == "" || tutorImgUrlChecker(tutorImgUrl)){
+        let AvatarText = tutorName[0] + tutorName[1];
+        document.getElementById("viewTutor1ImgUrl").src = generateAvatar(AvatarText, "#eaeaea", "#f6f6f6", "100px");
+      }
+      else {
+        document.getElementById("viewTutor1ImgUrl").src = tutorImgUrl;
+      }
+
+      // document.getElementById("viewTutor1ImgUrl").src = tutorImgUrl;
+      document.getElementById("inTutor1Name").value = tutorName;
+      document.getElementById("inTutor1Phone").value = tutorPhone;
+      document.getElementById("inTutor1Name").setAttribute("data-tutor1Id", ent_id);
+      func.showNotification('top','center', 'success', 'check_circle', "New tutor added.");
+    }
+
+    // Check the student limit
+    // TODO: Use settings from Settings > v1 > Profile > ...
+    function checkStudentLimit(){
+
+      let stuLimit = document.getElementById("inStudentLimit").value;
+      let fixedStuLimit = 99;
+
+      // if (current_accountStatus === DEACTIVATED_ACCOUNT_STATUS_KEY ||
+      //   current_accountStatus === SUSPENDED_ACCOUNT_STATUS_KEY ||
+      //   current_accountStatus === ACTIVE_ACCOUNT_STATUS_KEY  ){
+      //   fixedStuLimit = ProfileSettingsValue_Active[ProfileSettings.indexOf('aStudentNum')];
+      //   // document.getElementById("inStudentLimit").value = (stuLimit > fixedStuLimit) ? fixedStuLimit : stuLimit;
+      // }
+      // else
+      // {
+      //   fixedStuLimit = ProfileSettingsValue_Premium[ProfileSettings.indexOf('aStudentNum')];
+      //   // document.getElementById("inStudentLimit").value = (stuLimit > fixedStuLimit) ? fixedStuLimit : stuLimit;
+      // }
+
+      if (stuLimit > fixedStuLimit){
+        document.getElementById("inStudentLimit").value = fixedStuLimit;
+      }else if (stuLimit < 1){
+        document.getElementById("inStudentLimit").value = 1;
+      }else {
+        document.getElementById("inStudentLimit").value = stuLimit;
+      }
+    }
+
+    // Remove Time Slot
+    function removeTimeSlot(id){
+      $( "#timeSlot-"+id ).remove();
+    }
+
+  </script>
+
+  <!-- Script -->
+  <script>
+
+    // Global var
+    var gState ='';
+    var gArea ='';
+    var gLevel ='';
+    var gSubject ='';
+    var gOnlineOnly = false;
+
+    var gStateName='';
+    var gAreaName ='';
+    var gLevelName = '';
+    var gSubjectName = '';
+
+    var categoryId= '';
+    var category= '';
+    var subjectId= '';
+    var subject= '';
+    var online = false;
+
+    // Teacher 1 & 2
+    var tutor1Id = '';
+    var tutor2Id = '';
+    var tutor1Name = '';
+    var tutor2Name = '';
+    var tutor1Phone = '';
+    var tutor2Phone = '';
+    var tutor1ImgUrl = '';
+    var tutor2ImgUrl = '';
+
+    // Time Slot
+    var dayOfWeekArr = [];
+    var startTimeArr = [];
+    var endTimeArr = [];
+
+    $( document ).ready(function() {
+
+      // General Panel: Character limitations
+      $('#inClassName').on('input', function(){
+        document.getElementById("countClassName").textContent = this.value.length + '/40'
+      });
+
+      $('#inClassDesc').on('input', function(){
+        document.getElementById("countClassDesc").textContent = this.value.length + '/400'
+      });
+
+      $('#inVenue').on('input', function(){
+        document.getElementById("countClassVenue").textContent = this.value.length + '/250'
+      });
+
+      // General Panel: Script to trigger the select image
+      $('#tutorImgUrl').click(function(){
+         $('#select_image').trigger('click');
+      });
+
+      // ------Education Level Dropdown End------- //
+      // Populate Education Level
+      var level_select = document.getElementById("level_drop");
+      var level = Category;
+      var catId = CategoryId;
+      for (var i = 0; i < level.length; i++) {
+        var opt = level[i];
+        var el = document.createElement("option");
+        el.setAttribute("value", catId[i]);
+        el.textContent = opt;
+        el.value = catId[i];
+        level_select.appendChild(el);
+      }
+
+      // Populate Subject based on selected education level
+      $('#level_drop').on('change', function(){
+        // Initialization
+        // Reasign subject after the level change. It suppose to be defaulted to "Select subject"
+        subjectId = '';
+        subject = '';
+
+        // Get the text of the selected item
+        let LevelId_selected = $(this).val(); // Value of the selected item
+        let LevelTxt = $(this).find("option:selected").text();
+        categoryId = LevelId_selected;
+        category = LevelTxt;
+
+        // Clear the area option first, except the first one. 100 is a just a huge number
+        var subject_drop = document.getElementById("subject_drop");
+        for(i=1; i <= 100; i++){
+          subject_drop.remove(1);
+        }
+
+        if  (!(categoryId == "" || categoryId == null )){
+          let subjectInfo = selectSubjectListBasedOnLevelId(LevelId_selected);// Get the subject info
+          let options = subjectInfo[0];
+          let optionIds = subjectInfo[1];
+
+          for (let i = 0; i < options.length; i++) {
+            let opt = options[i];
+            let optId = optionIds[i];
+            let el = document.createElement("option");
+            el.textContent = opt;
+            el.value = optId;
+            subject_drop.appendChild(el);
+          }
+        }
+      });
+
+      // ------Subject Dropdown Start------- //
+      $('#subject_drop').on('change', function(){
+        // Get the val and text of the selected item
+        subjectId = $(this).val()
+        subject = $(this).find("option:selected").text();
+      });
+      // ------Subject Dropdown End------- //
+
+      $('#onlineonly_check').on('change', function(){
+        // Get the checkbox
+        var onlineonly_check = document.getElementById("onlineonly_check");
+        gOnlineOnly = onlineonly_check.checked;
+        // If the checkbox is checked, display the output text
+        if (onlineonly_check.checked){
+            document.getElementById("state_drop").disabled=true;
+            document.getElementById("area_drop").disabled=true;
+            document.getElementById("state_drop").style.backgroundColor = "#e9ecef" ;
+            document.getElementById("area_drop").style.backgroundColor="#e9ecef" ;
+            document.getElementById("state_drop").setAttribute('data-compulsory', 'false') ;
+            document.getElementById("area_drop").setAttribute('data-compulsory', 'false') ;
+        } else {
+            document.getElementById("state_drop").disabled=false;
+            document.getElementById("area_drop").disabled=false;
+            document.getElementById("state_drop").style.backgroundColor = "#fff" ;
+            document.getElementById("area_drop").style.backgroundColor="#fff" ;
+            document.getElementById("state_drop").setAttribute('data-compulsory', 'true') ;
+            document.getElementById("area_drop").setAttribute('data-compulsory', 'true') ;
+        }
+        // checkSelection(onlineonly_check.checked);
+       });
+
+      // ------State Dropdown start------- //
+      let state_select = document.getElementById("state_drop");
+      for (let i = 0; i < MYAllState.length; i++) {
+        let el = document.createElement("option");
+        el.textContent = MYAllState[i];
+        el.value = MYAllStateId[i];
+        state_select.appendChild(el);
+      }
+
+      // Populate Area based on selected State
+      $('#state_drop').on('change', function(){
+          // Initialization
+          // Reasign area after the statre change. It suppose to be defaulted to "Select area"
+          gArea = '';
+          gAreaName = '';
+
+          // Get the val and txt of the selected state
+          let StateId = $(this).val();
+          let StateName = $(this).find("option:selected").text();
+          gState = StateId;
+          gStateName = StateName
+
+          let select_area = document.getElementById("area_drop");
+          // Clear the area option first, except the first one. 100 is just a magic number
+          for(i=1; i <= 100; i++){
+              select_area.remove(1);
+          }
+
+          // Generate all cities based on stateId
+          if  (!(StateId == "" || StateId == null )){
+            let stateInfo = selectCityListBasedOnStateId (gState);
+            for (let i = 0; i < stateInfo[0].length; i++) {
+              let el = document.createElement("option");
+              el.textContent = stateInfo[0][i];
+              el.value = stateInfo[1][i];;
+              select_area.appendChild(el);
+            }
+          }
+      });
+      // ------Area Dropdown Start------- //
+      $('#area_drop').on('change', function(){
+          // let selected_areaId = $(this).val()
+          // let selected_area = $(this).find("option:selected").text();
+          gArea = $(this).val()
+          gAreaName = $(this).find("option:selected").text();
+          // checkSelection(gOnlineOnly);
+      });
+
+      // Populate Time Slot
+      $('#btnAddTimeSlot').on('click', function(e) {
+
+        e.preventDefault();
+        var x = document.getElementById("timeSlot-container").childElementCount;
+        // alert(x)
+        // <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">End Time</span>
+
+        let dayOfWeek_form_label = document.createElement('span');
+        dayOfWeek_form_label.className = "";
+        dayOfWeek_form_label.textContent = "Day of Week";
+        dayOfWeek_form_label.setAttribute("style", "font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;");
+
+        let blogsHtml_dayOfWeek = '';
+        blogsHtml_dayOfWeek += "<option value=''>Select Day Of Week</option><option value='mon'>Monday</option><option value='tue'>Tuesday</option><option value='wed'>Wednesday</option><option value='thu'>Thursday</option><option value='fri'>Friday</option><option value='sat'>Saturday</option><option value='sun'>Sunday</option>";
+        let dayOfWeek_form_input = document.createElement('select');
+        dayOfWeek_form_input.innerHTML = blogsHtml_dayOfWeek;
+        dayOfWeek_form_input.className = "form-control";
+        dayOfWeek_form_input.setAttribute("data-compulsory", "true");
+        dayOfWeek_form_input.setAttribute("oninput", "this.className = 'form-control'");
+        dayOfWeek_form_input.setAttribute("id", "DayOfWeek" + (x+1));
+        // let dayOfWeek_form_input = document.createElement('input');
+        // dayOfWeek_form_input.type = "text";
+        // dayOfWeek_form_input.className = "form-control";
+        // dayOfWeek_form_input.setAttribute("id", "DayOfWeek" + (x+1));
+        let dayOfWeek_form_div = document.createElement('div');
+        dayOfWeek_form_div.className = "form-group bmd-form-group";
+        dayOfWeek_form_div.appendChild(dayOfWeek_form_label)
+        dayOfWeek_form_div.appendChild(dayOfWeek_form_input)
+        let dayOfWeek_div = document.createElement('div');
+        dayOfWeek_div.className = "col-md-5";
+        dayOfWeek_div.appendChild(dayOfWeek_form_div)
+
+        // Start Time
+        let startTime_form_label = document.createElement('span');
+        startTime_form_label.className = "";
+        startTime_form_label.textContent = "Start Time";
+        startTime_form_label.setAttribute("style", "font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;");
+
+        let startTime_form_input = document.createElement('input');
+        startTime_form_input.type = "text";
+        startTime_form_input.className = "form-control";
+        startTime_form_input.setAttribute("id", "StartTime" + (x+1));
+        startTime_form_input.setAttribute("style", "trcursor: not-allowed; pointer-events: none;ue");
+        startTime_form_input.setAttribute("value", "");
+        startTime_form_input.setAttribute("data-compulsory", "true");
+        startTime_form_input.setAttribute("oninput", "this.className = 'form-control'");
+
+        let blogsHtml_startTimeIcon = '';
+        blogsHtml_startTimeIcon += "<span class='material-icons'>more_time</span>";
+        let startTime_span = document.createElement('span');
+        startTime_span.innerHTML = blogsHtml_startTimeIcon;
+        startTime_span.className = "d-flex align-items-center input-group-addon"
+
+        let startTime_form_input_div = document.createElement('div');
+        startTime_form_input_div.type = "text";
+        startTime_form_input_div.className = "input-group clockpicker";
+        startTime_form_input_div.setAttribute("data-placement", "bottom");
+        startTime_form_input_div.setAttribute("data-align", "top");
+        startTime_form_input_div.setAttribute("data-autoclose", "true");
+        startTime_form_input_div.setAttribute("style", "margin-top: 0.3rem;");
+        startTime_form_input_div.appendChild(startTime_form_input)
+        startTime_form_input_div.appendChild(startTime_span)
+
+        let startTime_form_div = document.createElement('div');
+        startTime_form_div.className = "form-group bmd-form-group";
+        startTime_form_div.appendChild(startTime_form_label)
+        startTime_form_div.appendChild(startTime_form_input_div)
+        let startTime_div = document.createElement('div');
+        startTime_div.className = "col-md-3";
+        startTime_div.appendChild(startTime_form_div)
+
+        let endTime_form_label = document.createElement('span');
+        endTime_form_label.className = "";
+        endTime_form_label.textContent = "End Time";
+        endTime_form_label.setAttribute("style", "font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;");
+
+        // <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="margin-top: 0.3rem;">
+        //   <input type="text" class="form-control" value="13:30" id="">
+        // </div>
+
+        let endTime_form_input = document.createElement('input');
+        endTime_form_input.type = "text";
+        endTime_form_input.className = "form-control";
+        endTime_form_input.setAttribute("id", "EndTime" + (x+1));
+        endTime_form_input.setAttribute("value", "");
+        endTime_form_input.setAttribute("id", "StartTime" + (x+1));
+        endTime_form_input.setAttribute("style", "trcursor: not-allowed; pointer-events: none;ue");
+        endTime_form_input.setAttribute("value", "");
+        endTime_form_input.setAttribute("data-compulsory", "true");
+        endTime_form_input.setAttribute("oninput", "this.className = 'form-control'");
+
+        let blogsHtml_endTimeIcon = '';
+        blogsHtml_endTimeIcon += "<span class='material-icons'>more_time</span>";
+        let endTime_span = document.createElement('span');
+        endTime_span.innerHTML = blogsHtml_endTimeIcon;
+        endTime_span.className = "d-flex align-items-center input-group-addon"
+
+        let endTime_form_input_div = document.createElement('div');
+        endTime_form_input_div.type = "text";
+        endTime_form_input_div.className = "input-group clockpicker";
+        endTime_form_input_div.setAttribute("data-placement", "bottom");
+        endTime_form_input_div.setAttribute("data-align", "top");
+        endTime_form_input_div.setAttribute("data-autoclose", "true");
+        endTime_form_input_div.setAttribute("style", "margin-top: 0.3rem;");
+        endTime_form_input_div.appendChild(endTime_form_input)
+        endTime_form_input_div.appendChild(endTime_span)
+
+        let endTime_form_div = document.createElement('div');
+        endTime_form_div.className = "form-group bmd-form-group";
+        endTime_form_div.appendChild(endTime_form_label)
+        endTime_form_div.appendChild(endTime_form_input_div)
+        let endTime_div = document.createElement('div');
+        endTime_div.className = "col-md-3";
+        endTime_div.appendChild(endTime_form_div)
+
+        let blogsHtml_btn = '';
+        blogsHtml_btn += "<i class='material-icons' style='color: red;'>remove</i>";
+        let btnRemove_a = document.createElement('a');
+        btnRemove_a.innerHTML = blogsHtml_btn;
+        btnRemove_a.className = "btn btn-sm btn-outline-danger btn-round"
+        btnRemove_a.setAttribute("id", "btnRemoveTimeSlot" + (x+1))
+        btnRemove_a.setAttribute("onclick", "removeTimeSlot("+(x+1)+")")
+        let btnRemove_div = document.createElement('div');
+        btnRemove_div.className = "col-md-1  d-flex align-items-center";
+        btnRemove_div.appendChild(btnRemove_a)
+
+        let timeSlotTop_div = document.createElement('div');
+        timeSlotTop_div.setAttribute("id", "timeSlot-"+(x+1));
+        timeSlotTop_div.setAttribute("style", "padding: 0rem 3rem 0rem 0rem; border: solid #2e74b6; border-width: thin; margin-top: 1rem;");
+        timeSlotTop_div.className = "row"
+        timeSlotTop_div.appendChild(dayOfWeek_div)
+        timeSlotTop_div.appendChild(startTime_div)
+        timeSlotTop_div.appendChild(endTime_div)
+        timeSlotTop_div.appendChild(btnRemove_div)
+
+        const timeSlot_container = document.getElementById("timeSlot-container");
+        timeSlot_container.appendChild(timeSlotTop_div);
+
+        // Reinit the time picker
+        initTimePicker()
+      });
+
+
+      // Load All Admin's Teachers
+      $('#myTeacherModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        tutorBtnNum = parseInt(button.data('num')); // Extract info from data-* attributes
+        latestAdminTutorDoc = null;
+        loadAllAdminTeachers(tutorBtnNum);
+
+        // Specific to myself
+        const btnSelectMyself = document.getElementById('btnSelectMyself');
+        btnSelectMyself.setAttribute('onclick', "AddNewTutorToField('"+ ent_id+"', `"+ent_name+"`, '"+ent_phone+"', `"+ent_imgUrl+"`)");
+
+
+      });
+
+      // Remove all Admin's Teachers when the List Teacher Modal close
+      $('#myTeacherModal').on('hidden.bs.modal', function (event) {
+        // NOTE: div:gt(5) - get the 6th div child in the parent node.
+        // NOTE: div:gt(7) - get the 7th div child in the parent node. (myself)
+        $('#add-tutor-modal-container div:gt(12)').remove();
+        tutorBtnNum = 0;
+      });
+
+
+      // Advanced Panel
+      $('#classTypeRadioPublic').on('change', function (event) {
+        if (this.checked){
+          document.getElementById("levelSubjectTop").style.display = 'flex';
+          document.getElementById("onlineOnlyTop").style.display = 'flex';
+          document.getElementById("areaStateTop").style.display = 'flex';
+        }else{
+          document.getElementById("levelSubjectTop").style.display = 'none';
+          document.getElementById("onlineOnlyTop").style.display = 'none';
+          document.getElementById("areaStateTop").style.display = 'none';
+        }
+      });
+
+      $('#classTypeRadioPrivate').on('change', function (event) {
+        if (this.checked){
+          document.getElementById("levelSubjectTop").style.display = 'none';
+          document.getElementById("onlineOnlyTop").style.display = 'none';
+          document.getElementById("areaStateTop").style.display = 'none';
+        }else{
+          document.getElementById("levelSubjectTop").style.display = 'flex';
+          document.getElementById("onlineOnlyTop").style.display = 'flex';
+          document.getElementById("areaStateTop").style.display = 'flex';
+        }
+      });
+
+      // Ribbon
+      $('#inLabelColor').on('blur', function (event) {
+        let color = $('#inLabelColor').val();
+        document.getElementById("inLabelSample").style.background = color;
+      });
+
+      $('#inLabelText').on('blur', function (event) {
+        let color = $('#inLabelText').val();
+        document.getElementById("inLabelSample").textContent = $(this).val();
+      });
+
+      $('#tAddRibbonEn').on('change', function (event) {
+        if (this.checked){
+          document.getElementById("inRibbonSettings").style.display = '';
+        }else{
+          document.getElementById("inRibbonSettings").style.display = 'none';
+        }
+      });
+
+    });
+
+  </script>
+
+
+  <!-- Multiform-specific script -->
+  <script>
+    //DOM elements
+    const DOMstrings = {
+      stepsBtnClass: 'multisteps-form__progress-btn',
+      stepsBtns: document.querySelectorAll(`.multisteps-form__progress-btn`),
+      stepsBar: document.querySelector('.multisteps-form__progress'),
+      stepsForm: document.querySelector('.multisteps-form__form'),
+      stepsFormTextareas: document.querySelectorAll('.multisteps-form__textarea'),
+      stepFormPanelClass: 'multisteps-form__panel',
+      stepFormPanels: document.querySelectorAll('.multisteps-form__panel'),
+      stepPrevBtnClass: 'js-btn-prev',
+      stepNextBtnClass: 'js-btn-next',
+      stepSendBtnClass: 'js-btn-send' };
+
+
+    //remove class from a set of items
+    const removeClasses = (elemSet, className) => {
+
+      elemSet.forEach(elem => {
+
+        elem.classList.remove(className);
+
+      });
+
+    };
+
+    //return exect parent node of the element
+    const findParent = (elem, parentClass) => {
+
+      let currentNode = elem;
+
+      while (!currentNode.classList.contains(parentClass)) {
+        currentNode = currentNode.parentNode;
+      }
+
+      return currentNode;
+
+    };
+
+    //get active button step number
+    const getActiveStep = elem => {
+      return Array.from(DOMstrings.stepsBtns).indexOf(elem);
+    };
+
+    //set all steps before clicked (and clicked too) to active
+    const setActiveStep = activeStepNum => {
+
+      //remove active state from all the state
+      removeClasses(DOMstrings.stepsBtns, 'js-active');
+
+      //set picked items to active
+      DOMstrings.stepsBtns.forEach((elem, index) => {
+
+        if (index <= activeStepNum) {
+          elem.classList.add('js-active');
+        }
+
+      });
+    };
+
+    //get active panel
+    const getActivePanel = () => {
+
+      let activePanel;
+
+      DOMstrings.stepFormPanels.forEach(elem => {
+
+        if (elem.classList.contains('js-active')) {
+
+          activePanel = elem;
+
+        }
+
+      });
+
+      return activePanel;
+
+    };
+
+    //open active panel (and close unactive panels)
+    const setActivePanel = activePanelNum => {
+
+      //remove active class from all the panels
+      removeClasses(DOMstrings.stepFormPanels, 'js-active');
+
+      //show active panel
+      DOMstrings.stepFormPanels.forEach((elem, index) => {
+        if (index === activePanelNum) {
+
+          elem.classList.add('js-active');
+
+          setFormHeight(elem);
+
+        }
+      });
+
+    };
+
+    //set form height equal to current panel height
+    const formHeight = activePanel => {
+
+      const activePanelHeight = activePanel.offsetHeight;
+
+      DOMstrings.stepsForm.style.height = `${activePanelHeight}px`;
+
+    };
+
+    const setFormHeight = () => {
+      const activePanel = getActivePanel();
+
+      formHeight(activePanel);
+    };
+
+    //STEPS BAR CLICK FUNCTION
+    DOMstrings.stepsBar.addEventListener('click', e => {
+
+      //check if click target is a step button
+      const eventTarget = e.target;
+
+      if (!eventTarget.classList.contains(`${DOMstrings.stepsBtnClass}`)) {
+        return;
+      }
+
+
+      //get active button step number
+      const activeStep = getActiveStep(eventTarget);
+
+      // TODO: Disable both line below to disable panel click
+      // //set all steps before clicked (and clicked too) to active
+      // setActiveStep(activeStep);
+
+      // //open active panel
+      // setActivePanel(activeStep);
+    });
+
+    //PREV/NEXT BTNS CLICK
+    DOMstrings.stepsForm.addEventListener('click', e => {
+
+      const eventTarget = e.target;
+
+      //check if we clicked on `PREV` or NEXT` buttons
+      if (eventTarget.classList.contains(`${DOMstrings.stepSendBtnClass}`))
+      {
+        // Create Class btn is clicked and redirect to class.html
+        CreateClass();
+
+        // func.showNotification('top','center', 'success', 'check_circle', "Class created.");
+
+      }
+      else if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`) || eventTarget.classList.contains(`${DOMstrings.stepNextBtnClass}`))
+      {
+        // Proceed to move to next / prev page
+      }else{
+        // Do nothing and return
+        return;
+
+      }
+
+      //find active panel
+      const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
+
+      let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
+      getAllTimeSlots()
+      //set active step and active panel onclick
+      if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`)) {
+        activePanelNum--;
+
+        setActiveStep(activePanelNum);
+        setActivePanel(activePanelNum);
+      } else {
+
+        if (!validateForm(activePanelNum)){
+
+        }else{
+          activePanelNum++;
+          setActiveStep(activePanelNum);
+          setActivePanel(activePanelNum);
+        }
+      }
+      // setActiveStep(activePanelNum);
+      // setActivePanel(activePanelNum);
+    });
+
+    //SETTING PROPER FORM HEIGHT ONLOAD
+    window.addEventListener('load', setFormHeight, false);
+
+    //SETTING PROPER FORM HEIGHT ONRESIZE
+    window.addEventListener('resize', setFormHeight, false);
+
+    //changing animation via animation select !!!YOU DON'T NEED THIS CODE (if you want to change animation type, just change form panels data-attr)
+
+    const setAnimationType = newType => {
+      DOMstrings.stepFormPanels.forEach(elem => {
+        elem.dataset.animation = newType;
+      });
+    };
+
+    //selector onchange - changing animation
+    // const animationSelect = document.querySelector('.pick-animation__select');
+
+    // animationSelect.addEventListener('change', () => {
+    //   const newAnimationType = animationSelect.value;
+
+    //   setAnimationType(newAnimationType);
+    // });
+
+
+    // <!--General form panel-->
+    // <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+    //   <h4 class="multisteps-form__title">General Info</h4>
+    //   <div class="multisteps-form__content">
+    //     <div class="col-md-12">
+
+    //       <div class="form-group" style="margin-top: 2rem;">
+    //         <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Class Name*</span>
+    //         <input type="text" class="form-control" id="inClassName">
+    //       </div>
+
+
+    function validateForm(activePanelNum) {
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("multisteps-form__panel");
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =x[activePanelNum].querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          y[i].removeAttribute('style');
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        // document.getElementsByClassName("step")[activePanelNum].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+    function getAllTimeSlots() {
+      dayOfWeekArr = [];
+      startTimeArr = [];
+      endTimeArr = [];
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementById("timeSlotTop");
+      // console.log(x)
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =x.querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+
+        if (i % 3 === 0){
+          dayOfWeekArr.push(y[i].value)
+        }
+        if (i % 3 === 1){
+          startTimeArr.push(y[i].value)
+        }
+        if (i % 3 === 2){
+          endTimeArr.push(y[i].value)
+        }
+
+
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          // y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+
+      // console.log(dayOfWeekArr)
+      // console.log(startTimeArr)
+      // console.log(endTimeArr)
+      return valid; // return the valid status
+    }
+
+
+  </script>
+
+  <!-- ClockPicker script 1 -->
+  <script type="text/javascript" src="../../assets/js/bootstrap-clockpicker.min.js"></script>
+  <!-- ClockPicker script 2 -->
+  <script type="text/javascript">
+    $('.clockpicker').clockpicker()
+      .find('input').change(function(){
+        // TODO: time changed
+        // console.log(this.value);
+      });
+    // $('#demo-input').clockpicker({
+    //   autoclose: true
+    // });
+
+    // if (something) {
+    //   // Manual operations (after clockpicker is initialized).
+    //   $('#demo-input').clockpicker('show') // Or hide, remove ...
+    //       .clockpicker('toggleView', 'minutes');
+    // }
+
+    function initTimePicker(){
+      $('.clockpicker').clockpicker()
+      .find('input').change(function(){
+        // TODO: time changed
+        // console.log(this.value);
+      });
+
+    }
+  </script>
+
+  <script>
+    Coloris({
+      el: '.coloris',
+      swatches: [
+        '#264653',
+        '#2a9d8f',
+        '#e9c46a',
+        '#f4a261',
+        '#e76f51',
+        '#d62828',
+        '#023e8a',
+        '#0077b6',
+        '#0096c7',
+        '#00b4d8',
+        '#48cae4'
+      ]
+    });
+  </script>
+
+</body>
+
+</html>
