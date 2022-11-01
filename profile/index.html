@@ -1,0 +1,1064 @@
+<!--
+=========================================================
+* Material Kit 2 - v3.0.4
+=========================================================
+
+* Product Page:  https://www.creative-tim.com/product/material-kit
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/icon-32x32.png">
+    <title>GoLearn Organization</title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="../assets/css/material-kit.css?v=3.0.4" rel="stylesheet" />
+
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+    <script src="../assets/js/firebase.js"></script>
+
+    <style>
+      .alert {
+        border: 0;
+        border-radius: 3px;
+        position: relative;
+        padding: 20px 15px;
+        line-height: 20px;
+      }
+
+      .alert b {
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+
+      .alert,
+      .alert.alert-default {
+        background-color: white;
+        color: #555555;
+      }
+
+      .alert a,
+      .alert .alert-link,
+      .alert.alert-default a,
+      .alert.alert-default .alert-link {
+        color: #555555;
+      }
+
+      .alert.alert-inverse {
+        background-color: #292929;
+        color: #fff;
+      }
+
+      .alert.alert-inverse a,
+      .alert.alert-inverse .alert-link {
+        color: #fff;
+      }
+
+      .alert.alert-primary {
+        background-color: #a72abd;
+        color: #ffffff;
+      }
+
+      .alert.alert-primary a,
+      .alert.alert-primary .alert-link {
+        color: #ffffff;
+      }
+
+      .alert.alert-success {
+        background-color: #55b559;
+        color: #ffffff;
+      }
+
+      .alert.alert-success a,
+      .alert.alert-success .alert-link {
+        color: #ffffff;
+      }
+
+      .alert.alert-info {
+        background-color: #00cae3;
+        color: #ffffff;
+      }
+
+      .alert.alert-info a,
+      .alert.alert-info .alert-link {
+        color: #ffffff;
+      }
+
+      .alert.alert-warning {
+        background-color: #ff9e0f;
+        color: #ffffff;
+      }
+
+      .alert.alert-warning a,
+      .alert.alert-warning .alert-link {
+        color: #ffffff;
+      }
+
+      .alert.alert-danger {
+        background-color: #f55145;
+        color: #ffffff;
+      }
+
+      .alert.alert-danger a,
+      .alert.alert-danger .alert-link {
+        color: #ffffff;
+      }
+
+      .alert.alert-rose {
+        background-color: #ea2c6d;
+        color: #ffffff;
+      }
+
+      .alert.alert-rose a,
+      .alert.alert-rose .alert-link {
+        color: #ffffff;
+      }
+
+      .alert-info,
+      .alert-danger,
+      .alert-warning,
+      .alert-success,
+      .alert-rose {
+        color: #ffffff;
+      }
+
+      .alert-default a,
+      .alert-default .alert-link {
+        color: rgba(0, 0, 0, 0.87);
+      }
+
+      .alert span {
+        display: block;
+        max-width: 89%;
+      }
+
+      .alert.alert-danger {
+        box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+          0 7px 10px -5px rgba(244, 67, 54, 0.4);
+      }
+
+      .alert.alert-danger i {
+        color: #f44336;
+      }
+
+      .alert.alert-warning {
+        box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+          0 7px 10px -5px rgba(255, 152, 0, 0.4);
+      }
+
+      .alert.alert-warning i {
+        color: #ff9800;
+      }
+
+      .alert.alert-success {
+        box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+          0 7px 10px -5px rgba(76, 175, 80, 0.4);
+      }
+
+      .alert.alert-success i {
+        color: #4caf50;
+      }
+
+      .alert.alert-info {
+        box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+          0 7px 10px -5px rgba(0, 188, 212, 0.4);
+      }
+
+      .alert.alert-info i {
+        color: #00bcd4;
+      }
+
+      .alert.alert-primary {
+        box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+          0 7px 10px -5px rgba(156, 39, 176, 0.4);
+      }
+
+      .alert.alert-primary i {
+        color: #337fc7;
+      }
+
+      .alert.alert-rose {
+        box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14),
+          0 7px 10px -5px rgba(233, 30, 99, 0.4);
+      }
+
+      .alert.alert-rose i {
+        color: #e91e63;
+      }
+
+      .alert.alert-with-icon {
+        padding-left: 66px;
+      }
+
+      .alert.alert-with-icon i[data-notify="icon"] {
+        font-size: 30px;
+        display: block;
+        left: 15px;
+        position: absolute;
+        top: 50%;
+        margin-top: -15px;
+        color: #fff;
+      }
+
+      .alert .close {
+        line-height: 0.5;
+      }
+
+      .alert .close i {
+        color: #fff;
+        font-size: 11px;
+      }
+
+      .alert i[data-notify="icon"] {
+        display: none;
+      }
+
+      .alert .alert-icon {
+        display: block;
+        float: left;
+        margin-right: 1.071rem;
+      }
+
+      .alert .alert-icon i {
+        margin-top: -7px;
+        top: 5px;
+        position: relative;
+      }
+
+      .alert [data-notify="dismiss"] {
+        margin-right: 5px;
+      }
+
+
+    </style>
+  </head>
+
+<body class="blog-author bg-gray-200">
+  <!-- Navbar Transparent -->
+  <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
+    <div class="container">
+      <a class="navbar-brand  text-white " href="https://org.golearn.com.my" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
+        <!-- Material Kit 2 -->
+        <img src="../assets/img/golearn-plain-white.svg" style="width: 180px; height: auto; opacity: 0.8;" alt=""></img>
+
+      </a>
+      <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon mt-2">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+        </span>
+      </button>
+      <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5" id="navigation">
+        <ul class="navbar-nav navbar-nav-hover ms-auto">
+          <li class="nav-item ms-lg-auto">
+            <a class="nav-link nav-link-icon me-2" href="javascript:;">
+              Hi <span id="user"></span> !
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-auto">
+
+            <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
+              More
+              <i class="material-icons opacity-6 ms-auto ms-md-2 text-md">expand_more</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages8">
+              <div class="d-none d-lg-block">
+                <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+                  Organization
+                </h6>
+                <a href="../organization/teams/" class="dropdown-item border-radius-md">
+                  <span>Employee</span>
+                </a>
+                <a href="../organization/report/" class="dropdown-item border-radius-md">
+                  <span>Insight</span>
+                </a>
+                <a href="../organization/settings/" class="dropdown-item border-radius-md">
+                  <span>Update Information</span>
+                </a>
+                <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
+                  Account
+                </h6>
+                <a href="#" class="dropdown-item border-radius-md">
+                  <span>My Profile</span>
+                </a>
+                <a href="javascript:;" class="dropdown-item border-radius-md" data-bs-toggle="modal" data-bs-target="#signOutModal" onclick="signOutFunction()">
+                  <span>Log out</span>
+                </a>
+              </div>
+              <div class="d-lg-none">
+                <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+                  Organization
+                </h6>
+                <a href="../organization/employee/" class="dropdown-item border-radius-md">
+                  <span>Employee</span>
+                </a>
+                <a href="../organization/report/" class="dropdown-item border-radius-md">
+                  <span>Insight</span>
+                </a>
+                <a href="../organization/settings/" class="dropdown-item border-radius-md">
+                  <span>Update Information</span>
+                </a>
+                <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
+                  Account
+                </h6>
+                <a href="#" class="dropdown-item border-radius-md">
+                  <span>My Profile</span>
+                </a>
+                <a href="javascript:;" class="dropdown-item border-radius-md" data-bs-toggle="modal" data-bs-target="#signOutModal" onclick="signOutFunction()">
+                  <span>Log out</span>
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- -------- START HEADER 4 w/ search book a ticket form ------- -->
+  <header>
+    <div class="page-header min-height-250" style="background-image: url('../assets/img/city-profile.jpg');" loading="lazy">
+      <span class="mask bg-gradient-dark opacity-8"></span>
+    </div>
+  </header>
+  <!-- -------- END HEADER 4 w/ search book a ticket form ------- -->
+  <!-- Place holder to bypass org-core check -->
+  <div id="btnActivateAccount"></div>
+  <div id="navPayroll"></div>
+  <div id="navPublicProfile"></div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Your modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Society has put up so many boundaries, so many limitations on what’s right and wrong that it’s almost impossible to get a pure thought out.
+          <br><br>
+          It’s like a little kid, a little boy, looking at colors, and no one told him what colors are good, before somebody tells you you shouldn’t like pink because that’s for girls, or you’d instantly become a gay two-year-old.
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn bg-gradient-dark mb-0" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn bg-gradient-primary mb-0">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Uploading Progress modal -->
+  <div class="row">
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="uploadModalLabel">Uploading...</h5>
+          </div>
+          <div class="modal-body" id="uploadModalBody">
+            <div id="myProgress" style="width: 100%; background-color: grey;">
+              <div id="myBar" style="width: 1%; height: 30px; background-color: green;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Profile modal -->
+  <div class="row">
+    <div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog" aria-labelledby="updateProfileModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateProfileLabel">Updating Profile</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <i class="material-icons">close</i>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to continue?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnUpdateProfileModalClose2">Cancel</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnUpdateProfileModalUpdate">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign-out modal -->
+  <div class="row">
+    <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <i class="material-icons">close</i>
+            </button>
+          </div>
+          <div class="modal-body" id="signOutModalBody">
+            Are you sure you want to continue?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
+    <!-- <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#signOutModal">
+      Launch demo modal
+    </button> -->
+    <section class="py-sm-7 py-5 position-relative">
+      <div class="container text-center">
+        <div class="row">
+          <!-- d-flex align-items-center justify-content-center -->
+          <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="mt-n8 mt-md-n9" style="height: 150px;width: 150px;">
+                <a href="javascript:;" >
+                  <img class="img" id="tutorImgUrl" style="height: 100%; width:100%; object-fit: cover; border-radius: 50%; pointer-events: auto;" src="../assets/img/empty-photo.png"/>
+                </a>
+              </div>
+            </div>
+
+
+            <div class="py-5">
+              <input type="file" id="select_image" name="image" style="display:none" accept="image/x-png,image/jpeg"> </input>
+
+              <div class="input-group input-group-static mb-4">
+                <label>Name*</label>
+                <input class="form-control" placeholder="" type="text" id="name">
+              </div>
+
+              <div class="input-group input-group-static mb-4">
+                <label>
+                  Phone
+                  <span class="bg-primary rounded-1" style="color: white; padding: 2px 6px; font-size: smaller;"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="You cannot change your primary login method.">
+                    !
+                  </span>
+                </label>
+                <input class="form-control" placeholder="" type="text" id="phone" readonly disabled >
+              </div>
+
+              <div class="input-group input-group-static mb-4">
+                <label>Email</label>
+                <input class="form-control" placeholder="" type="text" id="email">
+              </div>
+
+              <!-- <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Phone</span>
+                <input type="text" class="form-control" id="phone"readonly>
+              </div> -->
+              <button class="btn btn-primary btn-round" id="btnUpdateProfile"
+              style="background-color: grey; pointer-events: none; margin-top: 1rem;" >
+              Update Profile</button>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer pt-5 mt-5">
+    <div class="container">
+      <div class=" row">
+        <div class="col-12">
+          <div class="text-center">
+
+            <p class="text-dark my-4 text-sm font-weight-normal">
+              <a href="https://golearn.com.my" target="_blank">GoLearn</a><br/>
+              All rights reserved. Copyright ©
+              <script>
+              document.write(new Date().getFullYear())
+              </script> </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/jquery.min.js"></script>
+  <script src="../assets2/js/core/popper.min.js" type="text/javascript"></script>
+  <script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <!-- Notifications Plugin -->
+  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <!--  Plugin for Parallax, full documentation here: https://github.com/wagerfield/parallax  -->
+  <script src="../assets/js/plugins/parallax.min.js"></script>
+  <!-- Control Center for Material UI Kit: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-kit.min.js?v=3.0.4" type="text/javascript"></script>
+  <!-- Common constants -->
+  <script src="../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Tutor Js -->
+  <script src="../assets/js/org-core.js" type="text/javascript"></script>
+
+  <script>
+    // // Global Variables
+    // var org_uid;
+    // var org_name, org_email, org_phone, org_imgUrl,  org_accountStatus, org_lastOnline;
+		var db = firebase.firestore();
+		db.settings({ timestampsInSnapshots: true });
+
+    var isFirstTimeLoad = true;
+    var oriName = '';
+
+    // Check if user logged on
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+
+      // Update page view
+      updatePageView();
+    }
+
+    // Update Page Specific View
+    function updatePageView(){
+
+      document.getElementById("tutorImgUrl").src = org_imgUrl;
+      document.getElementById("name").value = org_name;
+      document.getElementById("email").value = org_email;
+      document.getElementById("phone").value = org_phone;
+
+      // Re-Enable img upload and save button
+      document.getElementById("tutorImgUrl").setAttribute("style", "height: 100%; width:100%; object-fit: cover; border-radius: 50%; pointer-events: auto;");
+      document.getElementById('btnUpdateProfile').setAttribute('style','background-color: #2e74b6; pointer-events: auto; ');
+
+      //------ edit-profile.html specific End -------------//
+
+      // Get the ori copy of subject and area list.
+      if (isFirstTimeLoad){
+        oriName = org_name;
+        isFirstTimeLoad = false;
+      }
+    }
+
+  </script>
+
+  <script>
+
+    var imgUrl_temp;
+
+    // Img specific param
+    var imgFile, type, size, width, height;// name, imgFile is a jSON obj
+
+		$( document ).ready(function() {
+
+			// Update Profile
+			$("#btnUpdateProfile").click(function(){
+        $('#updateProfileModal').modal('show');
+			});
+
+      $('#btnUpdateProfileModalUpdate').on('click', function (e) {
+
+        document.getElementById("btnUpdateProfile").setAttribute('disabled', true);
+        document.getElementById("btnUpdateProfile").textContent = 'Updating ...';
+        // Step 1: Upload image and get the imgUrl.
+        // uploadImage(imgFile, type, size, width, height);
+
+        var promiseAll = [];
+
+        var docRef = db.collection("org").doc('v1').collection('user').doc(org_uid);
+        // console.log(document.getElementById("name").value == oriName);
+
+        let data = {
+          [ORG_USER_NAME]: document.getElementById("name").value,
+          [ORG_USER_EMAIL]: document.getElementById("email").value,
+        }
+        promiseAll.push(docRef.update(data))
+
+        // Get all roles that linked to organization.
+        // var roleRef = db.collection("org").doc('v1').collection('role')
+        // .where(ORG_ROLE_UID, '==', org_uid)
+        // .where(ORG_ROLE_OID, '==', org_uid)
+
+        // promiseAll.push(roleRef.get())
+
+
+        Promise.all(promiseAll)
+        // Layer 1: UNUSED - Update name, email or phone of any docs in any db that based on Org User.
+        .then((snapshots)=> {
+
+          // console.log(snapshots[0])
+          // let promiseLayer1 = []
+          // snapshots[1].forEach((doc) => {
+
+          // })
+
+        })
+        // Layer 2: Reload user info
+        .then(() => {
+          // Reload & update the page
+
+          return Promise.resolve(loadUserInfo(org_uid));
+
+        })
+        // Layer 3: Finishing
+        .then(() => {
+          document.getElementById("btnUpdateProfile").removeAttribute('disabled');
+          document.getElementById("btnUpdateProfile").textContent = 'UPDATE PROFILE';
+
+          func.showNotification('top','center', 'success', 'check_circle', "Your profile is updated.");
+
+          isFirstTimeLoad = true; // Reactivate the load
+
+        })
+        .catch((error) =>{
+          func.showNotification('top','center', 'danger', 'error_outline', "Update Failed. " + error.message);
+        });
+
+
+
+        // docRef
+        // .update(data, { merge: true })
+        // // Update all collection group in public
+        // .then(() => {
+
+        //   let tutorRef = db.collectionGroup('p_tutor').where('tutorId', '==', tutorId).get();
+
+        //   // Update the name if changes made
+        //   if (document.getElementById("name").value != oriName ){
+        //     // updateLatestRsScoreSingle(tutorId)
+        //     return Promise.resolve(tutorRef);
+        //   }else {
+        //     return null;
+        //   }
+        // })
+        // .then((snapshots) => {
+        //   // console.log('Layer 4: Collection Group to Get all Tutor Path')
+        //   // This stage get all Tutor Path using Collection Group
+        //   const promisesLayer4 = [];
+
+        //   if (snapshots != null && snapshots.length != 0){
+
+        //     // Looping each snapshots. By default, there's only single snaphot in snapshots array.
+        //     snapshots.forEach((doc) => {
+
+        //       // console.log(doc.data())
+
+        //       if (doc.exists){
+
+        //         // console.log(doc.ref.path);
+
+        //         let data = {
+        //           [PUBLIC_NAME]: document.getElementById("name").value,
+        //           [PUBLIC_IMG_URL]: current_imgUri,
+        //           [PUBLIC_LAST_UPDATE]: new Date()
+        //         }
+
+        //         // console.log("Doc exist");
+        //         // console.log(data)
+
+        //         let docRef = db.doc(doc.ref.path).update(data);
+
+        //         promisesLayer4.push(docRef);
+        //       }
+        //       else {
+        //         console.log("Doc does not exist");
+        //       }
+
+        //     })
+        //   }
+        //   else {
+        //     // console.log('No Snapshots')
+        //   }
+
+        //   return Promise.all(promisesLayer4);
+        // })
+        // .then(() => {
+        //   // Reload & update the page
+
+        //   return Promise.resolve(loadUserInfo(org_uid));
+
+        // }).then(() => {
+        //   document.getElementById("btnUpdateProfile").removeAttribute('disabled');
+        //   document.getElementById("btnUpdateProfile").textContent = 'UPDATE PROFILE';
+
+        //   func.showNotification('top','center', 'success', 'check_circle', "Your profile is updated.");
+
+        //   isFirstTimeLoad = true; // Reactivate the load
+
+        // });
+
+        $('#updateProfileModal').modal('hide');
+
+      });
+
+      $('#btnUpdateProfileModalClose1').on('click', function (e) {
+        $('#updateProfileModal').modal('hide');
+      });
+      $('#btnUpdateProfileModalClose2').on('click', function (e) {
+        $('#updateProfileModal').modal('hide');
+      });
+
+			function validateEmail(email) {
+				const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test(String(email).toLowerCase());
+			}
+
+			function validatePhone(phone){
+				// <!-- const re = new RegExp('+6*'); -->
+				// <!-- const regex = new RegExp('^[\+]'); -->
+				const re = /^[\+]/im;
+				return re.test(phone);
+			}
+
+      // Script to trigger the select image
+      $('#tutorImgUrl').click(function(){
+         $('#select_image').trigger('click');
+      });
+
+
+		});
+
+    // Image Specific Function.
+    function showImage(src, target) {
+
+
+      var fr = new FileReader();
+      fr.onload = function(){
+
+        if (src.files[0].size >3000000){
+          alert("Image selected must be less than 3MB");
+        }else{
+          target.src = fr.result;
+
+          target.onload = function() {
+            // access image size newly loaded
+            // console.log(getOriginalSize().width);
+            width = getOriginalSize().width;
+            // console.log(getOriginalSize().height);
+            height = getOriginalSize().height;
+            // type = getExtension(src.files[0].name)
+            // name = src.files[0].name;
+            type = src.files[0].type;
+            size = src.files[0].size;
+            imgFile = src.files[0];
+            // uploadImage(src.files[0], type, size, width, height);
+
+          };
+
+        }
+      }
+      fr.readAsDataURL(src.files[0]);
+
+
+
+      return {
+
+      };
+      // console.log(src.files[0]);
+      // console.log(getExtension(src.files[0].name));
+
+    }
+
+    function uploadImage( file, type, size, width, height ){
+
+      if(file != null) {
+        $('#uploadModal').modal('show');
+
+        // Create a root reference
+        var storageRef = firebase.storage().ref("uploads");
+        // Create a reference to 'org_uid.<imgType>'
+
+        var metadata = {
+          contentType: type, // Predefined by firestore
+          customMetadata: {
+            'id': org_uid,
+            'size': size,
+            'width': width,
+            'height': height
+          }
+        };
+
+        // Upload file and metadata to the object 'images/mountains.jpg'
+        // var uploadTask = storageRef.child('img-org-user/' + org_uid).put(file, metadata);
+        var uploadTask = storageRef.child('img-org-user/' + org_uid).putString(file, 'data_url', metadata);
+
+        var elem = document.getElementById("myBar");
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            elem.style.width = progress + "%";
+
+            // if (progress == 100){
+            //   $('#uploadModal').modal('hide');
+            // }
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                // alert("Upload is paused. Please try again.")
+                // $('#uploadModal').modal('hide');
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload is paused. Please try again." );
+
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+
+          },
+          (error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+              case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                // alert("Upload failed. Please try again.")
+                func.showNotification('top','center', 'danger', 'error_outline', "You do not have permission to upload. Please contact us." );
+
+                $('#uploadModal').modal('hide');
+                break;
+              case 'storage/canceled':
+                // User canceled the upload
+                // alert("Upload canceled.")
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload canceled." );
+
+                $('#uploadModal').modal('hide');
+                break;
+
+              // ...
+
+              case 'storage/unknown':
+                // alert("Upload failed. Please try again.");
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload failed. Please try again." );
+
+                $('#uploadModal').modal('hide');
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+            }
+          },
+          () => {
+            // Upload completed successfully, now we can get the download URL
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+
+              imgUrl_temp = downloadURL;
+
+              // Once uploaded, update the new url
+              var docRef = db.collection("org").doc('v1').collection('user').doc(org_uid);
+              let data = {
+                [ORG_USER_IMAGE_URL]: imgUrl_temp
+              }
+
+              console.log(data)
+              docRef.update(data);
+
+              return Promise.resolve(docRef);
+
+            })
+            .then(() => {
+              func.showNotification('top','center', 'success', 'check_circle', "Your profile picture is updated.");
+
+              $('#uploadModal').modal('hide');
+            });
+          }
+        );
+
+      }
+    }
+
+
+    function putImage() {
+      var src = document.getElementById("select_image");
+      var target = document.getElementById("tutorImgUrl");
+      // showImage(src, target);
+
+
+      // Upload image
+      // uploadImage(src.files[0], type, size, width, height);
+
+      // console.log(getOriginalSize().width);
+      // console.log(getOriginalSize().height);
+    }
+
+
+    function getExtension(filename) {
+      var parts = filename.split('.');
+      return parts[parts.length - 1];
+    }
+
+    function getOriginalSize(){
+      // Ref: https://www.codexworld.com/how-to/get-image-original-dimensions-width-height-using-javascript/
+      var image = document.getElementById('tutorImgUrl');
+      var width = image.naturalWidth;
+      var height = image.naturalHeight;
+      return {
+        width,
+        height
+      };
+    }
+
+
+  </script>
+
+
+  <script>
+
+    var fileinput = document.getElementById('select_image');
+
+    // var preview = document.getElementById('preview');
+
+    var form = document.getElementById('tutorImgUrl');
+
+    function processfile(file) {
+
+        if( !( /image/i ).test( file.type ) )
+            {
+                alert( "File "+ file.name +" is not an image." );
+                return false;
+            }
+
+        // read the files
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onload = function (event) {
+          // blob stuff
+          var blob = new Blob([event.target.result]); // create blob...
+          window.URL = window.URL || window.webkitURL;
+          var blobURL = window.URL.createObjectURL(blob); // and get it's URL
+
+          // helper Image object
+          var image = new Image();
+          image.src = blobURL;
+          //preview.appendChild(image); // preview commented out, I am using the canvas instead
+          image.onload = function() {
+            // have to wait till it's loaded
+            var resized = resizeMe(image); // send it to canvas
+            var newinput = document.createElement("input");
+            newinput.type = 'hidden';
+            newinput.name = 'images[]';
+            newinput.value = resized; // put result from canvas into new hidden input
+            // form.appendChild(newinput);
+            // form.src = newinput;
+            form.src = resized;
+            var head = 'data:image/png;base64,';
+            // console.log(Math.round((resized.length - head.length)*3/4));
+            size = Math.round((resized.length - head.length)*3/4)
+
+            // let image2 = new Image();
+            // image2.src = resized;
+            // console.log(resized);
+            // console.log(resized.width);
+            // var blob2 = new Blob([resized]); // create blob...
+            // window.URL = window.URL || window.webkitURL;
+            // var blobURL2 = window.URL.createObjectURL(blob2); // and get it's URL
+            // console.log(blob2);
+            // console.log(blobURL2);
+
+            uploadImage(resized, type, size, width, height);
+          }
+        };
+    }
+
+    function readfiles(files) {
+
+        // remove the existing canvases and hidden inputs if user re-selects new pics
+        var existinginputs = document.getElementsByName('images[]');
+        var existingcanvases = document.getElementsByTagName('canvas');
+        while (existinginputs.length > 0) { // it's a live list so removing the first element each time
+          // DOMNode.prototype.remove = function() {this.parentNode.removeChild(this);}
+          form.removeChild(existinginputs[0]);
+          // preview.removeChild(existingcanvases[0]);
+        }
+
+        for (var i = 0; i < files.length; i++) {
+          // console.log(i)
+          processfile(files[i]); // process each file at once
+        }
+        fileinput.value = ""; //remove the original files from fileinput
+        // TODO remove the previous hidden inputs if user selects other files
+    }
+
+    // this is where it starts. event triggered when user selects files
+    fileinput.onchange = function(){
+      if ( !( window.File && window.FileReader && window.FileList && window.Blob ) ) {
+        alert('The File APIs are not fully supported in this browser.');
+        return false;
+        }
+      readfiles(fileinput.files);
+    }
+
+    // === RESIZE ====
+    var max_height = 1024;
+    var max_width = 1024;
+    var width = 0;
+    var height = 0;
+    function resizeMe(img) {
+
+      var canvas = document.createElement('canvas');
+
+      // console.log(width,height )
+      width = img.width;
+      height = img.height;
+      // calculate the width and height, constraining the proportions
+      if (width > height) {
+        if (width > max_width) {
+          //height *= max_width / width;
+          height = Math.round(height *= max_width / width);
+          width = max_width;
+        }
+      } else {
+        if (height > max_height) {
+          //width *= max_height / height;
+          width = Math.round(width *= max_height / height);
+          height = max_height;
+        }
+      }
+
+      // resize the canvas and draw the image data into it
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // preview.appendChild(canvas); // do the actual resized preview
+
+      return canvas.toDataURL("image/jpeg",0.7); // get the data from canvas as 70% JPG (can be also PNG, etc.)
+
+    }
+
+  </script>
+
+</body>
+
+</html>

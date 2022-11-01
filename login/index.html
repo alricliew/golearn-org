@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content=GoLearn>
+  <meta property=og:site_name content=GoLearn>
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my>
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../assets/js/firebase.js"></script>
+  <link rel="stylesheet" href="../assets/css/intlTelInput.css">
+</head>
+
+<body>
+
+  <div class="wrapper ">
+
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper"></div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4">
+              <h2>Log In</h2>
+              <!-- <a href="#" class="btn btn-danger" onclick="logOut()">Log Out</a> -->
+
+            </div>
+            <div class="col-md-5" style="vertical-align: bottom;margin-top: 1rem; text-align: end;">
+              <p>Welcome</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-9">
+              <hr>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-5 ml-auto">
+              <div class="info info-horizontal">
+                <div class="icon icon-rose">
+                  <i class="material-icons" style="color: #fc007e;">paid</i>
+                </div>
+                <div class="description">
+                  <h4 class="info-title">Grow your Tutoring Career</h4>
+                  <p class="description">
+                    List your tuition service on GoLearn to tap into our existing partnerships and parents' network.
+                  </p>
+                </div>
+              </div>
+
+              <div class="info info-horizontal">
+                <div class="icon icon-primary">
+                  <i class="material-icons" style="color: #80604d;">account_circle</i>
+                </div>
+                <div class="description">
+                  <h4 class="info-title">Personal and Professional</h4>
+                  <p class="description">
+                    Design your own courses, teach at your own time, and build your personal brand the way you want.
+                  </p>
+                </div>
+              </div>
+
+              <div class="info info-horizontal">
+                <div class="icon icon-info" >
+                  <i class="material-icons" style="color: #0d98ba;">verified_user</i>
+                </div>
+                <div class="description">
+                  <h4 class="info-title">Be Successful</h4>
+                  <p class="description">
+                    Get access to unlimited tuition jobs and teaching opportunities.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-7 mr-auto">
+
+              <div class="social">
+
+                <h4><span> <button class="btn btn-just-icon btn-round btn-primary">
+                  <p>1</p>
+                </button></span> Enter your Phone</h4>
+              </div>
+
+
+              <div class="card-body" style="padding-left: 0; padding-right: 0;">
+                <div class="form-group">
+                  <div class="input-group">
+
+                    <input id="phone" name="phone" type="tel" class="form-control">
+                    <span id="valid-msg" class="hide" style="color: #42ba96;">✓ Valid</span>
+                    <span id="error-msg" class="hide" style="color: #F32013;"></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <div id="recaptcha-container"></div>
+                  </div>
+                </div>
+                <div class=""></div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <button id="btnVerify" class="btn btn-primary btn-round" data-toggle="modal" data-target="#verifyModal" data-dismiss="modal" >
+                      Verify
+                    </button>
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="social">
+
+                <h4><span> <button class="btn btn-just-icon btn-round btn-primary">
+                  <p>2</p>
+                  </button></span> Verification </h4>
+                <p>Enter the 6-digit verification code from your SMS.</p>
+              </div>
+
+              <div class="card-body" style="padding-left: 0; padding-right: 0;">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div id="divOuter" style="width: 230px; overflow: hidden;">
+                      <div id="divInner" style="left: 0; position: sticky; ">
+                        <input style="background-color: transparent; border: 0; width: 280px; letter-spacing: 30px;  padding-left: 10px; margin-left:0em; background-position-x: 25px!important;  background-repeat: repeat-x; background-size: 40px 1px;  background-position: bottom; background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);" type="text" id="verificationCode" maxlength="6" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+
+                    <button type="button" class="btn btn-primary btn-round" id="btnLogin">Confirm and Login</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+            <ul>
+              <li>
+                <a href="https://golearn.com.my/join-us">
+                  Visit GoLearn Tutor
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="../assets/js/core/jquery.min.js"></script>
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <!-- International Telephone Input -->
+  <script src="../assets/js/plugins/intlTelInput/intlTelInput.js"></script>
+  <!-- Login specific -->
+  <!-- <script src="js/tutor-portal-auth.js" type="text/javascript"></script> -->
+  <!-- Common constants -->
+  <script src="../assets/js/common.js" type="text/javascript"></script>
+  <!-- Core Tutor Js -->
+  <script src="../assets/js/tutor-core.js" type="text/javascript"></script>
+
+  <!-- TEST -->
+  <script>
+
+
+    function logOut() {
+      firebase.auth().signOut().then(() => {
+      // Sign-out successful.
+        console.log('Sign-out successful.')
+      }).catch((error) => {
+        window.alert("Logging out failed");
+        func.showNotification('top','center', 'danger', 'error_outline', "Logging out failed." );
+      });
+    }
+
+  </script>
+
+
+  <script>
+
+    // Login Scenarios
+    // 1. New Normal User login.
+    // 2. New Premium2 & Premium3 User login.
+    // 3. Existing Premium User Logged in
+    // 4. Existing User Logged in but account downgraded to Normal
+    var uid; // id for an org user
+    var tutorId; // id for a tutor who has tutor account
+
+    // Auto Login
+    firebase.auth().onAuthStateChanged(function(user){
+      // Check if any user Logged in.
+      // 3, 4: User already logged in.
+      if(user){
+        // console.log("User logged in. ")
+        uid = user.uid;
+        if (firebase.auth().currentUser.displayName == null )
+          tutorId = firebase.auth().currentUser.phoneNumber;
+        else
+          tutorId = firebase.auth().currentUser.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
+
+        // Check if the user already existed in org>v1>user>[uid]
+        checkIfUserExist(uid, tutorId);
+
+      }
+      // 1, 2: No user login. Waiting login
+      else{
+        console.log("User not logged in.")
+      }
+    });
+
+    // Check if an org user exist in org>v1>user>[uid]. If not, run first time login to create org user.
+    // Check if an user exist in Tutor>[tutorId].
+    function checkIfUserExist(uid, tutorId){
+      let orgDocRef =
+        db.collection("org")
+          .doc('v1')
+          .collection('user')
+          .doc(uid)
+          .get();
+
+      let tutorDocRef = db.collection("Tutor").doc(tutorId).get();
+
+      let promiseAll = [];
+      promiseAll.push(orgDocRef);
+      // promiseAll.push(tutorDocRef);
+
+      Promise.all(promiseAll).then((snapshots) => {
+        // Handle org user
+        if (snapshots != null && snapshots[0].exists ){
+          // Login
+          // window.location.href = "http://127.0.0.1:8080/"
+          console.log('Org User found. Redirect to home page')
+          // window.location.href = "../"
+        }
+        else {
+          console.log('No Org User found. Waiting user to login to create Org User')
+        }
+
+        // // Handle tutor
+        // if (snapshots != null && snapshots[1].exists){
+        //   // Save to sessionStorage
+        //   console.log('Tutor found. Acc Status: '+ snapshots[1].data()[ACCOUNT_STATUS_KEY])
+        //   // storeTutorSession(snapshots[1].data())
+        // }else {
+        //   console.log('No Tutor found.')
+        // }
+
+      })
+
+    }
+
+    // Clear SESSION_STORAGE_PROFILE_ORG_USER session storage. So after login, user update SESSION_STORAGE_PROFILE_ORG_USER
+    // with latest value.
+    if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_PROFILE_ORG_USER)) != null ){
+      // Although user exist, but the storage is null. Reload.
+      sessionStorage.removeItem(SESSION_STORAGE_PROFILE_ORG_USER);
+    }
+
+  </script>
+
+  <script>
+    var input = document.querySelector("#phone");
+    var itiPhone = intlTelInput(input, {
+      autoHideDialCode: false,
+      nationalMode: false,
+      // onlyCountries: ['MY', 'SG', 'TH', 'ID', 'VN', 'PH', 'BN', 'US', 'GB', 'SA'],
+      preferredCountries: ['MY', 'SG'],
+      separateDialCode: true,
+      utilsScript: "../assets/js/plugins/intlTelInput/utils.js",
+    });
+
+    var errorMsg = document.querySelector("#error-msg");
+    var validMsg = document.querySelector("#valid-msg");
+
+    // here, the index maps to the error code returned from getValidationError - see readme
+    var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    var reset = function() {
+      input.classList.remove("error");
+      errorMsg.innerHTML = "";
+      errorMsg.classList.add("hide");
+      validMsg.classList.add("hide");
+    };
+
+    // on blur: validate
+    input.addEventListener('blur', function() {
+      reset();
+      // console.log(itiPhone.getNumber());
+      if (input.value.trim()) {
+        if (itiPhone.isValidNumber()) {
+          validMsg.classList.remove("hide");
+        } else {
+          input.classList.add("error");
+          var errorCode = itiPhone.getValidationError();
+          errorMsg.innerHTML = errorMap[errorCode];
+          errorMsg.classList.remove("hide");
+        }
+      }
+    });
+    // on keyup / change flag: reset
+    input.addEventListener('change', reset);
+    input.addEventListener('keyup', reset);
+
+  </script>
+
+  <script>
+    $( document ).ready(function() {
+
+      //Disable the step 1 button
+      document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1");
+      document.getElementById("btnVerify").style.cursor='not-allowed';
+      document.getElementById("btnVerify").style.pointerEvents='none';
+
+
+      //Disable the step 2 button
+      document.getElementById("btnLogin").setAttribute("style", "background-color: #c1c1c1");
+      document.getElementById("btnLogin").style.cursor='not-allowed';
+
+
+      $('#btnVerify').on('click', function(){
+        phoneAuth();
+        document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1; pointer-event: none;");
+        document.getElementById("phone").setAttribute("style", "background-color: #c1c1c1; pointer-event: none");
+
+      });
+
+
+      $('#btnLogin').on('click', function(){
+
+        document.getElementById("btnLogin").setAttribute("disabled", true);
+        document.getElementById("btnLogin").textContent = 'Please wait. Checking ... ';
+        codeverify();
+      });
+
+
+    });
+
+
+  </script>
+
+  <script>
+    window.onload=function () {
+      render();
+    };
+
+    function render() {
+
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        // 'size': 'normal',
+        'callback': (response) => {
+            // reCAPTCHA solved, allow signInWithPhoneNumber.
+
+            // Enable the step1 verify button
+            document.getElementById("btnVerify").setAttribute("style", "background-color: #2e74b6");
+            document.getElementById("btnVerify").style.cursor='pointer';
+            document.getElementById("btnVerify").style.pointerEvents='auto';
+            document.getElementById("btnVerify").disabled = false;
+
+            document.getElementById("verificationCode").style.backgroundColor = '#eeeeee'
+            document.getElementById("verificationCode").focus();
+
+        },
+        'expired-callback': () => {
+
+            // Response expired. Ask user to solve reCAPTCHA again.
+            // ...
+        }
+      });
+      recaptchaVerifier.render();
+    }
+
+    function phoneAuth() {
+      let number = itiPhone.getNumber();
+      // console.log(number)
+      //phone number authentication function of firebase
+      //it takes two parameter first one is number,,,second one is recaptcha
+      firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier)
+      .then(function (confirmationResult) {
+        //s is in lowercase
+        window.confirmationResult=confirmationResult;
+        coderesult=confirmationResult;
+
+        // Enable the step2 button
+        document.getElementById("btnLogin").setAttribute("style", "background-color: #2e74b6");
+        document.getElementById("btnLogin").style.cursor='pointer';
+        document.getElementById("btnLogin").disabled = false;
+
+        func.showNotification('top','center', 'success', 'check_circle', "We just sent a 6-digit verification code to "+itiPhone.getNumber());
+
+        // console.log(coderesult);
+
+        return (coderesult)
+
+      })
+      // .then(())
+      .catch(function (error) {
+
+        document.getElementById("phone").setAttribute("style", "background-color: #fff");
+        document.getElementById("phone").disabled = false;
+
+        //Disable the step 1 button
+        document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1");
+        document.getElementById("btnVerify").style.cursor='not-allowed';
+        document.getElementById("btnVerify").disabled = true;
+        console.log("Phone Verification Failed Error Code: "+ error);
+        func.showNotification('top','center', 'danger', 'error_outline', "Phone verification failed. "+ error.message );
+
+      });
+    }
+    function codeverify() {
+
+      let code=document.getElementById('verificationCode').value;
+
+      // var uid = null
+      // var tutorId = null;
+      var dbUid = null;
+      var dbPhone = null;
+      var dbEmail = null;
+
+      var emptyTimeSlot = {
+        [TUTOR_TIME_SLOT_MON_8AM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_MON_12PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_MON_3PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_MON_6PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+
+        [TUTOR_TIME_SLOT_TUE_8AM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_TUE_12PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_TUE_3PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_TUE_6PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+
+        [TUTOR_TIME_SLOT_WED_8AM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_WED_12PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_WED_3PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_WED_6PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+
+        [TUTOR_TIME_SLOT_THU_8AM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_THU_12PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_THU_3PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_THU_6PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+
+        [TUTOR_TIME_SLOT_FRI_8AM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_FRI_12PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_FRI_3PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_FRI_6PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+
+        [TUTOR_TIME_SLOT_SAT_8AM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_SAT_12PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_SAT_3PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_SAT_6PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+
+        [TUTOR_TIME_SLOT_SUN_8AM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_SUN_12PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_SUN_3PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+        [TUTOR_TIME_SLOT_SUN_6PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
+      }
+
+      coderesult.confirm(code)
+      // Layer 1: Confirm code
+      .then(function (result) {
+
+        document.getElementById("btnLogin").setAttribute("disabled", true);
+        document.getElementById("btnLogin").textContent = 'Please wait. Confirming ... ';
+
+        let user=result.user;
+        dbUid = user.uid
+        dbPhone = user.phoneNumber
+
+        if (user.displayName == null ){
+          tutorId = user.phoneNumber;
+        }else
+          tutorId = user.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
+
+        const promiseArray = []
+        // Check if ORg User Exists
+        let orgDocRef =
+            db.collection("org")
+              .doc('v1')
+              .collection('user')
+              .doc(dbUid)
+              .get();
+        promiseArray.push(orgDocRef)
+
+        // Check if the Tutor exists.
+        let tutorRef = db.collection('Tutor').doc(tutorId).get();
+        promiseArray.push(tutorRef)
+
+        // Check organzation entity belongs to the Org User
+        let orgEntityDocRef =
+            db.collection("org")
+              .doc('v1')
+              .collection('org')
+              .where(ORG_ORG_OID, '==', dbUid)
+              .where(ORG_ORG_TYPE, '==', ORG_TYPE_ORG)
+              .get();
+        promiseArray.push(orgEntityDocRef)
+
+        // Check the owner role exists
+        let roleOwnerDocRef =
+            db.collection("org")
+              .doc('v1')
+              .collection('role')
+              .where(ORG_ROLE_UID, '==', dbUid)
+              .where(ORG_ROLE_TYPE, '==', ORG_TYPE_ORG)
+              .where(ORG_ROLE_EMP_ROLE, '==', 'owner')
+              .get();
+        promiseArray.push(roleOwnerDocRef)
+
+        return Promise.all(promiseArray);
+
+      })
+      // Layer 2:
+      // Check if an org user exist in org>v1>user>[uid].
+      // If yes, login directly
+      // If no, create a new org user org>v1>user>[uid]..
+      //   Before creating a new org user, Check if an user exist in Tutor>[tutorId].
+      //   If yes, inherit the accountStatus, name, image and email. Phone is reserved for the login number used.
+      //     If the accountStatus is premium3, create a new org doc org>v1>org>[orgId].
+      //     If the accountStatus is premium3, create a 'owner' role org>v1>role>[roleId]
+      .then((snapshots)=> {
+        document.getElementById("btnLogin").setAttribute("disabled", true);
+        document.getElementById("btnLogin").textContent = 'Please wait. Almost there ... ';
+
+        const promiseArray = [];
+
+        // Get number of org entity doc in org>v1>org>[orgId]. Default 1. If more than one, system error
+        // Get number of 'owner' role doc in org>v1>role>[roleId]. Default 1. If more than one, system error
+        let orgEntityDocNum = snapshots[2].size;
+        let orgOwnerRoleDocNum = snapshots[3].size;
+        console.log('number of org entity: ', orgEntityDocNum)
+        console.log('number of owner role doc: ', orgOwnerRoleDocNum)
+        console.log(snapshots[2])
+
+        // Org User exits
+        // Check if organization entity and respective owner role had been created.
+        if (snapshots != null && snapshots[0].exists ){
+          // Org Entity & Owner role exist, skip
+          if (orgEntityDocNum == 1 && orgOwnerRoleDocNum == 1){
+            console.log('Org User found. Org Entity and owner Role exist. Redirect to home page')
+            // accountStatus available & reaching premium2/3.
+            window.location.href = "../"
+          }
+          // Org Entity & Owner role does not exist, create new if the accountStatus reach premium2/3.
+          // Then update the Org User profile
+          // Do note that for a existing org user, we will use the accountStatus of the org user it self, NOT from the tutor profile.
+
+          else if (orgEntityDocNum == 0 && orgOwnerRoleDocNum == 0){
+
+
+            console.log('Org User found. Org Entity and owner Role do not exist. Create new.')
+
+            if (snapshots[0].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_2_STATUS_KEY ||
+              snapshots[0].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY ||
+              snapshots[0].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_3_STATUS_KEY ||
+              snapshots[0].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY){
+
+              let newOrgDocRef =
+                db.collection("org")
+                  .doc('v1')
+                  .collection('user')
+                  .doc(dbUid);
+
+              let orgEntityDocRef =
+                db.collection("org")
+                  .doc('v1')
+                  .collection('org')
+                  .doc()
+
+              let empOwnerDocRef =
+                db.collection("org")
+                  .doc('v1')
+                  .collection('employee')
+                  .doc();
+
+              let roleOwnerDocRef =
+                db.collection("org")
+                  .doc('v1')
+                  .collection('role')
+                  .doc();
+
+              newOrgUserData = {
+                // [ORG_USER_UID] : dbUid,
+                // [ORG_USER_NAME]  : snapshots[1].data()[NAME_KEY],
+                // [ORG_USER_PHONE] : dbPhone,
+                // [ORG_USER_EMAIL]  : snapshots[1].data()[EMAIL_KEY],
+                // [ORG_USER_IMAGE_URL]  : snapshots[1].data()[IMAGE_KEY],
+                [ORG_USER_LAST_ONLINE] : new Date(),
+                // [ORG_USER_ACCOUNT_STATUS]  : snapshots[1].data()[ACCOUNT_STATUS_KEY],
+                [ORG_USER_ORG_ID] : orgEntityDocRef.id,
+                // [ORG_USER_ACC_ID_ARR] : [],
+              }
+              promiseArray.push(newOrgDocRef.update(newOrgUserData))
+
+              newOrgData = {
+                [ORG_ORG_ID] : orgEntityDocRef.id,
+                [ORG_ORG_URL]  : "",
+                [ORG_ORG_ORG_ID] : orgEntityDocRef.id,
+                [ORG_ORG_ACC_ID_ARR]  : "",
+                [ORG_ORG_OID] : dbUid,
+                [ORG_ORG_AID]  : dbUid,
+                [ORG_ORG_TYPE] : ORG_TYPE_ORG,
+                [ORG_ORG_LAST_ONLINE]  : new Date(),
+                [ORG_ORG_RATING] : 0,
+                [ORG_ORG_RATING_TIMES]  : 0,
+                [ORG_ORG_RATING_FINAL] : 0,
+                [ORG_ORG_STATUS]  : "",
+                [ORG_ORG_NAME] : snapshots[0].data()[ORG_USER_NAME] + "'s Organization",
+                [ORG_ORG_PHONE]  : snapshots[0].data()[ORG_USER_PHONE],
+                [ORG_ORG_EMAIL] : snapshots[0].data()[ORG_USER_EMAIL],
+                [ORG_ORG_ADDRESS]  : "",
+                [ORG_ORG_AREA]  : "",
+                [ORG_ORG_STATE] : "",
+                [ORG_ORG_IMG_URL]  : "",
+                [ORG_ORG_COVER_IMG_URL] : "",
+                [ORG_ORG_ONE_LINER]  : "",
+                [ORG_ORG_INTRO] : "",
+                [ORG_ORG_LAN]  : [],
+                [ORG_ORG_TIME_SLOT_ARR] : emptyTimeSlot,
+                [ORG_ORG_PREFERRED_SUBJECT_ARR] : [],
+                [ORG_ORG_CORP]  : "",
+                [ORG_ORG_CORP_ID]  : ""
+              }
+              promiseArray.push(orgEntityDocRef.set(newOrgData))
+
+              newEmployeeData = {
+                [ORG_EMP_ID] : empOwnerDocRef.id,
+                [ORG_EMP_UID]  : dbUid,
+                [ORG_EMP_URL] : "",
+                [ORG_EMP_ORG_ID] : orgEntityDocRef.id,
+                [ORG_EMP_ACC_ID]  : "",
+                [ORG_EMP_TYPE] : ORG_TYPE_ORG,
+                [ORG_EMP_OID]  : dbUid,
+                [ORG_EMP_STATUS] : ORG_EMP_STATUS_ACTIVE,
+                [ORG_EMP_NAME]  : snapshots[0].data()[ORG_USER_NAME],
+                [ORG_EMP_PHONE]  : snapshots[0].data()[ORG_USER_PHONE],
+                [ORG_EMP_EMAIL]  : snapshots[0].data()[ORG_USER_EMAIL],
+                [ORG_EMP_GENDER]  : 0, // Default to male
+                [ORG_EMP_IMG_URL]  : snapshots[0].data()[ORG_USER_IMAGE_URL],
+                [ORG_EMP_DATE_JOINED] : new Date(),
+                [ORG_EMP_BANK_NAME] : "",
+                [ORG_EMP_BANK_ACC]  : "",
+                [ORG_EMP_EPF] : "",
+                [ORG_EMP_SOCSO] : "",
+              }
+              promiseArray.push(empOwnerDocRef.set(newEmployeeData))
+
+
+              newRoleData = {
+                [ORG_ROLE_ID] : roleOwnerDocRef.id,
+                [ORG_ROLE_UID]  : dbUid,
+                [ORG_ROLE_URL] : "",
+                [ORG_ROLE_ORG_ID] : orgEntityDocRef.id,
+                [ORG_ROLE_ACC_ID]  : "",
+                [ORG_ROLE_TYPE] : ORG_TYPE_ORG,
+                [ORG_ROLE_OID]  : dbUid,
+                [ORG_ROLE_EMP_STATUS] : ORG_EMP_STATUS_ACTIVE,
+                [ORG_ROLE_EMP_ID] : empOwnerDocRef.id,
+                [ORG_ROLE_EMP_NAME]  : snapshots[0].data()[ORG_USER_NAME],
+                [ORG_ROLE_EMP_PHONE]  : snapshots[0].data()[ORG_USER_PHONE],
+                [ORG_ROLE_EMP_EMAIL]  : snapshots[0].data()[ORG_USER_EMAIL],
+                [ORG_ROLE_EMP_IMG_URL]  : snapshots[0].data()[ORG_USER_IMAGE_URL],
+                [ORG_ROLE_EMP_REF] : "",
+                [ORG_ROLE_REPORT_TO] : "",
+                [ORG_ROLE_EMP_TITLE]  : "",
+                [ORG_ROLE_EMP_ROLE] : ORG_ROLE_OWNER,
+                [ORG_ROLE_ALLOWED_PERMISSION_ARR] : [],
+                [ORG_ROLE_ORG_NAME]  : snapshots[0].data()[ORG_USER_NAME] + "'s Organization",
+                [ORG_ROLE_ORG_IMG_URL] : "",
+                [ORG_ROLE_ORG_COVER_IMG_URL]  : "",
+              }
+              promiseArray.push(roleOwnerDocRef.set(newRoleData))
+
+            }
+            else {
+              console.log('Org User found. Org Entity and owner Role do not exist. However, accountStatus is less than premium2/3. Remain unchange')
+
+            }
+
+
+
+          }
+          else{
+            console.log('Org User found. System Error')
+            alert('We detected something is wrong with your account! Please notice us to fix your issue and preserve your data.')
+          }
+
+          return null;
+        }
+        // Org User does not exist, Create one
+        else {
+
+          let newOrgDocRef =
+            db.collection("org")
+              .doc('v1')
+              .collection('user')
+              .doc(dbUid);
+
+          // Create new Org User
+          var newOrgUserData = null;
+          // Create new Org Entity
+          var newOrgData = null;
+          // Create new Employee
+          var newEmployeeData = null;
+          // Create new Role
+          var newRoleData = null;
+
+          // Tutor found.
+          // For completely new Org User, we want to see if the accountStatus of their tutorProfile
+          if (snapshots != null && snapshots[1].exists ){
+
+            // accountStatus available & reaching premium2/3.
+            if (snapshots[1].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_2_STATUS_KEY ||
+              snapshots[1].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY ||
+              snapshots[1].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_3_STATUS_KEY ||
+              snapshots[1].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY){
+
+              console.log('No Org User, Tutor exist. Tutor Acc Status reaches premium3')
+
+              let orgEntityDocRef =
+                db.collection("org")
+                  .doc('v1')
+                  .collection('org')
+                  .doc()
+
+              let empOwnerDocRef =
+                db.collection("org")
+                  .doc('v1')
+                  .collection('employee')
+                  .doc();
+
+              let roleOwnerDocRef =
+                db.collection("org")
+                  .doc('v1')
+                  .collection('role')
+                  .doc();
+
+              newOrgUserData = {
+                [ORG_USER_UID] : dbUid,
+                [ORG_USER_NAME]  : snapshots[1].data()[NAME_KEY],
+                [ORG_USER_PHONE] : dbPhone,
+                [ORG_USER_EMAIL]  : snapshots[1].data()[EMAIL_KEY],
+                [ORG_USER_IMAGE_URL]  : snapshots[1].data()[IMAGE_KEY],
+                [ORG_USER_LAST_ONLINE] : new Date(),
+                [ORG_USER_ACCOUNT_STATUS]  : snapshots[1].data()[ACCOUNT_STATUS_KEY],
+                [ORG_USER_ORG_ID] : orgEntityDocRef.id,
+                [ORG_USER_ACC_ID_ARR] : [],
+              }
+              promiseArray.push(newOrgDocRef.set(newOrgUserData))
+
+              newOrgData = {
+                [ORG_ORG_ID] : orgEntityDocRef.id,
+                [ORG_ORG_URL]  : "",
+                [ORG_ORG_ORG_ID] : orgEntityDocRef.id,
+                [ORG_ORG_ACC_ID_ARR]  : [],
+                [ORG_ORG_OID] : dbUid,
+                [ORG_ORG_AID]  : dbUid,
+                [ORG_ORG_TYPE] : ORG_TYPE_ORG,
+                [ORG_ORG_LAST_ONLINE]  : new Date(),
+                [ORG_ORG_RATING] : 0,
+                [ORG_ORG_RATING_TIMES]  : 0,
+                [ORG_ORG_RATING_FINAL] : 0,
+                [ORG_ORG_STATUS]  : "",
+                [ORG_ORG_NAME] : snapshots[1].data()[NAME_KEY] + "'s Organization",
+                [ORG_ORG_PHONE]  : "",
+                [ORG_ORG_EMAIL] : "",
+                [ORG_ORG_ADDRESS]  : "",
+                [ORG_ORG_AREA]  : "",
+                [ORG_ORG_STATE] : "",
+                [ORG_ORG_IMG_URL]  : "",
+                [ORG_ORG_COVER_IMG_URL] : "",
+                [ORG_ORG_ONE_LINER]  : "",
+                [ORG_ORG_INTRO] : "",
+                [ORG_ORG_LAN]  : [],
+                [ORG_ORG_TIME_SLOT_ARR] : emptyTimeSlot,
+                [ORG_ORG_PREFERRED_SUBJECT_ARR] : [],
+                [ORG_ORG_CORP]  : "",
+                [ORG_ORG_CORP_ID]  : ""
+              }
+              promiseArray.push(orgEntityDocRef.set(newOrgData))
+
+              newEmployeeData = {
+                [ORG_EMP_ID] : empOwnerDocRef.id,
+                [ORG_EMP_UID]  : dbUid,
+                [ORG_EMP_URL] : "",
+                [ORG_EMP_ORG_ID] : orgEntityDocRef.id,
+                [ORG_EMP_ACC_ID]  : "",
+                [ORG_EMP_TYPE] : ORG_TYPE_ORG,
+                [ORG_EMP_OID]  : dbUid,
+                [ORG_EMP_STATUS] : ORG_EMP_STATUS_ACTIVE,
+
+                [ORG_EMP_NAME]  : snapshots[1].data()[NAME_KEY],
+                [ORG_EMP_PHONE]  : dbPhone,
+                [ORG_EMP_EMAIL]  : snapshots[1].data()[EMAIL_KEY],
+                [ORG_EMP_GENDER]  : snapshots[1].data()[GENDER_KEY],
+                [ORG_EMP_IMG_URL]  : snapshots[1].data()[IMAGE_KEY],
+
+                [ORG_EMP_DATE_JOINED] : new Date(),
+                [ORG_EMP_BANK_NAME] : "",
+                [ORG_EMP_BANK_ACC]  : "",
+                [ORG_EMP_EPF] : "",
+                [ORG_EMP_SOCSO] : "",
+              }
+              promiseArray.push(empOwnerDocRef.set(newEmployeeData))
+
+              newRoleData = {
+                [ORG_ROLE_ID] : roleOwnerDocRef.id,
+                [ORG_ROLE_UID]  : dbUid,
+                [ORG_ROLE_URL] : "",
+                [ORG_ROLE_ORG_ID] : orgEntityDocRef.id,
+                [ORG_ROLE_ACC_ID]  : "",
+                [ORG_ROLE_TYPE] : ORG_TYPE_ORG,
+                [ORG_ROLE_OID]  : dbUid,
+                [ORG_ROLE_EMP_STATUS] : ORG_EMP_STATUS_ACTIVE,
+                [ORG_ROLE_EMP_ID] : empOwnerDocRef.id,
+                [ORG_ROLE_EMP_NAME]  : snapshots[1].data()[NAME_KEY],
+                [ORG_ROLE_EMP_PHONE]  : dbPhone,
+                [ORG_ROLE_EMP_EMAIL]  : snapshots[1].data()[EMAIL_KEY],
+                [ORG_ROLE_EMP_IMG_URL]  : snapshots[1].data()[IMAGE_KEY],
+                [ORG_ROLE_EMP_REF] : "",
+                [ORG_ROLE_REPORT_TO] : "",
+                [ORG_ROLE_EMP_TITLE]  : "",
+                [ORG_ROLE_EMP_ROLE] : ORG_ROLE_OWNER,
+                [ORG_ROLE_ALLOWED_PERMISSION_ARR] : [],
+                [ORG_ROLE_ORG_NAME]  : snapshots[1].data()[NAME_KEY] + "'s Organization",
+                [ORG_ROLE_ORG_IMG_URL] : "",
+                [ORG_ROLE_ORG_COVER_IMG_URL]  : "",
+              }
+              promiseArray.push(roleOwnerDocRef.set(newRoleData))
+
+            }
+            // accountStatus not reaching premium3. Create new org user only
+            else {
+              console.log('No Org User, Tutor exist. Tutor Acc Status: '+ snapshots[1].data()[ACCOUNT_STATUS_KEY])
+
+              newOrgUserData = {
+                [ORG_USER_UID] : dbUid,
+                [ORG_USER_NAME]  : snapshots[1].data()[NAME_KEY],
+                [ORG_USER_PHONE] : dbPhone,
+                [ORG_USER_EMAIL]  : snapshots[1].data()[EMAIL_KEY],
+                [ORG_USER_IMAGE_URL]  : snapshots[1].data()[IMAGE_KEY],
+                [ORG_USER_LAST_ONLINE] : new Date(),
+                [ORG_USER_ACCOUNT_STATUS]  : snapshots[1].data()[ACCOUNT_STATUS_KEY],
+                [ORG_USER_ORG_ID] : "",
+                [ORG_USER_ACC_ID_ARR] : [],
+              }
+              promiseArray.push(newOrgDocRef.set(newOrgUserData))
+            }
+
+          }
+          // No Tutor found. Create new org user only
+          else {
+            newOrgUserData = {
+              [ORG_USER_UID] : dbUid,
+              [ORG_USER_NAME]  : "New User",
+              [ORG_USER_PHONE] : dbPhone,
+              [ORG_USER_EMAIL]  : "",
+              [ORG_USER_IMAGE_URL]  : "",
+              [ORG_USER_LAST_ONLINE] : new Date(),
+              [ORG_USER_ACCOUNT_STATUS]  : DEACTIVATED_ACCOUNT_STATUS_KEY,
+              [ORG_USER_ORG_ID] : "",
+              [ORG_USER_ACC_ID_ARR] : [],
+            }
+            promiseArray.push(newOrgDocRef.set(newOrgUserData))
+
+            console.log('No Org User, Tutor not exist.')
+          }
+          console.log(newOrgUserData)
+
+        }
+
+        return Promise.all(promiseArray);
+
+      })
+      // Layer 3: Finishing
+      .then(() => {
+        console.log('Go To Main Page')
+        document.getElementById("btnLogin").removeAttribute("disabled");
+        document.getElementById("btnLogin").textContent = 'Confirm And Login';
+
+        // window.location.href = '../'
+      })
+      .catch(function (error) {
+        // alert(error.message);
+        // alert("Phone Verification Failed. Please make sure you enter a valid 6-digit verification code." +  error.message);
+        func.showNotification('top','center', 'danger', 'error_outline', "Phone Verification Failed. "+ error.message);
+
+        document.getElementById("btnLogin").removeAttribute("disabled");
+        document.getElementById("btnLogin").textContent = 'Confirm And Login';
+        console.log("Phone Verification Failed. Please make sure you enter a valid 6-digit verification code."+  error.message);
+      });
+    }
+
+  </script>
+</body>
+
+</html>
