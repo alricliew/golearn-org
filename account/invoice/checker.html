@@ -1,0 +1,1681 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/invoice/ >
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+  </script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!--GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <!-- Date rage picker -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <style>
+    .br {
+      border-radius: 8px;
+    }
+    .w30 {
+      width: 30%;
+    }
+    .w50 {
+      width: 50%;
+    }
+    .w80 {
+      width: 80%;
+    }
+    .card {
+      border: 2px solid #fff;
+      /* box-shadow:0px 0px 10px 0 #a9a9a9; */
+      padding: 12px 20px;
+      /* width: 80%; */
+      /* margin: 50px auto; */
+      margin-top: 0.2rem;
+    }
+    .card-shimmer-wrapper {
+      width: 0px;
+      animation: fullView 0.5s forwards cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    }
+    .profilePic {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+    }
+    .comment {
+      height: 10px;
+      background: #777;
+      margin-top: 15px;
+    }
+
+    @keyframes fullView {
+      100% {
+        width: 100%;
+      }
+    }
+
+    .animate {
+      animation : shimmer 2s infinite linear;
+      background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+        background-size: 1000px 100%;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+  </style>
+  <!-- Loading style -->
+  <style>
+    .br {
+      border-radius: 8px;
+    }
+    .w30 {
+      width: 30%;
+    }
+    .w50 {
+      width: 50%;
+    }
+    .w80 {
+      width: 80%;
+    }
+    .card {
+      border: 2px solid #fff;
+      /* box-shadow:0px 0px 10px 0 #a9a9a9; */
+      padding: 12px 20px;
+      /* width: 80%; */
+      /* margin: 50px auto; */
+      margin-top: 0.2rem;
+    }
+    .card-shimmer-wrapper {
+      width: 0px;
+      animation: fullView 0.5s forwards cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    }
+    .comment {
+      height: 10px;
+      background: #777;
+      margin-top: 10px;
+    }
+
+    @keyframes fullView {
+      100% {
+        width: 100%;
+      }
+    }
+
+    .animate {
+      animation : shimmer 2s infinite linear;
+      background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+        background-size: 1000px 100%;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+  </style>
+  <!-- daterangepicker style -->
+  <style>
+    .yearly table.table-condensed .monthselect,
+    .yearly table.table-condensed thead tr:nth-child(2),
+    .yearly table.table-condensed tbody,
+    .monthly table.table-condensed thead tr:nth-child(2),
+    .monthly table.table-condensed tbody {
+      display: none;
+    }
+
+    .daterangepicker.monthly .drp-calendar,
+    .daterangepicker.yearly .drp-calendar {
+      width: 1000px !important;
+    }
+
+    .yearly table.table-condensed .yearselect {
+      width: 100%;
+}
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden active" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Invoices <span><i class="material-icons" style="color: gray;">chevron_right</i></span> Check</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+                <!-- <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a> -->
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a> -->
+                </div>
+              </li>
+              <!-- your navbar here -->
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+									<div class="dropdown-divider"></div>
+									<a style="font-weight: 500 ;padding: 0.5em ;text-align: center; width: 200px; background-color: #428dd4 ;display: block; color: #fff;" href="https://golearn.com.my/pricing/" target="_blank">Upgrade to Pro</a>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+
+      <!-- Confirm Update Invoice and Clients modal -->
+      <div class="row">
+        <div class="modal fade" id="confirmUpdateAllModal" tabindex="-1" role="dialog" aria-labelledby="confirmUpdateAllModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Full Run</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="confirmUpdateAllModalBody">
+                <p>
+                  Run <strong>Full Run</strong> to update both invoice and client lists.
+                </p>
+                <p>
+                  Updating both invoices and clients will <strong>replace the existing client list with your latest clients pool</strong>. <br>
+                  You will lose the original clients list at the selected period.
+                </p>
+                <p style="font-style: italic;">
+                  You wouldn't want to choose this option if you were checking the invoices created in December last year! <br>
+                  Typically, you will need a Full run for a particular month ONLY after you added new clients.
+                </p>
+                <p>
+                  This action <strong style="color: #2e74b6;">cannot be UNDO</strong>. <br>
+                  Are you sure you want to continue?
+                </p>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnConfirmUpdateAllModalUpdate"  onclick="runUpdateInv('InvAndClient');">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Loading Modal -->
+      <div class="row">
+        <div class="modal fade" tabindex="-1" role="dialog" id="loadingModal" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="container-fluid">
+              <div class="row d-flex">
+                <span class="fa fa-spinner fa-spin fa-5x w-100" style="color: #fff ;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!-- Sign-out modal -->
+       <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <!-- your content here -->
+
+          <!-- Main content -->
+          <div class="row d-flex justify-content-center">
+            <!-- button -->
+            <div class="p-2">
+
+              <!-- <a href="settings.html" class="btn btn-outline-primary btn-round" id="btnBack"><i class="fas fa-cog" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;"></i> Financial Settings</a> -->
+            </div>
+
+            <div class="p-2 align-self-center"style="padding-top: 0!important; padding-bottom: 0!important;">
+              <a href="javascript:;" name="daterange" id='daterange' style="padding:0.2rem 0.5rem 0.2rem 0.2rem; border: solid thin #2e74b6; width: 500px; font-size: 14px; ">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span>Select month</span> <i class="fa fa-caret-down"></i>
+              </a>
+            </div>
+            <div class="p-2">
+              <!-- <button href="javascript:;" class="btn btn-primary btn-round" style="background-color: #2e74b6;" id="btnRunDefault" onclick="runCheck();" disabled>Run</button> -->
+
+              <div class="btn-group" id="btnGroup">
+                <button class="btn btn-primary btn-round" type="button" id="btnRun" onclick="runUpdateInv('InvOnly');" disabled>
+                  Run
+                </button>
+                <button type="button" class="btn btn-primary btn-round dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnRunDropdown" disabled>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                  <!-- <a class="dropdown-item" href="javascript:;" onclick="runCheck();">Run Check</a> -->
+                  <a class="dropdown-item" href="javascript:;" onclick="runUpdateInv('InvOnly');">Run</a>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#confirmUpdateAllModal">Full Run</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="row" id="result">
+            <div class="col-md-12">
+              <h3>You have <span id="clientNo">0</span> Unique Client(s) and <span id="matchedInvNo">0</span> Invoice(s)</h3>
+
+              <table class="table table-hover" id="table1">
+                <thead class="text-primary">
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Invoice No.</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </thead>
+                <tbody id="table1Body">
+                  <!-- <tr>
+                    <td>Alric Liew</td>
+                    <td>+1928313</td>
+                    <td>INV-93849035 </td>
+                    <td>RM12</td>
+                    <td>Paid</td>
+                  </tr>
+                  <tr>
+                    <td>Nooor</td>
+                    <td>+70199348938</td>
+                    <td>INV-1283912</td>
+                    <td>RM120</td>
+                    <td>Paid</td>
+                  </tr>
+                  <tr>
+                    <td>Ahmad</td>
+                    <td>2</td>
+                    <td>12</td>
+                    <td>RM121</td>
+                    <td>Paid</td>
+                  </tr>
+                  <tr>
+                    <td>Zaihid</td>
+                    <td>Paid</td>
+                    <td>Paid</td>
+                    <td>RM22</td>
+                    <td>UnPaid</td>
+                  </tr>
+                  <tr>
+                    <td>Sally Kong</td>
+                    <td>245</td>
+                    <td>
+                      <a class="btn btn-sm btn-primary btn-round"  href="create-invoice.html">Create New</a>
+                    </td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr> -->
+                </tbody>
+              </table>
+
+              <!-- Loading block -->
+              <div class="card br" id="card-load-1">
+                <div class="card-shimmer-wrapper">
+                  <div class="comment br animate w80"></div>
+                  <div class="comment br animate w30"></div>
+                </div>
+              </div>
+
+              <!-- No data placeholder -->
+              <div class="col-md-12 text-center" style="display: none; margin: 1rem;" id="noDataPlaceholder1">
+                <p>No data</p>
+              </div>
+
+            </div>
+
+            <div class="col-md-12">
+              <h3 id="part2"><span id="unmatchedInvNo">0</span> Invoice(s) issued to clients outside of your organization</h3>
+              <table class="table table-hover" id="table2">
+                <thead class="text-primary">
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Invoice No.</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </thead>
+                <tbody id="table2Body">
+                  <!-- <tr>
+                    <td>Alric Liew</td>
+                    <td>+1928313</td>
+                    <td>INV-93849035 </td>
+                    <td>RM12</td>
+                    <td>Paid</td>
+                  </tr>
+                  <tr>
+                    <td>Nooor</td>
+                    <td>+70199348938</td>
+                    <td>INV-1283912</td>
+                    <td>RM120</td>
+                    <td>Paid</td>
+                  </tr>
+                  <tr>
+                    <td>Ahmad</td>
+                    <td>2</td>
+                    <td>12</td>
+                    <td>RM121</td>
+                    <td>Paid</td>
+                  </tr> -->
+                </tbody>
+              </table>
+
+              <!-- Loading block -->
+              <div class="card br" id="card-load-2">
+                <div class="card-shimmer-wrapper">
+                  <div class="comment br animate w80"></div>
+                  <div class="comment br animate w30"></div>
+                </div>
+              </div>
+
+              <!-- No data placeholder -->
+              <div class="col-md-12 text-center" style="display: none; margin: 1rem;" id="noDataPlaceholder2">
+                <p>No data</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <nav class="float-left">
+            <ul>
+              <!-- <li>
+              <a href="https://golearn.com.my/join-us" target="_blank">
+                Visit GoLearn Tutor
+              </a>
+              </li> -->
+            </ul>
+            </nav>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+  <!-- Date range picker -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+	<script>
+
+    // Start and end of curent month
+    var startDate = moment().startOf('month');
+    var endDate = moment().endOf('month');
+    var startDateMonth = moment().startOf('month').format('YYYYMM');
+
+    var startDateNotification = moment().startOf('month').format('MMM YYYY');
+
+    var latestInvoiceDoc = null;// Store last document - Used for Lesson Load More btn
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+
+      // Enable the run button
+      document.getElementById('btnRun').removeAttribute('disabled');
+      document.getElementById('btnRunDropdown').removeAttribute('disabled');
+
+      // console.log(convertDate('Mon Nov 19 13:29:40 2012'))
+
+      // runCheck();
+      runUpdateInv('InvOnly');
+
+    }
+
+    function convertDate(inputFormat) {
+      function pad(s) { return (s < 10) ? '0' + s : s; }
+
+      var d = new Date(inputFormat)
+
+      return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
+    }
+
+
+    // Run Checking
+    function runCheck() {
+
+      document.getElementById('btnRun').setAttribute('disabled', true);
+      document.getElementById('btnRun').textContent = "Running. Please wait...";
+      document.getElementById('btnRunDropdown').setAttribute('disabled', true);
+
+      // Clear table 1&2, Show loading placeholder N
+      $("#table1").find("tr:not(:first)").remove();
+      $("#table2").find("tr:not(:first)").remove();
+
+      document.getElementById("card-load-1").style.display = "";
+      document.getElementById("card-load-2").style.display = "";
+      document.getElementById("noDataPlaceholder1").style.display = 'none';
+      document.getElementById("noDataPlaceholder2").style.display = 'none';
+
+      // console.log(new Date(startDate), new Date(endDate), startDateMonth)
+
+      var invIdArr = [];
+      var invRIdArr = [];
+      var invRNameArr = [];
+      var invRefNoArr = [];
+      var invStatusArr = [];
+      var invTotalsArr = [];
+      var gurIdArr = [];
+      var gurNameArr = [];
+
+      let docRef = db.collection("dev")
+        .doc("v2")
+        .collection("inv_check")
+        .where(INV_CHECK_ADMIN_ID, "==", ent_id)
+        .where(INV_CHECK_MONTH, "==", startDateMonth)
+        .limit(1)
+
+      docRef.get()
+      .then((querySnapshot) => {
+
+        const promiseAll =[];
+
+        if (querySnapshot != null && querySnapshot.docs.length > 0) {
+          querySnapshot.forEach((doc) => {
+            // console.log('Document found.')
+
+            invIdArr = doc.data()[INV_CHECK_INV_ID_ARR];
+            invRIdArr = doc.data()[INV_CHECK_INV_RECEIVER_ID_ARR];
+            invRNameArr = doc.data()[INV_CHECK_INV_RECEIVER_NAME_ARR];
+            invRefNoArr = doc.data()[INV_CHECK_INV_NO_ARR];
+            invStatusArr = doc.data()[INV_CHECK_INV_STATUS_ARR];
+            invTotalsArr = doc.data()[INV_CHECK_INV_TOTAL_ARR];
+            gurIdArr = doc.data()[INV_CHECK_GUR_ID_ARR];
+            gurNameArr = doc.data()[INV_CHECK_GUR_NAME_ARR];
+          });
+
+          return null;
+        }
+        else {
+          console.log('No document found. Create a new documents')
+
+          // Get all inv doc within the month
+          let invDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("Invoice")
+            .where(INV_SENDER_ID, "==", ent_id)
+            .where(INV_ISSUE_DATE, ">=", new Date(startDate))
+            .where(INV_ISSUE_DATE, "<=", new Date(endDate))
+            .where(INV_STATUS, "==", true)
+            // .limit(5)
+            .get();
+
+          promiseAll.push(invDocRef);
+
+          // Get all the parents & student
+          let clientDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("Student")
+            .where(STU_ADMIN_ID, "==", ent_id)
+            .where(STU_STATUS_ADMIN, "==", true)
+            .orderBy(STU_GUR_NAME, 'asc')
+            // .limit(5)
+            .get();
+
+          promiseAll.push(clientDocRef);
+
+          return Promise.all(promiseAll);
+        }
+
+      })
+      .then((snapshots) => {
+
+        // Invoice
+        if (snapshots != null && snapshots[0] != null && snapshots[0].size > 0) {
+
+          snapshots[0].forEach((doc) => {
+            // console.log(doc.id, doc.data()[INV_TITLE])
+            // invDocArr.push(doc.data());
+            invIdArr.push(doc.id);
+            invRIdArr.push(doc.data()[INV_RECEIVER_ID]);
+            invRefNoArr.push(doc.data()[INV_NUMBER]);
+            invRNameArr.push(doc.data()[INV_RECEIVER_NAME]);
+            invStatusArr.push(doc.data()[INV_INV_STATUS]);
+            invTotalsArr.push(doc.data()[INV_TOTAL]);
+
+          })
+        }
+        else {
+          // console.log('No invoice documents found')
+        }
+
+        // Students
+        if (snapshots != null &&  snapshots[1] != null && snapshots[1].size > 0) {
+
+          snapshots[1].forEach((doc) => {
+
+            // console.log(doc.id, doc.data()[STU_GUR_NAME])
+            // clientDocArr.push(doc.data());
+            gurIdArr.push(doc.data()[STU_GUR_ID]);
+            gurNameArr.push(doc.data()[STU_GUR_NAME]);
+            // stuIdArr.push(doc.data()[STU_CHILD_ID]);
+            // stuNameArr.push(doc.data()[STU_CHILD_NAME]);
+          })
+        }
+        else {
+          // console.log('No student documents found')
+        }
+
+        // Remove duplicated gurId & it's corresponding gurName first
+        uniqGurIdArr = [...new Set(gurIdArr)];
+        let uniqGurName = [];
+        uniqGurIdArr.forEach((item) => {
+          uniqGurName.push(gurNameArr[gurIdArr.indexOf(item)])
+        })
+
+        // Process the doc arrays
+        // Results:
+        // List 1. Receiver ID, Inv No. , Status (Invoice ReceiverId is in the GurdianId list)
+        // List 2. Guardian, - , - (GurdianId not in Invoice ReceiverId list)
+        // List 3. Receiver ID, Inv No. , Status (Invoice ReceiverId is NOT in the GurdianId list)
+
+        // const list1 = invRIdArr.filter(element => uniqGurIdArr.includes(element));
+        // const list2 = uniqGurIdArr.filter(element => !invRIdArr.includes(element));
+        // const list3 = invRIdArr.filter(element => !uniqGurIdArr.includes(element));
+
+        var invIdArr_list1 = [];
+        var invRIdArr_list1 = [];
+        var invRNameArr_list1 = [];
+        var invRefNoArr_list1 = [];
+        var invStatusArr_list1 = [];
+        var invTotalsArr_list1 = [];
+        invRIdArr.forEach((item, index) => {
+          if(uniqGurIdArr.includes(item)){
+            invRIdArr_list1.push(item)
+            invIdArr_list1.push(invIdArr[index]);
+            invRNameArr_list1.push(invRNameArr[index]);
+            invRefNoArr_list1.push(invRefNoArr[index]);
+            invStatusArr_list1.push(invStatusArr[index]);
+            invTotalsArr_list1.push(invTotalsArr[index]);
+          }
+        });
+        var uniqGurIdArr_list2 = [];
+        var uniqGurNameArr_list2 = [];
+        uniqGurIdArr.forEach((item, index) => {
+          if(!invRIdArr.includes(item)){
+            uniqGurIdArr_list2.push(item)
+            uniqGurNameArr_list2.push(uniqGurName[index]);
+          }
+        });
+        var invIdArr_list3 = [];
+        var invRIdArr_list3 = [];
+        var invRNameArr_list3 = [];
+        var invRefNoArr_list3 = [];
+        var invStatusArr_list3 = [];
+        var invTotalsArr_list3 = [];
+        invRIdArr.forEach((item, index) => {
+          if(!uniqGurIdArr.includes(item)){
+            invRIdArr_list3.push(item)
+            invIdArr_list3.push(invIdArr[index]);
+            invRNameArr_list3.push(invRNameArr[index]);
+            invRefNoArr_list3.push(invRefNoArr[index]);
+            invStatusArr_list3.push(invStatusArr[index]);
+            invTotalsArr_list3.push(invTotalsArr[index]);
+          }
+        });
+
+        // console.log("invRIdArr" + invRIdArr)
+        // console.log("gurIdArr" + gurIdArr)
+        // console.log(list1);
+        // console.log(list2);
+        // console.log(list3);
+
+        // Remove loading placeholder N and update noDataPlaceholder N
+        document.getElementById("card-load-1").style.display = "none";
+        document.getElementById("card-load-2").style.display = "none";
+        if(invIdArr_list1.length == 0 && uniqGurIdArr_list2.length == 0)
+          document.getElementById("noDataPlaceholder1").style.display = '';
+        else
+          document.getElementById("noDataPlaceholder1").style.display = 'none';
+
+        if(invIdArr_list3.length == 0)
+          document.getElementById("noDataPlaceholder2").style.display = '';
+        else
+          document.getElementById("noDataPlaceholder2").style.display = 'none';
+
+        document.getElementById("matchedInvNo").textContent = invIdArr_list1.length;
+        document.getElementById("clientNo").textContent = uniqGurIdArr.length;
+        document.getElementById("unmatchedInvNo").textContent = invIdArr_list3.length;
+
+        // Render views
+        // renderList1(invIdArr, invRIdArr, invRefNoArr, invRNameArr, invStatusArr, invTotalsArr, list1);
+        renderList1_1(invIdArr_list1, invRIdArr_list1, invRefNoArr_list1, invRNameArr_list1, invStatusArr_list1, invTotalsArr_list1);
+        // renderList2(uniqGurIdArr, uniqGurName, list2);
+        renderList2_1(uniqGurIdArr_list2, uniqGurNameArr_list2);
+        // renderList3(invIdArr, invRIdArr, invRefNoArr, invRNameArr, invStatusArr, invTotalsArr, list3);
+        renderList3_1(invIdArr_list3, invRIdArr_list3, invRefNoArr_list3, invRNameArr_list3, invStatusArr_list3, invTotalsArr_list3);
+
+        // Set a copy of the data to Report > v1 > inv_check
+        if (snapshots != null){
+          let invCheckDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("inv_check")
+            .doc();
+
+          let data = {
+            [INV_CHECK_ID]: invCheckDocRef.id,
+            [INV_CHECK_ADMIN_ID]: ent_id,
+            [INV_CHECK_MONTH]: startDateMonth,
+            [INV_CHECK_INV_ID_ARR]: invIdArr,
+            [INV_CHECK_INV_NO_ARR]: invRefNoArr,
+            [INV_CHECK_INV_RECEIVER_ID_ARR]: invRIdArr,
+            [INV_CHECK_INV_RECEIVER_NAME_ARR]: invRNameArr,
+            [INV_CHECK_INV_STATUS_ARR]: invStatusArr,
+            [INV_CHECK_INV_TOTAL_ARR]: invTotalsArr,
+            [INV_CHECK_GUR_ID_ARR]: uniqGurIdArr,
+            [INV_CHECK_GUR_NAME_ARR]: uniqGurName,
+            [INV_CHECK_DATE_EDIT]: new Date(),
+
+          }
+
+          // console.log(data)
+
+          func.showNotification('top','center', 'success', 'info', 'A new check for '+startDateNotification+' is successfully created.' );
+
+          return Promise.resolve(invCheckDocRef.set(data, {merge : true}));
+
+        }
+        else {
+          return null
+
+        }
+
+      }).then(() => {
+
+        // Enable Run
+        document.getElementById('btnRun').removeAttribute('disabled');
+        document.getElementById('btnRun').textContent = "Run";
+        document.getElementById('btnRunDropdown').removeAttribute('disabled');
+
+      })
+
+    }
+
+    // Render List 1
+    // List 1. Receiver ID, Inv No. , Status (Invoice ReceiverId is in the GurdianId list)
+    function renderList1(invIdArr, invRIdArr, invRefNoArr, invRNameArr, invStatusArr, invTotalsArr, list1) {
+
+      list1.forEach((rid, index) => {
+        var table1 =document.getElementById('table1');
+
+        var len = table1.rows.length;
+
+        var row = table1.insertRow(len);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0); // Gurdian Name
+        var cell2 = row.insertCell(1); // Phone
+        var cell3 = row.insertCell(2); // Inv No.
+        var cell4 = row.insertCell(3); // Amount
+        var cell5 = row.insertCell(4); // Status
+
+        // let index = invRIdArr.indexOf(rid);
+
+        cell1.innerHTML = invRNameArr[index];
+        cell2.innerHTML = rid;
+        // https://app.golearn.com.my/c/f/view.html?iid=McxIlEuCz0yCmV92vaTT
+        let invUrl = 'https://app.golearn.com.my/c/f/view.html?iid=' + invIdArr[index]
+        let invUrl_a = document.createElement('a');
+        invUrl_a.href = invUrl;
+        invUrl_a.textContent = invRefNoArr[index];
+        invUrl_a.setAttribute('target', '_blank');
+        cell3.appendChild(invUrl_a);
+        cell4.innerHTML = 'RM'+invTotalsArr[index];
+        let invStatus = "";
+        if (invStatusArr[index] == INV_STATUS_DRAFT) invStatus = "Draft";
+        else if (invStatusArr[index] == INV_STATUS_NEW) invStatus = "New";
+        else if (invStatusArr[index] == INV_STATUS_PAID) invStatus = "Paid";
+        else invStatus = "Unknown";
+        cell5.innerHTML = invStatus;
+
+        table1.appendChild(row);
+      });
+
+
+    }
+
+    function renderList1_1(invIdArr, invRIdArr, invRefNoArr, invRNameArr, invStatusArr, invTotalsArr) {
+
+      invRIdArr.forEach((item, index) => {
+        var table1 =document.getElementById('table1');
+
+        var len = table1.rows.length;
+
+        var row = table1.insertRow(len);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0); // Gurdian Name
+        var cell2 = row.insertCell(1); // Phone
+        var cell3 = row.insertCell(2); // Inv No.
+        var cell4 = row.insertCell(3); // Amount
+        var cell5 = row.insertCell(4); // Status
+
+        // let index = invRIdArr.indexOf(rid);
+
+        cell1.innerHTML = invRNameArr[index];
+        cell2.innerHTML = invRIdArr[index];
+        // https://app.golearn.com.my/c/f/view.html?iid=McxIlEuCz0yCmV92vaTT
+        let invUrl = 'https://app.golearn.com.my/c/f/view.html?iid=' + invIdArr[index]
+        let invUrl_a = document.createElement('a');
+        invUrl_a.href = invUrl;
+        invUrl_a.textContent = invRefNoArr[index];
+        invUrl_a.setAttribute('target', '_blank');
+        cell3.appendChild(invUrl_a);
+        cell4.innerHTML = 'RM'+invTotalsArr[index];
+        let invStatus = "";
+        if (invStatusArr[index] == INV_STATUS_DRAFT) invStatus = "Draft";
+        else if (invStatusArr[index] == INV_STATUS_NEW) invStatus = "New";
+        else if (invStatusArr[index] == INV_STATUS_PAID) invStatus = "Paid";
+        else invStatus = "Unknown";
+        cell5.innerHTML = invStatus;
+
+        table1.appendChild(row);
+      });
+
+
+    }
+
+    // Render List 2
+    // List 2. Guardian, - , - (GurdianId not in Invoice ReceiverId list)
+    function renderList2(gurIdArr, gurNameArr, list2) {
+
+      list2.forEach((rid, index) => {
+        var table1 =document.getElementById('table1');
+
+        var len = table1.rows.length;
+
+        var row = table1.insertRow(len);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0); // Gurdian Name
+        var cell2 = row.insertCell(1); // Phone
+        var cell3 = row.insertCell(2); // Inv No.
+        var cell4 = row.insertCell(3); // Amount
+        var cell5 = row.insertCell(4); // Status
+
+        // let index = gurIdArr.indexOf(rid);
+
+        cell1.innerHTML = gurNameArr[index];
+        cell2.innerHTML = rid;
+        let invUrl_a = document.createElement('a');
+        invUrl_a.href = 'https://app.golearn.com.my/school/invoice/create-invoice.html';
+        invUrl_a.textContent = 'Create New';
+        invUrl_a.setAttribute('class', 'btn btn-primary btn-sm btn-round');
+        invUrl_a.setAttribute('target', '_blank');
+        cell3.appendChild(invUrl_a);
+        cell4.innerHTML = '-';
+        cell5.innerHTML = '-';
+
+        table1.appendChild(row);
+      });
+    }
+
+    function renderList2_1(gurIdArr, gurNameArr) {
+
+      gurIdArr.forEach((rid, index) => {
+        var table1 =document.getElementById('table1');
+
+        var len = table1.rows.length;
+
+        var row = table1.insertRow(len);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0); // Gurdian Name
+        var cell2 = row.insertCell(1); // Phone
+        var cell3 = row.insertCell(2); // Inv No.
+        var cell4 = row.insertCell(3); // Amount
+        var cell5 = row.insertCell(4); // Status
+
+        // let index = gurIdArr.indexOf(rid);
+
+        cell1.innerHTML = gurNameArr[index];
+        cell2.innerHTML = rid;
+        let invUrl_a = document.createElement('a');
+        let encodeId = encode64(rid);
+        invUrl_a.href = 'https://app.golearn.com.my/school/invoice/create-invoice.html?cid=' +encodeId ;
+        invUrl_a.textContent = 'Create New';
+        invUrl_a.setAttribute('class', 'btn btn-primary btn-sm btn-round');
+        invUrl_a.setAttribute('target', '_blank');
+        cell3.appendChild(invUrl_a);
+        cell4.innerHTML = '-';
+        cell5.innerHTML = '-';
+
+        table1.appendChild(row);
+      });
+    }
+
+    // Render List 3
+    // List 3. Receiver ID, Inv No. , Status (Invoice ReceiverId is NOT in the GurdianId list)
+    function renderList3(invIdArr, invRIdArr, invRefNoArr, invRNameArr, invStatusArr, invTotalsArr, list3) {
+
+      list3.forEach((rid, index) => {
+        var table2 =document.getElementById('table2');
+
+        var len = table2.rows.length;
+
+        var row = table2.insertRow(len);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0); // Gurdian Name
+        var cell2 = row.insertCell(1); // Phone
+        var cell3 = row.insertCell(2); // Inv No.
+        var cell4 = row.insertCell(3); // Amount
+        var cell5 = row.insertCell(4); // Status
+
+        // let index = invRIdArr.indexOf(rid);
+
+        cell1.innerHTML = invRNameArr[index];
+        cell2.innerHTML = rid;
+        // https://app.golearn.com.my/c/f/view.html?iid=McxIlEuCz0yCmV92vaTT
+        let invUrl = 'https://app.golearn.com.my/c/f/view.html?iid=' + invIdArr[index]
+        let invUrl_a = document.createElement('a');
+        invUrl_a.href = invUrl;
+        invUrl_a.textContent = invRefNoArr[index];
+        invUrl_a.setAttribute('target', '_blank');
+        cell3.appendChild(invUrl_a);
+        cell4.innerHTML = 'RM'+invTotalsArr[index];
+        let invStatus = "";
+        if (invStatusArr[index] == INV_STATUS_DRAFT) invStatus = "Draft";
+        else if (invStatusArr[index] == INV_STATUS_NEW) invStatus = "New";
+        else if (invStatusArr[index] == INV_STATUS_PAID) invStatus = "Paid";
+        else invStatus = "Unknown";
+        cell5.innerHTML = invStatus;
+
+        table2.appendChild(row);
+      });
+
+
+    }
+
+    function renderList3_1(invIdArr, invRIdArr, invRefNoArr, invRNameArr, invStatusArr, invTotalsArr) {
+
+      invRIdArr.forEach((item, index) => {
+        var table2 =document.getElementById('table2');
+
+        var len = table2.rows.length;
+
+        var row = table2.insertRow(len);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0); // Gurdian Name
+        var cell2 = row.insertCell(1); // Phone
+        var cell3 = row.insertCell(2); // Inv No.
+        var cell4 = row.insertCell(3); // Amount
+        var cell5 = row.insertCell(4); // Status
+
+        // let index = invRIdArr.indexOf(rid);
+
+        cell1.innerHTML = invRNameArr[index];
+        cell2.innerHTML = invRIdArr[index];
+        // https://app.golearn.com.my/c/f/view.html?iid=McxIlEuCz0yCmV92vaTT
+        let invUrl = 'https://app.golearn.com.my/c/f/view.html?iid=' + invIdArr[index]
+        let invUrl_a = document.createElement('a');
+        invUrl_a.href = invUrl;
+        invUrl_a.textContent = invRefNoArr[index];
+        invUrl_a.setAttribute('target', '_blank');
+        cell3.appendChild(invUrl_a);
+        cell4.innerHTML = 'RM'+invTotalsArr[index];
+        let invStatus = "";
+        if (invStatusArr[index] == INV_STATUS_DRAFT) invStatus = "Draft";
+        else if (invStatusArr[index] == INV_STATUS_NEW) invStatus = "New";
+        else if (invStatusArr[index] == INV_STATUS_PAID) invStatus = "Paid";
+        else invStatus = "Unknown";
+        cell5.innerHTML = invStatus;
+
+        table2.appendChild(row);
+      });
+
+
+    }
+
+
+    // Update Invoice Status
+    function runUpdateInv(runType) {
+      // runType : 'InvOnly', 'InvAndClient'
+
+      document.getElementById('btnRun').setAttribute('disabled', true);
+      document.getElementById('btnRun').textContent = "Running. Please wait...";
+      document.getElementById('btnRunDropdown').setAttribute('disabled', true);
+
+      // Clear table 1&2, Show loading placeholder N
+      $("#table1").find("tr:not(:first)").remove();
+      $("#table2").find("tr:not(:first)").remove();
+
+      document.getElementById("card-load-1").style.display = "";
+      document.getElementById("card-load-2").style.display = "";
+      document.getElementById("noDataPlaceholder1").style.display = 'none';
+      document.getElementById("noDataPlaceholder2").style.display = 'none';
+
+      // console.log(new Date(startDate), new Date(endDate), startDateMonth)
+
+      var invCheckDocId = ''; // id of the INV_CHECK doc
+
+      var invIdArr = [];
+      var invRIdArr = [];
+      var invRNameArr = [];
+      var invRefNoArr = [];
+      var invStatusArr = [];
+      var invTotalsArr = [];
+      var gurIdArr = [];
+      var gurNameArr = [];
+
+      var invIdArr_curr = [];
+      var invRIdArr_curr = [];
+      var invRNameArr_curr = [];
+      var invRefNoArr_curr = [];
+      var invStatusArr_curr = [];
+      var invTotalsArr_curr = [];
+      var gurIdArr_curr = [];
+      var gurNameArr_curr = [];
+
+
+      let docRef = db.collection("dev")
+        .doc("v2")
+        .collection("inv_check")
+        .where(INV_CHECK_ADMIN_ID, "==", ent_id)
+        .where(INV_CHECK_MONTH, "==", startDateMonth)
+        .limit(1)
+
+      docRef.get()
+      .then((querySnapshot) => {
+
+        const promiseAll =[];
+
+        if (querySnapshot != null && querySnapshot.docs.length > 0) {
+          querySnapshot.forEach((doc) => {
+            // console.log('Document found.')
+
+            // invIdArr_curr = doc.data()[INV_CHECK_INV_ID_ARR];
+            // invRIdArr_curr = doc.data()[INV_CHECK_INV_RECEIVER_ID_ARR];
+            // invRNameArr_curr = doc.data()[INV_CHECK_INV_RECEIVER_NAME_ARR];
+            // invRefNoArr_curr = doc.data()[INV_CHECK_INV_NO_ARR];
+            // invStatusArr_curr = doc.data()[INV_CHECK_INV_STATUS_ARR];
+            // invTotalsArr_curr = doc.data()[INV_CHECK_INV_TOTAL_ARR];
+            gurIdArr_curr = doc.data()[INV_CHECK_GUR_ID_ARR];
+            gurNameArr_curr = doc.data()[INV_CHECK_GUR_NAME_ARR];
+
+            invCheckDocId = doc.id;
+
+          });
+
+        }
+        else {
+          console.log('No document found. Create a new documents')
+        }
+
+
+
+        // Get all inv doc within the month
+        let invDocRef = db.collection("dev")
+          .doc("v2")
+          .collection("Invoice")
+          .where(INV_SENDER_ID, "==", ent_id)
+          .where(INV_ISSUE_DATE, ">=", new Date(startDate))
+          .where(INV_ISSUE_DATE, "<=", new Date(endDate))
+          .where(INV_STATUS, "==", true)
+          // .limit(5)
+          .get();
+
+        // Get all the parents & student
+        let clientDocRef = db.collection("dev")
+          .doc("v2")
+          .collection("Student")
+          .where(STU_ADMIN_ID, "==", ent_id)
+          .where(STU_STATUS_ADMIN, "==", true)
+          .orderBy(STU_GUR_NAME, 'asc')
+          // .limit(5)
+          .get();
+
+
+        if (invCheckDocId == ''){
+          promiseAll.push(invDocRef);
+          promiseAll.push(clientDocRef);
+        }
+        else if (runType === 'InvOnly')
+          promiseAll.push(invDocRef);
+        else if (runType === 'InvAndClient') {
+          promiseAll.push(invDocRef);
+          promiseAll.push(clientDocRef);
+        }else {
+          promiseAll.push(invDocRef);
+          promiseAll.push(clientDocRef);
+        }
+
+        return Promise.all(promiseAll);
+
+      })
+      .then((snapshots) => {
+
+        // Invoice
+        if (snapshots != null && snapshots[0] != null && snapshots[0].size > 0) {
+
+          snapshots[0].forEach((doc) => {
+            // console.log(doc.id, doc.data()[INV_TITLE])
+            // invDocArr.push(doc.data());
+            invIdArr.push(doc.id);
+            invRIdArr.push(doc.data()[INV_RECEIVER_ID]);
+            invRefNoArr.push(doc.data()[INV_NUMBER]);
+            invRNameArr.push(doc.data()[INV_RECEIVER_NAME]);
+            invStatusArr.push(doc.data()[INV_INV_STATUS]);
+            invTotalsArr.push(doc.data()[INV_TOTAL]);
+
+          })
+        }
+        else {
+          // console.log('No invoice documents found')
+        }
+
+        // Students
+        if (snapshots != null &&  snapshots[1] != null && snapshots[1].size > 0) {
+
+          snapshots[1].forEach((doc) => {
+
+            // console.log(doc.id, doc.data()[STU_GUR_NAME])
+            gurIdArr.push(doc.data()[STU_GUR_ID]);
+            gurNameArr.push(doc.data()[STU_GUR_NAME]);
+
+          })
+        }
+        else {
+          // console.log('No student documents found')
+          gurIdArr = gurIdArr_curr;
+          gurNameArr = gurNameArr_curr;
+
+        }
+        // console.log('invRIdArr', invRIdArr)
+        // console.log('gurIdArr', gurIdArr)
+
+        // Remove duplicated gurId & it's corresponding gurName first
+        let uniqGurIdArr = [...new Set(gurIdArr)];
+        let uniqGurName = [];
+        uniqGurIdArr.forEach((item) => {
+          uniqGurName.push(gurNameArr[gurIdArr.indexOf(item)])
+        })
+
+        // Process the doc arrays
+        // Results:
+        // List 1. Receiver ID, Inv No. , Status (Invoice ReceiverId is in the GurdianId list)
+        // List 2. Guardian, - , - (GurdianId not in Invoice ReceiverId list)
+        // List 3. Receiver ID, Inv No. , Status (Invoice ReceiverId is NOT in the GurdianId list)
+
+        // var list1 = invRIdArr.filter(element => uniqGurIdArr.includes(element));
+        // var list2 = uniqGurIdArr.filter(element => !invRIdArr.includes(element));
+        // var list3 = invRIdArr.filter(element => !uniqGurIdArr.includes(element));
+
+        var invIdArr_list1 = [];
+        var invRIdArr_list1 = [];
+        var invRNameArr_list1 = [];
+        var invRefNoArr_list1 = [];
+        var invStatusArr_list1 = [];
+        var invTotalsArr_list1 = [];
+        invRIdArr.forEach((item, index) => {
+          if(uniqGurIdArr.includes(item)){
+            invRIdArr_list1.push(item)
+            invIdArr_list1.push(invIdArr[index]);
+            invRNameArr_list1.push(invRNameArr[index]);
+            invRefNoArr_list1.push(invRefNoArr[index]);
+            invStatusArr_list1.push(invStatusArr[index]);
+            invTotalsArr_list1.push(invTotalsArr[index]);
+          }
+        });
+        var uniqGurIdArr_list2 = [];
+        var uniqGurNameArr_list2 = [];
+        uniqGurIdArr.forEach((item, index) => {
+          if(!invRIdArr.includes(item)){
+            uniqGurIdArr_list2.push(item)
+            uniqGurNameArr_list2.push(uniqGurName[index]);
+          }
+        });
+        var invIdArr_list3 = [];
+        var invRIdArr_list3 = [];
+        var invRNameArr_list3 = [];
+        var invRefNoArr_list3 = [];
+        var invStatusArr_list3 = [];
+        var invTotalsArr_list3 = [];
+        invRIdArr.forEach((item, index) => {
+          if(!uniqGurIdArr.includes(item)){
+            invRIdArr_list3.push(item)
+            invIdArr_list3.push(invIdArr[index]);
+            invRNameArr_list3.push(invRNameArr[index]);
+            invRefNoArr_list3.push(invRefNoArr[index]);
+            invStatusArr_list3.push(invStatusArr[index]);
+            invTotalsArr_list3.push(invTotalsArr[index]);
+          }
+        });
+
+
+        // Remove loading placeholder N and update noDataPlaceholder N
+        document.getElementById("card-load-1").style.display = "none";
+        document.getElementById("card-load-2").style.display = "none";
+        if(invIdArr_list1.length == 0 && uniqGurIdArr_list2.length == 0)
+          document.getElementById("noDataPlaceholder1").style.display = '';
+        else
+          document.getElementById("noDataPlaceholder1").style.display = 'none';
+
+        if(invIdArr_list3.length == 0)
+          document.getElementById("noDataPlaceholder2").style.display = '';
+        else
+          document.getElementById("noDataPlaceholder2").style.display = 'none';
+
+        document.getElementById("matchedInvNo").textContent = invIdArr_list1.length;
+        document.getElementById("clientNo").textContent = uniqGurIdArr.length;
+        document.getElementById("unmatchedInvNo").textContent = invIdArr_list3.length;
+
+        // Render views
+        // renderList1(invIdArr, invRIdArr, invRefNoArr, invRNameArr, invStatusArr, invTotalsArr, list1);
+        renderList1_1(invIdArr_list1, invRIdArr_list1, invRefNoArr_list1, invRNameArr_list1, invStatusArr_list1, invTotalsArr_list1);
+        // renderList2(uniqGurIdArr, uniqGurName, list2);
+        renderList2_1(uniqGurIdArr_list2, uniqGurNameArr_list2);
+        // renderList3(invIdArr, invRIdArr, invRefNoArr, invRNameArr, invStatusArr, invTotalsArr, list3);
+        renderList3_1(invIdArr_list3, invRIdArr_list3, invRefNoArr_list3, invRNameArr_list3, invStatusArr_list3, invTotalsArr_list3);
+
+
+        // Set a copy of the data to Report > v1 > inv_check
+        // 'InvOnly', 'InvAndClient'
+        if (invCheckDocId == ''){ // No such document. Create a new one
+
+          // console.log('No such document. Create a new one')
+          let invCheckDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("inv_check")
+            .doc();
+
+          let data = {
+            [INV_CHECK_ID]: invCheckDocRef.id,
+            [INV_CHECK_ADMIN_ID]: ent_id,
+            [INV_CHECK_MONTH]: startDateMonth,
+            [INV_CHECK_INV_ID_ARR]: invIdArr,
+            [INV_CHECK_INV_NO_ARR]: invRefNoArr,
+            [INV_CHECK_INV_RECEIVER_ID_ARR]: invRIdArr,
+            [INV_CHECK_INV_RECEIVER_NAME_ARR]: invRNameArr,
+            [INV_CHECK_INV_STATUS_ARR]: invStatusArr,
+            [INV_CHECK_INV_TOTAL_ARR]: invTotalsArr,
+            [INV_CHECK_GUR_ID_ARR]: uniqGurIdArr,
+            [INV_CHECK_GUR_NAME_ARR]: uniqGurName,
+            [INV_CHECK_DATE_EDIT]: new Date(),
+          }
+
+          // console.log(data)
+
+          func.showNotification('top','center', 'success', 'info', 'A new check for '+startDateNotification+' is successfully created.' );
+
+          return Promise.resolve(invCheckDocRef.set(data, {merge : true}));
+
+        }
+        // runType === 'InvOnly'
+        else if (runType === 'InvOnly'){
+          // console.log('Update Invoices Only')
+          let invCheckDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("inv_check")
+            .doc(invCheckDocId);
+
+          let data = {
+            // [INV_CHECK_ID]: invCheckDocId,
+            // [INV_CHECK_ADMIN_ID]: ent_id,
+            // [INV_CHECK_MONTH]: startDateMonth,
+            [INV_CHECK_INV_ID_ARR]: invIdArr,
+            [INV_CHECK_INV_NO_ARR]: invRefNoArr,
+            [INV_CHECK_INV_RECEIVER_ID_ARR]: invRIdArr,
+            [INV_CHECK_INV_RECEIVER_NAME_ARR]: invRNameArr,
+            [INV_CHECK_INV_STATUS_ARR]: invStatusArr,
+            [INV_CHECK_INV_TOTAL_ARR]: invTotalsArr,
+            // [INV_CHECK_GUR_ID_ARR]: uniqGurIdArr,
+            // [INV_CHECK_GUR_NAME_ARR]: uniqGurName,
+            [INV_CHECK_DATE_EDIT]: new Date(),
+          }
+
+          // console.log(data)
+
+          func.showNotification('top','center', 'success', 'info', 'Invoices check for '+startDateNotification+' is updated.' );
+
+          return Promise.resolve(invCheckDocRef.update(data));
+
+        }
+        // runType === 'InvAndClient'
+        else if (runType === 'InvAndClient'){
+          // console.log('Update Invoices & Clients')
+
+          let invCheckDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("inv_check")
+            .doc(invCheckDocId);
+
+          let data = {
+            // [INV_CHECK_ID]: invCheckDocId,
+            // [INV_CHECK_ADMIN_ID]: ent_id,
+            // [INV_CHECK_MONTH]: startDateMonth,
+            [INV_CHECK_INV_ID_ARR]: invIdArr,
+            [INV_CHECK_INV_NO_ARR]: invRefNoArr,
+            [INV_CHECK_INV_RECEIVER_ID_ARR]: invRIdArr,
+            [INV_CHECK_INV_RECEIVER_NAME_ARR]: invRNameArr,
+            [INV_CHECK_INV_STATUS_ARR]: invStatusArr,
+            [INV_CHECK_INV_TOTAL_ARR]: invTotalsArr,
+            [INV_CHECK_GUR_ID_ARR]: uniqGurIdArr,
+            [INV_CHECK_GUR_NAME_ARR]: uniqGurName,
+            [INV_CHECK_DATE_EDIT]: new Date(),
+          }
+
+          // console.log(data)
+
+          func.showNotification('top','center', 'success', 'info', 'Invoices and clients check for '+startDateNotification+' is updated.' );
+
+          return Promise.resolve(invCheckDocRef.update(data));
+
+        }
+        else {
+          // console.log('No condition fullfilled')
+
+          func.showNotification('top','center', 'danger', 'error_outline', "Error: Nothing is ran. Please try again." );
+
+          return null;
+
+        }
+
+      }).then(() => {
+
+        // Enable Run
+        document.getElementById('btnRun').removeAttribute('disabled');
+        document.getElementById('btnRun').textContent = "Run";
+        document.getElementById('btnRunDropdown').removeAttribute('disabled');
+
+      })
+
+
+    }
+
+  </script>
+
+  <script>
+		$( document ).ready(function() {
+
+      // Class Announcement
+      // KEY, DATETIME, ID, JOB_STATUS and JOB_EXPLANATION var is global var used to simplify modal fire and hide.
+      var KEY = ""; // Extract info from data-* attributes
+      var DATETIME = ""; // Extract info from data-* attributes
+      var ID = ""; // Extract info from data-* attributes
+      var ANNOUNCEMENT = ""; // Extract info from data-* attribute
+
+      // Active Register Class Modal
+      $('#loadingModal').modal({
+        backdrop:'static',
+        keyboard:false,
+        // show: true
+      });
+      // Update Class Annoucement
+      $('#btnEditClassModalUpdate').on('click', function (e) {
+        var docData = {
+          [CLASS_ANNOUNCEMENT]: document.getElementById("modalClassAnnouncement").value,
+        }
+        // Set data
+        db.collection("dev")
+          .doc("v2")
+          .collection("Class")
+          .doc(ID)
+          .set(docData, {merge: true})
+          .then(() => {
+            window.location = './class.html';
+          })
+          .catch((error) => {
+              console.error("Error writing document: ", error);
+          });;
+
+			  $('#editClassModal').modal('hide');
+		  });
+
+      $('#editClassModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button/Components that triggered the modal
+        ID = button.data('id') // Extract info from data-* attributes
+        ANNOUNCEMENT = button.data('announcement') // Extract info from data-* attributes
+        // Load Desription
+        document.getElementById("modalClassAnnouncement").textContent = ANNOUNCEMENT;
+
+      });
+
+      // Clear key and fields in modal when modal dismiss
+      $('#editClassModal').on('hide.bs.modal', function (event) {
+        ID = "";
+        ANNOUNCEMENT = "";
+        document.getElementById("modalClassAnnouncement").textContent = "";
+      });
+
+
+		});
+
+  </script>
+
+   <!-- Date range picker -->
+   <script>
+    $(function() {
+      var datepicker = $('#daterange');
+      var pickerConfig = function(period) {
+      var config = {};
+      switch (period) {
+        case "daily":
+          config = {
+            showDropdowns: true,
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            locale: {
+              format: "DD MMMM YYYY",
+              cancelLabel: 'Clear'
+            }
+          };
+          break;
+        case "monthly":
+          config = {
+            showDropdowns: true,
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            locale: {
+              format: "MMMM YYYY",
+              cancelLabel: 'Clear'
+            }
+          };
+          break;
+        case "yearly":
+          config = {
+            showDropdowns: true,
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            locale: {
+              format: "YYYY",
+              cancelLabel: 'Clear'
+            }
+          };
+          break;
+        case "range":
+          config = {
+            showDropdowns: true,
+            autoUpdateInput: true,
+            locale: {
+              format: "DD MMMM YYYY",
+              cancelLabel: 'Clear'
+            }
+          };
+          break;
+        default:
+          config = null;
+          break;
+      }
+      return config;
+    };
+      var pickerEvent = function(picker, period) {
+        switch (period) {
+          case "monthly":
+          case "yearly":
+            picker.element.on('hide.daterangepicker', function(ev, instance) {
+              /*
+              * i selected the third row because there was month
+              * that date 1 on second row, so i feel to keep it save
+              * with choosing the third row
+              */
+              var td = $(instance.container).find('.table-condensed tbody tr:nth-child(3) td:first-child');
+              /*
+              * the setTimeout have on purpose to delay calling trigger
+              * event when choosing date on third row, if you not provide
+              * the timeout, it will throw error maximum callstack
+              */
+              setTimeout(function() {
+                /*
+                * on the newer version to pick some date was changed into event
+                * mousedown
+                */
+                td.trigger('mousedown');
+                /*
+                * this was optional, because in my case i need send date with
+                * starting day with 1 to keep backend neat
+                */
+                instance.setStartDate(instance.startDate.date(1));
+                instance.setEndDate(instance.endDate.endOf('month'));
+
+                $('#daterange span').html(instance.startDate.format('MMM YYYY'));
+
+                startDate = instance.startDate;
+                endDate = instance.endDate;
+                startDateMonth = instance.startDate.format('YYYYMM')
+
+                startDateNotification = instance.startDate.format('MMM YYYY');
+                // alert("this is start " + instance.startDate.format("DD MMM YYYY"));
+                // alert("this is end " + instance.endDate.format("DD MMM YYYY"));
+              }, 1);
+            })
+            break;
+          default:
+            break;
+        }
+      }
+      var pickerInit = function(picker, period) {
+        /*
+        * personally, i'm not using the jquery method,
+        * instead i'm using the constructor itself with purpose
+        * to detect if already initialized before, it will detached
+        * and destroy the picker element and reinitialize the picker
+        */
+        if (picker instanceof daterangepicker) {
+          element = picker.element;
+          picker.element.off('.daterangepicker');
+          picker.element.removeData();
+          picker.container.remove();
+          picker = element;
+        }
+        datepicker = new daterangepicker(picker, pickerConfig(period));
+        pickerEvent(datepicker, period);
+        /* this was needed to make some change to what we see on the dom */
+        datepicker.container.addClass(period);
+      }
+
+      pickerInit(datepicker, 'monthly');
+      // $("#date_changer").change(function() {
+      //   pickerInit(datepicker, this.value);
+      // });
+
+      // Init the daterange value
+      $('#daterange span').html(startDate.format('MMM YYYY'));
+
+
+    });
+
+
+  </script>
+
+</body>
+
+</html>

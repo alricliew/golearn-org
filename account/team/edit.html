@@ -484,7 +484,7 @@
 
                               <div class="col-md-12">
                                 <span>Permissions</span>
-                                <span class="tooltiptext-trigger">?
+                                <span class="tooltiptext-trigger" style="padding: 0.2em 0.6em 0.2em 0.6em;">?
                                   <span class="tooltiptext-general">
                                     <h6>Permissions</h6>
                                     <p>The permissions define what a person can and can't do.</p>
@@ -648,7 +648,17 @@
 
                               <!-- Invoice & payroll Permissions -->
                               <div class="col-md-4">
-                                <h6 class="">Financial - Invoice</h6>
+                                <h6 class="">Financial - Invoice
+                                  <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em; font-weight: 300;">!
+                                    <span class="tooltiptext-general" style="border: thin solid red;">
+                                      <h6 class="text-danger" style="font-weight: bold;">Be careful!</h6>
+                                      <p class="" style="font-weight: normal; text-transform: none;">
+                                        Allow this person to add, edit or remove any invoice.
+                                        Any changes in new or existing invoices will cause your account level revenue to be re-adjusted. <br/>
+                                      </p>
+                                    </span>
+                                  </span>
+                                </h6>
                                 <div class="form-check">
                                   <label class="form-check-label">
                                     <input class="form-check-input" type="checkbox" value="" id="addInv">
@@ -684,6 +694,15 @@
                                     </span>
                                     Delete Invoice
                                   </label>
+                                  <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em; font-weight: 300;">!
+                                    <span class="tooltiptext-general" style="border: thin solid red;">
+                                      <h6 class="text-danger">Be careful!</h6>
+                                      <p>
+                                        Allow this person to remove any invoice permanently. Deleting an invoice will remove all invoice details and
+                                        the receiver will no longer be able to access it. <br/>
+                                      </p>
+                                    </span>
+                                  </span>
                                 </div>
                                 <div class="form-check">
                                   <label class="form-check-label">
@@ -694,8 +713,19 @@
                                     View Invoice
                                   </label>
                                 </div>
+                                <div  class="form-check">
+                                  <h6 class="">Financial - Payroll
+                                    <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em; font-weight: 300;">!
+                                      <span class="tooltiptext-general" style="border: thin solid red;">
+                                        <h6 class="text-danger" style="font-weight: bold;">Be careful!</h6>
+                                        <p class="" style="font-weight: normal; text-transform: none;">
+                                          Allow this person to add, edit or remove any payroll-related services.
+                                        </p>
+                                      </span>
+                                    </span>
+                                  </h6>
+                                </div>
 
-                                <h6 class="">Financial - Payroll</h6>
                                 <div class="form-check">
                                   <label class="form-check-label">
                                     <input class="form-check-input" type="checkbox" value="" id="addPayroll">
@@ -722,6 +752,14 @@
                                     </span>
                                     Delete payroll
                                   </label>
+                                  <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em; font-weight: 300;">!
+                                    <span class="tooltiptext-general" style="border: thin solid red;">
+                                      <h6 class="text-danger">Be careful!</h6>
+                                      <p>
+                                        Allow this person to remove any payroll and all linked payslips permanently.<br/>
+                                      </p>
+                                    </span>
+                                  </span>
                                 </div>
                                 <div class="form-check">
                                   <label class="form-check-label">
@@ -767,6 +805,15 @@
                                     </span>
                                     Delete Payslip
                                   </label>
+                                  <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em; font-weight: 300;">!
+                                    <span class="tooltiptext-general" style="border: thin solid red;">
+                                      <h6 class="text-danger">Be careful!</h6>
+                                      <p>
+                                        Allow this person to remove any payslip permanently. Deleting a payslip will remove all payslip details and
+                                        the receiver will no longer be able to access it. <br/>
+                                      </p>
+                                    </span>
+                                  </span>
                                 </div>
                                 <div class="form-check">
                                   <label class="form-check-label">
@@ -1527,7 +1574,7 @@
       "viewInsight", "editAccountProfile"
       ]
     const disablePermissionArrAdmin =
-      ["delInv", "delPayroll", "delPayslip",
+      [// "delInv", "delPayroll", "delPayslip",
       "addAdmin", "editAdmin", "delAdmin", "viewAdmin"]
     const  disablePermissionArrStaff =
       ["delInv", "delPayroll", "delPayslip",
@@ -1765,10 +1812,13 @@
         recordPaymentPayslip.disabled = true;
         viewPayslip.checked = false;
         viewPayslip.disabled = true;
+        delPayslip.checked = false;
+        delPayslip.disabled = true;
       }else {
         addPayslip.disabled = false;
         editPayslip.disabled = false;
         recordPaymentPayslip.disabled = false;
+        delPayslip.disabled = false;
 
         // Check Lesson
         if (addPayslip.checked || editPayslip.checked || recordPaymentPayslip.checked ) {

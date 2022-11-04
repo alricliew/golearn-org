@@ -1,0 +1,2793 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/invoice/view.html>
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+  </script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!--GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <!-- Date Picker -->
+  <link href="../../assets/css/mc-calendar.min.css" rel="stylesheet"/>
+  <link href="../../assets/css/intlTelInput.css" rel="stylesheet" >
+    <!-- Date rage picker -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <!-- Rich Text Editor Init -->
+  <!-- <script src="https://cdn.tiny.cloud/1/5dm77axvxwkliu22hg2ejlaqh4s246uo83bz98ogo4c3yeev/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
+
+  <!-- TinyMce -->
+  <script src="../../assets/js/plugins/tinymce/tinymce.min.js" type="text/javascript"></script>
+
+  <!-- Tinymce init -->
+  <script>
+    tinymce.init({
+      mode : "exact",
+      selector:'#invNotes',
+      plugins: "link",
+      max_chars: 400,
+      setup: function (ed) {
+        var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
+        ed.on('keydown', function (e) {
+          console.log(tinymce_getContentLength());
+          invNotesOnChangeHandler();
+          if (allowedKeys.indexOf(e.keyCode) != -1){
+            return true;
+          }
+          if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
+            func.showNotification('top','center', 'warning', 'error_outline', 'You have reach maximum allowed number of ' + ed.settings.max_chars + ' characters.' );
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }
+          return true;
+        });
+      },
+
+      init_instance_callback: function () { // initialize counter div
+        $('#' + this.id).prev().append('<div class="char_count" style="text-align:right"></div>');
+        tinymce_updateCharCounter(this, tinymce_getContentLength());
+      },
+      paste_preprocess: function (plugin, args) {
+        var editor = tinymce.get(tinymce.activeEditor.id);
+        var len = editor.contentDocument.body.innerText.length;
+        var text = $(args.content).text();
+        if (len + text.length > editor.settings.max_chars) {
+            func.showNotification('top','center', 'warning', 'error_outline', 'Pasting this exceeds the maximum allowed number of ' + editor.settings.max_chars + ' characters.' );
+            args.content = '';
+        } else {
+            tinymce_updateCharCounter(editor, len + text.length);
+        }
+      }
+
+    });
+    tinymce.init({
+      mode : "exact",
+      selector:'#invFooterNotes',
+      plugins: "link",
+      max_chars: 200,
+      setup: function (ed) {
+        var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
+
+        ed.on('keydown', function (e) {
+          console.log(tinymce_getContentLength());
+          invFooterNotesOnChangeHandler();
+          if (allowedKeys.indexOf(e.keyCode) != -1){
+            return true;
+          }
+          if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
+            func.showNotification('top','center', 'warning', 'error_outline', 'You have reach maximum allowed number of ' + ed.settings.max_chars + ' characters.' );
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }
+          return true;
+        });
+
+      },
+
+      init_instance_callback: function () { // initialize counter div
+        $('#' + this.id).prev().append('<div class="char_count" style="text-align:right"></div>');
+        tinymce_updateCharCounter(this, tinymce_getContentLength());
+      },
+      paste_preprocess: function (plugin, args) {
+        var editor = tinymce.get(tinymce.activeEditor.id);
+        var len = editor.contentDocument.body.innerText.length;
+        var text = $(args.content).text();
+        if (len + text.length > editor.settings.max_chars) {
+            func.showNotification('top','center', 'warning', 'error_outline', 'Pasting this exceeds the maximum allowed number of ' + editor.settings.max_chars + ' characters.' );
+            args.content = '';
+        } else {
+            tinymce_updateCharCounter(editor, len + text.length);
+        }
+      },
+    });
+
+    function tinymce_updateCharCounter(el, len) {
+      $('#' + el.id).prev().find('.char_count').text(len + '/' + el.settings.max_chars);
+    }
+
+    function tinymce_getContentLength() {
+      return tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerText.length;
+    }
+  </script>
+
+
+
+  <style>
+    .table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+    }
+    .table th,
+    .table td {
+        border: 1px solid #ccc;
+    }
+    .table th,
+    .table td {
+        padding: 0.5rem;
+    }
+    .draggable {
+        cursor: move;
+        user-select: none;
+    }
+    .placeholder {
+        background-color: #edf2f7;
+        border: 2px dashed #cbd5e0;
+    }
+    .clone-list {
+        border-top: 1px solid #ccc;
+    }
+    .clone-table {
+        border-collapse: collapse;
+        border: none;
+    }
+    .clone-table th{
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 0.5rem;
+        font-size: 1.2em;
+        font-weight: 300;
+    }
+
+    .clone-table td {
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 0.5rem;
+
+        font-weight: 300;
+    }
+    .dragging {
+        background: #fff;
+        border-top: 1px solid #ccc;
+        z-index: 999;
+    }
+
+    /* page view for A4  */
+    page {
+      background: white;
+      display: block;
+      margin: 0 auto;
+      /* margin-bottom: 0.5cm; */
+      box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    }
+    page[size="A4"] {
+      width: 21cm;
+      height: auto;
+      min-height: 29.65cm;
+      /* Use a  height value slightly lower than 29.7 to avoid page break  */
+      /* height: 29.7cm;  */
+    }
+    page[size="A4"][layout="landscape"] {
+      width: 29.7cm;
+      height: 21cm;
+    }
+
+
+    /* .card-body footer1 {
+        position: fixed;
+    }
+
+    .card-body footer1 {
+        bottom: 0;
+    } */
+    .textarea1 {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      resize: both;
+      min-height: 40px;
+      line-height: 20px;
+    }
+
+    .textarea[contenteditable]:empty::before {
+      content: "Placeholder still possible";
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden active" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Invoices <span><i class="material-icons" style="color: gray;">chevron_right</i></span> View</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+                <!-- <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a> -->
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a> -->
+                </div>
+              </li>
+              <!-- your navbar here -->
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+									<div class="dropdown-divider"></div>
+									<a style="font-weight: 500 ;padding: 0.5em ;text-align: center; width: 200px; background-color: #428dd4 ;display: block; color: #fff;" href="https://golearn.com.my/pricing/" target="_blank">Upgrade to Pro</a>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+
+      <!-- Save Invoice modal -->
+      <div class="row">
+        <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Save Draft and Proceed</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnSaveModalClose1">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="saveModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnSaveModalClose2">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSaveModalUpdate">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Record Payment modal -->
+      <div class="row">
+        <div class="modal fade" id="recordPaymentModal" tabindex="-1" role="dialog" aria-labelledby="recordPaymentModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Record Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="row">
+                  <div class="col-sm-12 text-left">
+                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-top: 1.0rem;">Status</span>
+                    <span class="tooltiptext-trigger">?
+                      <span class="tooltiptext-general">
+                        <h6>Status</h6>
+                        <p>Set to <strong style="color: #2e74b6;">Paid</strong> to indicate you have receive the payment.</p>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-group" >
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="statusRadio" id="statusNew" value="option1" onchange="checkRecordPaymentModalFields();" >
+                        Unpaid
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="statusRadio" id="statusPaid" value="option2"  onchange="checkRecordPaymentModalFields();" >
+                        Paid
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Payment Date*</span>
+                  <input type="text" class="form-control" id="inPaymentDate" oninput="checkRecordPaymentModalFields();" maxlength="40" style="cursor: pointer; cursor: pointer;" >
+                </div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Payment Amount* (RM)</span>
+                  <input type="number" class="form-control" id="inPaymentAmount" oninput="checkRecordPaymentModalFields();"   maxlength="40">
+                </div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Notes / Memo</span>
+                  <textarea class="form-control" maxlength="200" rows="4"  id="inPaymentNotes" data-compulsory="false"></textarea>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Not Now</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnRecordPaymentModalUpdate" disabled>Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Send Invoice modal -->
+      <div class="row">
+        <div class="modal fade" id="sendInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="sendInvoiceModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Send Invoice</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="form-group"  style="padding: 0.5rem;">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Copy Invoice Message:</span>
+                  <div class="input-group">
+                    <span class="d-flex align-items-center input-group-addon" id="btnCopyMessage" style="margin-right: 0.5em; cursor: pointer;" onclick="copyText('inPredefinedMessage')">
+                      <span class="material-icons">
+                        content_copy
+                      </span>
+                    </span>
+                    <textarea class="form-control" rows="8" id="inPredefinedMessage"></textarea>
+
+                  </div>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSendInvoiceModalUpdate">Use Own Mail</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approve Draft modal -->
+      <div class="row">
+        <div class="modal fade" id="approveDraftModal" tabindex="-1" role="dialog" aria-labelledby="approveDraftModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Approve Invoice</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnApproveDraftModalCancel1">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnApproveDraftModalCancel2">Cancel</button>
+                <button type="button" class="btn btn-primary hidden" id="btnApproveDraftModalUpdate"  perm="fin-invoice-edit">Approve</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Selected Client modal -->
+      <div class="row">
+        <div class="modal fade" id="editClientModal" tabindex="-1" role="dialog" aria-labelledby="editClientModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editClientModalLabel">Edit Client Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btEeditClientModalClose1">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="editClientModalBody">
+                <div id="inClientId" value =''></div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Name*</span>
+                  <input type="text" class="form-control" id="inClientName" data-compulsory="true" oninput="this.className = 'form-control'"  maxlength="40" readonly>
+                </div>
+
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Contact*</span>
+                  <div class="input-group">
+                    <input id="inClientContact" name="phone" type="tel"  class="form-control" data-compulsory="true" oninput="this.className = 'form-control'" >
+                    <span id="valid-msg" class="hide" style="color: #42ba96;">✓ Valid</span>
+                    <span id="error-msg" class="hide" style="color: #F32013;"></span>
+                  </div>
+                  <!-- <input type="text" class="form-control" id="inClientContact" data-compulsory="true" oninput="this.className = 'form-control'"  maxlength="40" readonly> -->
+                </div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Email (Optional)</span>
+                  <input type="text" class="form-control" id="inClientEmail" data-compulsory="false" maxlength="40">
+                </div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Address (Optional) </span>
+                  <textarea class="form-control" maxlength="250" rows="4"  id="inClientAddr" data-compulsory="false"></textarea>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnEditClientModalClose2">Not Now</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnEditClientModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- List / Load Admin's Students Modal -->
+      <div class="row">
+        <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addStudentModalLabel">Select A Client (Parents / Guardian)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12" id="loadAdminStudentTop">
+
+                    <div class="container" id="add-student-modal-container">
+                      <!-- Student header -->
+                      <div class="row lesson-header">
+                        <div class="col-md-3">
+                          <p>Guardian Phone</p>
+                        </div>
+                        <div class="col-md-3">
+                          <p>Guardian Name</p>
+                        </div>
+                        <div class="col-md-3">
+                          <p>Student Name</p>
+                        </div>
+                        <div class="col-md-3">
+                          <p>Action</p>
+                        </div>
+                      </div>
+
+
+                      <!-- <div class="row student-wrapper">
+                        <div class="col-md-6">
+                          <p class="student-item">+60138252818</p>
+                        </div>
+                        <div class="col-md-3">
+                          <p class="student-item">Join as Student Parent</p>
+                        </div>
+                        <div class="col-md-3">
+                          <p class="student-item">Join as Student</p>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                      </div> -->
+
+                      <!-- Student List Start -->
+
+                    </div>
+
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-12 align-content-center">
+                    <button type="button" class="btn btn-outline-primary btn-sm btn-round" id="btnAddAdminStudentModalLoadMore" >Load More</button>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#editClientModal" type="button" data-gurid="" data-gurname="" data-gurphone="" data-guremail="" data-guraddr="">Add Unregistered Client</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAddStudentModalUpdate" >Add</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit business address and contact details modal -->
+      <div class="row">
+        <div class="modal fade" id="addBusinessDetailModal" tabindex="-1" role="dialog" aria-labelledby="addBusinessDetailModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addBusinessDetailModalLabel">Edit Business Address and Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnAddBusinessDetailModalClose1">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="addBusinessDetailModalBody">
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Personal / Business Name* <span id="countName" style="color: grey; margin-left: 1rem;">0/40</span></span>
+                  <input type="text" class="form-control" id="inName" data-compulsory="true" oninput="this.className = 'form-control'"  maxlength="40">
+                </div>
+
+                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0; margin-top: 1rem;">Current Business Details</span>
+                <p id="inDetails" style="padding : 1rem; border: solid thin #2e74b6;"></p>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">New Business Contact </span>
+                  <input type="text" class="form-control" id="inContact" data-compulsory="true" oninput="this.className = 'form-control'"  maxlength="40">
+                </div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">New Business Email </span>
+                  <input type="text" class="form-control" id="inEmail" data-compulsory="true" oninput="this.className = 'form-control'"  maxlength="40">
+                </div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">New Business Address </span>
+                  <textarea class="form-control" maxlength="250" rows="4"  id="inAddr" data-compulsory="false"></textarea>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnAddBusinessDetailModalClose2">Not Now</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAddBusinessDetailModalUpdate" disabled>Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Modal -->
+      <div class="row">
+        <div class="modal fade" tabindex="-1" role="dialog" id="loadingModal" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="container-fluid">
+              <div class="row d-flex">
+                <span class="fa fa-spinner fa-spin fa-5x w-100" style="color: #fff ;"></span>
+                <div class="col align-self-center">
+                  <!-- <h5 class="modal-title" style="color: white;">Generating invoice in progress. </h5> -->
+                  <!-- <h5 class="modal-title" style="color: white;"> Please do not close this window.</h5> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign-out modal -->
+      <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Tutor Modal -->
+       <div class="row">
+        <div class="modal fade" id="viewTutorModal" tabindex="-1" role="dialog" aria-labelledby="viewTutorModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="viewTutorModalLabel">Tutor Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-4 text-center">
+                    <div style="height: 140px;width: 140px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%;">
+                      <img id="viewTutorImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/empty-photo.png"/>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-8">
+                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Name</span>
+                    <input id="viewTutorName"  type="text" value='' class="form-control" style="pointer-events: none;" readonly>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Phone</span>
+                        <input id="viewTutorPhone"  type="text" value='' class="form-control" style="pointer-events: none;" readonly>
+
+                      </div>
+                      <div class="col-md-6">
+                        <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Email</span>
+                        <input id="viewTutorEmail"  type="text" value='' class="form-control" style="pointer-events: none;" readonly>
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Gender</span>
+                        <div class="form-group">
+                          <div class="form-check form-check-radio form-check-inline">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="radio" name="tutorGender" id="viewTutorGenderRadioMale" value="optionActive" data-compulsory="false" disabled>
+                              Male
+                              <span class="circle">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                          <div class="form-check form-check-radio form-check-inline">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="radio" name="tutorGender" id="viewTutorGenderRadioFemale" value="optionInactive" data-compulsory="false" disabled>
+                              Female
+                              <span class="circle">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Age</span>
+                        <input id="viewTutorAge"  type="text" value='' class="form-control" style="pointer-events: none;" readonly>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+              <div class="modal-footer">
+                <a type="button" class="btn btn-primary" href="#" id="btnViewTutorModalFullProfile" disabled>View Full Profile</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnViewTutorModalUpdate">Update</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+
+          <!-- Main panel -->
+          <div class="row">
+
+            <div class="col-md-12">
+              <a href="./" class="btn btn-outline-primary btn-round" id="btnBack" name="param-link"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">west</i> Back</a>
+            </div>
+            <div class="col-md-12"  style="padding-bottom: 0">
+              <div class="row d-flex" style="padding: 0 5px 0 5px;">
+                <div class="p-2">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Invoice Status</span>
+                  <p id="invStatus" style="font-weight: bold; font-size: x-large;  margin-bottom: 0;">-</p>
+                </div>
+                <div class="p-2">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Client</span>
+                  <p id="invClientName" style="font-weight: bold; font-size: x-large;  margin-bottom: 0;">-</p>
+                </div>
+                <div class="ml-auto p-2">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Amount</span>
+                  <p id="invAmount" style="font-weight: bold; font-size: x-large; margin-bottom: 0;">-</p>
+                </div>
+                <div class="p-2">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Payment Due</span>
+                  <p id="invPaymentDue" style="font-weight: bold; font-size: x-large; margin-bottom: 0;">-</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="social">
+                        <h4 style="font-size: x-large;"><span> <button  id="btnStep1" class="btn btn-primary btn-just-icon btn-round" style="margin-right: 1rem;">
+                          <p>1</p>
+                          </button></span>
+                          Create Invoice
+                        </h4>
+                        <p>Created: <span id="invDateCreated"></span></p>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 text-right">
+                      <button class="btn btn-outline-primary btn-round hidden" style="background-color: #2e74b6; color:white; text-transform: none; visibility: hidden;" id="btnApproveDraft" perm="fin-invoice-edit">Approve Draft</button>
+                      <a href="javascript:;" class="btn btn-outline-primary btn-round hidden" style="text-transform: none;" id="btnEditInvoice" perm="fin-invoice-edit">Edit Invoice</a>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="card" id="card2">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="social">
+                        <h4 style="font-size: x-large;"><span> <button id="btnStep2" class="btn btn-primary btn-just-icon btn-round" style="margin-right: 1rem;">
+                          <p>2</p>
+                          </button></span>
+                          Send Invoice
+                        </h4>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 text-right">
+                      <a href="javascript:;" class="btn btn-outline-primary btn-round" data-toggle="modal" data-target="#sendInvoiceModal" style="background-color: #2e74b6; color:white; text-transform: none;" id="btnSendInvoice">Send Invoice</a>
+                      <a href="javascript:;" class="btn btn-outline-primary btn-round" style="background-color: #2e74b6; color:white; text-transform: none;" id="btnDownloadAsPDF" onclick="//generatePDFeKoopmans('invTemplate')">Download As PDF</a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="card" id="card3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="social">
+                        <h4 style="font-size: x-large;"><span> <button id="btnStep3" class="btn btn-primary btn-just-icon btn-round" style="margin-right: 1rem;">
+                          <p>3</p>
+                          </button></span>
+                          Payment
+                        </h4>
+                        <p>Paid: <span id="invPaymentDate">-</span></p>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 text-right">
+                      <a href="javascript:;" class="btn btn-outline-primary btn-round hidden" data-toggle="modal" data-target="#recordPaymentModal" perm="fin-invoice-record-payment" style="background-color: #2e74b6; color:white; text-transform: none;" id="btnRecordPayment">Record Payment</a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <h3> - Full Invoice - </h3>
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div class="row">
+            <div class="col-md-12" style="overflow-x:auto; padding: 1rem;" >
+              <page size="A4" id="invTemplate" style="position: relative;">
+
+                <div class="card-body" >
+                  <div class="row">
+                    <div class="col-4 text-center">
+
+                      <div class="form-group">
+                        <!-- <canvas id="myCanvas" style="height: 150px;width: 225px; object-fit: cover;" ></canvas> -->
+                        <div style="height: 115px;width: auto; display: inline-block; position: relative; overflow: hidden; cursor: pointer;">
+                          <img id="previewTutorImgUrl" style="height: 100%; width: auto; " src="../../assets/img/empty-photo.png" crossorigin="anonymous" alt = ""/>
+                          <!-- <canvas id="myCanvas" ></canvas> -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-2">
+                      <!--  Do nothing -->
+                    </div>
+
+                    <div class="col-6 text-right">
+                      <h4 style="font-size: xx-large;margin-top: 1rem;">INVOICE</h4>
+                      <h5 id="previewInvTitle"  style="font-weight: 500;"></h5>
+                      <h4 id="previewInvBizName" style="font-weight: 500;">Your Name</h4>
+                      <h6 id="previewInvBizDetails" style="text-transform: none; font-weight: 300;"></p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <hr style="margin: 0rem">
+                <!-- style="position: relative; bottom: 35px; width: 100%; margin-top: 2rem;" -->
+                <div class="card-body" style="position: relative; bottom: 35px; width: 100%; margin-top: 2rem;">
+                  <div class="row">
+                    <div class="col-4">
+                      <h6>Billed To:</h6>
+                      <h4 id="previewInvClientName" style="font-weight: 500;"></h4>
+                      <h6 id="previewInvClientDetails"  style="text-transform: none; font-weight: 300;"></h6>
+                    </div>
+
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                      <div class="row">
+                        <div class="col-6 text-right" style="padding-right: 0;">
+                          <h6>Invoice No</h6>
+                          <h6>Invoice Date</h6>
+                          <h6 style="color: red;">Payment Due</h6>
+                          <h6>Status</h6>
+
+                          <!-- <p style="margin: 0.3rem; font-weight: bold;">Invoice No</p>
+                          <p style="margin: 0.3rem; font-weight: bold;">Invoice Date</p>
+                          <p style="margin: 0.3rem; font-weight: bold;">Payment Due</p>
+                          <p style="margin: 0.3rem; font-weight: bold;">Status</p> -->
+                        </div>
+                        <div class="col-6 text-right">
+                          <h6 id="previewInvNum" style="font-weight: normal; text-transform: none;"> - </h6>
+                          <h6 id="previewInvIssueDate"style="font-weight: normal; text-transform: none;"> - </h6>
+                          <h6 id="previewInvPaymentDue" style="color: red; font-weight: normal; text-transform: none;"> - </h6>
+                          <h6 id="previewInvStatus" style="font-weight: normal; text-transform: none;"> New </h6>
+                         </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 1rem;"></div>
+
+                  <div class="row">
+                    <div class="col-12"  style="overflow-x:auto;">
+                      <span class="" style="font-size: x-small; font-weight: 300; color: gray; margin-bottom: 0;">Note*: Quantity - Number of hour of lessons conducted, number of classes, or relevant other items</span>
+                      <table id="tablePreview" class="table-light table-sm" cellspacing="0" width="100%" >
+                        <thead style="background-color: grey; color: white;">
+                          <tr>
+                            <th style="min-width: 200px; font-size: small;">Items</th>
+                            <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Quantity</th>
+                            <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Price</th>
+                            <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody id="previewItemBody">
+
+                          <!-- <tr class="item">
+                            <td style="font-size: small;">Primary class</td>
+                            <td style="text-align: right; font-size: small;">1</td>
+                            <td style="text-align: right; font-size: small;">25</td>
+                            <td style="text-align: right; font-size: small;">RM25.00</td>
+                          </tr>
+                          <tr class="item">
+                            <td style="font-size: small;"> - Lesson 1</td>
+                            <td style="text-align: right; font-size: small;">1</td>
+                            <td style="text-align: right; font-size: small;">25</td>
+                            <td style="text-align: right; font-size: small;">RM25.00</td>
+                          </tr>
+
+                          <tr class="subtotal" style="border-bottom: solid #eeeeee thin;">
+                            <td></td>
+                            <td></td>
+                            <td style="text-align: right; font-weight: 500; font-size: small;">Subtotal</td>
+                            <td style="text-align: right; font-weight: 500; font-size: small;" id="previewSubtotalItem">RM50.00</td>
+                          </tr>
+                          <tr class="item">
+                            <td style="font-size: small;">Primary class</td>
+                            <td style="text-align: right; font-size: small;">1</td>
+                            <td style="text-align: right; font-size: small;">25</td>
+                            <td style="text-align: right; font-size: small;">RM25.00</td>
+                          </tr>
+                          <tr class="subtotal" id='previewItemSubtotal' style="border-bottom: solid #eeeeee thin;">
+                            <td></td>
+                            <td></td>
+                            <td style="text-align: right; font-weight: 500; font-size: small;">Subtotal</td>
+                            <td style="text-align: right; font-weight: 500; font-size: small;" id="previewSubtotalItem">RM50.00</td>
+                          </tr> -->
+                        </tbody>
+                      </table>
+
+                      <table id="tableAdditionalItemPreview" class="table-light table-sm" cellspacing="0" width="100%">
+                        <thead style="visibility: collapse;">
+                          <tr>
+                            <th style="min-width: 200px;">Items</th>
+                            <th style="width: 100px; min-width: 100px;text-align: right;">Quantity</th>
+                            <th style="width: 100px; min-width: 100px;text-align: right;">Price</th>
+                            <th style="width: 100px; min-width: 100px;text-align: right;">Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody id="previewAdditionalItemBody">
+                          <!-- <tr class="additional">
+                            <td></td>
+                            <td></td>
+                            <td style="text-align: right; font-size: small;">Tax(20%)</td>
+                            <td style="text-align: right; font-size: small;">RM203.00</td>
+                          </tr> -->
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="col-12">
+                      <h4 style="text-align: right; font-weight: 500;">Total <span style="margin-left: 2rem;" id="previewGrandTotal">RM0.00</span></h4>
+                    </div>
+
+                    <div class="col-12">
+                      <!-- <p><strong>Solution with JS (only deals with line breaks): </strong> <textarea class="textarea resize-ta"></textarea></p> -->
+
+                      <!-- <div class="form-group"> -->
+                        <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin: 0;">Notes</span>
+                        <span  id="previewInvNotes"></span>
+                        <!-- <textarea class="form-control" maxlength="250" rows='3' oninput="console.log(this.scrollHeight); this.style.height = (this.scrollHeight) + 'px';// this.setAttribute('rows', 12)" style="height: 4300px; max-height: max-content; overflow: hidden;" id="previewInvNotes" data-compulsory="false" placeholder="Enter notes that are visible to your client. (e.g payment guidelines) " ></textarea> -->
+
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-body" id="preview-footer" style="padding-top: 0; margin-top: 0; position: absolute; bottom: 0; width: 100%;">
+                  <p id="previewInvFooterNotes" ></p>
+                </div>
+
+              </page>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <nav class="float-left">
+            <ul>
+              <!-- <li>
+              <a href="https://golearn.com.my/join-us" target="_blank">
+                Visit GoLearn Tutor
+              </a>
+              </li> -->
+            </ul>
+            </nav>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ"  crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+  <!-- Datepicker -->
+  <script src="../../assets/js/mc-calendar.min.js" type="text/javascript"></script>
+  <!-- International Telephone Input -->
+  <script src="../../assets/js/plugins/intlTelInput/intlTelInput.js"></script>
+  <!-- PDF Downloader -->
+  <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  <!-- Date range picker -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <!-- <script src="../../assets/js/html2canvas.min.js" type="text/javascript"></script> -->
+
+	<script>
+
+    // Course-specific var
+    var allCourseSize;
+
+    var latestAdminStuDoc = null;// Store last document - Used for Admin's Student Load More btn in Add Student Modal
+
+    var allItemsArr = [];
+
+    var invId, transId; // Global variable for selected invoice and transaction id
+
+    // DOM const
+    const card1 = document.getElementById("card1");
+    const card2 = document.getElementById("card2");
+    const card3 = document.getElementById("card3");
+    const btnStep1 = document.getElementById("btnStep1");
+    const btnStep2 = document.getElementById("btnStep2");
+    const btnStep3 = document.getElementById("btnStep3");
+    const btnApproveDraft = document.getElementById("btnApproveDraft");
+    const btnEditInvoice = document.getElementById("btnEditInvoice");
+    const btnSendInvoice = document.getElementById("btnSendInvoice");
+    const btnDownloadAsPDF = document.getElementById("btnDownloadAsPDF");
+    const btnRecordPayment = document.getElementById("btnRecordPayment");
+
+    const tablePreview = document.getElementById('tablePreview');
+    const tableAdditionalItemPreview = document.getElementById('tableAdditionalItemPreview');
+
+		// var db = firebase.firestore();
+		// db.settings({ timestampsInSnapshots: true });
+
+    var batch = db.batch();
+    var batchUpdate = db.batch();
+    var batchUpdateNew = db.batch();
+    // Check the current Invoice in session Storage - Valid only if user come from class.html
+    var currentInvoiceObj = null;
+
+    const iid = new URL(window.location.href).searchParams.get("iid");
+    getInvoiceObject(iid)
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+      // Do nothing
+    }
+
+    function getInvoiceObject(iid){
+
+      if (iid == null || iid == ''){
+        func.showNotification('top','center', 'danger', 'error_outline', "Error: No invoice found." );
+        alert('Error: No invoice id in params.')
+        window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+      }
+      else {
+        var invDocRef = db.collection("dev")
+        .doc("v2")
+        .collection("Invoice")
+        .doc(iid);
+
+        invDocRef.get().then((doc) => {
+          if (doc.exists) {
+
+            console.log(doc.data())
+            // Store in lacal variable
+            currentInvoiceObj = doc.data()
+            invId = doc.data()[INV_ID]
+            transId = doc.data()[INV_TRANS_ID]
+
+            updatePageContent(doc.data())
+
+          }
+          else {
+            func.showNotification('top','center', 'danger', 'error_outline', "Error: No invoice found." );
+            alert('Error: No invoice found.')
+            window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+
+          }
+        })
+
+      }
+
+      // // Check if there are valid class data in session storage.
+      // if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_INVOICE_CURRENT_DOC_KEY)) == null ||
+      //   JSON.parse(sessionStorage.getItem(SESSION_STORAGE_INVOICE_CURRENT_DOC_KEY)).id == null ||
+      //   JSON.parse(sessionStorage.getItem(SESSION_STORAGE_INVOICE_CURRENT_DOC_KEY)).id == '' ){
+      //   // Return to class.html if invalid class obj
+      //   func.showNotification('top','center', 'danger', 'error_outline', "Error: No invoice selected." );
+      //   window.location.href='./';
+
+      // }else{
+      //   // Set the fields
+      //   currentInvoiceObj = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_INVOICE_CURRENT_DOC_KEY));
+      //   // console.log(currentInvoiceObj);
+      //   invId = currentInvoiceObj[INV_ID]
+
+      //   // console.log(currentInvoiceObj)
+      //   updatePageContent(currentInvoiceObj);
+
+      // }
+
+      // // Get trans Id
+      // if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TRANSACTION_CURRENT_DOC_KEY)) == null ||
+      //   JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TRANSACTION_CURRENT_DOC_KEY)).id == null ||
+      //   JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TRANSACTION_CURRENT_DOC_KEY)).id == '' ){
+      //   // do nothing
+      //   func.showNotification('top','center', 'danger', 'error_outline', "Error: No Transaction ID detected." );
+      //   window.location.href='./';
+      // }else{
+      //   // Set the fields
+      //   let currentTransactionObj
+      //   currentTransactionObj = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TRANSACTION_CURRENT_DOC_KEY));
+      //   // console.log(currentTransactionObj);
+      //   transId = currentTransactionObj[TRANS_ID]
+      // }
+
+      // console.log(invId)
+      // console.log(transId)
+
+    }
+
+    // Init Page View
+    function updatePageContent(invObj){
+      // Invoice Details
+      if (invObj[INV_INV_STATUS] === INV_STATUS_DRAFT){
+        document.getElementById("invStatus").textContent = 'Draft';
+        btnStep1.className = 'btn btn-primary btn-just-icon btn-round';
+        btnStep2.className = 'btn btn-default btn-just-icon btn-round';
+        btnStep3.className = 'btn btn-default btn-just-icon btn-round';
+        // btnApproveDraft.className = 'btn btn-outline-primary btn-round';
+        // btnEditInvoice.className = 'btn btn-outline-primary btn-round';
+        btnApproveDraft.style.visibility = 'visible'
+        btnSendInvoice.className = 'btn btn-outline-default btn-round';
+        btnSendInvoice.style.backgroundColor = '#999999';
+        btnSendInvoice.style.pointerEvents = 'none';
+        btnDownloadAsPDF.className = 'btn btn-outline-default btn-round';
+        btnDownloadAsPDF.style.backgroundColor = '#999999';
+        btnDownloadAsPDF.style.pointerEvents = 'none';
+        // btnRecordPayment.className = 'btn btn-outline-default btn-round';
+        btnRecordPayment.classList.add('btn-outline-default')
+        btnRecordPayment.classList.remove('btn-outline-primary')
+        btnRecordPayment.style.backgroundColor = '#999999';
+        btnRecordPayment.style.pointerEvents = 'none';
+
+      }
+      else if (invObj[INV_INV_STATUS] === INV_STATUS_NEW){
+        document.getElementById("invStatus").textContent = 'Unpaid';
+        btnStep1.className = 'btn btn-primary btn-just-icon btn-round';
+        btnStep2.className = 'btn btn-primary btn-just-icon btn-round';
+        btnStep3.className = 'btn btn-default btn-just-icon btn-round';
+        // btnApproveDraft.className = 'btn btn-outline-primary btn-round';
+        // btnApproveDraft.style.display = 'none';
+        btnApproveDraft.classList.add('hidden')
+        // btnEditInvoice.className = 'btn btn-outline-primary btn-round';
+        btnSendInvoice.className = 'btn btn-outline-primary btn-round';
+        btnSendInvoice.style.backgroundColor = '#2e74b6';
+        btnSendInvoice.style.pointerEvents = 'auto';
+        btnDownloadAsPDF.className = 'btn btn-outline-primary btn-round';
+        btnDownloadAsPDF.style.backgroundColor = '#2e74b6 ';
+        btnDownloadAsPDF.style.pointerEvents = 'auto';
+        // btnRecordPayment.className = 'btn btn-outline-primary btn-round';
+        btnRecordPayment.classList.add('btn-outline-primary')
+        btnRecordPayment.classList.remove('btn-outline-default')
+        btnRecordPayment.style.backgroundColor = '#2e74b6';
+        btnRecordPayment.style.pointerEvents = 'auto';
+
+      }
+      else if (invObj[INV_INV_STATUS] === INV_STATUS_PAID){
+        document.getElementById("invStatus").textContent = 'Paid';
+        btnStep1.className = 'btn btn-primary btn-just-icon btn-round';
+        btnStep2.className = 'btn btn-primary btn-just-icon btn-round';
+        btnStep3.className = 'btn btn-primary btn-just-icon btn-round';
+        // btnApproveDraft.className = 'btn btn-outline-primary btn-round';
+        // btnApproveDraft.style.display = 'none';
+        btnApproveDraft.classList.add('hidden')
+        // btnEditInvoice.className = 'btn btn-outline-primary btn-round';
+        btnSendInvoice.className = 'btn btn-outline-primary btn-round';
+        btnSendInvoice.style.backgroundColor = '#2e74b6';
+        btnSendInvoice.style.pointerEvents = 'auto';
+        btnDownloadAsPDF.className = 'btn btn-outline-primary btn-round';
+        btnDownloadAsPDF.style.backgroundColor = '#2e74b6 ';
+        btnDownloadAsPDF.style.pointerEvents = 'auto';
+        // btnRecordPayment.className = 'btn btn-outline-primary btn-round';
+        btnRecordPayment.classList.add('btn-outline-primary')
+        btnRecordPayment.classList.remove('btn-outline-default')
+        btnRecordPayment.style.backgroundColor = '#2e74b6';
+        btnRecordPayment.style.pointerEvents = 'auto';
+      }
+
+      document.getElementById("invClientName").textContent = invObj[INV_RECEIVER_NAME];
+
+      let invAmount = 'RM'+parseFloat(invObj[INV_TOTAL]).toFixed(2);
+      document.getElementById("invAmount").textContent = invAmount;
+
+      let dueDate =  new Date(invObj[INV_DUE_DATE].seconds*1000).toLocaleDateString("en-GB");
+      document.getElementById("invPaymentDue").textContent = dueDate;
+
+      // Step 1
+      let issueDate = new Date(invObj[INV_DATE_ADD].seconds*1000).toLocaleDateString("en-GB");
+      document.getElementById("invDateCreated").textContent = issueDate;
+      // Step 3
+      let invPaymentDate = ''
+      if (invObj[INV_PAYMENT_DATE] == null || invObj[INV_PAYMENT_DATE] == ''){
+        invPaymentDate = ' - ';
+      }else {
+        invPaymentDate = new Date(invObj[INV_PAYMENT_DATE].seconds*1000).toLocaleDateString("en-GB");
+      }
+      document.getElementById("invPaymentDate").textContent = invPaymentDate;
+
+
+      // Preview
+      if (invObj[INV_SENDER_IMG_URL] == null || invObj[INV_SENDER_IMG_URL] == '' || invObj[INV_SENDER_IMG_URL] == "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"){
+        document.getElementById("previewTutorImgUrl").style.display = 'none';
+        document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
+      }
+      else {
+        toDataURL(
+          // https://murmuring-headland-66106.herokuapp.com/ is a proxy server
+          invObj[INV_SENDER_IMG_URL] == null || invObj[INV_SENDER_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+invObj[INV_SENDER_IMG_URL],
+          function(dataUrl) {
+            // console.log('RESULT:', dataUrl)
+          },
+        );
+      }
+
+      document.getElementById("previewInvTitle").textContent = invObj[INV_TITLE];
+
+      document.getElementById("previewInvBizName").textContent = invObj[INV_SENDER_NAME];
+      document.getElementById("previewInvBizDetails").innerHTML = invObj[INV_SENDER_DETAILS];
+      document.getElementById("previewInvClientName").textContent = invObj[INV_RECEIVER_NAME];
+      document.getElementById("previewInvClientDetails").innerHTML = invObj[INV_RECEIVER_DETAILS];
+
+      document.getElementById("previewInvNum").textContent = invObj[INV_NUMBER];
+      document.getElementById("previewInvIssueDate").textContent = new Date(invObj[INV_ISSUE_DATE].seconds*1000).toLocaleDateString("en-GB");
+      document.getElementById("previewInvPaymentDue").textContent = new Date(invObj[INV_DUE_DATE].seconds*1000).toLocaleDateString("en-GB");
+      // Status
+      if (invObj[INV_INV_STATUS] === INV_STATUS_DRAFT){
+        document.getElementById("previewInvStatus").textContent = 'Draft';
+      }else if (invObj[INV_INV_STATUS] === INV_STATUS_NEW){
+        document.getElementById("previewInvStatus").textContent = 'Unpaid';
+      }else if (invObj[INV_INV_STATUS] === INV_STATUS_PAID){
+        document.getElementById("previewInvStatus").textContent = 'Paid';
+      }
+
+      document.getElementById("previewInvNotes").innerHTML = invObj[INV_NOTES];
+      document.getElementById("previewInvFooterNotes").innerHTML = invObj[INV_FOOTER_NOTES];
+
+      // Print items
+      printPreview(invObj[INV_ITEMS_ARR]);
+
+      // Generate Predefined message
+      let line1 = "Hi "+ invObj[INV_RECEIVER_NAME]+ ", ";
+      let line2 = "\nHere's the invoice for the tuition fee this month. Click on the link below to view. ";
+      // let line5 = "\nYou are welcome to download a copy as your reference.";
+      let line3 = "\nhttps://app.golearn.com.my/c/f/view.html?iid="+invObj[INV_ID]+ " ";
+      let line4 = "\nAmount: "+invAmount;
+      let line5 = "\nDue Date: "+dueDate;
+      let line6 = "\nThank you! ";
+      let finalline= line1 + line2 + line3  + line4 + line5 + line6;
+
+      document.getElementById("inPredefinedMessage").innerHTML = finalline ;
+
+      // Download as PDF (The original download function do not work on mobile view. There will be a huge empty section on top)
+      btnDownloadAsPDF.setAttribute("href", "https://app.golearn.com.my/c/f/view.html?iid="+invObj[INV_ID]);
+      btnDownloadAsPDF.setAttribute("target", "blank");
+    }
+
+
+    // Get Data Url using proxy server
+    function toDataURL(src, callback, outputFormat) {
+      var img = new Image();
+      // var img = document.getElementById("tutorImgUrl");
+      var dataURL;
+      img.crossOrigin = 'Anonymous';
+      img.src = src;
+      img.onload = function() {
+        var canvas = document.createElement('CANVAS');
+        var ctx = canvas.getContext('2d');
+
+        canvas.height = this.naturalHeight;
+        canvas.width = this.naturalWidth;
+        ctx.drawImage(this, 0, 0);
+        dataURL = canvas.toDataURL(outputFormat);
+        // img.src = dataURL;
+        // console.log(dataURL)
+        var imgTarget = document.getElementById("previewTutorImgUrl");
+        imgTarget.src = dataURL;
+        callback(dataURL);
+      };
+      // img.src = src;
+      // img.src = dataURL;
+      if (img.complete || img.complete === undefined) {
+        img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+        img.src = src;
+      }
+    }
+
+    // Print Preview
+    function printPreview2(invItems){
+
+      // init the preview template size
+      document.getElementById('invTemplate').style.height = 'auto';
+
+      // clear all spaces details in preview
+      let totalPreviewItem = tablePreview.querySelectorAll('.item').length;
+      // console.log('totalPreviewItem ' + totalPreviewItem);
+      tablePreview.querySelectorAll('.item').forEach(function (row, index) {
+        row.remove();
+      });
+
+      // Remove additional item
+      tableAdditionalItemPreview.querySelectorAll('.additional').forEach(function (row, index) {
+        row.remove();
+      });
+
+      document.getElementById('previewSubtotalItem').textContent='';
+      document.getElementById('previewGrandTotal').textContent='';
+
+
+      // Print Items & Additional Items
+      let itemStartIndex= invItems.indexOf('ITEM');
+      let subtotalStartIndex= invItems.indexOf('SUBTOTAL');
+      let additionalItemStartIndex= invItems.indexOf('ADDITIONAL_ITEM');
+      let totalStartIndex= invItems.indexOf('TOTAL');
+
+      // console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
+
+      let item = invItems.slice(itemStartIndex+1, subtotalStartIndex); //+1 to ignore the first indentifier
+      let subTotal = invItems[subtotalStartIndex+1];
+      let additionalItem = invItems.slice(additionalItemStartIndex+1, totalStartIndex); //+1 to ignore the first indentifier
+      let total = invItems[totalStartIndex+1];
+
+      // Print Items
+      item.forEach(function (row){
+        // console.log(row)
+        let components = row.split("; ");
+        printItem(components[0], components[1], components[2], components[3]);
+      });
+
+
+      // Print Additional Items
+      additionalItem.forEach(function (row){
+        console.log(row)
+        let components = row.split("; ");
+
+        if (components[0] === 'Select one'){
+          // Do nothing
+        }
+        else if (components[0] === 'Discount ( - )'){
+          console.log(components[1], components[3]);
+          printAdditionalItem(components[1],  components[3]);
+        }
+        else if (components[0] === 'Tax Rate (%)'){
+          console.log(components[1]+' ('+components[2] +'%)',  components[3]);
+          printAdditionalItem(components[1] +' ('+components[2] +'%)',  components[3]);
+        }
+        else
+        {
+          // Do nothing
+        }
+      });
+
+      // Print Subtotal
+      let subTotalText = '';
+      if (isNaN(subTotal) ){
+        subTotalText = 'INVALID';
+        // console.log(subTotalText)
+        document.getElementById('previewSubtotalItem').textContent = subTotalText;
+      }else {
+        subTotalText = (subTotal >= 0) ? 'RM'+subTotal.toFixed(2) : '- RM'+ Math.abs(subTotal).toFixed(2)
+        // console.log(subTotalText)
+        document.getElementById("previewSubtotalItem").textContent = subTotalText;
+      }
+
+      // Print Total
+      let totalText = '';
+      if (isNaN(total) ){
+        totalText = 'INVALID';
+        // console.log(totalText)
+        document.getElementById('previewGrandTotal').textContent = totalText;
+      }else {
+        totalText = (total >= 0) ? 'RM'+total.toFixed(2) : '- RM'+ Math.abs(total).toFixed(2)
+        // console.log(totalText)
+        document.getElementById("previewGrandTotal").textContent = totalText;
+      }
+
+
+      let bounderies = document.getElementById('invTemplate').getBoundingClientRect();
+      let width = document.getElementById('invTemplate').offsetWidth;
+      let height = document.getElementById('invTemplate').offsetHeight;
+      if ( height*0.02645833 >= 29.7 && height*0.02645833 < 59.4){
+        document.getElementById('invTemplate').style.height = '59.35cm'; // Slightly smaller than 59.4 - 2page
+      }
+      else if ( height*0.02645833 >= 59.4 && height*0.02645833 < 89.1){
+        document.getElementById('invTemplate').style.height = '89.05cm';
+      }
+      else if ( height*0.02645833 >= 89.1 && height*0.02645833 < 118.8){
+        document.getElementById('invTemplate').style.height = '118.75cm';
+      }
+      else if ( height*0.02645833 >= 118.8 && height*0.02645833 < 148.5){
+        document.getElementById('invTemplate').style.height = '148.45cm';
+      }
+      else{
+        // document.getElementById('invTemplate').style.height = 'auto';
+      }
+
+    }
+
+    function printItem(desc, quantity, price, amount){
+      // <tr class="item">
+      //   <td style="font-size: small;"></td>
+      //   <td style="text-align: right; font-size: small;"></td>
+      //   <td style="text-align: right; font-size: small;"></td>
+      //   <td style="text-align: right; font-size: small;"></td>
+      // </tr>
+
+      let td1 = document.createElement('td');
+      td1.setAttribute('style', "font-size: small;");
+      td1.textContent = desc
+
+      let td2 = document.createElement('td');
+      td2.setAttribute('style', "text-align: right; font-size: small;");
+      td2.textContent = quantity
+
+      let td3 = document.createElement('td');
+      td3.setAttribute('style', "text-align: right; font-size: small;");
+      td3.textContent = price
+
+      let td4 = document.createElement('td');
+      td4.setAttribute('style', "text-align: right; font-size: small;");
+      td4.textContent = amount
+
+      // Tr top
+      let tr = document.createElement('tr');
+      tr.className = 'item';
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+
+      const previewItemBody = document.getElementById('previewItemBody');
+      const previewItemSubtotal = document.getElementById('previewItemSubtotal');
+      previewItemBody.insertBefore(tr, previewItemSubtotal)
+      // previewItemBody.insertBefore('#previewItemBody tr:nth-last-child(2)')
+      // $( "#previewItemBody tr:nth-last-child(2)" ).append(tr);
+
+      // previewItemBody.appendChild(tr);
+    }
+
+
+    function printAdditionalItem(additionalItem, amount){
+    // <tr class="additional">
+    //   <td></td>
+    //   <td></td>
+    //   <td style="text-align: right; font-size: small;"></td>
+    //   <td style="text-align: right; font-size: small;"></td>
+    // </tr>
+
+      let td1 = document.createElement('td');
+      let td2 = document.createElement('td');
+      let td3 = document.createElement('td');
+      td3.setAttribute('style', "text-align: right; font-size: small;");
+      td3.textContent = additionalItem
+
+      let td4 = document.createElement('td');
+      td4.setAttribute('style', "text-align: right; font-size: small;");
+      td4.textContent = amount
+
+      // Tr top
+      let tr = document.createElement('tr');
+      tr.className = 'additional';
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+
+      const previewAdditionalItemBody = document.getElementById('previewAdditionalItemBody');
+      // const previewItemSubtotal = document.getElementById('previewItemSubtotal');
+      previewAdditionalItemBody.appendChild(tr);
+    }
+
+    // Print Subtotal
+    function printItemSubtotal(amount){
+      // <td></td>
+      // <td></td>
+      // <td style="text-align: right; font-weight: 500; font-size: small;">Subtotal</td>
+      // <td style="text-align: right; font-weight: 500; font-size: small;" id="previewSubtotalItem">RM50.00</td>
+
+      let td1 = document.createElement('td');
+
+      let td2 = document.createElement('td');
+
+      let td3 = document.createElement('td');
+      td3.setAttribute('style', "text-align: right; font-weight: 500; font-size: small;");
+      td3.textContent = 'Subtotal'
+
+      let td4 = document.createElement('td');
+      td4.setAttribute('style', "text-align: right; font-weight: 500; font-size: small;");
+      let amountText = (amount >= 0) ? 'RM'+amount.toFixed(2) : '- RM'+ Math.abs(amount).toFixed(2)
+      td4.textContent = amountText;
+
+      // Tr top
+      let tr = document.createElement('tr');
+      tr.className = 'subtotal';
+      tr.setAttribute("style", "border-bottom: solid #eeeeee thin;");
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+
+      const previewItemBody = document.getElementById('previewItemBody');
+      previewItemBody.appendChild(tr);
+    }
+
+    // Print Preview
+    function printPreview(invData){
+
+      // init the preview template size
+      document.getElementById('invTemplate').style.height = 'auto';
+
+      // clear all spaces details in preview
+      // let totalPreviewItem = tablePreview.querySelectorAll('.item').length;
+      // console.log('totalPreviewItem ' + totalPreviewItem);
+      tablePreview.querySelectorAll('.item').forEach(function (row, index) {
+        row.remove();
+      });
+
+      tablePreview.querySelectorAll('.subtotal').forEach(function (row, index) {
+        row.remove();
+      });
+
+      // let totalAdditionalItemPreview = tableAdditionalItemPreview.querySelectorAll('.additional').length;
+      // console.log('totalPreviewItem ' + totalPreviewItem);
+      tableAdditionalItemPreview.querySelectorAll('.additional').forEach(function (row, index) {
+        row.remove();
+      });
+
+      // document.getElementById('previewSubtotalItem').textContent='';
+      document.getElementById('previewGrandTotal').textContent='';
+
+      // Get the inv data
+      // let invData = getAllItems2();
+      // console.log('invData')
+      // console.log(invData)
+
+      // Step 2: Print Items & Additional Items
+      let itemStartIndex= invData.indexOf('ITEMLIST');
+      let itemIndex= invData.indexOf('ITEM');
+      let additionalItemStartIndex= invData.indexOf('ADDITIONAL_ITEM');
+      let totalStartIndex= invData.indexOf('TOTAL');
+
+      // console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
+
+      // let type = payslipDataArr[0];
+      let itemList = invData.slice(itemStartIndex+1, additionalItemStartIndex); //+1 to ignore the first indentifier, ITEMLIST
+      // let subTotal = payslipDataArr[subtotalStartIndex+1];
+      let additionalItem = invData.slice(additionalItemStartIndex+1, totalStartIndex); //+1 to ignore the first indentifier
+      let total = invData[totalStartIndex+1];
+
+      var itemIndexArr = [];
+      itemList.filter(function(item, index) {
+      if(item === 'ITEM'){
+        itemIndexArr.push(index)
+      }
+      });
+      // console.log(itemIndexArr)
+
+      // console.log(itemList)
+      // console.log(itemIndex)
+      // console.log(additionalItem)
+      // console.log(total)
+
+      // Loop through each 'ITEM' index
+      itemIndexArr.forEach((item, index) => {
+        // Get the printable row. Skip the unused rows.
+        // +1 is the header identifier, 'ITEM'
+        // +4 is the name, refId, cat and tag rows
+        let itemSingleList = itemList.slice(item + 1 + 4, itemIndexArr[index+1]);
+        // console.log(itemSingleList);
+
+        let subtotalItem = 0;
+        let component = [];
+        itemSingleList.forEach((item, index) => {
+
+          component = item.split(";; ")
+          printItem(component[0], component[1], component[2], component[3]);
+
+          subtotalItem = isNaN(component[1] * component[2]) ? subtotalItem+ 0 : subtotalItem + component[1] * component[2];
+
+        });
+
+        printItemSubtotal(subtotalItem);
+
+      })
+
+      // Print Items
+      // Print Additional Items
+      additionalItem.forEach((item) => {
+
+        let component = item.split(";; ")
+        let additionalSelector = component[0];
+        let additionalItem = component[1];
+        let additionalItemValue = component[2];
+        let amount = component[3];
+
+        if (additionalSelector === 'Select one'){
+          // Do nothing
+        }
+        else if (additionalSelector === 'Discount ( - )'){
+          printAdditionalItem(additionalItem, amount);
+        }
+        else if (additionalSelector === 'Tax Rate (%)'){
+          printAdditionalItem(additionalItem+' ('+additionalItemValue +'%)', amount);
+        }
+        else
+        {
+          // Do nothing
+        }
+      });
+
+      // Print Total
+      let totalText = '';
+      if (isNaN(total) ){
+        totalText = 'INVALID';
+        // console.log(totalText)
+        document.getElementById('previewGrandTotal').textContent = totalText;
+      }else {
+        totalText = (total >= 0) ? 'RM'+total.toFixed(2) : '- RM'+ Math.abs(total).toFixed(2)
+        // console.log(totalText)
+        document.getElementById("previewGrandTotal").textContent = totalText;
+      }
+
+      // document.getElementById('previewSubtotalItem').textContent = document.getElementById('subtotalItem').textContent;
+      // document.getElementById('previewGrandTotal').textContent = document.getElementById('grandTotal').textContent;
+
+      let bounderies = document.getElementById('invTemplate').getBoundingClientRect();
+      // console.log('item dim (h x w): '+ bounderies.height, bounderies.width );
+
+      let width = document.getElementById('invTemplate').offsetWidth;
+      let height = document.getElementById('invTemplate').offsetHeight;
+      // console.log('item dim in cm (h x w): '+ height*0.02645833, width*0.02645833 );
+
+      if ( height*0.02645833 >= 29.7 && height*0.02645833 < 59.4){
+        document.getElementById('invTemplate').style.height = '59.35cm'; // Slightly smaller than 59.4 - 2page
+      }
+      else if ( height*0.02645833 >= 59.4 && height*0.02645833 < 89.1){
+        document.getElementById('invTemplate').style.height = '89.05cm';
+      }
+      else if ( height*0.02645833 >= 89.1 && height*0.02645833 < 118.8){
+        document.getElementById('invTemplate').style.height = '118.75cm';
+      }
+      else if ( height*0.02645833 >= 118.8 && height*0.02645833 < 148.5){
+        document.getElementById('invTemplate').style.height = '148.45cm';
+      }
+      else{
+        // document.getElementById('invTemplate').style.height = 'auto';
+      }
+
+
+    }
+
+    //-------- Save and Create Invoice-----------------/
+
+    function validateForm(id) {
+
+      const parentElement = document.getElementById(id);
+
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      // x = document.getElementsByClassName("multitabs-form__panel");
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =parentElement.querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        // document.getElementsByClassName("step")[activePanelNum].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+    // Generate PDF
+    // https://ekoopmans.github.io/html2pdf.js/
+    function generatePDFeKoopmans(id){
+
+      element = document.getElementById(id);
+      var cln = element.cloneNode(true);
+      let wrapper = document.createElement("div")
+      wrapper.setAttribute("style", "padding: 0.5rem; ")
+      wrapper.appendChild(cln);
+
+      var opt = {
+        margin:       0,
+        filename:     'invoice.pdf',
+        pagebreak:    { before: '.beforeClass', after: ['#after1', '#after2'], avoid: 'img' },
+        image:        { type: 'jpeg', quality: 0.95 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(wrapper).save();
+    }
+
+    async function reload(){
+      var invdocRef = db.collection("dev")
+        .doc("v2")
+        .collection("Invoice")
+        .doc(invId);
+
+      var transDocRef = db.collection("dev")
+        .doc("v2")
+        .collection("Transaction")
+        .doc(transId);
+
+      var promiseAll = [];
+      promiseAll.push(invdocRef.get())
+      promiseAll.push(transDocRef.get())
+
+      var promiseAllVar = Promise.all(promiseAll).then((snapshots) => {
+
+        if (snapshots[0].exists && snapshots[1].exists){
+          currentInvoiceObj = snapshots[0].data();
+          updatePageContent(currentInvoiceObj)
+        }
+        else {
+          console.log("Document(s) missing!");
+        }
+
+
+      }).catch((e) => {
+        console.log(e.message)
+      })
+
+      await promiseAllVar;
+
+      // invdocRef
+      // .get()
+      // .then((doc) => {
+      //   // Hide loading modal
+      //   // $('#loadingModal').modal('hide');
+
+      //   if (doc.exists) {
+      //     // console.log(doc.data())
+      //     sessionStorage.setItem(SESSION_STORAGE_INVOICE_CURRENT_DOC_KEY, JSON.stringify(doc.data()));
+      //     currentInvoiceObj = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_INVOICE_CURRENT_DOC_KEY));
+      //     updatePageContent(currentInvoiceObj)
+
+      //   }
+      //   else {
+      //     console.log("No such document!");
+      //   }
+      // })
+      // .catch((error) => {
+      //   console.log("Error getting document:", error);
+      // });
+
+
+      // transDocRef
+      // .get()
+      // .then((doc) => {
+
+      //   if (doc.exists) {
+      //     // console.log(doc.data())
+      //     sessionStorage.setItem(SESSION_STORAGE_TRANSACTION_CURRENT_DOC_KEY, JSON.stringify(doc.data()));
+
+      //   }
+      //   else {
+      //     console.log("No such document!");
+      //   }
+      // })
+      // .catch((error) => {
+      //   console.log("Error getting document:", error);
+      // });
+
+  }
+
+
+    // Get json arrays of report items
+    function getReportList2(allItemsArr){
+
+      // Get the 'Revenue' array of json
+      // [
+      //   { "name": "<className1> / tagname1" , "refId": "<classId1> / uncategorized"   , "type": "cat / tag / org"   , "total": 100 },
+      //   { "name": "Std 6 Math"    , "refId": "pdiejsawafasw"   , "type": "cat"   , "total": 300 },
+      //   { "name": "Uncategorized" , "refId": "uncategorized"   , "type": "cat"   , "total": 300 },
+      //   { "name": "Tax"           , "refId": "tax"             , "type": "cat"   , "total": 20.352s },
+      //   { "name": "Others"        , "refId": "other"           , "type": "cat"   , "total": 100 },
+
+      //   { "name": "selangor"      , "refId": ""                , "type": "tag"   , "total": 300 },
+      //   { "name": "bm"            , "refId": ""                , "type": "tag"   , "total": 320 },
+      //   ...
+      // ]
+
+
+      // Items & Additional Items
+      let itemStartIndex= allItemsArr.indexOf('ITEMLIST');
+      // let itemIndex= allItemsArr.indexOf('ITEM');
+      let additionalItemStartIndex= allItemsArr.indexOf('ADDITIONAL_ITEM');
+      let totalStartIndex= allItemsArr.indexOf('TOTAL');
+
+      // console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
+
+      // let type = payslipDataArr[0];
+      let itemList = allItemsArr.slice(itemStartIndex+1, additionalItemStartIndex); //+1 to ignore the first indentifier, ITEMLIST
+      // let subTotal = payslipDataArr[subtotalStartIndex+1];
+      let additionalItem = allItemsArr.slice(additionalItemStartIndex+1, totalStartIndex); //+1 to ignore the first indentifier
+      let total = allItemsArr[totalStartIndex+1];
+
+      var itemIndexArr = [];
+      itemList.filter(function(item, index) {
+      if(item === 'ITEM'){
+        itemIndexArr.push(index)
+      }
+      });
+      // console.log(itemIndexArr)
+      // console.log(itemList)
+      // console.log(itemIndex)
+      // console.log(additionalItem)
+      // console.log(total)
+
+      let ReportList = [];
+
+      // let title = tableItem.querySelectorAll("span[class=table-title]")[0].textContent;
+
+      let subTotal = 0; // Used to get the subtotal.
+      // Loop through each 'ITEM' index
+      itemIndexArr.forEach((item, index) =>
+      {
+        // Calculate the subtotal of each item.
+        // Get the printable row. Skip the unused rows.
+        // +1 is the header identifier, 'ITEM'
+        // +3 is the refId, cat and tag rows
+        let itemSingleList = itemList.slice(item + 1 + 4, itemIndexArr[index+1]);
+        // console.log(itemSingleList);
+
+        let subtotalItem = 0;
+        let component = [];
+        itemSingleList.forEach((item, index) => {
+
+          component = item.split(";; ")
+          subtotalItem = isNaN(component[1] * component[2]) ? subtotalItem+ 0 : subtotalItem + component[1] * component[2];
+
+        });
+
+        // Get the refId, tag and cat
+        let className = itemList.slice(item + 1, item + 2)[0];
+        let refId = itemList.slice(item + 2, item + 3)[0];
+        let cat = itemList.slice(item + 3, item + 4)[0];
+        let tag_temp = itemList.slice(item + 4, item + 5)[0];
+        console.log(className, refId, cat, tag_temp)
+        // let tag = (tag_temp == null || tag_temp == "") ? "" : tag_temp;
+        let tagArray = (tag_temp == null || tag_temp == "") ? [] : tag_temp.split(",");
+
+        // Create cat item
+        let itemCatJson = {};
+        if (refId === 'uncategorized') // New item
+        itemCatJson = {
+            "name": className, //"Uncategorized",
+            "refId": refId,
+            "type": REV_TYPE_CAT,
+            "total": subtotalItem
+          };
+        else if (refId != 'tax' && refId != 'other')
+          itemCatJson = {
+            "name": className,
+            "refId": refId,
+            "type": REV_TYPE_CAT,
+            "total": subtotalItem
+          };
+        else{
+          // Not suppose to have tax or other category here. They will be done later
+          // Do nothing
+        }
+
+        ReportList.push(itemCatJson);
+
+        // Create tag item if exist
+        let itemTagJson = {};
+        if (tagArray.length >= 1){
+          tagArray.forEach((item) => {
+            itemTagJson = {
+              "name": item,
+              "refId": item,
+              "type": REV_TYPE_TAG,
+              "total": subtotalItem
+            };
+            ReportList.push(itemTagJson)
+
+          });
+        }
+        else {
+          // No tag found.
+        }
+
+        subTotal = subTotal + subtotalItem;
+
+      });
+
+      // console.log(ReportList);
+
+      // Get Additional Items
+      let addItemOtherTotal = 0;
+      let addItemTaxTotal = 0;
+
+      let temp_amount = 0;
+      let totalText = '';
+
+      additionalItem.forEach((item) => {
+        console.log("")
+        console.log(item)
+        console.log("")
+        let component = item.split(";; ")
+
+        let additionalSelector = component[0];
+        let additionalItem = component[1];
+        let additionalItemValue = parseFloat(component[2]);
+        let amount = component[3];
+
+        if (additionalSelector === 'Select one'){
+          // Do nothing
+          temp_amount = 0;
+          subTotal = subTotal;
+        }
+        else if (additionalSelector === 'Discount ( - )'){
+          // console.log(additionalItem, amount);
+          temp_amount = -additionalItemValue;
+
+          addItemOtherTotal = isNaN(temp_amount) ? addItemOtherTotal + 0 : addItemOtherTotal + temp_amount;
+
+          subTotal = subTotal - additionalItemValue;
+
+        }
+        else if (additionalSelector === 'Tax Rate (%)'){
+          // console.log(additionalItem+' ('+additionalItemValue +'%)', amount);
+          temp_amount = subTotal * (additionalItemValue) / 100;
+          console.log("Tax Rate (%):");
+          console.log("temp_amount: "+ temp_amount);
+          addItemTaxTotal = isNaN(temp_amount) ? addItemTaxTotal + 0 : addItemTaxTotal + temp_amount;
+          console.log("addItemTaxTotal: "+ addItemTaxTotal);
+          subTotal = subTotal * (100 + additionalItemValue) / 100;
+          console.log("subTotal after Tax: "+ subTotal);
+        }
+        else
+        {
+          // Do nothing
+          temp_amount = 0;
+          subTotal = subTotal;
+        }
+
+        console.log("subTotal: "+ subTotal);
+      });
+
+
+
+      // Create 'other' cat item if exist
+      let addItemOtherJson = {
+        "name": 'Others',
+        "refId": 'other',
+        "type": REV_TYPE_CAT,
+        "total": addItemOtherTotal
+      };
+      ReportList.push(addItemOtherJson)
+
+      // Create 'tax' cat item if exist
+      let addItemTaxJson = {
+        "name": 'Tax',
+        "refId": 'tax',
+        "type": REV_TYPE_CAT,
+        "total": addItemTaxTotal
+      };
+      ReportList.push(addItemTaxJson)
+
+
+      console.log(ReportList);
+
+      // If there's more than one duplicated items in the array of Json item. i.e consist of multiple similar tag,
+      // or multiple tax or multiple other discount.
+      // Combined the duplicated items.
+      // Ref: https://www.codegrepper.com/code-examples/javascript/pick+the+duplicate+objects+from+json+array+javascript
+      var ids = [];
+      var clean = [];
+
+      $.each(ReportList, function(index, value) {
+          if($.inArray(value.refId, ids) == -1)
+          {
+            ids.push(value.refId);
+            clean.push(value);
+          }else{
+            let idIndex = ids.indexOf(value.refId);
+            clean[idIndex].total = clean[idIndex].total + value.total;
+
+            // ids.push(value.id);
+            // clean.push(value);
+          }
+      });
+
+      console.log(ids)
+      console.log(clean)
+
+      // return a json array:
+      // [
+      //   {
+      //     "name": 'Tax',
+      //     "refId": 'tax',
+      //     "type": "cat",
+      //     "total": 2313
+      //   },
+      //   {
+      //     "name": 'Tax',
+      //     "refId": 'tax',
+      //     "type": "cat",
+      //     "total": 5443
+      //   },
+      //   ......
+      // ]
+      return clean;
+    }
+
+
+    // Copy a text based on element ID
+    function copyText(targetElemId){
+      /* Get the text field */
+      let copyText = document.getElementById(targetElemId);
+      // console.log(copyText)
+      // console.log(copyText.select())
+      /* Select the text field */
+      copyText.focus();
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+
+      /* Alert the copied text */
+      // alert("Copied the text: " + copyText.value);
+    }
+
+
+    // Check record payment modal fields
+    function checkRecordPaymentModalFields(){
+
+      let recordPaymentDate = document.getElementById('inPaymentDate').value;
+      let recordPaymentAmount = document.getElementById('inPaymentAmount').value;
+
+      if (recordPaymentDate == null || recordPaymentDate == '' || recordPaymentAmount == null || recordPaymentAmount == ''){
+        document.getElementById('btnRecordPaymentModalUpdate').setAttribute('disabled', true);
+      }
+      else{
+        document.getElementById('btnRecordPaymentModalUpdate').removeAttribute('disabled');
+      }
+
+    }
+  </script>
+
+  <script>
+      var ID = ""; // Extract info from data-* attributes
+      var NAME = ""; // Extract info from data-* attributes
+      var PHONE = ""; // Extract info from data-* attributes
+      var EMAIL = ""; // Extract info from data-* attributes
+      var ADDRESS = ""; // Extract info from data-* attributes
+		$( document ).ready(function() {
+
+
+      $('#btnEditInvoice').on('click', function (event) {
+        window.location.href = './edit-invoice.html' +'?url=' + orgUrl + "&ent=" + orgEnt + "&iid=" + iid;
+
+      });
+
+      // Approve Draft
+      // data-toggle='modal' data-target='#approveDraftModal'
+      $('#btnApproveDraft').on('click', function (event) {
+        $('#approveDraftModal').modal({
+          backdrop:'static',
+          keyboard:false
+        });
+        $('#approveDraftModal').modal('show')
+      });
+      $('#btnApproveDraftModalCancel1').on('click', function (event) {
+        $('#approveDraftModal').modal('hide')
+      });
+      $('#btnApproveDraftModalCancel2').on('click', function (event) {
+        $('#approveDraftModal').modal('hide')
+      });
+
+      $('#btnApproveDraftModalUpdate').on('click', function (event) {
+        var month; // month of current invoice in YYYYMM
+        document.getElementById('btnApproveDraftModalUpdate').setAttribute("disabled", "true");
+        document.getElementById('btnApproveDraftModalUpdate').textContent = "Approving. Please wait ...";
+
+        var invDocRef = db.collection("dev")
+          .doc("v2")
+          .collection("Invoice")
+          .doc(invId);
+
+        var transDocRef = db.collection("dev")
+          .doc("v2")
+          .collection("Transaction")
+          .doc(transId);
+
+        var invData = {
+          [INV_INV_STATUS]: INV_STATUS_NEW,
+          [INV_DATE_EDIT]: new Date()
+        }
+
+        // console.log("*Invoice Data...")
+        // console.log(invData)
+
+        var transData = {
+          [TRANS_DOC_STATUS]: TRANS_INV_STATUS_NEW,
+          [TRANS_DATE_EDIT]: new Date()
+        }
+        // console.log("Transaction Data...")
+        // console.log(transData)
+
+        // Set the value of 'Invoice'
+        batch.update(invDocRef, invData);
+
+        // Set the value of 'Transaction'
+        batch.update(transDocRef, transData);
+
+        // Get the report list
+        let reportList = getReportList2(currentInvoiceObj[INV_ITEMS_ARR]);
+
+        // Get the Report documents with the similar invoice id, and
+        // remove the corresponding id in REV_DOC_ID_ARR and REV_DOC_TOTAL_ARR.
+        // Update the doc with new value
+        let reportDocRef = db.collection("dev")
+          .doc("v2")
+          .collection("Revenue")
+          .where(REV_DOC_ID_ARR, "array-contains", invId)
+          .where(REV_STATUS, "==", true);
+
+        reportDocRef
+          .get()
+          // UNUSED: Get All invoice. This step is UNUSED because when the time approve, there should not be any report created yet.
+          // In case yes, we want to remove them, so we can later add it back.
+          .then((querySnapshot) => {
+            //   { "name": "<className> / tag", "refId":"<classId1>/uncategorized"  , "type": "cat / tag / org"  , "total": 100 },
+
+            // get all the data in json array
+            let docItemJsonList = [];
+
+            if (querySnapshot.size > 0){
+
+              querySnapshot.forEach((doc) => {
+                let docItemJson = {};
+
+                console.log(doc.data());
+
+                // Remove the invId from the REV_DOC_ID_ARR and REV_DOC_TOTAL_ARR
+                let invDocIdIndex = doc.data()[REV_DOC_ID_ARR].indexOf(invId);
+                let invDocIdArr = doc.data()[REV_DOC_ID_ARR];
+                let invDocTotalArr = doc.data()[REV_DOC_TOTAL_ARR];
+
+                invDocIdArr.splice(invDocIdIndex, 1);
+                invDocTotalArr.splice(invDocIdIndex, 1);
+
+                // Construct the new data
+                let revData ={
+                  // [REV_ID]: ,
+                  // [REV_ADMIN_ID]: ,
+                  // [REV_NAME]: document.getElementById("invBizDetails").textContent,
+                  // [REV_REF_ID]: document.getElementById("invClientName").textContent,
+                  // [REV_TYPE]: ,
+                  // [REV_MONTH]: document.getElementById("invTitle").value,
+                  // [REV_TOTAL]: document.getElementById("invNum").value,
+                  [REV_DOC_ID_ARR]: invDocIdArr,
+                  [REV_DOC_TOTAL_ARR]: invDocTotalArr,
+                  [REV_DATE_EDIT]: new Date(),
+                  // [REV_STATUS]: true
+                }
+
+                // Update it through batch
+                let revenueDocRef = db.collection("dev")
+                  .doc("v2")
+                  .collection("Revenue")
+                  .doc(doc.id);
+                batch.update(revenueDocRef, revData);
+
+
+              });
+
+
+
+            }
+            else {
+              console.log('No report found')
+            }
+
+            return Promise.resolve(batch.commit());
+
+          })
+
+          // ----- NEWLY ADDED ------- //
+          // Update Revenue =  Get all the revDoc based on 'month'.
+          .then(() => {
+
+            // Step 1: Get all the revDoc based on 'month'
+            let issuedDate = new Date(currentInvoiceObj[INV_ISSUE_DATE].seconds*1000).toLocaleDateString("en-GB");
+            let issuedDateComponent = issuedDate.split('/');
+            month = parseInt(issuedDateComponent[2]+""+issuedDateComponent[1]);
+            // console.log(issuedDate)
+            console.log("Step 1: Get all the revDoc based on 'month' ")
+            console.log(month)
+
+            let revenueDocList = []
+            let reportDocRef = db.collection("dev")
+              .doc("v2")
+              .collection("Revenue")
+              // .where(REV_REF_ID, "==", item.refId)
+              .where(REV_ADMIN_ID, "==", ent_id)
+              .where(REV_MONTH, "==", month)// YYYYMM
+              // .limit(1);
+
+            return Promise.resolve(reportDocRef.get())
+
+
+          })
+          // Update Revenue - Compare the array of refId from revenueDoc in firestore to refId in reportlist in current inv
+          // Get the difference.
+          .then((querySnapshot) => {
+            document.getElementById('btnApproveDraftModalUpdate').setAttribute("disabled", "true");
+            document.getElementById('btnApproveDraftModalUpdate').textContent = "Finalizing ...";
+
+            const promiseArr = [];
+            // Step 1: Compare the array of refId from revenueDoc in firestore to refId in reportlist in current inv
+            // Get the difference.
+
+            // Example:
+            // arr1 =["1","2","3","4","5","6"]; // new Array
+            // arr2 = ["3","4","5" ,"7"]; // Array from db
+            // Ref: https://stackoverflow.com/questions/1187518/how-to-get-the-difference-between-two-arrays-in-javascript
+            // let difference = arr1.filter(x => !arr2.includes(x));
+            // console.log(difference); // => [1, 2, 6]
+            let refIdRevenueDocList = [];
+
+            querySnapshot.forEach((doc) => {
+              refIdRevenueDocList.push(doc.data()[REV_REF_ID]);
+            });
+            console.log('refIdRevenueDocList', refIdRevenueDocList);
+
+            let refIdReportList = [];
+            reportList.forEach((item) => {
+              refIdReportList.push(item.refId);
+            })
+            console.log('refIdReportList', refIdReportList);
+
+            let differenceList = refIdReportList.filter(x => !refIdRevenueDocList.includes(x));
+            console.log('differenceList', differenceList);
+
+            console.log("Step  2.1 Update the existed reportDoc in batch")
+            // Step 2.1 Update the existed reportDoc in batch
+            querySnapshot.forEach((doc) => {
+              console.log(doc.data());
+
+              // Check if the ID in local invoice items match with the one in revenueDoc.
+              // If match create a new data and push to new batch for update.
+              // reportList json format:
+              // {
+              //   "name": "<className1> / tagname1",
+              //   "refId": "<classId1> / uncategorized",
+              //   "type": "cat / tag / org",
+              //   "total": 100
+              // }
+              reportList.forEach((item) => {
+
+                if (item.refId === doc.data()[REV_REF_ID]){
+
+                  let newInvDocIdArr = doc.data()[REV_DOC_ID_ARR];
+                  newInvDocIdArr.push(invId);
+                  let newInvDocTotalArr = doc.data()[REV_DOC_TOTAL_ARR];
+                  newInvDocTotalArr.push(item.total);
+
+                  let newTotal = newInvDocTotalArr.reduce((a, b) => a + b, 0);
+
+                  // Get all the revDoc based on 'month'
+                  let reportDocRef = db.collection("dev")
+                    .doc("v2")
+                    .collection("Revenue")
+                    .doc(doc.data()[REV_ID]);
+
+                  // Construct the new data
+                  let revData ={
+                    // [REV_ID]: ,
+                    // [REV_ADMIN_ID]: ,
+                    [REV_NAME]: item.name,   // Class name may changed
+                    // [REV_REF_ID]: item.refId,
+                    // [REV_TYPE]: item.type,
+                    // [REV_MONTH]: ,
+                    [REV_TOTAL]: newTotal,
+                    [REV_DOC_ID_ARR]: newInvDocIdArr,
+                    [REV_DOC_TOTAL_ARR]: newInvDocTotalArr,
+                    [REV_DATE_EDIT]: new Date(),
+                    [REV_STATUS]: true
+                  }
+
+                  promiseArr.push(reportDocRef.update(revData, ))
+
+
+                }
+                else{
+                  // Do nothing
+                }
+
+              });
+
+            });
+
+            console.log("Step  2.2 Create a new reportDoc for each new item in differenceList")
+            // Step 2.2 Create a new reportDoc for each item in differenceList
+            if (differenceList.length>0){
+              differenceList.forEach((diffItem, diffIndex) => {
+
+                // console.log("diffIndex: " + diffIndex )
+                reportList.forEach((item, index) => {
+
+                  if (item.refId === diffItem){
+
+                    // console.log("reportindex: " + index);
+
+                    let newInvDocIdArr = [];
+                    newInvDocIdArr.push(invId);
+                    let newInvDocTotalArr = [];
+                    newInvDocTotalArr.push(item.total);
+
+                    let newTotal = newInvDocTotalArr.reduce((a, b) => a + b, 0);
+
+                    // Get all the revDoc based on 'month'
+                    let reportDocRef = db.collection("dev")
+                      .doc("v2")
+                      .collection("Revenue")
+                      .doc();
+
+                    console.log("Updating: " + item.refId + "  - "+ reportDocRef.id);
+                    // Construct the new data
+                    let revData ={
+                      [REV_ID]: reportDocRef.id,
+                      [REV_ADMIN_ID]: ent_id,
+                      [REV_NAME]: item.name,
+                      [REV_REF_ID]: item.refId,
+                      [REV_TYPE]: item.type,
+                      [REV_MONTH]: month,
+                      [REV_TOTAL]: newTotal,
+                      [REV_DOC_ID_ARR]: newInvDocIdArr,
+                      [REV_DOC_TOTAL_ARR]: newInvDocTotalArr,
+                      [REV_DATE_EDIT]: new Date(),
+                      [REV_STATUS]: true
+                    }
+
+                    // batchUpdateNew.set(reportDocRef, revData);
+                    promiseArr.push(reportDocRef.set(revData, { merge: true }))
+
+                  }
+                  else{
+                    // Do nothing
+                  }
+
+
+                });
+
+
+              })
+            }
+            else {
+              // Do nothing
+              console.log("Step  2.2: empty differenceList. Do nothing ")
+            }
+
+            return Promise.all(promiseArr);
+
+          })
+          // Reload
+          .then(() => {
+            document.getElementById('btnApproveDraftModalUpdate').setAttribute("disabled", "true");
+            document.getElementById('btnApproveDraftModalUpdate').textContent = "Almost there ...";
+
+            return Promise.resolve(reload());
+          })
+          // Complete
+          .then(() => {
+            document.getElementById('btnApproveDraftModalUpdate').removeAttribute("disabled");
+            document.getElementById('btnApproveDraftModalUpdate').textContent = "Approve";
+
+
+            $('#approveDraftModal').modal('hide');
+
+            func.showNotification('top','center', 'success', 'check_circle', "Invoice approved" );
+
+          })
+          .catch((error) => {
+              console.log("Error getting document:", error);
+          });
+
+
+
+      });
+
+      // Populate record payment modal
+      $('#recordPaymentModal').on('show.bs.modal', function (event) {
+        let invPaymentDate = ''
+        if (currentInvoiceObj[INV_PAYMENT_DATE] == null || currentInvoiceObj[INV_PAYMENT_DATE] == ''){
+          invPaymentDate = ' - ';
+        }else {
+          invPaymentDate = new Date(currentInvoiceObj[INV_PAYMENT_DATE].seconds*1000).toLocaleDateString("en-GB");
+        }
+
+        document.getElementById("inPaymentDate").value = invPaymentDate;
+        document.getElementById("inPaymentAmount").value = currentInvoiceObj[INV_PAYMENT_AMOUNT];
+        document.getElementById("inPaymentNotes").value = currentInvoiceObj[INV_PAYMENT_NOTE];
+
+        if (currentInvoiceObj[INV_INV_STATUS] === INV_STATUS_PAID){
+          document.getElementById("statusNew").checked = false;
+          document.getElementById("statusPaid").checked = true;
+        }else{
+          document.getElementById("statusNew").checked = true;
+          document.getElementById("statusPaid").checked = false;
+        }
+
+      });
+
+      $('#recordPaymentModal').on('hide.bs.modal', function (event) {
+        document.getElementById("inPaymentDate").value = '';
+        document.getElementById("inPaymentAmount").value = '';
+        document.getElementById("inPaymentNotes").value = '';
+        document.getElementById("statusNew").checked = false;
+        document.getElementById("statusPaid").checked = false;
+
+        document.getElementById("btnRecordPaymentModalUpdate").setAttribute("disabled", true);
+
+      });
+
+      // Record Payment
+      $('#btnRecordPaymentModalUpdate').on('click', function (event) {
+
+        var invdocRef = db.collection("dev")
+          .doc("v2")
+          .collection("Invoice")
+          .doc(invId);
+
+        var transDocRef = db.collection("dev")
+          .doc("v2")
+          .collection("Transaction")
+          .doc(transId);
+
+        // Payment date
+        let paymentDate = document.getElementById("inPaymentDate").value;
+        paymentDate = paymentDate.split("/");
+        let newPaymentDate = new Date( paymentDate[2], paymentDate[1] - 1, paymentDate[0]);
+        let paymentDateFinal = firebase.firestore.Timestamp.fromDate(newPaymentDate);
+
+        var invData = {
+          [INV_INV_STATUS]: document.getElementById("statusPaid").checked ? INV_STATUS_PAID : INV_STATUS_NEW,
+          [INV_PAYMENT_DATE]: paymentDateFinal,
+          [INV_PAYMENT_AMOUNT]: document.getElementById("inPaymentAmount").value,
+          [INV_PAYMENT_NOTE]: document.getElementById("inPaymentNotes").value,
+          [INV_DATE_EDIT]: new Date(),
+        }
+
+        console.log("*Invoice Data...")
+        console.log(invData)
+
+        var promiseAll = []
+        promiseAll.push(invdocRef.update(invData))
+
+        // invdocRef.update(invData,)
+        // .then(() => {
+
+        //   // reload views
+        //   reload();
+
+        // });
+
+        var transData = {
+          [TRANS_DOC_STATUS]: document.getElementById("statusPaid").checked ? TRANS_INV_STATUS_PAID : TRANS_PAY_STATUS_NEW,
+          [TRANS_DATE_EDIT]: new Date()
+        }
+
+        console.log("Transaction Data...")
+        console.log(transData)
+        promiseAll.push(transDocRef.update(transData))
+
+        // transDocRef.update(transData)
+        // .then(() => {
+        //   // window.location.href='./'
+        //   func.showNotification('top','center', 'success', 'check_circle', "Payment recorded" );
+        // });
+
+        Promise.all(promiseAll).then(() => {
+
+          return Promise.resolve(reload())
+
+        })
+        .then(()=> {
+          func.showNotification('top','center', 'success', 'check_circle', "Payment recorded" );
+        })
+      });
+
+
+      // Active Register Class Modal
+      $('#loadingModal').modal({
+        backdrop:'static',
+        keyboard:false
+      });
+      // $('#loadingModal').modal('show');
+
+
+		});
+
+  </script>
+
+  <!-- Datepicker -->
+  <script>
+      // Date picker
+      // Source: https://mcdatepicker.netlify.app/docs/
+      // const calendarTheme = {
+      //   theme_color: '#2e74b6', //#19212b
+      //   main_background: '#FBFBFB',
+      //   active_text_color: 'rgba(62,85,110,0.85)',
+      //   inactive_text_color: '#cfe6ff',
+      //   picker_header: {
+      //     active: '#8ea5bd'
+      //   },
+      //   weekday: {
+      //     foreground: '#2e74b6' //rgba(35,68,97,0.8)
+      //   },
+      //   display: {
+      //     foreground: '#8ea5bd'
+      //   },
+      //   date: {
+      //     active: {
+      //       picked: {
+      //         background: '#2e74b6'
+      //       }
+      //     },
+      //     marcked: {
+      //       foreground: '#53a6fa'
+      //     }
+      //   },
+      //   button: {
+      //     danger: {
+      //       foreground: '#af002a'
+      //     },
+      //     success: {
+      //       foreground: '#2e74b6'
+      //     }
+      //   }
+      // };
+
+      // const PaymentDateDatePicker = MCDatepicker.create({
+      //   el: '#inPaymentDate',
+      //   bodyType: 'inline',
+      //   dateFormat: 'dd/mm/yyyy',
+      //   selectedDate: new Date(),
+      //   firstWeekday: 1,
+      //   minDate: new Date(2020, 0, 1),
+      //   theme: calendarTheme
+      // });
+
+      // PaymentDateDatePicker.onClose(() => {
+      //   document.getElementById("previewInvIssueDate").textContent = document.getElementById("inPaymentDate").value;
+
+      //   if ( document.getElementById("inPaymentDate").value.length > 0){
+      //     document.getElementById("inPaymentDate").className = 'form-control';
+      //   }
+      // });
+
+      // Record Payment Single Date Picker
+      $('#inPaymentDate').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        customClearBTN: '',
+        locale: {
+            format: 'DD/MM/YYYY'
+        },
+      }, function(start, end, label) {
+
+        // Check if the fields are filled.
+        checkRecordPaymentModalFields();
+
+      });
+
+
+
+      var inputPhone = document.querySelector("#inClientContact");
+      var itiPhone = intlTelInput(inputPhone, {
+      // allowDropdown: false,
+      autoHideDialCode: false,
+      // autoPlaceholder: "off",
+      // dropdownContainer: document.body,
+      // excludeCountries: ["my"],
+      // formatOnDisplay: false,
+      // geoIpLookup: function(callback) {
+      //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+      //     var countryCode = (resp && resp.country) ? resp.country : "";
+      //     callback(countryCode);
+      //   });
+      // },
+      // hiddenInput: "full_number",
+      // initialCountry: "auto",
+      // localizedCountries: { 'de': 'Deutschland' },
+      nationalMode: false,
+      // onlyCountries: ['MY', 'SG', 'TH', 'ID', 'VN', 'PH', 'BN', 'US', 'GB', 'SA'],
+      // placeholderNumberType: "MOBILE",
+      preferredCountries: ['MY', 'SG'],
+      separateDialCode: true,
+      utilsScript: "../../assets/js/plugins/intlTelInput/utils.js",
+    });
+
+    var errorMsg = document.querySelector("#error-msg");
+    var validMsg = document.querySelector("#valid-msg");
+
+    // here, the index maps to the error code returned from getValidationError - see readme
+    var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    var reset = function() {
+      inputPhone.classList.remove("error");
+      errorMsg.innerHTML = "";
+      errorMsg.classList.add("hide");
+      validMsg.classList.add("hide");
+    };
+
+    // on blur: validate
+
+    inputPhone.addEventListener('blur', function() {
+      reset();
+
+      if (inputPhone.value.trim()) {
+        if (itiPhone.isValidNumber()) {
+          validMsg.classList.remove("hide");
+        } else {
+          inputPhone.classList.add("error");
+          var errorCode = itiPhone.getValidationError();
+          errorMsg.innerHTML = errorMap[errorCode];
+          errorMsg.classList.remove("hide");
+        }
+      }
+    });
+
+    // on keyup / change flag: reset
+    inputPhone.addEventListener('change', reset);
+    inputPhone.addEventListener('keyup', reset);
+
+  </script>
+
+</body>
+
+</html>

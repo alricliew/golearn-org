@@ -1,0 +1,1424 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/transaction/settings.html >
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+  </script>
+  <!-- Rich Text Editor Init -->
+  <script src="https://cdn.tiny.cloud/1/5dm77axvxwkliu22hg2ejlaqh4s246uo83bz98ogo4c3yeev/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!-- GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <link href="../../assets/css/multitabform.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden active" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Transactions <span><i class="material-icons" style="color: gray;">chevron_right</i></span> Settings</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+                <!-- <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a> -->
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a> -->
+                </div>
+              </li>
+              <!-- your navbar here -->
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+									<div class="dropdown-divider"></div>
+									<a style="font-weight: 500 ;padding: 0.5em ;text-align: center; width: 200px; background-color: #428dd4 ;display: block; color: #fff;" href="https://golearn.com.my/pricing/" target="_blank">Upgrade to Pro</a>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+
+      <!-- Save Data modal -->
+      <div class="row">
+        <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Save and Close</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="saveModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSaveModalUpdate">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Uploading Progress modal -->
+      <div class="row">
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Uploading...</h5>
+              </div>
+              <div class="modal-body" id="uploadModalBody">
+                <div id="myProgress" style="width: 100%; background-color: grey;">
+                  <div id="myBar" style="width: 1%; height: 30px; background-color: green;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Modal -->
+      <div class="row">
+        <div class="modal fade" tabindex="-1" role="dialog" id="loadingModal" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="container-fluid">
+              <div class="row d-flex">
+                <span class="fa fa-spinner fa-spin fa-5x w-100" style="color: #fff ;"></span>
+                <div class="col align-self-center">
+                  <!-- <h5 class="modal-title" style="color: white;">Loading... </h5> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign-out modal -->
+      <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Main content -->
+      <div class="content">
+
+
+        <!-- Main content -->
+        <div class="container overflow-hidden">
+
+          <!-- Main content -->
+          <div class="row d-flex">
+            <!-- button -->
+            <div class="p-2">
+              <a href="./" class="btn btn-outline-primary btn-round" name="param-link"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">west</i> Back</a>
+            </div>
+
+            <div class="ml-auto p-2">
+              <a href="javascript:;" class="btn btn-primary btn-round hidden" id="btnSave" perm="settings"><i class="material-icons" style="color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;">save</i> Save</a>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <!--multitabs-form navbar-->
+              <div class="row" >
+                <div class="col-12 col-lg-12 ml-auto mr-auto mb-4">
+                  <div class="d-flex flex-wrap multitabs-form__progress">
+                    <button class="multitabs-form__progress-btn js-active" type="button" title="Business Profile">Business Profile</button>
+                    <button class="multitabs-form__progress-btn" type="button" title="Banking">Bank Settings</button>
+                    <button class="multitabs-form__progress-btn" type="button" title="Banking">Invoice Template</button>
+
+                  </div>
+                </div>
+              </div>
+
+              <!--multitabs-form-->
+              <div class="multitabs-form" id="multitabs_form">
+                <div class="row">
+                  <div class="col-12">
+                    <form class="multitabs-form__form">
+                      <!-- Business Profile panel-->
+                      <div class="multitabs-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+                        <h4 class="multitabs-form__title">Business Profile
+                          <span class="tooltiptext-trigger" style="background-color: #2e74b6; padding: 0.2em 0.5em 0.2em 0.5em; color: white; border-radius: 20%; font-size: x-small; cursor: pointer;">?
+                            <span class="tooltiptext-general" style="left: 10%;">
+                              <h6 style="margin: 0; color: #2e74b6;">Business Profile</h6>
+                              <p style="margin: 0; color: grey; font-size: small;">Your business profile will be used <strong>ONLY</strong> in creating your very own Invoice Template!</p>
+                            </span>
+                          </span>
+                        </h4>
+
+                        <div class="multitabs-form__content">
+                          <div class="row">
+                              <!-- Name -->
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Business Name*</span>
+                                <input type="text" class="form-control" id="inBizName" data-compulsory="true" oninput="this.className = 'form-control'; updateInvoiceTemplateView()">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group" style="margin-top: 2rem;">
+                                <p class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 1rem;">Business Logo (Max 5MB, JPEG or PNG formats, Recommended size (h x w): 200 x 300 pixels)</p>
+                                <div style="height: 100px; width: auto; display: inline-block; position: relative; overflow: hidden; cursor: pointer; border: thin dotted #2e74b6 ;">
+                                  <img id="bizLogoImgUrl" style="height: 100%; width: auto;" src="../../assets/img/empty-photo.png"/>
+                                </div>
+                                <input type="file" id="select_image" name="image" style="display:none" accept="image/x-png,image/jpeg"> </input>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <!-- Phone -->
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Business Contact*</span>
+                                <input type="text" class="form-control" id="inBizPhone" data-compulsory="true" oninput="this.className = 'form-control'; updateInvoiceTemplateView()">
+                              </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                              <div class="form-group" >
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Business Email</span>
+                                <input type="text" class="form-control" id="inBizEmail" data-compulsory="false" oninput="this.className = 'form-control'; updateInvoiceTemplateView()">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <!-- Address -->
+                            <div class="col-md-12">
+                              <div class="form-group" style="margin-top: 1.5rem;" >
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Business Address</span>
+                                <textarea class="form-control" maxlength="250" rows="3" id="inBizAddress" data-compulsory="false" placeholder="Write something ..."></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Bank Settings panel-->
+                      <div class="multitabs-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h4 class="multitabs-form__title">Bank Settings (Optional)</h4>
+                        <span class="" style="font-size: smaller; font-weight: 300; color: red; margin-bottom: 0; font-style: italic;">Important Note: Do not share sensitive credit card or banking information here. (e.g CVV or login credentials)</span>
+
+                        <div class="multitabs-form__content">
+                          <div class="row">
+                              <!-- Bank Account Holder Name -->
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Bank Account Holder Name</span>
+                                <input type="text" class="form-control" id="inBankAccName" data-compulsory="false">
+                              </div>
+                            </div>
+                            <!-- Bank Account Number -->
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Bank Account Number</span>
+                                <input type="text" class="form-control" id="inBankAccNum" data-compulsory="false">
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="row">
+                            <!-- Bank Name -->
+                            <div class="col-md-6">
+                              <div class="form-group" >
+                                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Bank Name</span>
+                                <input type="text" class="form-control" id="inBankName" data-compulsory="false">
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <!-- Invoice Template panel-->
+                      <div class="multitabs-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h4 class="multitabs-form__title">Invoice Template</h4>
+                        <p class="m-0" style="font-size: small;">Customize your invoice. </p>
+                        <div class="multitabs-form__content">
+                          <div class="row">
+                            <div class="col-md-12">
+
+                              <div class="card">
+
+                                <!-- Header -->
+                                <div class="card-body">
+
+                                  <div class="row">
+                                    <div class="col-md-4 text-center">
+
+                                      <div class="form-group">
+
+                                        <div style="height:150px;width: auto; display: inline-block; position: relative; overflow: hidden; cursor: pointer;">
+                                          <img id="invTemplateImgUrl" style="height: 100%;width: auto;" src="../../assets/img/empty-photo.png"/>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                      <!--  Do nothing -->
+                                    </div>
+
+                                    <div class="col-md-4 text-right">
+                                      <h4 style="font-size: xx-large;margin-top: 1rem;">INVOICE</h4>
+
+                                      <div class="form-group">
+                                        <h5 id="invTitle"> Invoice Title</h5>
+                                      </div>
+                                      <h4 id="invBizName" style="font-weight: 500; color: red;">Business name</h4>
+                                      <p id="invBizDetail" style="color: red;">Business Details</p>
+                                      <!-- <a id="invBizDetail" href="javascript:;" data-toggle="modal" data-target="#addBusinessDetailModal">Edit Business Address and Contact</a> -->
+                                    </div>
+
+                                  </div>
+                                </div>
+
+                                <hr>
+
+                                <!-- Body -->
+                                <div class="card-body">
+
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <h6>Billed To:</h6>
+                                      <h4 style="font-weight: 500;">Client Name</h4>
+                                      <p>+60 12-345 6789 <br>client1@example.com <br> No.1 Jalan Example, 50450 Kuala Lumpur, Malaysia</p>
+                                    </div>
+
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                      <div class="row">
+                                        <div class="col-md-8 col-6 text-right" style="padding-right: 0;">
+                                          <div style="margin-top: 0.8rem;">
+                                            <p style="font-weight: 500;">Invoice Number</p>
+                                          </div>
+                                          <div style="margin-top: 0.8rem;">
+                                            <p style="font-weight: 500;">Invoice Date</p>
+                                          </div>
+                                          <div style="margin-top: 0.8rem;">
+                                            <p style="font-weight: 500;">Payment Due</p>
+                                          </div>
+                                          <div style="margin-top: 0.8rem;">
+                                            <p style="font-weight: 500;">Status</p>
+                                          </div>
+
+                                        </div>
+                                        <div class="col-md-4 col-6 text-left"  style="margin-top: 0.8rem;">
+                                          <p>INV-00001</p>
+                                          <p>01/10/2025</p>
+                                          <p>01/11/2025</p>
+                                          <p>New</p>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                                <div class="card-body" >
+
+                                  <div class="row">
+                                    <div class="col-12" style="overflow-x:auto;" >
+                                      <table id="table" class="table-light table-sm" cellspacing="0" width="100%"  style="padding: 0; margin: 0;">
+                                        <thead>
+                                          <tr style="background-color: grey; color: white;">
+                                            <th style="min-width: 200px; ">Items</th>
+                                            <th style="width: 100px; min-width: 100px;text-align: right;">Hour</th>
+                                            <th style="width: 100px; min-width: 100px;text-align: right;">Price</th>
+                                            <th style="width: 100px; min-width: 100px;text-align: right;">Amount</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr class="item">
+                                            <td>Sample Tutoring Course 1</td>
+                                            <td style="text-align: right;">6</td>
+                                            <td style="text-align: right;">40</td>
+                                            <td style="text-align: right;">RM240.00</td>
+                                          </tr>
+                                          <tr class="item">
+                                            <td>Sample Tutoring Course 2</td>
+                                            <td style="text-align: right;">1</td>
+                                            <td style="text-align: right;">300</td>
+                                            <td style="text-align: right;">RM300.00</td>
+                                          </tr>
+                                          <tr class="subtotal">
+                                            <td></td>
+                                            <td></td>
+                                            <td style="text-align: right; font-weight: 500; border-bottom: thin solid grey;">Subtotal</td>
+                                            <td style="text-align: right; font-weight: 500; border-bottom: thin solid grey;">RM540.00</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+
+                                      <table id="tableAdditionalItem" class="table-light table-sm" cellspacing="0" width="100%">
+                                        <thead style="visibility: collapse;">
+                                          <tr>
+                                            <th style="min-width: 200px;">Items</th>
+                                            <th style="width: 100px; min-width: 100px;text-align: right;">Hour</th>
+                                            <th style="width: 100px; min-width: 100px;text-align: right;">Rate</th>
+                                            <th style="width: 100px; min-width: 100px;text-align: right;">Amount</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr class="additional">
+                                            <td></td>
+                                            <td style="text-align: right;"></td>
+                                            <td style="text-align: right;">Discount</td>
+                                            <td style="text-align: right;">- RM40.00</td>
+                                          </tr>
+                                          <tr class="additional">
+                                            <td></td>
+                                            <td style="text-align: right;"></td>
+                                            <td style="text-align: right; border-bottom: thin solid grey;">Tax 6%</td>
+                                            <td style="text-align: right; border-bottom: thin solid grey;">+ RM30.00</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+
+                                    <div class="col-12">
+                                      <h3 style="text-align: right; font-weight: 500;">Total <span style="margin-left: 2rem;" id="grandTotal">RM530.00</span></h3>
+                                    </div>
+
+                                    <div class="col-12">
+                                      <div class="form-group">
+                                        <span class="" style="font-size: smaller; font-weight: 300; color: red; margin: 0;">Enter Notes <span id="countNotes" style="color: grey; margin-left: 1rem;">0/400</span></span>
+                                        <textarea class="form-control" maxlength="400" rows="5"  id="invNotes" data-compulsory="false" placeholder="Enter notes that are visible to your client. (e.g payment guidelines) "></textarea>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                      <div class="form-group">
+                                        <span class="" style="font-size: smaller; font-weight: 300; color: red; margin: 0;">Enter Footer Notes <span id="countFooterNotes" style="color: grey; margin-left: 1rem;">0/200</span></span>
+                                        <textarea class="form-control" maxlength="200" rows="4"  id="invFooterNotes" data-compulsory="false" placeholder="Write something ..."></textarea>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+
+                              </div>
+
+
+                          <!-- End of invoice template -->
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- </div> -->
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <nav class="float-left">
+            <ul>
+              <!-- <li>
+              <a href="https://golearn.com.my/join-us" target="_blank">
+                Visit GoLearn Tutor
+              </a>
+              </li> -->
+            </ul>
+            </nav>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+
+  <script>
+    tinymce.init({
+      mode : "exact",
+      selector:'#invNotes',
+      plugins: "link",
+      max_chars: 400,
+      setup: function (ed) {
+        var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
+        ed.on('keydown', function (e) {
+          // console.log(tinymce_getContentLength());
+          invNotesOnChangeHandler();
+          if (allowedKeys.indexOf(e.keyCode) != -1){
+            return true;
+          }
+          if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
+            func.showNotification('top','center', 'warning', 'error_outline', 'You have reach maximum allowed number of ' + ed.settings.max_chars + ' characters.' );
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }
+          return true;
+        });
+      },
+
+      init_instance_callback: function () { // initialize counter div
+        $('#' + this.id).prev().append('<div class="char_count" style="text-align:right"></div>');
+        tinymce_updateCharCounter(this, tinymce_getContentLength());
+      },
+      paste_preprocess: function (plugin, args) {
+        var editor = tinymce.get(tinymce.activeEditor.id);
+        var len = editor.contentDocument.body.innerText.length;
+        var text = $(args.content).text();
+        if (len + text.length > editor.settings.max_chars) {
+            func.showNotification('top','center', 'warning', 'error_outline', 'Pasting this exceeds the maximum allowed number of ' + editor.settings.max_chars + ' characters.' );
+            args.content = '';
+        } else {
+            tinymce_updateCharCounter(editor, len + text.length);
+        }
+      }
+
+    });
+    tinymce.init({
+      mode : "exact",
+      selector:'#invFooterNotes',
+      plugins: "link",
+      max_chars: 200,
+      setup: function (ed) {
+        var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
+
+        ed.on('keydown', function (e) {
+          // console.log(tinymce_getContentLength());
+          // console.log(tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerText, tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerText.length)
+
+          invFooterNotesOnChangeHandler();
+          if (allowedKeys.indexOf(e.keyCode) != -1){
+            return true;
+          }
+          if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
+            func.showNotification('top','center', 'warning', 'error_outline', 'You have reach maximum allowed number of ' + ed.settings.max_chars + ' characters.' );
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }
+          return true;
+        });
+
+        ed.on('', function (e) {
+        })
+
+      },
+
+      init_instance_callback: function () { // initialize counter div
+        $('#' + this.id).prev().append('<div class="char_count" style="text-align:right"></div>');
+        tinymce_updateCharCounter(this, tinymce_getContentLength());
+
+      },
+      paste_preprocess: function (plugin, args) {
+        var editor = tinymce.get(tinymce.activeEditor.id);
+        var len = editor.contentDocument.body.innerText.length;
+        var text = $(args.content).text();
+        if (len + text.length > editor.settings.max_chars) {
+            func.showNotification('top','center', 'warning', 'error_outline', 'Pasting this exceeds the maximum allowed number of ' + editor.settings.max_chars + ' characters.' );
+            args.content = '';
+        } else {
+            tinymce_updateCharCounter(editor, len + text.length);
+        }
+      },
+    });
+
+    function tinymce_updateCharCounter(el, len) {
+      // $('#' + el.id).prev().find('.char_count').text(len + '/' + el.settings.max_chars);
+    }
+
+    function tinymce_getContentLength() {
+      return tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerText.length;
+    }
+  </script>
+
+
+	<script>
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+
+      // Load all transaction
+      loadUserSettings(ent_id);
+
+    }
+    // Load Tutor Settings
+    function loadUserSettings(ent_id){
+
+      // Tutor Id must be a phone with +60, no spacing or other chars
+      var docRef = db.collection("dev")
+      .doc("v2")
+      .collection("Financial")
+      .doc(ent_id);
+
+      docRef.get().then((doc) => {
+
+        if (doc.exists){
+          console.log("Doc exist");
+          console.log(doc.data())
+          updatePageContent(doc);
+        }
+        else {
+          console.log("Doc not exist")
+          // Do nothing
+        }
+        // $('#loadingModal').modal('hide');
+      })
+    }
+
+    // Init Page View
+    function updatePageContent(doc){
+
+      // Business Profile
+      document.getElementById("inBizName").value = doc.data()[SET_BIZ_NAME];
+      document.getElementById("inBizPhone").value = doc.data()[SET_BIZ_PHONE];
+      document.getElementById("inBizEmail").value = doc.data()[SET_BIZ_EMAIL];
+      document.getElementById("inBizAddress").value = doc.data()[SET_BIZ_ADDR];
+      // tinymce.get("inBizAddress").setContent(doc.data()[SET_BIZ_ADDR]);
+      document.getElementById("bizLogoImgUrl").src = doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  '../../assets/img/empty-photo.png' : doc.data()[SET_BIZ_IMG_URL];
+
+      imgUrl_temp = doc.data()[SET_BIZ_IMG_URL];
+
+      // Bank Info
+      document.getElementById("inBankAccName").value = doc.data()[SET_BANK_ACC_NAME];
+      document.getElementById("inBankAccNum").value = doc.data()[SET_BANK_ACC_NUM];
+      document.getElementById("inBankName").value = doc.data()[SET_BANK_NAME];
+
+      // Invoice Template View
+      // document.getElementById("invNotes").value = doc.data()[SET_INV_NOTE];
+      tinymce.get("invNotes").setContent(doc.data()[SET_INV_NOTE]);
+      let invNotesContent = tinymce.get("invNotes").getContent({ format: "text" });
+      document.getElementById("countNotes").textContent = invNotesContent.length + '/400';
+
+
+      // document.getElementById("invFooterNotes").value = doc.data()[SET_INV_FOOTER_NOTE];
+      tinymce.get("invFooterNotes").setContent(doc.data()[SET_INV_FOOTER_NOTE]);
+      let invFooterNotesContent = tinymce.get("invFooterNotes").getContent({ format: "text" });
+      document.getElementById("countFooterNotes").textContent = invFooterNotesContent.length + '/200';
+
+      updateInvoiceTemplateView();
+
+    }
+
+    // Update invoice template view
+    function updateInvoiceTemplateView(){
+      // Invoice Template
+      document.getElementById("invBizName").textContent = document.getElementById("inBizName").value
+      let bizDetail = '';
+      bizDetail += (document.getElementById("inBizPhone").value == null || document.getElementById("inBizPhone").value == '') ? '' : document.getElementById("inBizPhone").value ;
+      bizDetail += (document.getElementById("inBizEmail").value == null || document.getElementById("inBizEmail").value == '') ? '' : ', <br>' + document.getElementById("inBizEmail").value ;
+      bizDetail += (document.getElementById("inBizAddress").value == null || document.getElementById("inBizAddress").value == '') ? '' : ', <br>' + document.getElementById("inBizAddress").value;
+      document.getElementById("invBizDetail").innerHTML = bizDetail;
+      document.getElementById("invTemplateImgUrl").src = imgUrl_temp == null || imgUrl_temp == '' ?  '../../assets/img/empty-photo.png' : imgUrl_temp;
+
+    }
+
+
+    // Rich Text Editor
+    function invNotesOnChangeHandler() {
+      let invNotesContent = tinymce.get("invNotes").getContent({ format: "text" });
+      document.getElementById("countNotes").textContent = invNotesContent.length + '/400';
+    }
+
+    function invFooterNotesOnChangeHandler() {
+      let invFooterNotesContent = tinymce.get("invFooterNotes").getContent({ format: "text" });
+      // console.log(invFooterNotesContent)
+      // console.log(invFooterNotesContent.length)
+      document.getElementById("countFooterNotes").textContent = invFooterNotesContent.length + '/200';
+    }
+
+    function validateParentFields(id) {
+
+      const parentElement = document.getElementById(id);
+
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      // x = document.getElementsByClassName("multitabs-form__panel");
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =parentElement.querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        // document.getElementsByClassName("step")[activePanelNum].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+  </script>
+
+  <script>
+    var imgUrl_temp = '';
+
+		$( document ).ready(function() {
+
+      // Loading Modal
+      $('#loadingModal').modal({
+        backdrop:'static',
+        keyboard:false,
+        show: false
+      });
+      // $('#loadingModal').modal('show');
+      // Save data - Save btn clicked
+      $('#btnSave').on('click', function (event) {
+        let valid = validateParentFields('multitabs_form')
+
+        if (valid){
+          $('#saveModal').modal('show')
+        }
+      })
+
+      // Save data - Save btn clicked
+      $('#btnSaveModalUpdate').on('click', function (event) {
+
+        var docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Financial")
+          .doc(ent_id);
+
+        var data = {
+          [SET_TUTOR_ID]: ent_id,
+          [SET_BIZ_NAME]: document.getElementById("inBizName").value,
+          [SET_BIZ_PHONE]: document.getElementById("inBizPhone").value,
+          [SET_BIZ_EMAIL]: document.getElementById("inBizEmail").value,
+          [SET_BIZ_ADDR]: document.getElementById("inBizAddress").value,
+          // [SET_BIZ_IMG_URL]: '',
+          [SET_BANK_ACC_NAME]: document.getElementById("inBankAccName").value,
+          [SET_BANK_ACC_NUM]: document.getElementById("inBankAccNum").value,
+          [SET_BANK_NAME]: document.getElementById("inBankName").value,
+
+          [SET_INV_NOTE]: tinymce.get("invNotes").getContent(),
+          [SET_INV_FOOTER_NOTE]: tinymce.get("invFooterNotes").getContent()
+
+        }
+        // console.log("Data...")
+        // console.log(data)
+
+        docRef.set(data, { merge: true })
+        .then(() => {
+          // window.location.href='./'
+          func.showNotification('top','center', 'success', 'check_circle', "Settings updated.");
+          $('#saveModal').modal('hide')
+        }).catch((e) => {
+          $('#saveModal').modal('hide')
+          func.showNotification('top','center', 'danger', 'error_outline', "Settings updated failed.");
+        });
+
+      });
+
+      // Business Profile Panel: Script to trigger the select image
+      $('#bizLogoImgUrl').click(function(){
+        $('#select_image').trigger('click');
+      });
+
+      $('#invNotes').on('input', function(){
+        document.getElementById("countNotes").textContent = this.value.length + '/250'
+      });
+
+      $('#invFooterNotes').on('input', function(){
+        document.getElementById("countFooterNotes").textContent = this.value.length + '/250'
+      });
+
+
+
+		});
+
+  </script>
+
+
+  <!-- Multiform-specific script -->
+  <script>
+    //DOM elements
+    const DOMstrings = {
+      stepsBtnClass: 'multitabs-form__progress-btn',
+      stepsBtns: document.querySelectorAll(`.multitabs-form__progress-btn`),
+      stepsBar: document.querySelector('.multitabs-form__progress'),
+      stepsForm: document.querySelector('.multitabs-form__form'),
+      stepsFormTextareas: document.querySelectorAll('.multitabs-form__textarea'),
+      stepFormPanelClass: 'multitabs-form__panel',
+      stepFormPanels: document.querySelectorAll('.multitabs-form__panel'),
+      stepPrevBtnClass: 'js-btn-prev',
+      stepNextBtnClass: 'js-btn-next',
+      stepSendBtnClass: 'js-btn-send' };
+
+
+    //remove class from a set of items
+    const removeClasses = (elemSet, className) => {
+
+      elemSet.forEach(elem => {
+
+        elem.classList.remove(className);
+
+      });
+
+    };
+
+    //return exect parent node of the element
+    const findParent = (elem, parentClass) => {
+
+      let currentNode = elem;
+
+      while (!currentNode.classList.contains(parentClass)) {
+        currentNode = currentNode.parentNode;
+      }
+
+      return currentNode;
+
+    };
+
+    //get active button step number
+    const getActiveStep = elem => {
+      return Array.from(DOMstrings.stepsBtns).indexOf(elem);
+    };
+
+    //set all steps before clicked (and clicked too) to active
+    const setActiveStep = activeStepNum => {
+
+      //remove active state from all the state
+      removeClasses(DOMstrings.stepsBtns, 'js-active');
+
+      //set picked items to active
+      DOMstrings.stepsBtns.forEach((elem, index) => {
+
+        if (index == activeStepNum) {
+          elem.classList.add('js-active');
+        }
+
+      });
+    };
+
+    //get active panel
+    const getActivePanel = () => {
+
+      let activePanel;
+
+      DOMstrings.stepFormPanels.forEach(elem => {
+
+        if (elem.classList.contains('js-active')) {
+
+          activePanel = elem;
+
+        }
+
+      });
+
+      return activePanel;
+
+    };
+
+    //open active panel (and close unactive panels)
+    const setActivePanel = activePanelNum => {
+
+      //remove active class from all the panels
+      removeClasses(DOMstrings.stepFormPanels, 'js-active');
+
+      //show active panel
+      DOMstrings.stepFormPanels.forEach((elem, index) => {
+        if (index === activePanelNum) {
+
+          elem.classList.add('js-active');
+
+          setFormHeight(elem);
+
+        }
+      });
+
+    };
+
+    //set form height equal to current panel height
+    const formHeight = activePanel => {
+
+      const activePanelHeight = activePanel.offsetHeight;
+
+      DOMstrings.stepsForm.style.height = `${activePanelHeight}px`;
+
+    };
+
+    const setFormHeight = () => {
+      const activePanel = getActivePanel();
+
+      formHeight(activePanel);
+    };
+
+    //STEPS BAR CLICK FUNCTION
+    DOMstrings.stepsBar.addEventListener('click', e => {
+
+      //check if click target is a step button
+      const eventTarget = e.target;
+
+      if (!eventTarget.classList.contains(`${DOMstrings.stepsBtnClass}`)) {
+        return;
+      }
+
+
+
+      //get active button step number
+      const activeStep = getActiveStep(eventTarget);
+
+      //set all steps before clicked (and clicked too) to active
+      setActiveStep(activeStep);
+
+      //open active panel
+      setActivePanel(activeStep);
+    });
+
+    //PREV/NEXT BTNS CLICK
+    DOMstrings.stepsForm.addEventListener('click', e => {
+
+      const eventTarget = e.target;
+
+      //check if we clicked on `PREV` or NEXT` buttons
+      if (eventTarget.classList.contains(`${DOMstrings.stepSendBtnClass}`)){}
+      else if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`) || eventTarget.classList.contains(`${DOMstrings.stepNextBtnClass}`))
+      {
+        // Proceed to move to next / prev page
+      }else{
+        // Do nothing and return
+        return;
+
+      }
+
+      //find active panel
+      const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
+
+      let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
+      getAllTimeSlots()
+      //set active step and active panel onclick
+      if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`)) {
+        activePanelNum--;
+
+        setActiveStep(activePanelNum);
+        setActivePanel(activePanelNum);
+      } else {
+
+        if (!validateForm(activePanelNum)){
+
+        }else{
+          activePanelNum++;
+          setActiveStep(activePanelNum);
+          setActivePanel(activePanelNum);
+        }
+      }
+      // setActiveStep(activePanelNum);
+      // setActivePanel(activePanelNum);
+    });
+
+    //SETTING PROPER FORM HEIGHT ONLOAD
+    window.addEventListener('load', setFormHeight, false);
+
+    //SETTING PROPER FORM HEIGHT ONRESIZE
+    window.addEventListener('resize', setFormHeight, false);
+
+    //changing animation via animation select !!!YOU DON'T NEED THIS CODE (if you want to change animation type, just change form panels data-attr)
+
+    const setAnimationType = newType => {
+      DOMstrings.stepFormPanels.forEach(elem => {
+        elem.dataset.animation = newType;
+      });
+    };
+
+    function validateForm(activePanelNum) {
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("multitabs-form__panel");
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =x[activePanelNum].querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        // document.getElementsByClassName("step")[activePanelNum].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+    function getAllTimeSlots() {
+      dayOfWeekArr = [];
+      startTimeArr = [];
+      endTimeArr = [];
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementById("timeSlotTop");
+      console.log(x)
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =x.querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+
+        if (i % 3 === 0){
+          dayOfWeekArr.push(y[i].value)
+        }
+        if (i % 3 === 1){
+          startTimeArr.push(y[i].value)
+        }
+        if (i % 3 === 2){
+          endTimeArr.push(y[i].value)
+        }
+
+
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          // y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+
+      // console.log(dayOfWeekArr)
+      // console.log(startTimeArr)
+      // console.log(endTimeArr)
+      return valid; // return the valid status
+    }
+
+
+  </script>
+
+   <!-- Upload Class Icon -->
+   <script>
+
+    var fileinput = document.getElementById('select_image');
+
+    var form = document.getElementById('bizLogoImgUrl');
+
+    // === RESIZE ====
+    var max_height = 1024;
+    var max_width = 1024;
+    var width = 0;
+    var height = 0;
+
+    function uploadImage( file, type, id, size, width, height ){
+
+      if(file != null) {
+        $('#uploadModal').modal('show');
+
+        // Create a root reference
+        var storageRef = firebase.storage().ref("uploads");
+        // Create a reference to 'ent_id.<imgType>'
+        var metadata = {
+          contentType: type, // Predefined by firestore
+          customMetadata: {
+            'id': id,
+            'size': size,
+            'width': width,
+            'height': height
+          }
+        };
+
+        // Upload file and metadata to the object 'images/mountains.jpg'
+        var uploadTask = storageRef.child('img-org-entity-business-icon/' + ent_id ).putString(file, 'data_url', metadata);
+
+        var elem = document.getElementById("myBar");
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            elem.style.width = progress + "%";
+
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload is paused. Please try again." );
+
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+
+          },
+          (error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+              case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                // alert("Upload failed. Please try again.")
+                func.showNotification('top','center', 'danger', 'error_outline', "You do not have permission to upload. Please contact us." );
+
+                $('#uploadModal').modal('hide');
+                break;
+              case 'storage/canceled':
+                // User canceled the upload
+                // alert("Upload canceled.")
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload canceled." );
+
+                $('#uploadModal').modal('hide');
+                break;
+
+              // ...
+
+              case 'storage/unknown':
+                // alert("Upload failed. Please try again.");
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload failed. Please try again." );
+
+                $('#uploadModal').modal('hide');
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+            }
+          },
+          () => {
+            // Upload completed successfully, now we can get the download URL
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+
+              imgUrl_temp = downloadURL;
+
+              // Once uploaded, update the new url
+              let docRef = db.collection("dev").doc("v2").collection("Financial").doc(ent_id);
+              let docRefWithMerge = docRef.set({
+                [SET_BIZ_IMG_URL]: imgUrl_temp
+              }, { merge: true })
+              return Promise.resolve(docRefWithMerge)
+            })
+
+            .then(() => {
+              updateInvoiceTemplateView();
+              $('#uploadModal').modal('hide');
+              func.showNotification('top','center', 'success', 'check_circle', "New business logo added." );
+            });
+          }
+        );
+
+      }
+    }
+
+
+    function processfile(file) {
+
+      if( !( /image/i ).test( file.type ) )
+      {
+        alert( "File "+ file.name +" is not an image." );
+        return false;
+      }
+
+      // read the files
+      var reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+
+      reader.onload = function (event) {
+        // blob stuff
+        var blob = new Blob([event.target.result]); // create blob...
+        window.URL = window.URL || window.webkitURL;
+        var blobURL = window.URL.createObjectURL(blob); // and get it's URL
+
+        // helper Image object
+        var image = new Image();
+        image.src = blobURL;
+        //preview.appendChild(image); // preview commented out, I am using the canvas instead
+        image.onload = function() {
+          // have to wait till it's loaded
+          var resized = resizeMe(image); // send it to canvas
+          // var newinput = document.createElement("input");
+          // newinput.type = 'hidden';
+          // newinput.name = 'images[]';
+          // newinput.value = resized; // put result from canvas into new hidden input
+          form.src = resized;
+          var head = 'data:image/jpeg;base64,';
+          // console.log(Math.round((resized.length - head.length)*3/4));
+          size = Math.round((resized.length - head.length)*3/4)
+
+          // Set classId = '' because we dont created it yet
+          uploadImage(resized, 'image/jpeg', ent_id, size, width, height);
+        }
+      };
+    }
+
+    function readfiles(files) {
+
+        // remove the existing canvases and hidden inputs if user re-selects new pics
+        var existinginputs = document.getElementsByName('images[]');
+        var existingcanvases = document.getElementsByTagName('canvas');
+        while (existinginputs.length > 0) { // it's a live list so removing the first element each time
+          // DOMNode.prototype.remove = function() {this.parentNode.removeChild(this);}
+          form.removeChild(existinginputs[0]);
+          // preview.removeChild(existingcanvases[0]);
+        }
+
+        for (var i = 0; i < files.length; i++) {
+          // console.log(i)
+          processfile(files[i]); // process each file at once
+        }
+        fileinput.value = ""; //remove the original files from fileinput
+        // TODO remove the previous hidden inputs if user selects other files
+    }
+
+    // this is where it starts. event triggered when user selects files
+    fileinput.onchange = function(){
+      if ( !( window.File && window.FileReader && window.FileList && window.Blob ) ) {
+        alert('The File APIs are not fully supported in this browser.');
+        return false;
+        }
+      readfiles(fileinput.files);
+    }
+
+
+    function resizeMe(img) {
+
+      var canvas = document.createElement('canvas');
+
+      // console.log(width,height )
+      width = img.width;
+      height = img.height;
+      // calculate the width and height, constraining the proportions
+      if (width > height) {
+        if (width > max_width) {
+          //height *= max_width / width;
+          height = Math.round(height *= max_width / width);
+          width = max_width;
+        }
+      } else {
+        if (height > max_height) {
+          //width *= max_height / height;
+          width = Math.round(width *= max_height / height);
+          height = max_height;
+        }
+      }
+
+      // resize the canvas and draw the image data into it
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // preview.appendChild(canvas); // do the actual resized preview
+
+      return canvas.toDataURL("image/jpeg",0.7); // get the data from canvas as 70% JPG (can be also PNG, etc.)
+
+    }
+
+  </script>
+
+
+</body>
+
+</html>

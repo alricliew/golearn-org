@@ -1,0 +1,2615 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/payroll/ >
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+  </script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!--GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <!-- Date rage picker -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <style>
+    /* page view for A4  */
+    page {
+      background: white;
+      display: block;
+      margin: 0 auto;
+      /* margin-bottom: 0.5cm; */
+      /* box-shadow: 0 0 0.5cm rgba(0,0,0,0.5); */
+    }
+    page[size="A4"] {
+      width: 21cm;
+      height: auto;
+      min-height: 29.65cm;
+      /* Use a  height value slightly lower than 29.7 to avoid page break  */
+      /* height: 29.7cm;  */
+    }
+    page[size="A4"][layout="landscape"] {
+      width: 29.7cm;
+      height: 21cm;
+    }
+  </style>
+
+  <style>
+    .br {
+      border-radius: 8px;
+    }
+    .w30 {
+      width: 30%;
+    }
+    .w50 {
+      width: 50%;
+    }
+    .w80 {
+      width: 80%;
+    }
+    .card {
+      border: 2px solid #fff;
+      /* box-shadow:0px 0px 10px 0 #a9a9a9; */
+      padding: 12px 20px;
+      /* width: 80%; */
+      /* margin: 50px auto; */
+      margin-top: 0.2rem;
+    }
+    .card-shimmer-wrapper {
+      width: 0px;
+      animation: fullView 0.5s forwards cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    }
+    .profilePic {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+    }
+    .comment {
+      height: 10px;
+      background: #777;
+      margin-top: 15px;
+    }
+
+    @keyframes fullView {
+      100% {
+        width: 100%;
+      }
+    }
+
+    .animate {
+      animation : shimmer 2s infinite linear;
+      background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+        background-size: 1000px 100%;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+  </style>
+
+  <style>
+    .cursor-no-event{
+      cursor: not-allowed !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden active" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Payroll</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+                <!-- <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a> -->
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a> -->
+                </div>
+              </li>
+              <!-- your navbar here -->
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+									<div class="dropdown-divider"></div>
+									<a style="font-weight: 500 ;padding: 0.5em ;text-align: center; width: 200px; background-color: #428dd4 ;display: block; color: #fff;" href="https://golearn.com.my/pricing/" target="_blank">Upgrade to Pro</a>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+       <!-- Preview modal -->
+       <div class="row" >
+        <div class="modal fade" tabindex="-1" role="dialog" id="previewModal" aria-labelledby="staticBackdropLabel" aria-hidden="true"  >
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 22cm!important;">
+            <div class="modal-content" style="background-color: transparent;  box-shadow: none; border: none; ">
+              <div class="modal-body" style="background-color: transparent; box-shadow: none;  border: none;">
+                 <!-- Preview -->
+                <div class="row" style="overflow-y:auto;">
+                  <div class="col-12" style="overflow-x:auto; padding: 1rem;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 0.8rem 0 0 0;">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <a href="javascript:;" class="btn btn-primary btn-round" style="text-transform: none; background-color: white; color: #2e74b6;" onclick="generatePDFeKoopmans('invTemplate')">Download As PDF</a>
+                    <a href="javascript:;" class="btn btn-primary btn-round" style="text-transform: none;" data-toggle="modal" data-target="#sendPayslipModal" onclick="appendModal('sendPayslipModal')">Send Payslip</a>
+
+                    <span id="netpayview_preview" style="color: white;"></span>
+
+                    <page size="A4" id="invTemplate" style="position: relative;">
+
+                      <div class="card-body" >
+                        <div class="row">
+                          <div class="col-4 text-center">
+
+                            <div class="form-group">
+                              <!-- <canvas id="myCanvas" style="height: 150px;width: 225px; object-fit: cover;" ></canvas> -->
+                              <div style="height: 115px;width: auto; display: inline-block; position: relative; overflow: hidden; cursor: pointer;">
+                                <img id="previewTutorImgUrl" style="height: 100%; width: auto; " src="../../assets/img/empty-photo.png" crossorigin="anonymous" alt = ""/>
+                                <!-- <canvas id="myCanvas" ></canvas> -->
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-2">
+                            <!--  Do nothing -->
+                          </div>
+
+                          <div class="col-6 text-right">
+                            <h4 style="font-size: xx-large;margin-top: 1rem;">PAYSLIP</h4>
+                            <h5 id="previewTitle"  style="font-weight: 500;">Payslip of November 2021</h5>
+                            <h4 id="previewBizName" style="font-weight: 500;">Your Name</h4>
+                            <h6 id="previewBizDetails" style="text-transform: none; font-weight: 300;">Your Biz Details</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr style="margin: 0rem">
+                      <div class="card-body" style="position: relative; bottom: 35px; width: 100%; margin-top: 2rem;">
+                        <div class="row">
+                          <div class="col-4">
+                            <h6>Paid To:</h6>
+                            <h4 id="previewClientName" style="font-weight: 500;">Tutor's Name</h4>
+                            <h6 id="previewClientPosition"  style="text-transform: none; font-weight: 300;"> Tutor </h6>
+                          </div>
+
+                          <div class="col-4"></div>
+                          <div class="col-4">
+                            <div class="row">
+                              <div class="col-6 text-right" style="padding-right: 0;">
+                                <h6>Ref No</h6>
+                                <h6>Date</h6>
+                                <h6>Status</h6>
+                              </div>
+                              <div class="col-6 text-right">
+                                <h6 id="previewRefNo" style="font-weight: normal; text-transform: none;"> - </h6>
+                                <h6 id="previewDate" style="font-weight: normal; text-transform: none;"> - </h6>
+                                <h6 id="previewStatus" style="font-weight: normal; text-transform: none;"> - </h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style="margin-top: 1rem;"></div>
+
+                        <div class="row">
+                          <div class="col-12"  style="overflow-x:auto;">
+                            <span class="" style="font-size: x-small; font-weight: 300; color: gray; margin-bottom: 0;">Note*: Quantity - Number of hour of lessons conducted, number of classes, or relevant other items</span>
+                            <table id="tablePreview" class="table-light table-sm" cellspacing="0" width="100%" >
+                              <thead id='thead_item_preview' style="background-color: grey; color: white;">
+                                <tr>
+                                  <th style="min-width: 200px; font-size: small;">Items</th>
+                                  <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Quantity</th>
+                                  <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Price</th>
+                                  <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Amount</th>
+                                </tr>
+                              </thead>
+                              <tbody id="tbody_item_preview">
+                                <tr class="subtotal" id='previewItemSubtotal'>
+                                  <td></td>
+                                  <td></td>
+                                  <td style="text-align: right; font-weight: 500; font-size: small;">Subtotal</td>
+                                  <td style="text-align: right; font-weight: 500; font-size: small;" id="grosspay_preview"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            <table id="table_additem_preview" class="table-light table-sm" cellspacing="0" width="100%">
+                              <thead id='thead_additem_preview' style="visibility: collapse;">
+                                <tr>
+                                  <th style="min-width: 200px;">Items</th>
+                                  <th style="width: 100px; min-width: 100px;text-align: right;">Quantity</th>
+                                  <th style="width: 100px; min-width: 100px;text-align: right;">Price</th>
+                                  <th style="width: 100px; min-width: 100px;text-align: right;">Amount</th>
+                                </tr>
+                              </thead>
+                              <tbody id="tbody_additem_preview">
+                                <tr class="additional">
+                                  <td></td>
+                                  <td></td>
+                                  <td style="text-align: right; font-size: small;"></td>
+                                  <td style="text-align: right; font-size: small;"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                          <div class="col-12">
+                            <h4 style="text-align: right; font-weight: 500;">Net Pay <span style="margin-left: 2rem;" id="netpay_preview">RM0.00</span></h4>
+                          </div>
+
+                          <!-- <div class="col-12">
+                            <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin: 0;">Notes</span>
+                            <span id="previewInvNotes"></span>
+                          </div> -->
+                        </div>
+                      </div>
+
+                      <hr style="margin: 0rem">
+                      <div class="card-body" >
+                        <div class="row">
+                          <div class="col-6">
+                            <div class="row">
+                              <div class="col-4 text-left" style="padding-right: 0;">
+                                <h6>Bank Name:</h6>
+                                <h6>AC No:</h6>
+                              </div>
+                              <div class="col-8 text-left">
+                                <h6 id="previewBankName" style="font-weight: normal; text-transform: none;"> - </h6>
+                                <h6 id="previewAcNo" style="font-weight: normal; text-transform: none;"> - </h6>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-6">
+                            <div class="row">
+                              <div class="col-4 text-left" style="padding-right: 0;">
+                                <h6 id='previewEpfTitle' style="display: none;">EPF No:</h6>
+                                <h6 id='previewSocsoTitle' style="display: none;">Socso:</h6>
+                              </div>
+                              <div class="col-8 text-left">
+                                <h6 id="previewEpf" style="display: none; text-transform: none;"> - </h6>
+                                <h6 id="previewSocso" style="display: none; text-transform: none;"> - </h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr style="margin: 0rem">
+
+                      <!-- <div class="card-body" id="preview-footer" style="padding-top: 0; margin-top: 0; position: absolute; bottom: 0; width: 100%;">
+                        <p id="previewInvFooterNotes"></p>
+                      </div> -->
+
+                    </page>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Record Payment modal -->
+      <div class="row">
+        <div class="modal fade" id="recordPaymentModal" tabindex="-1" role="dialog" aria-labelledby="recordPaymentModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="recordPaymentModalTitle">Record Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="row">
+                  <div class="col-sm-12 text-left">
+                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-top: 1.0rem;">Status</span>
+                    <span class="tooltiptext-trigger">?
+                      <span class="tooltiptext-general">
+                        <h6>Status</h6>
+                        <p>Set to <strong style="color: #2e74b6;">Paid</strong> to indicate you have completed the salary disbursement and this payslip will be visible to the employee. </p>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-group" >
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="statusRadio" id="statusNew" value="option1" onchange="checkRecordPaymentModalFields();">
+                        New
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="statusRadio" id="statusPaid" value="option2" onchange="checkRecordPaymentModalFields();">
+                        Paid
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Payment Date*</span>
+                  <input type="text" class="form-control" id="inPaymentDate" style="cursor: pointer; cursor: pointer;" oninput="checkRecordPaymentModalFields();" >
+
+                </div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Payment Amount* (RM)</span>
+                  <input type="number" class="form-control" id="inPaymentAmount" oninput="checkRecordPaymentModalFields();"  maxlength="40">
+                </div>
+                <div class="form-group">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Notes / Memo</span>
+                  <textarea class="form-control" maxlength="200" rows="4"  id="inPaymentNotes" data-compulsory="false"></textarea>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Not Now</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnRecordPaymentModalUpdate" disabled>Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Send Payslip modal -->
+      <div class="row">
+        <div class="modal fade" id="sendPayslipModal" tabindex="-1" role="dialog" aria-labelledby="sendPayslipModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saveLabel">Send Payslip</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="form-group"  style="padding: 0.5rem;">
+                  <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Copy Message:</span>
+                  <div class="input-group">
+                    <span class="d-flex align-items-center input-group-addon" id="btnCopyMessage" style="margin-right: 0.5em; cursor: pointer;" onclick="copyText('inPredefinedMessage')">
+                      <span class="material-icons">
+                        content_copy
+                      </span>
+                    </span>
+                    <textarea class="form-control" rows="8"  id="inPredefinedMessage"></textarea>
+                  </div>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign-out modal -->
+      <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <!-- your content here -->
+
+          <div class="container-fluid" >
+
+            <div class="row">
+              <div class="col-md-12 card-general">
+
+                <div class="row">
+                  <div class="col-md-10">
+                    <div class="social">
+                      <!-- <h4 style="font-size: x-large;"><span> <button  id="btnStep1" class="btn btn-primary btn-just-icon btn-round" style="margin-right: 1rem;">
+                        <p>1</p>
+                        </button></span>
+                        Create Invoice
+                      </h4> -->
+                      <h4 style="font-size: x-large;">Run payroll</h4>
+
+                      <p>Create payslips for all your employees.</p>
+
+
+                    </div>
+
+
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="row justify-content-center text-center">
+                      <a href="./run-payroll.html" class="btn btn-primary btn-round hidden" style="background-color: #2e74b6;" name="param-link" perm="fin-payroll-add">Run Payroll <i class="material-icons" style="color: white; margin-left: 0.5em; padding-bottom: 0.2em;">east</i></a>
+                    </div>
+                    <div class="row justify-content-center text-center">
+                      <a class="hidden" href="./history.html" style="font-size: small;" name="param-link" perm="fin-payroll-edit">View History</a>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12"  style="margin-top: 0.5rem;">
+
+                    <div class="row" id="payrollList" style="margin-left: 0.1rem; margin-right: 0.1rem;">
+
+                    </div>
+
+                    <a href="javascript:;" name="daterange" id='daterange' style="padding:0.2rem 0.5rem 0.2rem 0.2rem; border: solid thin #2e74b6; width: 500px; font-size: 14px; ">
+                      <i class="fa fa-calendar"></i>&nbsp;
+                      <span>Select date range</span> <i class="fa fa-caret-down"></i>
+                    </a>
+
+                    <!-- <div id="daterange" name="daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: fit-content;">
+                      <i class="fa fa-calendar"></i>&nbsp;
+                      <span>Select date range</span> <i class="fa fa-caret-down"></i>
+                    </div> -->
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+          </div>
+
+
+          <div class="container-fluid" >
+
+            <div class="row" id="card-main"  style="margin-top: 1rem;">
+
+              <div class="col-md-12 card-student">
+                <div class="row" >
+                  <div class="col-md-11">
+                    <div class="row">
+                      <div class="col-md-1">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="No info">Date</h6>
+                      </div>
+                      <div class="col-md-3">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Client Name">Name</h6>
+                      </div>
+                      <div class="col-md-3">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Description">Description</h6>
+                      </div>
+                      <div class="col-md-2">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Amount">Amount</h6>
+                      </div>
+                      <div class="col-md-2">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Payslip No">Ref No</h6>
+                      </div>
+                      <div class="col-md-1">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Status">Status</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="No info">Action</h6>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Loading block -->
+              <div class="card br" id="card-load">
+                <div class="card-shimmer-wrapper">
+                  <div class="comment br animate w80"></div>
+                  <div class="comment br animate w30"></div>
+                </div>
+              </div>
+
+              <!-- No data placeholder -->
+              <div class="col-md-12 text-center" style="display: none; margin: 1rem;" id="noDataPlaceholder">
+                <p>No data</p>
+
+              </div>
+
+              <!-- Invoice List Start -->
+              <!-- <div class="col-md-12 card-student-item">
+                <div class="row">
+                  <div class="col-md-11" style="padding: 0;">
+                    <div class="row" style="margin: 0;">
+                      <div class="col-md-2">
+                        <p>12/2/2021</p>
+                      </div>
+                      <div class="col-md-2">
+                        <p>INV-0293874728</p>
+                      </div>
+                      <div class="col-md-4">
+                        <p></p>
+                      </div>
+                      <div class="col-md-3">
+                        <p>Nur Aisha</p>
+                      </div>
+                      <div class="col-md-1">
+                        <p class="card-student-status-label active">ACTIVE</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <a href="#" style="margin: 0; padding: 0.3em;" class="btn btn-sm btn-outline-danger btn-round" id="btnDelStudent" data-toggle="modal" data-target="#delStuModal" data-id="stuId" ><i class="material-icons" style="color: red;">remove</i></a>
+
+                  </div>
+                </div>
+              </div> -->
+
+            </div>
+            <!-- Load more button -->
+            <div class="row">
+              <div class="col-md-12" >
+                <a class="btn btn-sm btn-outline-primary btn-round" id="btnInvoiceLoadMore">Load More <i class="material-icons" style="color: #2e74b6; padding-bottom: 0.2em;">expand_more</i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <nav class="float-left">
+            <ul>
+              <!-- <li>
+              <a href="https://golearn.com.my/join-us" target="_blank">
+                Visit GoLearn Tutor
+              </a>
+              </li> -->
+            </ul>
+            </nav>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script> -->
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+  <!-- Date range picker -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <!-- Html 2 PDF -->
+  <script src="../../assets/js/html2pdf.js" type="text/javascript"></script>
+
+	<script>
+
+    // Course-specific var
+    var allCourseSize;
+
+    // Store last document - Used for payroll
+    var latestInvoiceDoc = null;
+
+    // Init session storage
+    sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_ALL_DOCS_KEY, null);
+    sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_CURRENT_DOC_KEY, null);
+
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+
+      // Load recent payroll
+      loadPayroll();
+
+      // Load all payslip
+      loadAllPayslip();
+
+    }
+
+
+    // Load recent payrolls
+    function loadPayroll(){
+      var docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Payroll")
+          .where(PAYROLL_ADMIN_ID, '==', ent_id)
+          .where(PAYROLL_STATUS, '==', true)
+          .orderBy(PAYROLL_DATE_START, 'desc')
+          .limit(2)
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+
+          // console.log("Empty, Create a new payroll");
+
+        }
+        else {
+          querySnapshot.forEach((doc) => {
+            // console.log("Payroll found");
+            // console.log(doc.data());
+
+            renderPayroll(doc);
+
+          });
+
+        }
+
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+
+    }
+
+    // Render payroll
+    function renderPayroll(doc){
+      // <div class="col-md-12" id="payrollList">
+      //   <a href="javascript:;" style="margin-right:0.5rem">1/10/2021 - 31/10/2021 </a>
+      //   <a href="javascript:;" style="margin-right:0.5rem">1/11/2021 - 30/11/2021 </a>
+      //   <a href="javascript:;" style="margin-right:0.5rem">1/12/2021 - 31/12/2021 </a>
+      //   <a href="javascript:;" style="margin-right:0.5rem">Other payrolls </a>
+      // </div>
+      // Card top
+      let payroll_a = document.createElement('a');
+      payroll_a.setAttribute('href', 'javascript:;');
+      payroll_a.setAttribute('style', 'margin-right:1rem; font-size:14px');
+      // payroll_a.setAttribute('onclick', 'loadPayslipFixed('+doc.data()[PAYROLL_DATE_START].seconds +', '+ doc.data()[PAYROLL_DATE_END].seconds+');');
+      payroll_a.setAttribute('onclick', 'loadPayslipFixedBasedOnPayroll("'+doc.data()[PAYROLL_ID] +'");');
+
+      payroll_a.textContent = doc.data()[PAYROLL_NAME]+" ("+doc.data()[PAYROLL_DOC_ID_ARR].length+")";;
+
+      const payrollList = document.getElementById("payrollList");
+      payrollList.insertBefore( payroll_a, payrollList.children[0])
+      // payrollList.appendChild(payroll_a);
+
+
+
+    }
+
+    // Load payslip payroll
+    function loadPayslipFixedBasedOnPayroll(payrollId){
+
+      document.getElementById("card-load").style.display = "";
+
+      loadmore.style.visibility='hidden';
+      // Note: start/end is in seconds
+      // console.log(payrollId)
+
+      // Reload the payslip views
+      let studentItemList = document.getElementById('card-main').querySelectorAll('div.card-student-item');
+      // console.log(studentItemList);
+      studentItemList.forEach((row, index)=> {
+        row.remove();
+      })
+
+      // Reset the latestInvoiceDoc
+      latestInvoiceDoc = null;
+
+      let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Payroll")
+          .doc(payrollId)
+          // .where(PAY_PAYROLL_ID, "==", payrollId)
+          // .orderBy(TRANS_DATE, 'desc');
+          // .startAfter(latestInvoiceDoc || today)
+          // .limit(20);
+
+      docRef
+      .get()
+      .then((doc) => {
+
+        const promiseAll = [];
+
+        // console.log(doc.data())
+
+        if (doc.exists){
+
+          doc.data()[PAYROLL_DOC_ID_ARR].forEach((payslipId) => {
+
+            let transDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("Transaction")
+            .where(TRANS_DOC_ID, '==', payslipId)
+            .limit(1);
+
+            let transPromise = transDocRef.get();
+
+            promiseAll.push(transPromise);
+          })
+
+        }
+
+
+        return Promise.all(promiseAll)
+      })
+      .then((snapshots) => {
+
+        document.getElementById("card-load").style.display = "none";
+
+        if (snapshots != null && snapshots.size != 0){
+
+          snapshots.forEach((snapshot) => {
+
+            if (snapshot != null && snapshot.size != 0 ){
+              snapshot.forEach((doc) => {
+                // console.log(doc.id);
+                renderTransDoc(doc);
+              })
+            }
+          })
+        }else {
+          document.getElementById("noDataPlaceholder").style.display = '';
+
+        }
+
+      })
+
+      .then(() => {
+        updateRoleView()
+      }).catch((err) => {
+        document.getElementById("noDataPlaceholder").style.display = '';
+        console.log(err);
+      });
+
+    }
+
+
+    // Load payslip based on selected date range
+    function loadPayslipFixed(start, end){
+
+      // Note: start/end is in seconds
+      console.log(start, end)
+
+      // Reload the payslip views
+      let studentItemList = document.getElementById('card-main').querySelectorAll('div.card-student-item');
+      // console.log(studentItemList);
+      studentItemList.forEach((row, index)=> {
+        row.remove();
+      })
+
+      // Reset the latestInvoiceDoc
+      latestInvoiceDoc = null;
+
+      let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Transaction")
+          // .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
+          .where(TRANS_SENDER_ID, "==", ent_id)
+          .where(TRANS_TYPE, "==", TRANS_TYPE_PAY)
+          .where(TRANS_DATE, ">=",  new Date((start)*1000)) // Set the start time a little bit before to make sure > works
+          .where(TRANS_DATE, "<=", new Date((end)*1000))
+          .where(TRANS_STATUS, "==", true)
+          .orderBy(TRANS_DATE, 'desc');
+          // .startAfter(latestInvoiceDoc || today)
+          // .limit(20);
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+
+        if (( querySnapshot.docs.length== null || querySnapshot.docs.length == 0)){
+          document.getElementById("noDataPlaceholder").style.display = 'initial';
+        }else{
+          document.getElementById("noDataPlaceholder").style.display = 'none';
+        }
+
+        // Session Storage data
+        let docsObj = [];
+
+        querySnapshot.forEach((doc) => {
+
+          docsObj.push(doc.data());
+          // console.log(doc.data())
+          renderTransDoc(doc);
+
+        });
+
+      });
+
+    }
+
+
+    // Invoice Load More Button - Init
+    const loadmore = document.querySelector('#btnInvoiceLoadMore');
+    loadmore.style.visibility='hidden';
+    const loadmoreHandleClick = () =>{
+      loadAllPayslip();
+    }
+    loadmore.addEventListener('click', loadmoreHandleClick );
+
+    // Tutor Specific
+    function loadAllPayslip(){
+      let today = new Date(2100, 12, 31);// Set a big date
+
+      let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Transaction")
+          // .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
+          .where(TRANS_SENDER_ID, "==", ent_id)
+          .where(TRANS_TYPE, "==", TRANS_TYPE_PAY)
+          .where(TRANS_STATUS, "==", true)
+          .orderBy(TRANS_DOC_STATUS, 'asc')
+          .orderBy(TRANS_DATE, 'desc')
+          .startAfter(latestInvoiceDoc || today)
+          .limit(25);
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        document.getElementById("card-load").style.display = "none";
+
+        if (( querySnapshot.docs.length== null || querySnapshot.docs.length == 0) && latestInvoiceDoc == null){
+          document.getElementById("noDataPlaceholder").style.display = 'initial';
+        }else{
+          document.getElementById("noDataPlaceholder").style.display = 'none';
+        }
+
+        // Session Storage data
+        let docsObj = [];
+
+        querySnapshot.forEach((doc) => {
+
+          docsObj.push(doc.data());
+          // console.log(doc.data())
+          renderTransDoc(doc);
+
+        });
+
+        // Store all docs to sessionStorage. If loadmore is clicked, we concat the newly loaded and previous docs.
+        let allObjList = null;
+        // Set the fields
+        allObjList = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_PAYSLIP_ALL_DOCS_KEY));
+        if (allObjList == null ){
+          // console.log("First time loading the data");
+          sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_ALL_DOCS_KEY, JSON.stringify(docsObj));
+          sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_CURRENT_DOC_KEY, null);
+        }
+        else{
+          // console.log("Nth time loading the data");
+          allObjList = allObjList.concat(docsObj);
+          sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_ALL_DOCS_KEY, JSON.stringify(allObjList));
+          sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_CURRENT_DOC_KEY, null);
+        }
+
+        latestInvoiceDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+        // console.log(querySnapshot.docs.length)
+        // Handle Lesson Load more btn
+        if (querySnapshot.empty){
+          loadmore.removeEventListener('click', loadmoreHandleClick );
+
+        }
+        if (querySnapshot.docs.length == 25){
+          loadmore.style.visibility='visible';
+        }else{
+          loadmore.style.visibility='hidden';
+        }
+
+      })
+      .then(() => {
+        updateRoleView()
+      });
+
+    };
+
+    // Render transaction documents
+    function renderTransDoc(doc){
+    // <div class="col-md-12 card-student-item">
+    //   <div class="row">
+    //     <div class="col-md-11" style="padding: 0;">
+    //       <div class="row" style="margin: 0;">
+    //         <div class="col-md-2">
+    //           <p>12/2/2021</p>
+    //         </div>
+    //         <div class="col-md-2">
+    //           <p>INV-0293874728</p>
+    //         </div>
+    //         <div class="col-md-3">
+    //           <p></p>
+    //         </div>
+    //         <div class="col-md-2">
+    //           <p>Nur Aisha</p>
+    //         </div>
+    //         <div class="col-md-2">
+    //           <p>RM298321</p>
+    //         </div>
+    //         <div class="col-md-1">
+    //           <p class="card-student-status-label active">ACTIVE</p>
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div class="col-md-1">
+    //       <i class="far fa-edit"></i>
+    //       <a href="#" style="margin: 0; padding: 0.3em;" class="btn btn-sm btn-outline-danger btn-round" id="btnDelStudent" data-toggle="modal" data-target="#delStuModal" data-id="stuId" ><i class="material-icons" style="color: red;">remove</i></a>
+    //     </div>
+    //   </div>
+    // </div>
+
+      // Trans Date
+      let transDate_p = document.createElement('p');
+      transDate_p.textContent = doc.data()[TRANS_DATE].toDate().toLocaleDateString("en-GB");
+      let transDate_div = document.createElement('div');
+      transDate_div.className = "col-md-1";
+      transDate_div.appendChild(transDate_p);
+
+      // Doc Number
+      let docNum_p = document.createElement('p');
+      docNum_p.textContent = doc.data()[TRANS_DOC_NUM];
+      let docNum_div = document.createElement('div');
+      docNum_div.className = "col-md-2";
+      docNum_div.appendChild(docNum_p);
+
+      // Description
+      let desc_p = document.createElement('p');
+      desc_p.textContent = doc.data()[TRANS_TITLE];
+      desc_p.setAttribute("style","font-weight: 400;");
+      let desc_div = document.createElement('div');
+      desc_div.className = "col-md-3";
+      desc_div.appendChild(desc_p);
+
+      // Client
+      let clientName = '';
+      if (ent_id === doc.data()[TRANS_SENDER_ID]){
+        clientName = doc.data()[TRANS_RECEIVER_NAME];
+      }else{
+        clientName = doc.data()[TRANS_SENDER_NAME];
+      }
+      let clientName_p = document.createElement('p');
+      clientName_p.textContent = clientName;
+      let clientName_div = document.createElement('div');
+      clientName_div.className = "col-md-3";
+      clientName_div.appendChild(clientName_p);
+
+      // Amount
+      let total_p = document.createElement('p');
+      total_p.textContent = 'RM'+ parseFloat(doc.data()[TRANS_TOTAL]).toFixed(2);
+      total_p.setAttribute("style","font-weight: 400;");
+
+      let total_div = document.createElement('div');
+      total_div.className = "col-md-2";
+      total_div.appendChild(total_p);
+
+
+      // Status
+      let status_p = document.createElement('p');
+      if (doc.data()[TRANS_TYPE] === TRANS_TYPE_INV){
+        if(doc.data()[TRANS_DOC_STATUS] === TRANS_INV_STATUS_DRAFT){
+          status_p.className = "card-student-status-label passive";
+          status_p.textContent = 'Draft';
+        }else if(doc.data()[TRANS_DOC_STATUS] === TRANS_INV_STATUS_NEW){
+          status_p.className = "card-student-status-label pending";
+          status_p.textContent = 'New';
+        }else if(doc.data()[TRANS_DOC_STATUS] === TRANS_INV_STATUS_PAID){
+          status_p.className = "card-student-status-label active";
+          status_p.textContent = 'Paid';
+        }else{
+          status_p.className = "card-student-status-label passive";
+          status_p.textContent = 'Unknown';
+        }
+      }
+      else if(doc.data()[TRANS_TYPE] === TRANS_TYPE_PAY){
+        if(doc.data()[TRANS_DOC_STATUS] === TRANS_PAY_STATUS_NEW){
+          status_p.className = "card-student-status-label pending";
+          status_p.textContent = 'New';
+        }else if(doc.data()[TRANS_DOC_STATUS] === TRANS_PAY_STATUS_PAID){
+          status_p.className = "card-student-status-label active";
+          status_p.textContent = 'Paid';
+        }else{
+          status_p.className = "card-student-status-label passive";
+          status_p.textContent = 'Payslip';
+        }
+      }
+      else{
+        status_p.className = "card-student-status-label passive";
+        status_p.textContent = 'Unknown';
+      }
+      let status_div = document.createElement('div');
+      status_div.className = "col-md-1";
+      status_div.appendChild(status_p);
+
+
+      // Student Detail
+      let detail_div = document.createElement('div');
+      detail_div.className = 'row';
+      detail_div.setAttribute("style","margin: 0;");
+      detail_div.appendChild(transDate_div);
+      detail_div.appendChild(clientName_div);
+      detail_div.appendChild(desc_div);
+      detail_div.appendChild(total_div);
+      detail_div.appendChild(docNum_div);
+      detail_div.appendChild(status_div);
+      let detail_top_div = document.createElement('div');
+      detail_top_div.className = "col-md-11";
+      detail_top_div.setAttribute("style"," padding: 12px 0px 12px 0px;");
+      detail_top_div.setAttribute("data-toggle","modal");
+      detail_top_div.setAttribute("data-target","#previewModal");
+      detail_top_div.setAttribute("data-docid", doc.data()[TRANS_DOC_ID]);
+      detail_top_div.setAttribute('onclick', "appendModal('previewModal')");
+      detail_top_div.setAttribute('perm', "fin-payslip-view");
+      detail_top_div.appendChild(detail_div);
+
+      //Edit btn
+      // <span class="fa-stack"><i class="far fa-circle fa-stack-2x"></i><i class="fas fa-flag fa-stack-1x"></i></span>
+
+      // <span class="fa-stack" style="vertical-align: top; font-size: 73%; color: #2e74b6; cursor: pointer; margin-right: 0.5rem;" data-target="#recordPaymentModal" data-toggle="modal" data-employeecardid="wwwwww" data-employeecardname="aishas">
+      //   <i class="fas fa-circle fa-stack-2x"></i>
+      //   <i class="fas fa-pen fa-stack-1x fa-inverse"></i>
+      // </span>
+
+      // recordPaymentBtn_html = "<span class='fa-stack' style='vertical-align: top; font-size: 73%; color: #2e74b6; cursor: pointer; margin-right: 0.5rem;' data-target='#recordPaymentModal' data-toggle='modal' data-employeecardid='"+payslipData.ent_id+"' data-employeecardname='"+payslipData.name+"'><i class='fas fa-circle fa-stack-2x'></i><i class='fas fa-pen fa-stack-1x fa-inverse'></i></span>";
+
+      let blogsHtml_editbtn = '';
+      // blogsHtml_editbtn += "<span class='fa-stack'><i class='fas fa-pen-square fa-lg'></i></span>";
+      blogsHtml_editbtn += "<span class='fa-stack' style='vertical-align: middle; font-size: 73%; color: #2e74b6; margin-right: 0.5rem;' ><i class='fas fa-circle fa-stack-2x' style='text-shadow: 2px 2px 4px rgba(46, 46, 46, 0.8);'></i><i class='fas fa-pen fa-stack-1x fa-inverse'></i></span>";
+
+      let btn_edit = document.createElement('a');
+      btn_edit.innerHTML = blogsHtml_editbtn;
+      btn_edit.className = "hidden";
+      btn_edit.setAttribute("id","btnDelStudent");
+      btn_edit.setAttribute("href","javascript:;");
+      btn_edit.setAttribute("style","margin: 0; padding: 0.4em; cursor: pointer");
+      btn_edit.setAttribute("data-toggle","modal");
+      btn_edit.setAttribute("data-target","#recordPaymentModal");
+      btn_edit.setAttribute("data-transid", doc.data()[TRANS_ID]);
+      btn_edit.setAttribute("data-payid", doc.data()[TRANS_DOC_ID]);
+      btn_edit.setAttribute("data-name", doc.data()[TRANS_RECEIVER_NAME]);
+      btn_edit.setAttribute("data-status", doc.data()[TRANS_DOC_STATUS]);
+      btn_edit.setAttribute("perm", 'fin-payslip-record-payment');
+
+      //Del btn
+      let blogsHtml_btn = '';
+      blogsHtml_btn += "<i class='material-icons' style='color: red;''>remove</i>";
+      let btn_a = document.createElement('a');
+      btn_a.innerHTML = blogsHtml_btn;
+      btn_a.className = "btn btn-sm btn-outline-danger btn-round";
+      btn_a.setAttribute("id","btnDelStudent");
+      btn_a.setAttribute("href","javascript:;");
+      btn_a.setAttribute("style","margin: 0; padding: 0.3em;");
+      btn_a.setAttribute("data-toggle","modal");
+      btn_a.setAttribute("data-target","#delStuModal");
+      // btn_a.setAttribute("data-id", doc.data().id);
+      // btn_a.setAttribute("data-studentname",  doc.data().childName);
+      let btn_div = document.createElement('div');
+      btn_div.className = "col-md-1 align-self-center";
+      btn_div.setAttribute("style"," margin-bottom: 12px");
+
+      btn_div.appendChild(btn_edit);
+      // btn_div.appendChild(btn_a);
+
+      // Student Top
+      let card_div = document.createElement('div');
+      card_div.className = "row"
+      card_div.appendChild(detail_top_div);
+      card_div.appendChild(btn_div);
+
+      // Card top
+      let card_top_div = document.createElement('div');
+      card_top_div.className = "col-md-12 card-student-item"
+      card_top_div.appendChild(card_div);
+
+      const card_all_students = document.getElementById("card-main");
+      card_all_students.appendChild(card_top_div);
+
+    }
+
+    // Render payslip preview
+    function loadPayslipPreview(pay_id){
+      let payslipDocRef = db.collection("dev")
+        .doc("v2")
+        .collection("Payslip")
+        .doc(pay_id);
+
+      payslipDocRef
+      .get()
+
+      .then((doc) => {
+
+        if (doc.exists) {
+          // console.log("Payslip found, update exisiting payslip.");
+          console.log("Payslip found, update exisiting payslip.");
+          console.log(doc.data());
+
+          let payslipData = doc.data()[PAY_ITEMS_ARR]
+          // Render Tables
+          previewPayslip('preview', payslipData)
+
+          // Render Fixed Params
+          let bizName = doc.data()[PAY_SENDER_NAME];
+          let bizDetail = doc.data()[PAY_SENDER_DETAILS];
+          let bizImgUrl = doc.data()[PAY_SENDER_IMG_URL];
+
+          let title = doc.data()[PAY_TITLE];
+          let refNo = doc.data()[PAY_NUMBER];
+          let date = doc.data()[PAY_DATE].toDate().toLocaleDateString("en-GB");
+          let status = doc.data()[PAY_PAY_STATUS];
+
+          let name = doc.data()[PAY_RECEIVER_NAME];
+          let position = doc.data()[PAY_RECEIVER_POSITION];
+          let epf = doc.data()[PAY_RECEIVER_EPF];
+          let socso = doc.data()[PAY_RECEIVER_SOCSO];
+          let bankName = doc.data()[PAY_RECEIVER_BANK_NAME];
+          let acNo = doc.data()[PAY_RECEIVER_AC_NO];
+
+          document.getElementById("previewBizName").textContent = bizName;
+          document.getElementById("previewBizDetails").textContent = bizDetail;
+          if (bizImgUrl == null || bizImgUrl == ''|| bizImgUrl == "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"){
+            document.getElementById("previewTutorImgUrl").style.display = 'none';
+            document.getElementById("previewTutorImgUrl").src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
+          }
+          else {
+            $("#previewTutorImgUrl").css("display", "");
+            toDataURL(
+              bizImgUrl == null || bizImgUrl == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+bizImgUrl,
+              function(dataUrl) {
+                // console.log('RESULT:', dataUrl)
+              },
+            );
+          }
+
+          document.getElementById("previewTitle").textContent = title;
+          document.getElementById("previewRefNo").textContent = refNo;
+          document.getElementById("previewDate").textContent = date;
+          document.getElementById("previewStatus").textContent = (status === PAY_STATUS_PAID) ? 'Paid' : 'New';
+
+          document.getElementById("previewClientName").textContent = name;
+          document.getElementById("previewClientPosition").textContent = position;
+
+          if (epf == null || epf == ''){
+            document.getElementById("previewEpf").style.display = 'none';
+            document.getElementById("previewEpfTitle").style.display = 'none';
+
+          }else{
+            document.getElementById("previewEpf").style.display = '';
+            document.getElementById("previewEpfTitle").style.display = '';
+
+          }
+
+          if (socso == null || socso == ''){
+            document.getElementById("previewSocso").style.display = 'none';
+            document.getElementById("previewSocsoTitle").style.display = 'none';
+
+          }else{
+            document.getElementById("previewSocso").style.display = '';
+            document.getElementById("previewSocsoTitle").style.display = '';
+
+          }
+          document.getElementById("previewEpf").textContent = epf;
+          document.getElementById("previewSocso").textContent = socso;
+
+          document.getElementById("previewBankName").textContent = (bankName == null || bankName == "") ? "No information available" : bankName;
+          document.getElementById("previewAcNo").textContent = (acNo == null || acNo == "") ? "No information available" : acNo;
+
+          // Send payslip modal
+          // Generate Predefined message
+          let line1 = "Hi "+ doc.data()[PAY_RECEIVER_NAME] + ","; //invObj[INV_RECEIVER_NAME]+ " ";
+          let line2 = "\nHere's the payslip for this month. Click on the link below to view. ";
+          let line3 = "\nhttps://app.golearn.com.my/s/f/view.html?pid="+ doc.data()[PAY_ID]+ " ";
+          let line4 = "\nAmount: " + "RM"+parseFloat(doc.data()[PAY_TOTAL]).toFixed(2);
+          let line5 = "\nThank you! ";
+          let finalline= line1 + line2 + line3  + line4 + line5;
+
+          document.getElementById("inPredefinedMessage").innerHTML = finalline ;
+
+        }
+        else {
+          func.showNotification('top','center', 'danger', 'error_outline', "Payslip loading error. Please try again. If this error still exists, try to remove and add back the payslip in the respective payroll process." );
+
+        }
+
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+
+    }
+
+
+	  function viewTutorFunction(elem){
+      // Get attribute and
+      if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TUTOR_ALL_DOCS_KEY)) == null ){
+        console.log("Error: Impossible to reach this state");
+        // Because this func only trigger when there's active class loaded
+        return;
+      }else{
+
+        let allClassList = null;
+
+        // Set the fields
+        allClassList = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TUTOR_ALL_DOCS_KEY));
+        allClassList.forEach((item) => {
+          if (item.id === elem.getAttribute('data-id')){
+            // Assign the data to viewTutorModal
+            document.getElementById("viewTutorName").value = item[TUTOR_TUTOR_NAME];
+            document.getElementById("viewTutorPhone").value = item[TUTOR_TUTOR_PHONE];
+            document.getElementById("viewTutorEmail").value = item[TUTOR_TUTOR_EMAIL];
+            document.getElementById("viewTutorGenderRadioMale").checked = item[TUTOR_TUTOR_GENDER] == 0 ? true: false;
+            document.getElementById("viewTutorGenderRadioFemale").checked = item[TUTOR_TUTOR_GENDER] == 1 ? true: false;
+            document.getElementById("viewTutorAge").value = item[TUTOR_TUTOR_AGE];
+            document.getElementById("viewTutorImgUrl").src = item[TUTOR_TUTOR_IMG_URL];
+            console.log(item[TUTOR_TUTOR_WEB_URL])
+            if (item[TUTOR_TUTOR_WEB_URL] == null || item[TUTOR_TUTOR_WEB_URL] == ''){
+              document.getElementById("btnViewTutorModalFullProfile").disabled = true;
+              document.getElementById("btnViewTutorModalFullProfile").setAttribute('href','#');
+              document.getElementById("btnViewTutorModalFullProfile").setAttribute('target','');
+            }
+            else{
+              document.getElementById("btnViewTutorModalFullProfile").disabled = false;
+              document.getElementById("btnViewTutorModalFullProfile").setAttribute('href','https://golearn.com.my/tutor/'+item[TUTOR_TUTOR_WEB_URL]);
+              document.getElementById("btnViewTutorModalFullProfile").setAttribute('target','_blank');
+            }
+
+            // sessionStorage.setItem(SESSION_STORAGE_TUTOR_CURRENT_DOC_KEY, JSON.stringify(item));
+            // sessionStorage.setItem(SESSION_STORAGE_CLASS_LOAD_KEY, true);
+          }
+          // window.location = './edit-class.html?id=';
+
+          // console.log(item);
+        });
+
+      }
+		}
+
+    // Load record payment details when recordpayment modal launch
+    function loadRecordPaymentDetail(PAY_ID){
+
+      let payslipDocRef = db.collection("dev")
+        .doc("v2")
+        .collection("Payslip")
+        .doc(PAY_ID);
+
+      payslipDocRef
+        .get()
+
+        .then((doc) => {
+
+          if (doc.exists) {
+            // console.log("Payslip found, update exisiting payslip.");
+            let date = doc.data()[PAY_PAYMENT_DATE];
+
+            document.getElementById("inPaymentDate").value = (date == null || date == '') ? '' : date.toDate().toLocaleDateString("en-GB");
+            document.getElementById("inPaymentAmount").value = doc.data()[PAY_PAYMENT_AMOUNT];
+            document.getElementById("inPaymentNotes").value = doc.data()[PAY_PAYMENT_NOTE];
+
+          }
+          else {
+            func.showNotification('top','center', 'danger', 'error_outline', "Cannot record payment for unsaved payslip." );
+
+            document.getElementById("inPaymentDate").value = '';
+            document.getElementById("inPaymentAmount").value = '';
+            document.getElementById("inPaymentNotes").value = '';
+          }
+
+          // Load the fields and check
+          // checkRecordPaymentModalFields();
+
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+
+    }
+
+    // Copy a text based on element ID
+    function copyText(targetElemId){
+      /* Get the text field */
+      let copyText = document.getElementById(targetElemId);
+      // console.log(copyText)
+      // console.log(copyText.select())
+      /* Select the text field */
+      copyText.focus();
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+
+    }
+
+    // Check record payment modal fields
+    function checkRecordPaymentModalFields(){
+
+      let recordPaymentDate = document.getElementById('inPaymentDate').value;
+      let recordPaymentAmount = document.getElementById('inPaymentAmount').value;
+
+      if (recordPaymentDate == null || recordPaymentDate == '' || recordPaymentAmount == null || recordPaymentAmount == ''){
+        document.getElementById('btnRecordPaymentModalUpdate').setAttribute('disabled', true);
+      }
+      else{
+        document.getElementById('btnRecordPaymentModalUpdate').removeAttribute('disabled');
+      }
+
+    }
+
+    // Convert imgUrl to data
+    function toDataURL(src, callback, outputFormat) {
+      var img = new Image();
+      // var img = document.getElementById("tutorImgUrl");
+      var dataURL;
+      img.crossOrigin = 'Anonymous';
+      img.src = src;
+      img.onload = function() {
+        var canvas = document.createElement('CANVAS');
+        var ctx = canvas.getContext('2d');
+
+        canvas.height = this.naturalHeight;
+        canvas.width = this.naturalWidth;
+        ctx.drawImage(this, 0, 0);
+        dataURL = canvas.toDataURL(outputFormat);
+        // img.src = dataURL;
+        // console.log(dataURL)
+        var imgTarget = document.getElementById("previewTutorImgUrl");
+        imgTarget.src = dataURL;
+        callback(dataURL);
+      };
+      // img.src = src;
+      // img.src = dataURL;
+      if (img.complete || img.complete === undefined) {
+        img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+        img.src = src;
+      }
+    }
+
+    // Generate PDF
+    // https://ekoopmans.github.io/html2pdf.js/
+    function generatePDFeKoopmans(id){
+
+      element = document.getElementById(id);
+
+      var opt = {
+        margin:       [0, 0, 0, 0],
+        filename:     'payslip.pdf',
+        pagebreak:    { before: '.beforeClass', after: ['#after1', '#after2'], avoid: 'img' },
+        image:        { type: 'jpeg', quality: 0.95 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+
+    // Preview payslip data.
+    function previewPayslip(cardId, payslipDataArr){
+     // Clear unnecessary items first.
+      // Remove item table header TR.
+      document.getElementById("thead_item_"+cardId).querySelectorAll('tr').forEach(function (row, index){
+        row.remove();
+      });
+
+      // Remove all item and gross pay.
+      document.getElementById("tbody_item_"+cardId).querySelectorAll('tr').forEach(function (row, index){
+        row.remove();
+      });
+
+      // Remove additonal item table header TR.
+      document.getElementById("thead_additem_"+cardId).querySelectorAll('tr').forEach(function (row, index){
+        row.remove();
+      });
+
+      // Remove all additional items in add table
+      document.getElementById("tbody_additem_"+cardId).querySelectorAll('tr[class=additional]').forEach(function (row, index){
+        row.remove();
+      });
+
+
+      // Print Items & Additional Items
+      let itemStartIndex= payslipDataArr.indexOf('ITEM');
+      let subtotalStartIndex= payslipDataArr.indexOf('GROSS');
+      let additionalItemStartIndex= payslipDataArr.indexOf('ADDITIONAL_ITEM');
+      let totalStartIndex= payslipDataArr.indexOf('NET');
+
+      console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
+
+      let type = payslipDataArr[0];
+      let item = payslipDataArr.slice(itemStartIndex+1, subtotalStartIndex); //+1 to ignore the first indentifier
+      let subTotal = payslipDataArr[subtotalStartIndex+1];
+      let additionalItem = payslipDataArr.slice(additionalItemStartIndex+1, totalStartIndex); //+1 to ignore the first indentifier
+      let total = payslipDataArr[totalStartIndex+1];
+
+      let advanced = type === 'ADVANCED';
+      let grossPay = 0;
+
+      if (advanced){
+        // Render the adv table template (table header, gross pay, and table additional header)
+        renderTableAdvTemplate('preview')
+
+        // Advanced Template
+        item.reverse().forEach((document) => {
+          let component = document.split(";; ");
+
+          let payslipItemData={
+            ent_id: 'preview',
+            item: component[0],
+            quantity: component[1],
+            price: component[2],
+            payout: component[3],
+          }
+
+          renderAllPayslipItemsAdv(payslipItemData);
+
+        });
+
+        // Print Additional Items
+        //.reverse() to make sure we print from the last -> first
+        additionalItem.reverse().forEach((document) => {
+
+          let component = document.split(";; ");
+          // Generate the additional item
+          let payslipItemData={
+            ent_id: 'preview',
+            item: component[1],
+            quantity: 0,
+            price: component[2],
+            payout: 0,
+            selector: component[0],
+          }
+          renderAllPayslipAdditionalItemsAdv(payslipItemData);
+
+        });
+
+        // Calculate Gross & Net Pay
+        grossPay = calculateGrossPayDuringInit('preview');
+        calculateNetPayDuringInit('preview', grossPay);
+
+      }
+      else{
+        // Generate simple empty payslip
+        renderTableTemplate('preview');
+
+        // Print Items
+        // Simple Template
+        item.reverse().forEach((document) => {
+          let component = document.split(";; ");
+
+          let payslipItemData={
+            ent_id: 'preview',
+            item: component[0],
+            quantity: component[1],
+            price: component[2],
+            payout: component[3],
+          }
+
+          console.log(payslipItemData);
+
+          renderAllPayslipItems(payslipItemData);
+
+        });
+
+        // Print Additional Items
+        //.reverse() to make sure we print from the last -> first
+        additionalItem.reverse().forEach((document) => {
+
+        let component = document.split(";; ");
+        // Generate the additional item
+        let payslipItemData={
+          ent_id: 'preview',
+          item: component[1],
+          quantity: 0,
+          price: component[2],
+          payout: 0,
+          selector: component[0],
+        }
+        renderAllPayslipAdditionalItems(payslipItemData);
+
+        });
+
+        // Calculate Gross & Net Pay
+        grossPay = calculateGrossPayDuringInit('preview');
+        calculateNetPayDuringInit('preview', grossPay);
+
+      }
+
+    }
+
+
+    // Render normal table template
+    function renderTableTemplate(cardId){
+      // <table id="table_item_wwwwww" class="table-light table-sm" cellspacing="0" width="100%" >
+      //   <thead style="background-color: grey; color: white;">
+      //     <tr>
+      //       <th style="min-width: 200px; font-size: small;">Items</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Amount</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Earning</th>
+      //     </tr>
+      //   </thead>
+      //   <tbody id="previewItemBody">
+      //     <tr class="item">
+      //       <td style="font-size: small;">Food</td>
+      //       <td style="text-align: right; font-size: small;">20</td>
+      //       <td style="text-align: right; font-size: small;">RM20</td>
+      //     </tr>
+      //     <tr class="subtotal" id='gross'>
+      //       <td></td>
+      //       <td style="text-align: right; font-weight: 500; font-size: small;">Gross Earning</td>
+      //       <td style="text-align: right; font-weight: 500; font-size: small;" id="previewSubtotalItem">RM20</td>
+      //     </tr>
+      //   </tbody>
+      // </table>
+      // <table id="table_additem_wwwwww" class="table-light table-sm" cellspacing="0" width="100%">
+      //   <thead style="visibility: collapse;">
+      //     <tr>
+      //       <th style="min-width: 200px;">Items</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right;">Amount</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right;">Earning</th>
+      //     </tr>
+      //   </thead>
+      //   <tbody id="previewAdditionalItemBody">
+      //     <tr class="additional">
+      //       <td></td>
+      //       <td style="text-align: right; font-size: small;">Extra</td>
+      //       <td style="text-align: right; font-size: small;">+ RM10</td>
+      //     </tr>
+      //   </tbody>
+      // </table>
+
+      // Item Header
+      let thItem1 = document.createElement('th');
+      thItem1.setAttribute('style', 'min-width: 200px; font-size: small;');
+      thItem1.textContent = 'Items';
+      let thItem2 = document.createElement('th');
+      thItem2.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;');
+      thItem2.textContent = 'Amount';
+      let thItem3 = document.createElement('th');
+      thItem3.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;');
+      thItem3.textContent = 'Earning';
+
+      let thItemHeader = document.createElement('tr');
+      thItemHeader.appendChild(thItem1);
+      thItemHeader.appendChild(thItem2);
+      thItemHeader.appendChild(thItem3);
+
+      const theadItemHeader = document.getElementById("thead_item_"+cardId);
+      theadItemHeader.appendChild(thItemHeader);
+
+      // Item Gross Earning (subtotal)
+      let grossItem1 = document.createElement('td');
+      let grossItem2 = document.createElement('td');
+      grossItem2.setAttribute('style', 'text-align: right; font-weight: 500; font-size: small;');
+      grossItem2.textContent = 'Gross Pay';
+      let grossItem3 = document.createElement('td');
+      grossItem3.id = 'grosspay_' + cardId;
+      grossItem3.setAttribute('style', 'text-align: right; font-weight: 500; font-size: small;');
+      grossItem3.textContent = 'RM0.00';
+
+      let grossItem = document.createElement('tr');
+      grossItem.className = 'subtotal';
+      grossItem.appendChild(grossItem1);
+      grossItem.appendChild(grossItem2);
+      grossItem.appendChild(grossItem3);
+
+      const tbodyItem = document.getElementById("tbody_item_"+cardId);
+      tbodyItem.appendChild(grossItem);
+
+      // Additional Header
+      let thAddItem1 = document.createElement('th');
+      thAddItem1.setAttribute('style', 'min-width: 200px;');
+      thAddItem1.textContent = 'Items';
+      let thAddItem2 = document.createElement('th');
+      thAddItem2.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right;');
+      thAddItem2.textContent = 'Amount';
+      let thAddItem3 = document.createElement('th');
+      thAddItem3.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right;');
+      thAddItem3.textContent = 'Earning';
+
+      let thAddItemHeader = document.createElement('tr');
+      thAddItemHeader.setAttribute('style', 'visibility: collapse');
+      thAddItemHeader.appendChild(thAddItem1);
+      thAddItemHeader.appendChild(thAddItem2);
+      thAddItemHeader.appendChild(thAddItem3);
+
+      const theadAddItemHeader = document.getElementById("thead_additem_"+cardId);
+      theadAddItemHeader.appendChild(thAddItemHeader);
+
+    }
+
+    // Render advanced table template
+    function renderTableAdvTemplate(cardId){
+     // <table id="table_item_wwwwww" class="table-light table-sm" cellspacing="0" width="100%" >
+      //   <thead style="background-color: grey; color: white;">
+      //     <tr> (...start)
+      //       <th style="min-width: 200px; font-size: small;">Items</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Quantity*</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Amount</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Payout</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right; font-size: small;">Earning</th>
+      //     </tr> (end ...)
+      //   </thead>
+      //   <tbody id="previewItemBody">
+      //     <tr class="item">
+      //       <td style="font-size: small;">Standard 3 English</td>
+      //       <td style="text-align: right; font-size: small;">1</td>
+      //       <td style="text-align: right; font-size: small;">100</td>
+      //       <td style="text-align: right; font-size: small;">100</td>
+      //       <td style="text-align: right; font-size: small;">RM100</td>
+      //     </tr>
+      //     <tr class="subtotal" id='previewItemSubtotal'> (...start)
+      //       <td></td>
+      //       <td></td>
+      //       <td></td>
+      //       <td style="text-align: right; font-weight: 500; font-size: small;">Gross Earning</td>
+      //       <td style="text-align: right; font-weight: 500; font-size: small;" id="previewSubtotalItem">RM100</td>
+      //     </tr> (end ...)
+      //   </tbody>
+      // </table>
+      // <table id="table_additem_wwwwww" class="table-light table-sm" cellspacing="0" width="100%">
+      //   <thead style="visibility: collapse;">
+      //     <tr> (...start)
+      //       <th style="min-width: 200px;">Items</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right;">Quantity</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right;">Price</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right;">Payout</th>
+      //       <th style="width: 100px; min-width: 100px;text-align: right;">Amount</th>
+      //     </tr> (end ...)
+      //   </thead>
+      //   <tbody id="previewAdditionalItemBody">
+      //     <tr class="additional">
+      //       <td></td>
+      //       <td></td>
+      //       <td></td>
+      //       <td style="text-align: right; font-size: small;">Extra Cash</td>
+      //       <td style="text-align: right; font-size: small;">+ RM10</td>
+      //     </tr>
+      //   </tbody>
+      // </table>
+      // Item Header
+      let thItem1 = document.createElement('th');
+      thItem1.setAttribute('style', 'min-width: 200px; font-size: small;');
+      thItem1.textContent = 'Items';
+      let thItem2 = document.createElement('th');
+      thItem2.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;');
+      thItem2.textContent = 'Quantity';
+      let thItem3 = document.createElement('th');
+      thItem3.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;');
+      thItem3.textContent = 'Amount';
+      let thItem4 = document.createElement('th');
+      thItem4.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;');
+      thItem4.textContent = 'Payout (%)';
+      let thItem5 = document.createElement('th');
+      thItem5.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;');
+      thItem5.textContent = 'Earning';
+
+      let thItemHeader = document.createElement('tr');
+      thItemHeader.appendChild(thItem1);
+      thItemHeader.appendChild(thItem2);
+      thItemHeader.appendChild(thItem3);
+      thItemHeader.appendChild(thItem4);
+      thItemHeader.appendChild(thItem5);
+
+      const theadItemHeader = document.getElementById("thead_item_"+cardId);
+      theadItemHeader.appendChild(thItemHeader);
+
+      // Item Gross Earning (subtotal)
+      let grossItem1 = document.createElement('td');
+      let grossItem2 = document.createElement('td');
+      let grossItem3 = document.createElement('td');
+      let grossItem4 = document.createElement('td');
+      grossItem4.setAttribute('style', 'text-align: right; font-weight: 500; font-size: small;');
+      grossItem4.textContent = 'Gross Pay';
+      let grossItem5 = document.createElement('td');
+      grossItem5.id = 'grosspay_' +cardId;
+      grossItem5.setAttribute('style', 'text-align: right; font-weight: 500; font-size: small;');
+      grossItem5.textContent = 'RM0.00';
+
+      let grossItem = document.createElement('tr');
+      grossItem.className = 'subtotal';
+      grossItem.appendChild(grossItem1);
+      grossItem.appendChild(grossItem2);
+      grossItem.appendChild(grossItem3);
+      grossItem.appendChild(grossItem4);
+      grossItem.appendChild(grossItem5);
+
+      const tbodyItem = document.getElementById("tbody_item_"+cardId);
+      tbodyItem.appendChild(grossItem);
+
+      // Additional Header
+      let thAddItem1 = document.createElement('th');
+      thAddItem1.setAttribute('style', 'min-width: 200px;');
+      thAddItem1.textContent = 'Items';
+      let thAddItem2 = document.createElement('th');
+      thAddItem2.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right;');
+      thAddItem2.textContent = 'Quantity';
+      let thAddItem3 = document.createElement('th');
+      thAddItem3.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right;');
+      thAddItem3.textContent = 'Amount';
+      let thAddItem4 = document.createElement('th');
+      thAddItem4.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right;');
+      thAddItem4.textContent = 'Payout (%)';
+      let thAddItem5 = document.createElement('th');
+      thAddItem5.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right;');
+      thAddItem5.textContent = 'Earning';
+
+      let thAddItemHeader = document.createElement('tr');
+      thAddItemHeader.setAttribute('style', 'visibility: collapse')
+      thAddItemHeader.appendChild(thAddItem1);
+      thAddItemHeader.appendChild(thAddItem2);
+      thAddItemHeader.appendChild(thAddItem3);
+      thAddItemHeader.appendChild(thAddItem4);
+      thAddItemHeader.appendChild(thAddItem5);
+
+      const theadAddItemHeader = document.getElementById("thead_additem_"+cardId);
+      theadAddItemHeader.appendChild(thAddItemHeader);
+
+    }
+
+
+    function renderAllPayslipItems(data){
+      //   <tbody id="tbody_item_<id>">
+      //     <tr class="item">
+      //       <td style="font-size: small;">Food</td>
+      //       <td style="text-align: right; font-size: small;">20</td>
+      //       <td style="text-align: right; font-size: small;">RM20</td>
+      //     </tr>
+      //     <tr class="subtotal" id='gross'>
+      //       ....
+      //     </tr>
+
+      // Item
+      let item1 = document.createElement('td');
+      item1.setAttribute('style', 'min-width: 200px; font-size: small; font-weight: 300');
+      item1.textContent = data.item;
+      let item2 = document.createElement('td');
+      item2.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;font-weight: 300');
+      item2.textContent = data.price;
+      let item3 = document.createElement('td');
+      item3.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;font-weight: 300');
+      item3.textContent = '';
+
+      let item = document.createElement('tr');
+      item.className = 'item'
+      item.appendChild(item1);
+      item.appendChild(item2);
+      item.appendChild(item3);
+
+      const tritem = document.getElementById("tbody_item_"+data.ent_id);
+      tritem.insertBefore(item, tritem.children[0])
+
+      // tritem.appendChild(item);
+    }
+
+
+    function renderAllPayslipItemsAdv(data){
+      //   <tbody id="previewItemBody">
+      //     <tr class="item">
+      //       <td style="font-size: small;">Standard 3 English</td>
+      //       <td style="text-align: right; font-size: small;">1</td>
+      //       <td style="text-align: right; font-size: small;">100</td>
+      //       <td style="text-align: right; font-size: small;">100</td>
+      //       <td style="text-align: right; font-size: small;">RM100</td>
+      //     </tr>
+      //     ....
+
+      //  data={
+      //   ent_id: ent_id,
+      //   item: item,  // Shared between items and additional items
+      //   quantity: '',
+      //   price: 0, // Shared between items and additional items
+      //   payout: '',
+      //   selector: '', // Used for add items
+      // }
+
+      // Item
+      let item1 = document.createElement('td');
+      item1.setAttribute('style', 'min-width: 200px; font-size: small; font-weight: 300');
+      // let firstClassDate_temp = (data.firstClassDate == null || data.firstClassDate == '') ? '' : '(First lesson: '+data.firstClassDate+')';
+      item1.textContent = data.item; // + ' '+firstClassDate_temp;
+      let item2 = document.createElement('td');
+      item2.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;font-weight: 300');
+      item2.textContent = data.quantity;
+      let item3 = document.createElement('td');
+      item3.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;font-weight: 300');
+      item3.textContent = data.price;
+      let item4 = document.createElement('td');
+      item4.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;font-weight: 300');
+      item4.textContent = data.payout;
+      let item5 = document.createElement('td');
+      item5.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;font-weight: 300');
+      item5.textContent = '';
+
+      let item = document.createElement('tr');
+      item.className = 'item'
+      item.appendChild(item1);
+      item.appendChild(item2);
+      item.appendChild(item3);
+      item.appendChild(item4);
+      item.appendChild(item5);
+
+      const tritem = document.getElementById("tbody_item_"+data.ent_id);
+      tritem.insertBefore(item, tritem.children[0]);
+      // tritem.appendChild(item);
+
+    }
+
+    // Render additional items for adv table
+    function renderAllPayslipAdditionalItems(data){
+      // <tbody id="tbody_additem_wwwwww">
+      //   <tr class="additional">
+      //     <td></td>
+      //     <td style="text-align: right; font-size: small;" data-selector='Earning ( + )' data-item='Extra Cash' data-value='10'>Extra Cash</td>
+      //     <td style="text-align: right; font-size: small;">+ RM10</td>
+      //   </tr>
+      // </tbody>
+
+      //  data={
+      //   ent_id: ent_id,
+      //   item: item,  // Shared between items and additional items
+      //   quantity: '',
+      //   price: 0, // Shared between items and additional items
+      //   payout: '',
+      //   selector: '', // Used for add items
+      // }
+
+      // Item
+      let item1 = document.createElement('td');
+      let item2 = document.createElement('td');
+      let item3 = document.createElement('td');
+      let item4 = document.createElement('td');
+      item4.setAttribute('style', 'text-align: right; font-size: small;');
+      item4.setAttribute('data-selector', data.selector );
+      item4.setAttribute('data-item', data.item);
+      item4.setAttribute('data-value', data.price);
+      item4.textContent = data.item;
+      let item5 = document.createElement('td');
+      item5.setAttribute('style', 'text-align: right; font-size: small;');
+      item5.textContent = '';
+
+      let item = document.createElement('tr');
+      item.className = 'additional'
+      // item.appendChild(item1);
+      // item.appendChild(item2);
+      item.appendChild(item3);
+      item.appendChild(item4);
+      item.appendChild(item5);
+
+      const trAddItem = document.getElementById("tbody_additem_"+data.ent_id);
+      trAddItem.insertBefore(item, trAddItem.children[0])
+
+      // tritem.appendChild(item);
+    }
+
+    // Render additional items for adv table
+    function renderAllPayslipAdditionalItemsAdv(data){
+      // <tbody id="tbody_additem_wwwwww">
+      //   <tr class="additional">
+      //     <td></td>
+      //     <td></td>
+      //     <td></td>
+      //     <td style="text-align: right; font-size: small;" data-selector='Earning ( + )' data-item='Extra Cash' data-value='10'>Extra Cash</td>
+      //     <td style="text-align: right; font-size: small;">+ RM10</td>
+      //   </tr>
+      // </tbody>
+
+      //  data={
+      //   ent_id: ent_id,
+      //   item: item,  // Shared between items and additional items
+      //   quantity: '',
+      //   price: 0, // Shared between items and additional items
+      //   payout: '',
+      //   selector: '', // Used for add items
+      // }
+
+      // Item
+      let item1 = document.createElement('td');
+      // item1.setAttribute('style', 'min-width: 200px; font-size: small; font-weight: 300');
+      // item1.textContent = data.item;
+      let item2 = document.createElement('td');
+      // item2.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;font-weight: 300');
+      // item2.textContent = data.quantity;
+      let item3 = document.createElement('td');
+      // item3.setAttribute('style', 'width: 100px; min-width: 100px;text-align: right; font-size: small;font-weight: 300');
+      // item3.textContent = data.price;
+      let item4 = document.createElement('td');
+      item4.setAttribute('style', 'text-align: right; font-size: small;');
+      item4.setAttribute('data-selector', data.selector );
+      item4.setAttribute('data-item', data.item);
+      item4.setAttribute('data-value', data.price);
+      item4.textContent = data.item;
+      let item5 = document.createElement('td');
+      item5.setAttribute('style', 'text-align: right; font-size: small;');
+      item5.textContent = '';
+
+      let item = document.createElement('tr');
+      item.className = 'additional'
+      item.appendChild(item1);
+      item.appendChild(item2);
+      item.appendChild(item3);
+      item.appendChild(item4);
+      item.appendChild(item5);
+
+      const trAddItemAdv = document.getElementById("tbody_additem_"+data.ent_id);
+      trAddItemAdv.insertBefore(item, trAddItemAdv.children[0]);
+      // tritem.appendChild(item);
+
+    }
+
+
+    function calculateGrossPayDuringInit(cardId){
+      // <div class="card" id='wwwwww'>
+      //   <div class="card-header" id="headingOne" style="padding: 0; margin: 0; ">
+      //     .....
+      //   </div>
+      //   <div id="collapse1" class="collapse" aria-labelledby="headingOne" data-parent="#accordionTutor" style="padding: 0; margin: 0; ">
+      //     <div class="card-body">
+      //       <!-- Buttons -->
+      //       <div class="row">
+      //         .....
+      //       </div>
+      //       <div class="row">
+      //         <div class="col-12"  style="overflow-x:auto;">
+      //           <span class="" style="font-size: x-small; font-weight: 300; color: gray; margin-bottom: 0;">Note*: Quantity - Number of hour of lessons conducted, number of classes, or relevant other items</span>
+      //           <table id="table_item_wwwwww" class="table-light table-sm" cellspacing="0" width="100%" >
+      //             <thead style="background-color: grey; color: white;">
+      //               <tr>
+      //                 <th style="min-width: 200px; font-size: small;">Items</th>
+      //                 <th style="width: 100px; min-width: 100px; text-align: right; font-size: small;">Quantity*</th>
+      //                 <th style="width: 100px; min-width: 100px; text-align: right; font-size: small;">Amount</th>
+      //                 <th style="width: 100px; min-width: 100px; text-align: right; font-size: small;">Payout</th>
+      //                 <th style="width: 100px; min-width: 100px; text-align: right; font-size: small;">Earning</th>
+      //               </tr>
+      //             </thead>
+      //             <tbody id="previewItemBody">
+      //               <tr class="item">
+      //                 <td style="font-size: small;">Standard 3 English</td>
+      //                 <td style="text-align: right; font-size: small;">1</td>
+      //                 <td style="text-align: right; font-size: small;">100</td>
+      //                 <td style="text-align: right; font-size: small;">100</td>
+      //                 <td style="text-align: right; font-size: small;">RM100</td>
+      //               </tr>
+
+      // Get all the TR elem with class=item in respective table
+      let itemTrEleArr = document.getElementById('tbody_item_'+cardId).querySelectorAll('tr.item');
+      // console.log(itemTrEleArr);
+
+      // If no item, return
+      if (itemTrEleArr.length === 0){
+        document.getElementById("grosspay_"+cardId).textContent = 'RM0.00';
+        document.getElementById("netpay_"+cardId).textContent = 'RM0.00';
+        document.getElementById("netpayview_"+cardId).textContent = 'RM0.00';
+        return 0;
+      }
+
+      // Get the length of the item 0 to determine if simple or advanced template used.
+      let itemTdEleLength = itemTrEleArr[0].querySelectorAll('td').length;
+
+      // Var used for gross and net pay
+      let grossEarning = 0;
+      let grossEarningText = '';
+      let grossEarningAdv = 0;
+      let grossEarningTextAdv = '';
+
+      if (itemTdEleLength === 5 ){
+        // Advanced
+        itemTrEleArr.forEach(function (row, index) {
+
+          // Calculate the subtotal amount
+          let item = row.getElementsByTagName("td")[0].value; // Unused: Input
+          let quantity = parseFloat(row.getElementsByTagName("td")[1].textContent);
+          let amount = parseFloat(row.getElementsByTagName("td")[2].textContent);
+          let payout = parseFloat(row.getElementsByTagName("td")[3].textContent);
+
+          // Set the value of Amount at 5th cell
+          if (isNaN(quantity) && isNaN(amount) && isNaN(payout)){
+            // If no input to quantity and value, clear the amount.
+            // row.children[5].textContent = '';
+          }
+          else if (isNaN(quantity) || isNaN(amount) ||isNaN(payout)){
+            // row.children[5].textContent = 'INVALID';
+          }
+          else {
+            let earning = quantity * amount * payout / 100;
+            grossEarningAdv += earning;
+            row.getElementsByTagName("td")[4].textContent= (earning >= 0) ? 'RM'+earning.toFixed(2) : '- RM'+ Math.abs(earning).toFixed(2)
+          }
+        });
+
+
+        if (isNaN(grossEarningAdv)){
+          grossEarningTextAdv = 'INVALID';
+          document.getElementById("grosspay_"+cardId).textContent = grossEarningTextAdv;
+          document.getElementById("netpay_"+cardId).textContent = grossEarningTextAdv;
+          document.getElementById("netpayview_"+cardId).textContent = grossEarningTextAdv;
+          return 0;
+        }
+        else {
+          grossEarningTextAdv = (grossEarningAdv >= 0) ? 'RM'+grossEarningAdv.toFixed(2) : '- RM'+ Math.abs(grossEarningAdv).toFixed(2);
+          document.getElementById("grosspay_"+cardId).textContent = grossEarningTextAdv;
+          document.getElementById("netpay_"+cardId).textContent = grossEarningTextAdv;
+          document.getElementById("netpayview_"+cardId).textContent = grossEarningTextAdv;
+          return grossEarningAdv;
+        }
+      }
+
+      else{
+        // simple
+        itemTrEleArr.forEach(function (row, index) {
+
+          // Calculate the subtotal amount
+          let amount = parseFloat(row.getElementsByTagName("td")[1].textContent);
+
+          // Set the value of Amount at 5th cell
+          if (isNaN(amount)){
+            // If no input to quantity and value, clear the amount.
+            // row.children[5].textContent = '';
+          }
+          else {
+            let earning = amount;
+            grossEarning += earning;
+            row.getElementsByTagName("td")[2].textContent= (earning >= 0) ? 'RM'+earning.toFixed(2) : '- RM'+ Math.abs(earning).toFixed(2)
+          }
+        });
+
+        if (isNaN(grossEarning)){
+          grossEarningText = 'INVALID';
+          document.getElementById("grosspay_"+cardId).textContent = grossEarningText;
+          document.getElementById("netpay_"+cardId).textContent = grossEarningText;
+          document.getElementById("netpayview_"+cardId).textContent = grossEarningText;
+          return 0;
+        }
+        else {
+          grossEarningText = (grossEarning >= 0) ? 'RM'+grossEarning.toFixed(2) : '- RM'+ Math.abs(grossEarning).toFixed(2);
+          document.getElementById("grosspay_"+cardId).textContent = grossEarningText;
+          document.getElementById("netpay_"+cardId).textContent = grossEarningText;
+          document.getElementById("netpayview_"+cardId).textContent = grossEarningText;
+
+          return grossEarning;
+        }
+
+      }
+
+    }
+
+
+    function calculateNetPayDuringInit(cardId, grossPay){
+
+      // Get the length of the header of additional table to determine if simple or advanced template used.
+      let addItemHeaderTrEleArr = document.getElementById('thead_additem_'+cardId).querySelectorAll('tr');
+      let addItemHeaderTrEleArrLength = addItemHeaderTrEleArr[0].querySelectorAll('th').length;
+
+      // Get all the TR elem with class=additional in respective table
+      let itemTrEleArr = document.getElementById('tbody_additem_'+cardId).querySelectorAll('tr.additional');
+
+      // console.log(itemTrEleArr);
+
+      // If no additional item, return with gross pay only.
+      if (itemTrEleArr.length === 0){
+        return grossPay;
+      }
+
+      // Var used for gross and net pay
+      let netPay = grossPay;
+      let netPayText = '';
+      let netPayAdv = grossPay;
+      let netPayTextAdv = '';
+
+      let temp_amount = 0;
+      if (addItemHeaderTrEleArrLength === 5 ){
+        // Advanced
+        itemTrEleArr.forEach(function (row, index) {
+
+          // Calculate the net amount
+          // let item = row.getElementsByTagName("td")[0].value; // Unused: Input
+          // let quantity = parseFloat(row.getElementsByTagName("td")[1].textContent);
+          // let amount = parseFloat(row.getElementsByTagName("td")[2].textContent);
+          // let payout = parseFloat(row.getElementsByTagName("td")[3].textContent);
+
+          let action = row.getElementsByTagName("td")[3].getAttribute('data-selector');
+          let item = parseFloat(row.getElementsByTagName("td")[3].getAttribute('data-item'));
+          let amount = parseFloat(row.getElementsByTagName("td")[3].getAttribute('data-value'));
+          console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
+          // console.log(action, item, amount)
+          if (action === 'Discount ( - )'){
+            temp_amount = -amount;
+            netPayAdv = netPayAdv - amount;
+
+          }else if(action === 'Earning ( + )'){
+            temp_amount = amount
+            netPayAdv = netPayAdv + amount;
+
+          }else{
+            // No change
+            temp_amount = 0;
+            netPayAdv = netPayAdv;
+
+          }
+
+          // Set the value of Amount at 5th cell
+          if (isNaN(temp_amount)){
+            row.getElementsByTagName("td")[4].textContent = 'INVALID';
+          }
+          else {
+            row.getElementsByTagName("td")[4].textContent = (temp_amount >= 0) ? '+ RM'+temp_amount.toFixed(2) : '- RM'+ Math.abs(temp_amount).toFixed(2)
+          }
+
+        });
+
+
+        if (isNaN(netPayAdv)){
+          netPayTextAdv = 'INVALID';
+          document.getElementById("netpay_"+cardId).textContent = netPayTextAdv;
+          document.getElementById("netpayview_"+cardId).textContent = netPayTextAdv;
+
+          return 0;
+        }
+        else {
+          netPayTextAdv = (netPayAdv >= 0) ? 'RM'+netPayAdv.toFixed(2) : '- RM'+ Math.abs(netPayAdv).toFixed(2);
+          document.getElementById("netpay_"+cardId).textContent = netPayTextAdv;
+          document.getElementById("netpayview_"+cardId).textContent = netPayTextAdv;
+
+          return netPayAdv;
+        }
+      }
+
+      else{
+        // Advanced
+        itemTrEleArr.forEach(function (row, index) {
+
+          // Calculate the net amount
+
+          let action = row.getElementsByTagName("td")[1].getAttribute('data-selector');
+          let item = parseFloat(row.getElementsByTagName("td")[1].getAttribute('data-item'));
+          let amount = parseFloat(row.getElementsByTagName("td")[1].getAttribute('data-value'));
+          console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
+
+          // console.log(action, item, amount)
+          if (action === 'Discount ( - )'){
+            temp_amount = -amount;
+            netPay = netPay - amount;
+
+          }else if(action === 'Earning ( + )'){
+            temp_amount = amount
+            netPay = netPay + amount;
+
+          }else{
+            // No change
+            temp_amount = 0;
+            netPay = netPay;
+
+          }
+
+          // Set the value of Amount at 5th cell
+          if (isNaN(temp_amount)){
+            row.getElementsByTagName("td")[2].textContent = 'INVALID';
+          }
+          else {
+            row.getElementsByTagName("td")[2].textContent = (temp_amount >= 0) ? '+ RM'+temp_amount.toFixed(2) : '- RM'+ Math.abs(temp_amount).toFixed(2)
+          }
+
+        });
+
+
+
+        if (isNaN(netPay)){
+          netPayText = 'INVALID';
+          document.getElementById("netpay_"+cardId).textContent = netPayText;
+          document.getElementById("netpayview_"+cardId).textContent = netPayText;
+
+          return 0;
+        }
+        else {
+          netPayText = (netPay >= 0) ? 'RM'+netPay.toFixed(2) : '- RM'+ Math.abs(netPay).toFixed(2);
+          document.getElementById("netpay_"+cardId).textContent = netPayText;
+          document.getElementById("netpayview_"+cardId).textContent = netPayText;
+
+          return netPay;
+        }
+
+      }
+
+    }
+
+
+  </script>
+
+  <script>
+		$( document ).ready(function() {
+
+      var EMPLOYEE_NAME = ""; // Extract info from data-* attributes
+      var TRANS_ID = "";
+      var PAY_ID = "";
+      var PAY_STATUS = '';
+
+      var PAYSLIP_ID = ''
+      // Preview Modal Show
+      $('#previewModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget) // Button/Components that triggered the modal
+        PAYSLIP_ID = button.data('docid') // Extract info from data-* attributes
+
+        loadPayslipPreview(PAYSLIP_ID);
+
+      });
+
+      $('#previewModal').on('hide.bs.modal', function (e) {
+        PAYSLIP_ID = '';
+      });
+
+      // Populate record payment modal
+      $('#recordPaymentModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+        EMPLOYEE_NAME = button.data('name');
+        TRANS_ID = button.data('transid');
+        PAY_ID = button.data('payid');
+        PAY_STATUS = button.data('status');
+        // document.getElementById("confirmEmployeeCardId").setAttribute('value', EMPLOYEE_CARD_ID);
+        document.getElementById("recordPaymentModalTitle").textContent = 'Record payment for '+ EMPLOYEE_NAME;
+
+        if (PAY_STATUS === TRANS_PAY_STATUS_PAID){
+          document.getElementById("statusNew").checked = false;
+          document.getElementById("statusPaid").checked = true;
+        }else{
+          document.getElementById("statusNew").checked = true;
+          document.getElementById("statusPaid").checked = false;
+        }
+
+
+
+        loadRecordPaymentDetail(PAY_ID);
+
+        // document.getElementById("inPaymentDate").value = '';
+        // document.getElementById("inPaymentAmount").value = '';
+        // document.getElementById("inPaymentNotes").value = '';
+
+
+      });
+
+      $('#recordPaymentModal').on('hide.bs.modal', function (event) {
+        document.getElementById("statusNew").checked = true;
+        document.getElementById("statusPaid").checked = false;
+        document.getElementById("inPaymentDate").value = '';
+        document.getElementById("inPaymentAmount").value = '';
+        document.getElementById("inPaymentNotes").value = '';
+
+        document.getElementById("btnRecordPaymentModalUpdate").setAttribute("disabled", true);
+
+      });
+
+      // Record Payment
+      $('#btnRecordPaymentModalUpdate').on('click', function (event) {
+
+        let statusNew = document.getElementById("statusNew").checked ;
+        let statusPaid = document.getElementById("statusPaid").checked ;
+
+        let inPaymentDate = document.getElementById("inPaymentDate").value ;
+        let inPaymentAmount = document.getElementById("inPaymentAmount").value;
+        let inPaymentNotes = document.getElementById("inPaymentNotes").value ;
+
+        let payslipDocRef = db.collection("dev")
+          .doc("v2")
+          .collection("Payslip")
+          .doc(PAY_ID);
+
+
+        let transDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("Transaction")
+            .doc(TRANS_ID);
+
+        var promiseAll = []
+
+        promiseAll.push(payslipDocRef.get())
+        promiseAll.push(transDocRef.get())
+        Promise.all(promiseAll).then((snapshots)=> {
+
+          if (snapshots[0].exists && snapshots[1].exists) {
+            // console.log("Payslip found, update exisiting payslip.");
+
+            let payslipDocRef1 = db.collection("dev")
+              .doc("v2")
+              .collection("Payslip")
+              .doc(PAY_ID);
+
+            let transDocRef1 = db.collection("dev")
+              .doc("v2")
+              .collection("Transaction")
+              .doc(TRANS_ID);
+
+            // Payment date
+            let paymentDate = $('#inPaymentDate').data('daterangepicker').startDate.format('DD/MM/YYYY');
+            // console.log('paymentDate');
+            // console.log(paymentDate);
+            paymentDate = paymentDate.split("/");
+            let newPaymentDate = new Date( paymentDate[2], paymentDate[1] - 1, paymentDate[0]);
+            let paymentDateFinal = firebase.firestore.Timestamp.fromDate(newPaymentDate);
+
+            var data = {
+              [PAY_PAY_STATUS]: statusPaid ? PAY_STATUS_PAID : PAY_STATUS_NEW,
+              [PAY_PAYMENT_DATE]: paymentDateFinal,
+              [PAY_PAYMENT_AMOUNT]: inPaymentAmount,
+              [PAY_PAYMENT_NOTE]: inPaymentNotes,
+              [PAY_DATE_EDIT]: new Date(),
+            }
+
+            // console.log("*Payslip Data...")
+            // console.log(data)
+
+
+            var transData = {
+              [TRANS_DOC_STATUS] : statusPaid ? TRANS_PAY_STATUS_PAID : TRANS_PAY_STATUS_NEW,
+              [TRANS_DATE_EDIT]: new Date(),
+            }
+
+            // console.log("Transaction Data...")
+            // console.log(transData)
+
+            var promiseAll = []
+            promiseAll.push(payslipDocRef1.set(data, { merge: true }))
+            promiseAll.push(transDocRef1.set(transData, { merge: true }))
+
+            Promise.all(promiseAll).then(()=> {
+              func.showNotification('top','center', 'success', 'check_circle', "Payment recorded." );
+
+              // Reload the payslip views
+              let studentItemList = document.getElementById('card-main').querySelectorAll('div.card-student-item');
+              // console.log(studentItemList);
+              studentItemList.forEach((row, index)=> {
+                row.remove();
+              })
+
+              latestInvoiceDoc = null;
+              loadAllPayslip();
+            }).catch((e) => {
+              func.showNotification('top','center', 'danger', 'error_outline', "Record payment failed. "+ e.message );
+
+            })
+
+            EMPLOYEE_NAME = "";
+            TRANS_ID = "";
+            PAY_ID = "";
+
+          }
+          else
+          {
+            func.showNotification('top','center', 'danger', 'error_outline', "Cannot record payment. Payslip: " + snapshots[0].exists + ". Transaction: " + snapshots[1].exists  );
+
+            EMPLOYEE_NAME = "";
+            TRANS_ID = "";
+            PAY_ID = "";
+
+          }
+
+
+        }).catch((error) => {
+          func.showNotification('top','center', 'danger', 'error_outline', "Cannot record payment. Payslip: " + snapshots[0].exists + ". Transaction: " + snapshots[1].exists  );
+
+          console.log("Error getting document: Payslip: " + snapshots[0].exists + ". Transaction: " + snapshots[1].exists );
+          EMPLOYEE_NAME = "";
+          TRANS_ID = "";
+          PAY_ID = "";
+        });
+
+
+      });
+
+		});
+
+  </script>
+
+  <!-- Date range picker -->
+  <script>
+    $(function() {
+      $('#daterange').daterangepicker({
+        // opens: 'left',
+        // timePicker: true,
+        // autoUpdateInput: false,
+      }, function(start, end, label) {
+        // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+
+        $('#daterange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+
+        // Convert milisecondsto seconds
+        let startDate =moment(start).valueOf() / 1000;
+        let endDate = moment(end).valueOf() / 1000;
+
+        // console.log(startDate, endDate)
+
+        loadPayslipFixed(startDate, endDate)
+
+      });
+    });
+
+    // Record Payment Single Date Picker
+    $('#inPaymentDate').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      customClearBTN: '',
+      locale: {
+          format: 'DD/MM/YYYY'
+      },
+    }, function(start, end, label) {
+
+      // Check if the fields are filled.
+      checkRecordPaymentModalFields();
+
+    });
+
+  </script>
+
+
+</body>
+
+</html>

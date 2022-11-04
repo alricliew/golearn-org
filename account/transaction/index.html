@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/transaction/ >
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+  </script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!-- GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <style>
+    .br {
+      border-radius: 8px;
+    }
+    .w30 {
+      width: 30%;
+    }
+    .w50 {
+      width: 50%;
+    }
+    .w80 {
+      width: 80%;
+    }
+    .card {
+      border: 2px solid #fff;
+      /* box-shadow:0px 0px 10px 0 #a9a9a9; */
+      padding: 12px 20px;
+      /* width: 80%; */
+      /* margin: 50px auto; */
+      margin-top: 0.2rem;
+    }
+    .card-shimmer-wrapper {
+      width: 0px;
+      animation: fullView 0.5s forwards cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    }
+    .profilePic {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+    }
+    .comment {
+      height: 10px;
+      background: #777;
+      margin-top: 15px;
+    }
+
+    @keyframes fullView {
+      100% {
+        width: 100%;
+      }
+    }
+
+    .animate {
+      animation : shimmer 2s infinite linear;
+      background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);
+        background-size: 1000px 100%;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden active" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Transactions</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+                <!-- <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a> -->
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a> -->
+                </div>
+              </li>
+              <!-- your navbar here -->
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+									<div class="dropdown-divider"></div>
+									<a style="font-weight: 500 ;padding: 0.5em ;text-align: center; width: 200px; background-color: #428dd4 ;display: block; color: #fff;" href="https://golearn.com.my/pricing/" target="_blank">Upgrade to Pro</a>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+
+       <!-- Sign-out modal -->
+       <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <!-- your content here -->
+
+          <!-- Main content -->
+          <div class="row  d-flex" id="desciption-row" >
+            <!-- button -->
+            <div class="p-2">
+              <a href="settings.html" class="btn btn-outline-primary btn-round hidden" name="param-link" perm="settings"><i class="fas fa-cog" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;"></i> Financial Settings</a>
+            </div>
+
+            <div class="ml-auto p-2">
+
+              <div class="btn-group">
+                <button class="btn btn-primary btn-round" type="button">
+                  Create
+                </button>
+                <button type="button" class="btn btn-primary btn-round dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item hidden" href="../invoice/create-invoice.html" name="param-link" perm="fin-invoice" >Create Invoice</a>
+                  <a class="dropdown-item hidden" href="../payroll/run-payroll.html" id="btnRunPayroll" name="param-link" perm="fin-payroll">Run Payroll</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="container-fluid" >
+
+            <div class="row" id="card-main">
+
+              <div class="col-md-12 card-student">
+                <div class="row" >
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-1">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="No info">Date</h6>
+                      </div>
+                      <div class="col-md-3">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Client Name">Name</h6>
+                      </div>
+                      <div class="col-md-3">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Description">Description</h6>
+                      </div>
+                      <div class="col-md-2">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Amount">Amount</h6>
+                      </div>
+                      <div class="col-md-2">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Payslip No">Ref No</h6>
+                      </div>
+                      <div class="col-md-1">
+                        <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="Status">Status</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-1">
+                    <h6 style="font-weight: 600; color: #2e74b6; font-size: 0.8rem; margin: 0;" data-toggle="tooltip" title="No info">Action</h6>
+                  </div> -->
+
+                </div>
+              </div>
+
+              <!-- Loading block -->
+              <div class="card br" id="card-load">
+                <div class="card-shimmer-wrapper">
+                  <div class="comment br animate w80"></div>
+                  <div class="comment br animate w30"></div>
+                </div>
+              </div>
+
+              <!-- No data placeholder -->
+              <div class="col-md-12 text-center" style="display: none; margin: 1rem;" id="noDataPlaceholder">
+                <p>No data</p>
+              </div>
+
+              <!-- Transaction List Start -->
+              <!-- <div class="col-md-12 card-student-item">
+                <div class="row">
+                  <div class="col-md-11" style="padding: 0;">
+                    <div class="row" style="margin: 0;">
+                      <div class="col-md-2">
+                        <p>12/2/2021</p>
+                      </div>
+                      <div class="col-md-2">
+                        <p>INV-0293874728</p>
+                      </div>
+                      <div class="col-md-4">
+                        <p></p>
+                      </div>
+                      <div class="col-md-3">
+                        <p>Nur Aisha</p>
+                      </div>
+                      <div class="col-md-1">
+                        <p class="card-student-status-label active">ACTIVE</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <a href="#" style="margin: 0; padding: 0.3em;" class="btn btn-sm btn-outline-danger btn-round" id="btnDelStudent" data-toggle="modal" data-target="#delStuModal" data-id="stuId" ><i class="material-icons" style="color: red;">remove</i></a>
+
+                  </div>
+                </div>
+              </div> -->
+
+            </div>
+            <!-- Load more button -->
+            <div class="row">
+              <div class="col-md-12" >
+                <a class="btn btn-sm btn-outline-primary btn-round" id="btnInvoiceLoadMore">Load More <i class="material-icons" style="color: #2e74b6; padding-bottom: 0.2em;">expand_more</i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <nav class="float-left">
+            <ul>
+              <!-- <li>
+              <a href="https://golearn.com.my/join-us" target="_blank">
+                Visit GoLearn Tutor
+              </a>
+              </li> -->
+            </ul>
+            </nav>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+
+	<script>
+
+    // Course-specific var
+    var allCourseSize;
+
+    // Store last document - Used for payroll
+    var latestInvoiceDoc = null;
+
+    // Initialization
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+
+      // Load all transaction
+      loadAllTransDoc();
+
+      // if (current_accountStatus === PREMIUM_ACCOUNT_2_STATUS_KEY || current_accountStatus === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY ||
+      // current_accountStatus === PREMIUM_ACCOUNT_3_STATUS_KEY || current_accountStatus === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY){
+      //   document.getElementById("btnRunPayroll").style.display = "";
+      // }else {
+      //   document.getElementById("btnRunPayroll").style.display = "none";
+      // }
+
+    }
+
+    // Invoice Load More Button - Init
+    const loadmore = document.querySelector('#btnInvoiceLoadMore');
+    loadmore.style.visibility='hidden';
+    const loadmoreHandleClick = () =>{
+      loadAllTransDoc();
+    }
+    loadmore.addEventListener('click', loadmoreHandleClick );
+
+    // Tutor Specific
+    function loadAllTransDoc(){
+      let today = new Date(2100, 12, 31);// Set a big date
+
+      let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Transaction")
+          .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
+          // .where(TRANS_TYPE, "==", TRANS_TYPE_PAY)
+          .where(TRANS_STATUS, "==", true)
+          // .where(TRANS_DOC_STATUS, "==", TRANS_PAY_STATUS_PAID)
+          .orderBy(TRANS_DATE, 'desc')
+          .startAfter(latestInvoiceDoc || today)
+          .limit(25);
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        document.getElementById("card-load").style.display = "none";
+
+        if (( querySnapshot.docs.length== null || querySnapshot.docs.length == 0) && latestInvoiceDoc == null){
+          document.getElementById("noDataPlaceholder").style.display = 'initial';
+        }else{
+          document.getElementById("noDataPlaceholder").style.display = 'none';
+        }
+
+        // Session Storage data
+        let docsObj = [];
+
+        querySnapshot.forEach((doc) => {
+
+          docsObj.push(doc.data());
+          // console.log(doc.data())
+
+          if (doc.data()[TRANS_TYPE] == TRANS_TYPE_PAY && doc.data()[TRANS_DOC_STATUS] == TRANS_PAY_STATUS_NEW){
+            // Unpaid payslip
+          }else {
+            renderTransDoc(doc);
+          }
+
+
+        });
+
+        // Store all docs to sessionStorage. If loadmore is clicked, we concat the newly loaded and previous docs.
+        let allObjList = null;
+        // Set the fields
+        allObjList = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_TRANSACTION_ALL_DOCS_KEY));
+        if (allObjList == null ){
+          // console.log("First time loading the data");
+          sessionStorage.setItem(SESSION_STORAGE_TRANSACTION_ALL_DOCS_KEY, JSON.stringify(docsObj));
+          sessionStorage.setItem(SESSION_STORAGE_TRANSACTION_CURRENT_DOC_KEY, null);
+        }
+        else{
+          // console.log("Nth time loading the data");
+          allObjList = allObjList.concat(docsObj);
+          sessionStorage.setItem(SESSION_STORAGE_TRANSACTION_ALL_DOCS_KEY, JSON.stringify(allObjList));
+          sessionStorage.setItem(SESSION_STORAGE_TRANSACTION_CURRENT_DOC_KEY, null);
+        }
+
+        latestInvoiceDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+        // console.log(querySnapshot.docs.length)
+        // Handle Lesson Load more btn
+        if (querySnapshot.empty){
+          loadmore.removeEventListener('click', loadmoreHandleClick );
+        }
+        if (querySnapshot.docs.length == 25){
+          loadmore.style.visibility='visible';
+        }else{
+          loadmore.style.visibility='hidden';
+        }
+
+      });
+
+    };
+
+    function renderTransDoc(doc){
+    // <div class="col-md-12 card-student-item">
+    //   <div class="row">
+    //     <div class="col-md-11" style="padding: 0;">
+    //       <div class="row" style="margin: 0;">
+    //         <div class="col-md-2">
+    //           <p>12/2/2021</p>
+    //         </div>
+    //         <div class="col-md-2">
+    //           <p>INV-0293874728</p>
+    //         </div>
+    //         <div class="col-md-3">
+    //           <p></p>
+    //         </div>
+    //         <div class="col-md-2">
+    //           <p>Nur Aisha</p>
+    //         </div>
+    //         <div class="col-md-2">
+    //           <p>RM298321</p>
+    //         </div>
+    //         <div class="col-md-1">
+    //           <p class="card-student-status-label active">ACTIVE</p>
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div class="col-md-1">
+    //       <i class="far fa-edit"></i>
+    //       <a href="#" style="margin: 0; padding: 0.3em;" class="btn btn-sm btn-outline-danger btn-round" id="btnDelStudent" data-toggle="modal" data-target="#delStuModal" data-id="stuId" ><i class="material-icons" style="color: red;">remove</i></a>
+    //     </div>
+    //   </div>
+    // </div>
+
+      // Trans Date
+      let transDate_p = document.createElement('p');
+      transDate_p.textContent = doc.data()[TRANS_DATE].toDate().toLocaleDateString("en-GB");;
+      let transDate_div = document.createElement('div');
+      transDate_div.className = "col-md-1";
+      transDate_div.appendChild(transDate_p);
+
+      // Doc Number
+      let docNum_p = document.createElement('p');
+      docNum_p.textContent = doc.data()[TRANS_DOC_NUM];
+      let docNum_div = document.createElement('div');
+      docNum_div.className = "col-md-2";
+      docNum_div.appendChild(docNum_p);
+
+      // Description
+      let desc_p = document.createElement('p');
+      desc_p.textContent = doc.data()[TRANS_TITLE];
+      desc_p.setAttribute("style", "font-weight:400;")
+      let desc_div = document.createElement('div');
+      desc_div.className = "col-md-3";
+      desc_div.appendChild(desc_p);
+
+      // Client
+      let clientName = '';
+      if (ent_id === doc.data()[TRANS_SENDER_ID]){
+        clientName = doc.data()[TRANS_RECEIVER_NAME];
+      }else{
+        clientName = doc.data()[TRANS_SENDER_NAME];
+      }
+      let clientName_p = document.createElement('p');
+      clientName_p.textContent = clientName;
+      let clientName_div = document.createElement('div');
+      clientName_div.className = "col-md-3";
+      clientName_div.appendChild(clientName_p);
+
+      // Amount
+      let total_p = document.createElement('p');
+      total_p.textContent = 'RM'+ parseFloat(doc.data()[TRANS_TOTAL]).toFixed(2);
+      // Invoice
+      if (doc.data()[TRANS_TYPE] === TRANS_TYPE_INV){
+        // Receiving invoices
+        if (doc.data()[TRANS_SENDER_ID] == ent_id){
+          total_p.setAttribute('style', 'color: green;');
+        }
+        else{
+          total_p.setAttribute('style', 'color: red;');
+        }
+      }
+      else if (doc.data()[TRANS_TYPE] === TRANS_TYPE_PAY){
+        if (doc.data()[TRANS_SENDER_ID] == ent_id){
+          total_p.setAttribute('style', 'color: red;');
+        }
+        else{
+          total_p.setAttribute('style', 'color: green;');
+        }
+      }
+      else{
+        // total_p.setAttribute('style', 'color: red');
+
+      }
+
+      let total_div = document.createElement('div');
+      total_div.className = "col-md-2";
+      total_div.appendChild(total_p);
+
+
+      // Status
+      let status_p = document.createElement('p');
+      if (doc.data()[TRANS_TYPE] === TRANS_TYPE_INV){
+        if(doc.data()[TRANS_DOC_STATUS] === TRANS_INV_STATUS_DRAFT){
+          status_p.className = "card-student-status-label passive";
+          status_p.textContent = 'Draft';
+        }else if(doc.data()[TRANS_DOC_STATUS] === TRANS_INV_STATUS_NEW){
+          status_p.className = "card-student-status-label pending";
+          status_p.textContent = 'Unpaid';
+        }else if(doc.data()[TRANS_DOC_STATUS] === TRANS_INV_STATUS_PAID){
+          status_p.className = "card-student-status-label active";
+          status_p.textContent = 'Paid';
+        }else{
+          status_p.className = "card-student-status-label passive";
+          status_p.textContent = 'Unknown';
+        }
+      }
+      else if(doc.data()[TRANS_TYPE] === TRANS_TYPE_PAY){
+        if(doc.data()[TRANS_DOC_STATUS] === TRANS_PAY_STATUS_NEW){
+          status_p.className = "card-student-status-label pending";
+          status_p.textContent = 'New';
+        }else if(doc.data()[TRANS_DOC_STATUS] === TRANS_PAY_STATUS_PAID){
+          status_p.className = "card-student-status-label active";
+          status_p.textContent = 'Paid';
+        }else{
+          status_p.className = "card-student-status-label passive";
+          status_p.textContent = 'Payslip';
+        }
+      }
+      else{
+        status_p.className = "card-student-status-label passive";
+        status_p.textContent = 'Unknown';
+      }
+      let status_div = document.createElement('div');
+      status_div.className = "col-md-1 align-self-center";
+      status_div.appendChild(status_p);
+
+
+      // Student Detail
+      let detail_div = document.createElement('div');
+      detail_div.className = 'row';
+      detail_div.setAttribute("style","margin: 0;");
+      detail_div.appendChild(transDate_div);
+      detail_div.appendChild(clientName_div);
+      detail_div.appendChild(desc_div);
+      detail_div.appendChild(total_div);
+      detail_div.appendChild(docNum_div);
+      detail_div.appendChild(status_div);
+      let detail_top_div = document.createElement('div');
+      detail_top_div.className = "col-md-12";
+      detail_top_div.setAttribute("style"," padding: 12px 0px 12px 0px;");
+      detail_top_div.setAttribute("data-id", doc.data()[TRANS_ID]);
+      detail_top_div.appendChild(detail_div);
+
+      //Edit btn
+      // <span class="fa-stack"><i class="far fa-circle fa-stack-2x"></i><i class="fas fa-flag fa-stack-1x"></i></span>
+
+      // <span class="fa-stack" style="vertical-align: top; font-size: 73%; color: #2e74b6; cursor: pointer; margin-right: 0.5rem;" data-target="#recordPaymentModal" data-toggle="modal" data-employeecardid="wwwwww" data-employeecardname="aishas">
+      //   <i class="fas fa-circle fa-stack-2x"></i>
+      //   <i class="fas fa-pen fa-stack-1x fa-inverse"></i>
+      // </span>
+
+      // recordPaymentBtn_html = "<span class='fa-stack' style='vertical-align: top; font-size: 73%; color: #2e74b6; cursor: pointer; margin-right: 0.5rem;' data-target='#recordPaymentModal' data-toggle='modal' data-employeecardid='"+payslipData.tutorId+"' data-employeecardname='"+payslipData.name+"'><i class='fas fa-circle fa-stack-2x'></i><i class='fas fa-pen fa-stack-1x fa-inverse'></i></span>";
+
+      let blogsHtml_editbtn = '';
+      // blogsHtml_editbtn += "<span class='fa-stack'><i class='fas fa-pen-square fa-lg'></i></span>";
+      blogsHtml_editbtn += "<span class='fa-stack' style='vertical-align: middle; font-size: 73%; color: #2e74b6; cursor: pointer; margin-right: 0.5rem;'><i class='fas fa-circle fa-stack-2x'></i><i class='fas fa-pen fa-stack-1x fa-inverse'></i></span>";
+
+
+      let btn_edit = document.createElement('a');
+      btn_edit.innerHTML = blogsHtml_editbtn;
+      // btn_edit.className = "btn btn-outline-primary btn-round";
+      btn_edit.setAttribute("id","btnDelStudent");
+      btn_edit.setAttribute("href","javascript:;");
+      btn_edit.setAttribute("style","margin: 0; padding: 0.4em;");
+      btn_edit.setAttribute("data-toggle","modal");
+      btn_edit.setAttribute("data-target","#recordPaymentModal");
+      btn_edit.setAttribute("data-transid", doc.data()[TRANS_ID]);
+      btn_edit.setAttribute("data-payid", doc.data()[TRANS_DOC_ID]);
+      btn_edit.setAttribute("data-name", doc.data()[TRANS_RECEIVER_NAME]);
+      btn_edit.setAttribute("data-status", doc.data()[TRANS_DOC_STATUS]);
+
+
+      //Del btn
+      let blogsHtml_btn = '';
+      blogsHtml_btn += "<i class='material-icons' style='color: red;''>remove</i>";
+      let btn_a = document.createElement('a');
+      btn_a.innerHTML = blogsHtml_btn;
+      btn_a.className = "btn btn-sm btn-outline-danger btn-round";
+      btn_a.setAttribute("id","btnDelStudent");
+      btn_a.setAttribute("href","javascript:;");
+      btn_a.setAttribute("style","margin: 0; padding: 0.3em;");
+      btn_a.setAttribute("data-toggle","modal");
+      btn_a.setAttribute("data-target","#delStuModal");
+      // btn_a.setAttribute("data-id", doc.data().id);
+      // btn_a.setAttribute("data-studentname",  doc.data().childName);
+      let btn_div = document.createElement('div');
+      btn_div.className = "col-md-1 align-self-center";
+      // btn_div.appendChild(btn_edit);
+      // btn_div.appendChild(btn_a);
+
+      // Student Top
+      let card_div = document.createElement('div');
+      card_div.className = "row"
+      card_div.appendChild(detail_top_div);
+      // card_div.appendChild(btn_div);
+
+      // Card top
+      let card_top_div = document.createElement('div');
+      card_top_div.className = "col-md-12 card-student-item"
+      card_top_div.appendChild(card_div);
+
+      const card_all_students = document.getElementById("card-main");
+      card_all_students.appendChild(card_top_div);
+
+    }
+
+    // Copy a text based on element ID
+    function copyText(targetElemId){
+      /* Get the text field */
+      let copyText = document.getElementById(targetElemId);
+      console.log(copyText)
+      console.log(copyText.select())
+      /* Select the text field */
+      copyText.focus();
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+
+    }
+
+  </script>
+
+  <script>
+		$( document ).ready(function() {
+
+      // Class Announcement
+      // KEY, DATETIME, ID, JOB_STATUS and JOB_EXPLANATION var is global var used to simplify modal fire and hide.
+      var KEY = ""; // Extract info from data-* attributes
+      var DATETIME = ""; // Extract info from data-* attributes
+      var ID = ""; // Extract info from data-* attributes
+      var ANNOUNCEMENT = ""; // Extract info from data-* attributes
+
+      // Update Class Annoucement
+      $('#btnEditClassModalUpdate').on('click', function (e) {
+        var docData = {
+          [CLASS_ANNOUNCEMENT]: document.getElementById("modalClassAnnouncement").value,
+        }
+        // Set data
+        db.collection("Class")
+          .doc("v1")
+          .collection("Class")
+          .doc(ID)
+          .set(docData, {merge: true})
+          .then(() => {
+            window.location = './class.html';
+          })
+          .catch((error) => {
+              console.error("Error writing document: ", error);
+          });;
+
+			  $('#editClassModal').modal('hide');
+		  });
+
+      $('#editClassModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button/Components that triggered the modal
+        ID = button.data('id') // Extract info from data-* attributes
+        ANNOUNCEMENT = button.data('announcement') // Extract info from data-* attributes
+        // Load Desription
+        document.getElementById("modalClassAnnouncement").textContent = ANNOUNCEMENT;
+
+      });
+
+      // Clear key and fields in modal when modal dismiss
+      $('#editClassModal').on('hide.bs.modal', function (event) {
+        ID = "";
+        ANNOUNCEMENT = "";
+        document.getElementById("modalClassAnnouncement").textContent = "";
+      });
+
+			// Add New Course
+			$("#btnAddClass").click(function(){
+        window.location = "./add-class.html"
+
+        // if (current_accountStatus == DEACTIVATED_ACCOUNT_STATUS_KEY || current_accountStatus == SUSPENDED_ACCOUNT_STATUS_KEY){
+        //   func.showNotification('top','center', 'danger', 'error_outline', "Activate your account to add new courses." );
+        // }else if  (allCourseSize >= current_aTotalSubjectLimit){
+        //   func.showNotification('top','center', 'danger', 'error_outline', "You have reach maximum ("+current_aTotalSubjectLimit+") subjects. Upgrade to Pro now!" );
+        // }else if (current_preferedAreaList == null || current_preferedAreaList.length == 0){
+        //   func.showNotification('top','center', 'danger', 'error_outline', "Please fill in Update Information > Preferred Area");
+        // }
+        // else{
+        //   window.location = "./add-class.html"
+        // }
+			});
+
+		});
+
+  </script>
+
+  <!-- More functions -->
+  <script>
+	  function editClassFunction(elem){
+      // Get attribute and
+      if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CLASS_ALL_DOCS_KEY)) == null ){
+        console.log("Error: Impossible to reach this state");
+        // Because this func only trigger when there's active class loaded
+        return;
+      }else{
+
+        let classObj = null;
+        let allClassList = null;
+
+        // Set the fields
+        allClassList = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CLASS_ALL_DOCS_KEY));
+        // allClassList = classObj[SESSION_STORAGE_ALL_DOCS_KEY];
+        allClassList.forEach((item) => {
+          if (item.id === elem.getAttribute('data-id')){
+            sessionStorage.setItem(SESSION_STORAGE_CLASS_CURRENT_DOC_KEY, JSON.stringify(item));
+            sessionStorage.setItem(SESSION_STORAGE_CLASS_LOAD_KEY, true);
+          }
+          // window.location = './edit-class.html?id='+elem.getAttribute('data-id');
+          window.location = './edit-class.html?id=';
+
+          // console.log(item);
+        });
+
+      }
+		}
+
+  </script>
+
+</body>
+
+</html>
