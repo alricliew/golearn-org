@@ -1,0 +1,1715 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/report/>
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
+  <!-- Material Kit CSS -->
+  <link href="../../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Tutor Portal specific CSS -->
+  <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
+  <!-- GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="../../assets/js/firebase.js"></script>
+  <script>
+    const orgUrl = new URL(window.location.href).searchParams.get("url");
+    const orgEnt = new URL(window.location.href).searchParams.get("ent");
+    if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
+      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+  </script>
+  <!-- Screen Loading -->
+  <style>
+    @keyframes load {
+      50% {
+        transform: translateY(1.5em);
+      }
+    }
+    .loading {
+      /* margin: 4em auto; */
+      position: absolute;
+      /* width: 5em; */
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.137);
+
+    }
+    .loading > div, .loading:before, .loading:after {
+      animation: load 1.2s ease-in-out infinite;
+      background-color: rgb(211, 211, 211);
+      border-radius: 50%;
+      content: '';
+      height: 1em;
+      width: 1em;
+    }
+    .loading > div {
+      animation-delay: 0.2s;
+      left: 0;
+      position: absolute;
+    }
+    .loading:before {
+      left: -2em;
+      position: absolute;
+    }
+    .loading:after {
+      animation-delay: 0.4s;
+      left: 2em;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
+      <div class="logo">
+        <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav" style="margin-bottom: 50px;">
+          <li class="nav-item" perm="home">
+            <a class="nav-link" href="../" name="param-link">
+              <i class="far fa-chart-bar fa-fw nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item hidden active" perm="insight">
+            <a class="nav-link" href="../report/" name="param-link">
+              <i class="far fa-lightbulb fa-fw nav-icon"></i>
+              <p>Insight</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach">
+            <h4 class="nav-link" style="margin-left: 1rem;">Teaching</h4>
+          </li>
+          <li class="nav-item hidden" perm="teach-class">
+            <a class="nav-link" href="../class/" name="param-link">
+              <i class="fas fa-chalkboard fa-fw nav-icon"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+		  		<li class="nav-item hidden" perm="teach-student">
+            <a class="nav-link" href="../student/" name="param-link">
+              <i class="fas fa-user-graduate fa-fw nav-icon"></i>
+              <p>Students</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="teach-teacher">
+            <a class="nav-link" href="../teacher/" name="param-link">
+              <i class="fas fa-chalkboard-teacher fa-fw nav-icon"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin">
+            <h4 class="nav-link" style="margin-left: 1rem;">Financial</h4>
+          </li>
+          <li class="nav-item hidden" perm="fin-invoice">
+            <a class="nav-link" href="../invoice/" name="param-link">
+              <i class="fas fa-file-invoice-dollar fa-fw nav-icon"></i>
+              <p>Invoices</p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-payroll">
+            <a class="nav-link" href="../payroll/" name="param-link">
+              <i class="fas fa-hand-holding-usd fa-fw nav-icon"></i>
+              <p>Payroll <span style="visibility: hidden;">PRO</span></p>
+            </a>
+          </li>
+          <li class="nav-item hidden" perm="fin-transaction">
+            <a class="nav-link" href="../transaction/" name="param-link">
+              <i class="fas fa-exchange-alt fa-fw nav-icon"></i>
+              <p>Transactions</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Report</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <!-- Put empty placeholder here -->
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+                <!-- <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a> -->
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a> -->
+                </div>
+              </li>
+              <!-- your navbar here -->
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item hidden" href="../settings/" name="param-link" perm="settings">Update Information</a>
+                  <a class="dropdown-item hidden" href="../team/" name="param-link" perm="team">Team</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="../../">Back to Home</a>
+                  <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#signOutModal" onclick="signOutFunction()" id="btn-logout">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+      <!-- Loading Screen -->
+      <div class="loading" id="loadingScreen">
+        <div></div>
+      </div>
+
+      <!-- Sign-out modal -->
+      <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+
+          <div class="container-fluid" >
+
+            <div class="row">
+              <div class="dropdown">
+                <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin: auto 0.5rem 0 auto;">Select Financial Year</span>
+
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Select A Year
+                </button>
+                <div class="dropdown-menu" id="dropdownMenuYear" aria-labelledby="dropdownMenuButton" style="max-height: 400px; overflow-y: auto;">
+                  <!-- <a class="dropdown-item" href="#" onclick="loadData(2021)">2021</a>
+                  <a class="dropdown-item" href="#" onclick="loadData(2021)">2020</a>
+                  <a class="dropdown-item" href="#" onclick="loadData(2021)">2019</a> -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Revenue by Category -->
+            <div class="row">
+              <div class="col-lg-12 col-md-12">
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">Revenue by Category</h4>
+                    <p class="card-category">Revenue for all classes, uncategorized items, tax charged, and other earnings</p>
+                  </div>
+                  <div class="card-body table-responsive">
+                    <table class="table table-hover" id="tableCategory">
+                      <thead class="text-primary">
+                        <th>Name</th>
+                        <th>Jan</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
+                        <th>Apr</th>
+                        <th>May</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Aug</th>
+                        <th>Sep</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dec</th>
+                        <th style="font-weight: bold;">Total</th>
+                      </thead>
+                      <tbody>
+                        <!-- <tr class="td-cat-item">
+                          <td class="td-hidden" name="refid">fgsadqwgdfuiiud</td>
+                          <td name="name">Primary 1 Mathematics</td>
+                          <td>2038</td>
+                          <td>31</td>
+                          <td>23</td>
+                          <td>566</td>
+                          <td>56</td>
+                          <td>123</td>
+                          <td>655</td>
+                          <td>23</td>
+                          <td>zsda</td>
+                          <td>432</td>
+                          <td>2038</td>
+                          <td>78</td>
+                        </tr>
+                        <tr class="td-cat-item">
+                          <td class="td-hidden" name="refid">uncategorized</td>
+                          <td name="name">Uncategorized Items</td>
+                          <td>21</td>
+                          <td>32</td>
+                          <td>3</td>
+                          <td>54</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>34</td>
+                          <td>3</td>
+                          <td>245</td>
+                          <td>9</td>
+                          <td>0</td>
+                        </tr>
+                        <tr class="td-cat-item">
+                          <td class="td-hidden" name="refid">tax</td>
+                          <td name="name">Tax Charged</td>
+                          <td>32</td>
+                          <td>2</td>
+                          <td>12</td>
+                          <td>3</td>
+                          <td>2</td>
+                          <td>0</td>
+                          <td>21</td>
+                          <td>34</td>
+                          <td>3</td>
+                          <td>453</td>
+                          <td>32</td>
+                          <td>23</td>
+                        </tr>
+                        <tr class="td-cat-item">
+                          <td class="td-hidden" name="refid">other</td>
+                          <td name="other">Other Earnings</td>
+                          <td>342</td>
+                          <td>121</td>
+                          <td>123</td>
+                          <td>32</td>
+                          <td>21</td>
+                          <td>23</td>
+                          <td>43</td>
+                          <td>67</td>
+                          <td>33</td>
+                          <td>78</td>
+                          <td>98</td>
+                          <td>92</td>
+                        </tr> -->
+                        <tr class="td-cat-revenue" style="font-weight: bold; background-color: #fafafa;">
+                          <td class="td-hidden" name="refid"></td>
+                          <td >Monthly Revenue</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Revenue by Tag -->
+            <div class="row">
+              <div class="col-lg-12 col-md-12">
+                <div class="card">
+                  <div class="card-header card-header-warning">
+                    <h4 class="card-title">Revenue by Tag</h4>
+                    <p class="card-category">Revenue breakdown for all assigned tags</p>
+                  </div>
+                  <div class="card-body table-responsive">
+                    <table class="table table-hover" id="tableTag">
+                      <thead class="text-warning">
+                        <th>Name</th>
+                        <th>Jan</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
+                        <th>Apr</th>
+                        <th>May</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Aug</th>
+                        <th>Sep</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dec</th>
+                        <th style="font-weight: bold;">Total</th>
+                      </thead>
+                      <tbody>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- <div class="row">
+              <div class="col-lg-12 col-md-12">
+                <div class="card">
+                  <div class="card-header card-header-warning">
+                    <h4 class="card-title">Revenue by Tag</h4>
+                    <p class="card-category">Revenue for all classes, uncategorized items, tax charged, and other earnings</p>
+                  </div>
+                  <div class="card-body table-responsive">
+                    <table class="table table-hover" id="tableTag">
+                      <thead class="text-warning">
+                        <th>Name</th>
+                        <th>Jan</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
+                        <th>Apr</th>
+                        <th>May</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Aug</th>
+                        <th>Sep</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dec</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>sejarah</td>
+                          <td>2038</td>
+                          <td>31</td>
+                          <td>23</td>
+                          <td>566</td>
+                          <td>56</td>
+                          <td>123</td>
+                          <td>655</td>
+                          <td>23</td>
+                          <td>zsda</td>
+                          <td>432</td>
+                          <td>2038</td>
+                          <td>78</td>
+                        </tr>
+                        <tr>
+                          <td>matematics</td>
+                          <td>643</td>
+                          <td>234</td>
+                          <td>424</td>
+                          <td>65r4</td>
+                          <td>453</td>
+                          <td>234</td>
+                          <td>123</td>
+                          <td>453</td>
+                          <td>152</td>
+                          <td>2315</td>
+                          <td>123</td>
+                          <td>532</td>
+                        </tr>
+                        <tr>
+                          <td>selangor</td>
+                          <td>21</td>
+                          <td>32</td>
+                          <td>3</td>
+                          <td>54</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>34</td>
+                          <td>3</td>
+                          <td>245</td>
+                          <td>9</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>penang</td>
+                          <td>32</td>
+                          <td>2</td>
+                          <td>12</td>
+                          <td>3</td>
+                          <td>2</td>
+                          <td>0</td>
+                          <td>21</td>
+                          <td>34</td>
+                          <td>3</td>
+                          <td>453</td>
+                          <td>32</td>
+                          <td>23</td>
+                        </tr>
+                        <tr>
+                          <td>standard1</td>
+                          <td>342</td>
+                          <td>121</td>
+                          <td>123</td>
+                          <td>32</td>
+                          <td>21</td>
+                          <td>23</td>
+                          <td>43</td>
+                          <td>67</td>
+                          <td>33</td>
+                          <td>78</td>
+                          <td>98</td>
+                          <td>92</td>
+                        </tr>
+                        <tr>
+                          <td>standard2</td>
+                          <td>342</td>
+                          <td>121</td>
+                          <td>123</td>
+                          <td>32</td>
+                          <td>21</td>
+                          <td>23</td>
+                          <td>43</td>
+                          <td>67</td>
+                          <td>33</td>
+                          <td>78</td>
+                          <td>98</td>
+                          <td>92</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div> -->
+
+
+            <!-- <div class="row">
+              <div class="col-md-4">
+                <div class="card card-chart">
+                  <div class="card-header card-header-success">
+                    <div class="ct-chart" id="dailySalesChart"></div>
+                    <canvas id="monthlyRevenueChart" width="400" height="400"></canvas>
+
+
+                  </div>
+                  <div class="card-body">
+                    <h4 class="card-title">Monthly Revenue</h4>
+                    <p class="card-category" id="monthRevenueText">
+                      <span class="text-success" id="monthRevenueText"><i class="fa fa-long-arrow-down"></i> 0% </span> increase in this month sales.</p>
+                  </div>
+                  <div class="card-footer">
+                    <div class="stats align-self-center" id="monthRevenueLastUpdate">
+                      <i class="material-icons">access_time</i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card card-chart">
+                  <div class="card-header card-header-warning">
+                    <div class="ct-chart" id="websiteViewsChart"></div>
+                  </div>
+                  <div class="card-body">
+                    <h4 class="card-title">Email Subscriptions</h4>
+                    <p class="card-category">Last Campaign Performance</p>
+                  </div>
+                  <div class="card-footer">
+                    <div class="stats">
+                      <i class="material-icons">access_time</i> campaign sent 2 days ago
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card card-chart">
+                  <div class="card-header card-header-danger">
+                    <div class="ct-chart" id="completedTasksChart"></div>
+                  </div>
+                  <div class="card-body">
+                    <h4 class="card-title">Completed Tasks</h4>
+                    <p class="card-category">Last Campaign Performance</p>
+                  </div>
+                  <div class="card-footer">
+                    <div class="stats">
+                      <i class="material-icons">access_time</i> campaign sent 2 days ago
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+
+          </div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <nav class="float-left">
+            <ul>
+              <!-- <li>
+              <a href="https://golearn.com.my/join-us" target="_blank">
+                Visit GoLearn Tutor
+              </a>
+              </li> -->
+            </ul>
+            </nav>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../../assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../../assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
+  <!-- Chartist JS -->
+  <!-- <script src="../../assets/js/plugins/chartist.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>  -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+  <!-- Common constants -->
+  <script src="../../assets/js/common.js" type="text/javascript"></script>
+  <script src="../../assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Js -->
+  <script src="../../assets/js/org-core.js" type="text/javascript"></script>
+
+	<script>
+
+    // Course-specific var
+    var allCourseSize;
+
+    // Store last document - Used for payroll
+    var latestInvoiceDoc = null;
+
+    // Check if user logged on
+    AuthCheck();
+
+    // Page Specific Initialization
+    function loadPageInitFunc(){
+
+      let fullYear = new Date().getFullYear();
+
+      initDropdownMenu(fullYear);
+
+      loadData(fullYear)
+    }
+
+    // Innitialized years in dropdownmenu
+    function initDropdownMenu(fullYear){
+      // <a class="dropdown-item" href="#" onclick="loadData(2021)">2021</a>
+      const startYear = 2019;
+
+      for (i = startYear; i<= fullYear; i++){
+
+        let aBtn = document.createElement("a");
+        aBtn.className = "dropdown-item";
+        aBtn.textContent = i;
+        aBtn.setAttribute('href', '#');
+        aBtn.setAttribute('onclick', 'loadData('+i+')');
+
+        const dropdownMenuYear = document.getElementById("dropdownMenuYear");
+        dropdownMenuYear.insertBefore(aBtn,dropdownMenuYear.children[0]);
+      }
+
+    }
+
+
+    function loadData(fullYear){
+      document.getElementById("dropdownMenuButton").textContent = fullYear;
+
+      // Load Category Revenue
+      loadAllCatRevenue(fullYear);
+
+      // Load Tag Revenue
+      loadAllTagRevenue(fullYear);
+
+    }
+
+    // Load all organization level revenue
+    function loadAllOrgRevenue(){
+      let fullYear = new Date().getFullYear();
+      let month = new Date().getMonth();
+      console.log(month)
+
+      let docRef = db.collection("Report")
+          .doc("v1")
+          .collection("Revenue")
+          .where(REV_ADMIN_ID, "==", tutorId)
+          .where(REV_TYPE, "==", REV_TYPE_ORG)
+          .where(REV_MONTH, "==", fullYear+"99")
+          .where(REV_STATUS, "==", true)
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+
+          console.log("Empty ");
+
+        }
+        else {
+          querySnapshot.forEach((doc) => {
+            // console.log("Revenue Report found");
+            // console.log(doc.data());
+
+            let monthRevenueList = doc.data()[REV_DOC_TOTAL_ARR];
+
+            // monthRevenueList.forEach((item) =>{
+              // addData(monthlyRevenueChart, '', item);
+            // });
+            addData(monthlyRevenueChart, '', monthRevenueList);
+
+            let thisMonthRevenue = 0;
+            let lastMonthRevenue = 0;
+            let revenueGrowth = 0;
+            // console.log('month: '+month);
+            // console.log(monthRevenueList[month])
+            // console.log(monthRevenueList[month-1])
+            if (month > 0 ){
+              thisMonthRevenue = monthRevenueList[month];
+              lastMonthRevenue = monthRevenueList[month - 1];
+              revenueGrowth = (thisMonthRevenue -  lastMonthRevenue) / thisMonthRevenue * 100;
+            }else{
+              revenueGrowth = 0;
+            }
+            // console.log(revenueGrowth);
+
+            if (revenueGrowth>= 0){
+              document.getElementById('monthRevenueText').innerHTML = "<span class='text-success'><i class='fa fa-long-arrow-up'></i> "+parseFloat(revenueGrowth.toFixed(1))+"%  </span> increase in this month sales.";
+            }else if(revenueGrowth < 0) {
+              document.getElementById('monthRevenueText').innerHTML = "<span class='text-danger'><i class='fa fa-long-arrow-down'></i> "+parseFloat(revenueGrowth.toFixed(1))+"%  </span> decrease in this month sales.";
+            }else {
+              // revenueGrowth = nan or other unexpected value
+              document.getElementById('monthRevenueText').innerHTML = "<span class='text-success'><i class='fa fa-long-arrow-up'></i> 0%  </span> increase in this month sales.";
+            }
+
+            document.getElementById('monthRevenueLastUpdate').innerHTML = "<i class='material-icons'>access_time</i> updated "+doc.data()[REV_DATE_EDIT].toDate().toLocaleDateString("en-GB");;
+
+          });
+        }
+
+      });
+
+    }
+
+    // Load all category revenue
+    function loadAllCatRevenue(fullYear){
+      // let fullYear = new Date().getFullYear();
+
+      let startMonth = parseInt(""+fullYear+"00");
+      let endMonth = parseInt(""+fullYear+"12");
+      let docRef = db.collection("Report")
+          .doc("v1")
+          .collection("Revenue")
+          .where(REV_ADMIN_ID, "==", tutorId)
+          .where(REV_TYPE, "==", REV_TYPE_CAT)
+          .where(REV_MONTH, ">=", startMonth)
+          .where(REV_MONTH, "<=", endMonth)
+          .where(REV_STATUS, "==", true)
+          // .limit(1);
+
+
+      let monthlyRevenue = [];
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        clearCatTable();
+
+        if(querySnapshot.empty) {
+
+          console.log("Empty ");
+          renderEmptyCategory();
+
+          // Empty revenue
+          monthlyRevenue = [0,0,0,0,0,0,0,0,0,0,0,0,];
+        }
+        else {
+
+          // Render the monthly subtotal row first.
+          renderMonthlyRevenueCategory()
+
+          querySnapshot.forEach((doc) => {
+            // console.log("Revenue Report found");
+            // console.log(doc.data());
+
+            let data = {
+              "name": doc.data()[REV_NAME],
+              "refId": doc.data()[REV_REF_ID],
+              "month": doc.data()[REV_MONTH],
+              "total": isInt(doc.data()[REV_TOTAL]) ? doc.data()[REV_TOTAL]:  parseFloat(doc.data()[REV_TOTAL]).toFixed(2),
+            }
+            // Get the refId of a item
+            let checkTableCategoryInit = document.getElementById("tableCategory").querySelectorAll("td[name=refid]");
+
+            if (checkTableCategoryInit != null){
+
+              // Check if row  with specific refId exist.
+              let checkRow = false;
+              checkTableCategoryInit.forEach((item) => {
+
+                if (item.textContent === doc.data()[REV_REF_ID]){
+                  // console.log("Update the row: "+ doc.data()[REV_REF_ID])
+                  checkRow = true;
+                }
+
+              });
+
+              // console.log(checkTableCategoryInit.textContent)
+
+              // If a row existed, update, else create a new row.
+              if (checkRow){
+                // Update the row
+                // console.log("Update the row: "+ doc.data()[REV_REF_ID]);
+                updateCategory(data);
+
+              }else{
+                // create a new row
+                // console.log("Create a new row: "+ doc.data()[REV_REF_ID])
+
+                renderNewCategory(data);
+
+                updateCategory(data);
+
+              }
+
+
+            }
+            else {
+              // console.log("Table Category is empty. Create a new row: "+ doc.data()[REV_REF_ID])
+              // Table Category is empty and not inited
+              // Create a new row
+              renderNewCategory(data);
+
+              updateCategory(data);
+
+            }
+
+            // Update the montly revenue
+            monthlyRevenue =  updateCategoryTotal();
+
+          });
+
+
+        }
+
+        document.getElementById("loadingScreen").style.display = "none";
+
+      })
+      // Update to Org Revenue
+      .then(() => {
+        // Save the monthly revenue report.
+        // console.log("monthlyRevenue")
+        // console.log(monthlyRevenue)
+
+
+        if (monthlyRevenue.length == null || monthlyRevenue.reduce((a, b) => a + b, 0) == 0 || monthlyRevenue.length == 0){
+          // If no monthly revenue, do nothing
+        }else {
+          updateOrgRevenue(monthlyRevenue, fullYear);
+        }
+
+      });
+
+    }
+
+    // Render and Init a new category
+    function renderNewCategory(data){
+      // Data format:
+      // data: {
+      //   "name": doc.data()[REV_NAME],
+      //   "refId": doc.data()[REV_REF_ID],
+      //   "total": doc.data()[REV_TOTAL],
+      // }
+
+      // <tr class="td-cat-item">
+      //   <td class="td-hidden" name="refid">fgsadqwgdfuiiud</td>
+      //   <td name="name">Primary 1 Mathematics</td>
+      //   <td>2038</td>
+      //   <td>31</td>
+      //   <td>23</td>
+
+      let tdRefId = document.createElement('td');
+      tdRefId.className = "td-hidden";
+      tdRefId.setAttribute('name', 'refid');
+      tdRefId.textContent = data.refId;
+
+      let tdName = document.createElement('td');
+      tdName.setAttribute('name', 'name');
+      if (data.refId == 'uncategorized')
+        tdName.textContent = "Uncategorized";
+      // else if (data.refId == 'other')
+      //   tdName.textContent = "Other";
+      else
+        tdName.textContent = data.name;
+
+      let td1 = document.createElement('td');
+      let td2 = document.createElement('td');
+      let td3 = document.createElement('td');
+      let td4 = document.createElement('td');
+      let td5 = document.createElement('td');
+      let td6 = document.createElement('td');
+      let td7 = document.createElement('td');
+      let td8 = document.createElement('td');
+      let td9 = document.createElement('td');
+      let td10 = document.createElement('td');
+      let td11 = document.createElement('td');
+      let td12 = document.createElement('td');
+
+      let tdTotal = document.createElement('td');
+      tdTotal.setAttribute("style", "font-weight: bold; background-color: #fafafa;");
+
+      td1.textContent = 0;
+      td2.textContent = 0;
+      td3.textContent = 0;
+      td4.textContent = 0;
+      td5.textContent = 0;
+      td6.textContent = 0;
+      td7.textContent = 0;
+      td8.textContent = 0;
+      td9.textContent = 0;
+      td10.textContent = 0;
+      td11.textContent = 0;
+      td12.textContent = 0;
+      tdTotal.textContent = 0;
+
+      let tr = document.createElement('tr');
+      tr.className = "td-cat-item";
+      tr.appendChild(tdRefId);
+      tr.appendChild(tdName);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+      tr.appendChild(td5);
+      tr.appendChild(td6);
+      tr.appendChild(td7);
+      tr.appendChild(td8);
+      tr.appendChild(td9);
+      tr.appendChild(td10);
+      tr.appendChild(td11);
+      tr.appendChild(td12);
+      tr.appendChild(tdTotal);
+
+      let categoryRow = document.getElementById("tableCategory").querySelector("tbody").querySelectorAll("tr").length;
+
+      const tableCategory = document.getElementById("tableCategory").querySelector("tbody");
+
+      if (data.refId == 'tax' ||  data.refId == "other" ||  data.refId == "uncategorized")
+      // Insert before monthly total
+        tableCategory.insertBefore(tr, tableCategory.children[categoryRow-1])
+      else
+        tableCategory.insertBefore(tr, tableCategory.children[0])
+    }
+
+    // Render and empty view
+    function renderEmptyCategory(){
+
+      let tdEmpty = document.createElement('td');
+      let td1 = document.createElement('td');
+      let td2 = document.createElement('td');
+      let td3 = document.createElement('td');
+      let td4 = document.createElement('td');
+      let td5 = document.createElement('td');
+      let td6 = document.createElement('td');
+      let td7 = document.createElement('td');
+      let td8 = document.createElement('td');
+      let td9 = document.createElement('td');
+      let td10 = document.createElement('td');
+      let td11 = document.createElement('td');
+      let td12 = document.createElement('td');
+
+      tdEmpty.textContent = "No data"
+
+      let tr = document.createElement('tr');
+      tr.appendChild(tdEmpty);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+      tr.appendChild(td5);
+      tr.appendChild(td6);
+      tr.appendChild(td7);
+      tr.appendChild(td8);
+      tr.appendChild(td9);
+      tr.appendChild(td10);
+      tr.appendChild(td11);
+      tr.appendChild(td12);
+
+      const tableCategory = document.getElementById("tableCategory").querySelector("tbody");
+      tableCategory.insertBefore(tr, tableCategory.children[0])
+    }
+
+     // Render montly revenue
+    function renderMonthlyRevenueCategory(){
+
+      let tdRefId = document.createElement('td');
+      tdRefId.className = "td-hidden"
+      let tdName = document.createElement('td');
+      tdName.textContent = "Monthly Revenue"
+      let td1 = document.createElement('td');
+      let td2 = document.createElement('td');
+      let td3 = document.createElement('td');
+      let td4 = document.createElement('td');
+      let td5 = document.createElement('td');
+      let td6 = document.createElement('td');
+      let td7 = document.createElement('td');
+      let td8 = document.createElement('td');
+      let td9 = document.createElement('td');
+      let td10 = document.createElement('td');
+      let td11 = document.createElement('td');
+      let td12 = document.createElement('td');
+
+      td1.textContent = 0;
+      td2.textContent = 0;
+      td3.textContent = 0;
+      td4.textContent = 0;
+      td5.textContent = 0;
+      td6.textContent = 0;
+      td7.textContent = 0;
+      td8.textContent = 0;
+      td9.textContent = 0;
+      td10.textContent = 0;
+      td11.textContent = 0;
+      td12.textContent = 0;
+
+      let tr = document.createElement('tr');
+      tr.className = "td-cat-revenue";
+      tr.setAttribute("style", "font-weight: bold; background-color: #fafafa;");
+      tr.appendChild(tdRefId);
+      tr.appendChild(tdName);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+      tr.appendChild(td5);
+      tr.appendChild(td6);
+      tr.appendChild(td7);
+      tr.appendChild(td8);
+      tr.appendChild(td9);
+      tr.appendChild(td10);
+      tr.appendChild(td11);
+      tr.appendChild(td12);
+
+      const tableCategory = document.getElementById("tableCategory").querySelector("tbody");
+      tableCategory.appendChild(tr)
+    }
+
+    // Update category data based on month
+    function updateCategory(data){
+
+      let checkTableCategoryInit = document.getElementById("tableCategory").querySelectorAll("td[name=refid]");
+
+      checkTableCategoryInit.forEach((item) => {
+
+        if (item.textContent === data.refId){
+
+          let monthTxt = data.month+"";
+          let monthNum = parseInt(monthTxt.substring(4, 6));
+          // console.log(monthTxt)
+          // console.log(monthNum)
+
+          // Month Num = 1 -12
+          // + 2 to include the first hidden td for refId & second td for name
+          let tdItemIndex = monthNum+2;
+          let tdItem = item.parentNode.querySelectorAll("td")[tdItemIndex - 1];
+          // console.log(item.parentNode.querySelectorAll("td"))
+          // console.log(tdItem)
+          tdItem.textContent = data.total;
+
+          return;
+        }
+
+      });
+    }
+
+    // Update category total
+    function updateCategoryTotal(){
+
+      let monthlyRevenue = [];
+
+      // let categoryItemTr = document.getElementById("tableCategory").querySelectorAll("tr[class=td-cat-item]");
+      let categoryItemTrLength = document.getElementById("tableCategory").querySelectorAll("tr[class=td-cat-item]").length;
+
+      // let categoryTotalTr = document.getElementById("tableCategory").querySelector("tr[class=td-cat-revenue]");
+
+      let tableCategory = document.getElementById("tableCategory");
+
+      // Calculate Monthly Revenue
+      // Item start from Row 1 cells 2 (jan) -> Row n cells 14(dec)
+      // Loop through j (col / month) started with 2 (1st col = td-hidden for refId, 2nd col = name)
+      for (let i = 0; i < 12; i++){
+        let k = i + 2;
+        let monthSum = 0;
+        // Loop through i (row) started with 1
+        for (let j = 1; j <= categoryItemTrLength; j++){
+
+
+          // console.log(tableCategory.rows[j].cells[k].innerHTML)
+          monthSum = monthSum + parseFloat(tableCategory.rows[j].cells[k].innerHTML);
+
+
+        }
+        // Update monthly revenue
+        // console.log(monthSum)
+        // console.log(tableCategory.rows[categoryItemTrLength+1].cells[k].innerHTML)
+        tableCategory.rows[categoryItemTrLength+1].cells[k].innerHTML = ""+ (monthSum == 0 ? 0 : parseFloat(monthSum).toFixed(2));
+
+        monthlyRevenue.push(monthSum)
+      }
+
+      // Calculate Category Revenue
+      // Loop through i (row) started with 1
+      for (let i = 1; i <= categoryItemTrLength; i++){
+
+        let rowSum = 0;
+
+        // Loop through j (col / month) started with 2 (1st col = td-hidden for refId, 2nd col = name)
+        for (let j = 0; j < 12; j++){
+          let k = j + 2;
+
+          // console.log(tableCategory.rows[j].cells[k].innerHTML)
+          rowSum = rowSum + parseFloat(tableCategory.rows[i].cells[k].innerHTML);
+
+        }
+        // Update category total revenue
+        // console.log(rowSum)
+        // console.log(tableCategory.rows[i].cells[14].innerHTML)
+        // cells 14 -> total
+        tableCategory.rows[i].cells[14].innerHTML = ""+ (rowSum == 0 ? 0 : parseFloat(rowSum).toFixed(2));
+      }
+
+      return monthlyRevenue;
+
+    }
+
+    // Remove all item
+    function clearCatTable(){
+      // let categoryItemList = document.getElementById("tableCategory").querySelectorAll(".td-cat-item");
+
+      // categoryItemList.forEach((row) => {
+      //   row.remove();
+
+      // });
+
+      // // set 0 to all revenue
+      // let categoryTotal = document.getElementById("tableCategory").querySelector("tr[class=td-cat-revenue]");
+
+      // categoryTotal.remove();
+      // let categoryTotalList = categoryTotal.querySelectorAll("td");
+
+      // categoryTotalList.forEach((item, index) => {
+
+      //   if (index == 0 || index == 1){
+      //     return;
+      //   }else{
+      //     item.textContent = 0;
+      //   }
+      // });
+
+      let tbodyCategory = document.getElementById("tableCategory").querySelector("tbody");
+
+      let tbodyTrList = tbodyCategory.querySelectorAll("tr");
+      tbodyTrList.forEach((item, index) => {
+        item.remove();
+      })
+
+    }
+
+    // Update the Organization annual revenue
+    function updateOrgRevenue(monthlyRevenue, fullYear){
+
+      // Check if the organization revenue doc existed.
+
+      let startMonth = parseInt(""+fullYear+"00");
+      let endMonth = parseInt(""+fullYear+"12");
+      let docRef = db.collection("Report")
+        .doc("v1")
+        .collection("Revenue")
+        .where(REV_ADMIN_ID, "==", tutorId)
+        .where(REV_TYPE, "==", REV_TYPE_ORG)
+        .where(REV_MONTH, "==", fullYear+"99")
+        .where(REV_STATUS, "==", true)
+        // .limit(1)
+
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+          console.log("Empty. create new doc ");
+          let orgRevDocRef = db.collection("Report")
+            .doc("v1")
+            .collection("Revenue")
+            .doc();
+
+          let annualTotal = monthlyRevenue.reduce((a, b) => a + b, 0);
+
+          orgRevData ={
+            [REV_ID]: orgRevDocRef.id,
+            [REV_ADMIN_ID]: tutorId,
+            [REV_NAME]: fullYear+' Annual Revenue',
+            [REV_REF_ID]: '',
+            [REV_TYPE]: REV_TYPE_ORG,
+            [REV_MONTH]: fullYear+"99",
+            [REV_TOTAL]: annualTotal,
+            [REV_DOC_ID_ARR]: MyMonthAbr,
+            [REV_DOC_TOTAL_ARR]: monthlyRevenue,
+            [REV_DATE_EDIT]: new Date(),
+            [REV_STATUS]: true,
+          }
+
+          // console.log(orgRevData)
+          orgRevDocRef.set(orgRevData, { merge: true });
+
+        }
+        else {
+          // console.log("Data found Update: ");
+
+          // For some reasons, there are more than 1 similar org revenue doc, perform a full sanity check
+          if (querySnapshot.docs.length > 1){
+            console.log("More than 1 org revenue docs found. Perform a full sanity check");
+            // Remove all revenue doc and reload the page to trigger the creation again.
+            let orgRevenueIdArr = []
+            querySnapshot.forEach((doc) => {
+              orgRevenueIdArr.push(doc.id);
+            });
+
+            sanityCheckOrgRevenue(orgRevenueIdArr);
+
+          }
+          else {
+            // Update org revenue
+            querySnapshot.forEach((doc) => {
+
+              let orgRevDocRef = db.collection("Report")
+                .doc("v1")
+                .collection("Revenue")
+                .doc(doc.data()[REV_ID]);
+
+              let annualTotal = monthlyRevenue.reduce((a, b) => a + b, 0);
+
+              orgRevData ={
+                // [REV_ID]: orgRevDocRef.id,
+                // [REV_ADMIN_ID]: tutorId,
+                // [REV_NAME]: fullYear+' Annual Revenue',
+                // [REV_REF_ID]: '',
+                // [REV_TYPE]: REV_TYPE_ORG,
+                // [REV_MONTH]: fullYear+"99",
+                [REV_TOTAL]: annualTotal,
+                // [REV_DOC_ID_ARR]: MyMonthAbr,
+                [REV_DOC_TOTAL_ARR]: monthlyRevenue,
+                [REV_DATE_EDIT]: new Date(),
+                // [REV_STATUS]: true,
+              }
+
+              // console.log(orgRevData)
+              orgRevDocRef.set(orgRevData, { merge: true });
+
+            });
+
+
+          }
+
+          // querySnapshot.forEach((doc) => {
+
+          //   console.log(doc.data());
+
+          //   let orgRevDocRef = db.collection("Report")
+          //     .doc("v1")
+          //     .collection("Revenue")
+          //     .doc(doc.data()[REV_ID]);
+
+          //   let annualTotal = monthlyRevenue.reduce((a, b) => a + b, 0);
+
+          //   orgRevData ={
+          //     // [REV_ID]: orgRevDocRef.id,
+          //     // [REV_ADMIN_ID]: tutorId,
+          //     // [REV_NAME]: fullYear+' Annual Revenue',
+          //     // [REV_REF_ID]: '',
+          //     // [REV_TYPE]: REV_TYPE_ORG,
+          //     // [REV_MONTH]: fullYear+"99",
+          //     [REV_TOTAL]: annualTotal,
+          //     // [REV_DOC_ID_ARR]: MyMonthAbr,
+          //     [REV_DOC_TOTAL_ARR]: monthlyRevenue,
+          //     [REV_DATE_EDIT]: new Date(),
+          //     // [REV_STATUS]: true,
+          //   }
+
+          //   // console.log(orgRevData)
+          //   orgRevDocRef.set(orgRevData, { merge: true });
+
+          // });
+
+        }
+
+
+      });
+
+    }
+
+    // Run sanity check on revenue Org
+    function sanityCheckOrgRevenue(orgRevenueIdArr){
+
+      console.log(orgRevenueIdArr)
+
+      var batch = db.batch();
+
+      orgRevenueIdArr.forEach((id) => {
+        let docRef = db.collection("Report")
+          .doc("v1")
+          .collection("Revenue")
+          .doc(id)
+        batch.delete(docRef);
+
+      });
+
+      batch.commit().then(() =>{
+        window.location.reload();
+      });
+
+    }
+
+    // Load all tag revenue
+    function loadAllTagRevenue(fullYear){
+      // let fullYear = new Date().getFullYear();
+      // console.log(fullYear)
+
+      let startMonth = parseInt(""+fullYear+"00");
+      let endMonth = parseInt(""+fullYear+"12");
+      let docRef = db.collection("Report")
+          .doc("v1")
+          .collection("Revenue")
+          .where(REV_ADMIN_ID, "==", tutorId)
+          .where(REV_TYPE, "==", REV_TYPE_TAG)
+          .where(REV_MONTH, ">=", startMonth)
+          .where(REV_MONTH, "<=", endMonth)
+          .where(REV_STATUS, "==", true)
+          // .limit(1);
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        clearTagTable();
+
+        if(querySnapshot.empty) {
+          // console.log("Empty ");
+          renderEmptyTag();
+        }
+        else {
+
+          // Convert querrysnapshot into normal json array
+          let querySnapshotArr = [];
+          querySnapshot.forEach((doc) => {
+            querySnapshotArr.push(doc.data())
+
+          });
+          // console.log("Original Array")
+          // console.log(querySnapshotArr)
+          // Order the data in asc order based on REV_NAME field
+          querySnapshotArr.sort(function(a, b) {
+            return a[REV_NAME] > b[REV_NAME] ? 1 : -1;
+          });
+          // console.log("After ")
+          // console.log(querySnapshotArr)
+
+          querySnapshotArr.forEach((doc) => {
+            // console.log("Tag Report found");
+            // console.log(doc.data());
+
+            let data = {
+              "name": doc[REV_NAME],
+              "refId": doc[REV_REF_ID],
+              "month": doc[REV_MONTH],
+              "total": isInt(doc[REV_TOTAL]) ? doc[REV_TOTAL]:  parseFloat(doc[REV_TOTAL]).toFixed(2),
+            }
+            // Get the refId of a item
+            let checkTableCategoryInit = document.getElementById("tableTag").querySelectorAll("td[name=refid]");
+
+            if (checkTableCategoryInit != null){
+
+              // Check if row  with specific refId exist.
+              let checkRow = false;
+              checkTableCategoryInit.forEach((item) => {
+
+                if (item.textContent === doc[REV_REF_ID]){
+                  // console.log("Update the row: "+ doc.data()[REV_REF_ID])
+                  checkRow = true;
+                }
+
+              });
+
+              // console.log(checkTableCategoryInit.textContent)
+
+              // If a row existed, update, else create a new row.
+              if (checkRow){
+                // Update the row
+                // console.log("Update the row: "+ doc.data()[REV_REF_ID]);
+
+                updateTag(data);
+
+              }else{
+                // create a new row
+                // console.log("Create a new row: "+ doc.data()[REV_REF_ID])
+
+                renderNewTag(data);
+
+                updateTag(data);
+
+              }
+
+
+            }
+            else {
+              console.log("Table Category is empty. Create a new row: "+ doc[REV_REF_ID])
+              // Table Category is empty and not inited
+              // Create a new row
+              renderNewTag(data);
+
+              updateTag(data);
+
+            }
+
+            updateTagTotal();
+
+          });
+        }
+
+      });
+
+    }
+
+    // Render and Init a new tag
+    function renderNewTag(data){
+      // Data format:
+      // data: {
+      //   "name": doc.data()[REV_NAME],
+      //   "refId": doc.data()[REV_REF_ID],
+      //   "total": doc.data()[REV_TOTAL],
+      // }
+
+      // <tr class="td-cat-item">
+      //   <td class="td-hidden" name="refid">fgsadqwgdfuiiud</td>
+      //   <td name="name">Primary 1 Mathematics</td>
+      //   <td>2038</td>
+      //   <td>31</td>
+      //   <td>23</td>
+
+      let tdRefId = document.createElement('td');
+      tdRefId.className = "td-hidden";
+      tdRefId.setAttribute('name', 'refid');
+      tdRefId.textContent = data.refId;
+
+      let tdName = document.createElement('td');
+      tdName.setAttribute('name', 'name');
+      tdName.textContent = data.name;
+      // if (data.refId == 'uncategorized')
+      //   tdName.textContent = "Uncategorized";
+      // // else if (data.refId == 'other')
+      // //   tdName.textContent = "Other";
+      // else
+      //   tdName.textContent = data.name;
+
+      let td1 = document.createElement('td');
+      let td2 = document.createElement('td');
+      let td3 = document.createElement('td');
+      let td4 = document.createElement('td');
+      let td5 = document.createElement('td');
+      let td6 = document.createElement('td');
+      let td7 = document.createElement('td');
+      let td8 = document.createElement('td');
+      let td9 = document.createElement('td');
+      let td10 = document.createElement('td');
+      let td11 = document.createElement('td');
+      let td12 = document.createElement('td');
+
+      let tdTotal = document.createElement('td');
+      tdTotal.setAttribute("style", "font-weight: bold; background-color: #fafafa;");
+
+      td1.textContent = 0;
+      td2.textContent = 0;
+      td3.textContent = 0;
+      td4.textContent = 0;
+      td5.textContent = 0;
+      td6.textContent = 0;
+      td7.textContent = 0;
+      td8.textContent = 0;
+      td9.textContent = 0;
+      td10.textContent = 0;
+      td11.textContent = 0;
+      td12.textContent = 0;
+      tdTotal.textContent = 0;
+
+      let tr = document.createElement('tr');
+      tr.className = "td-tag-item"
+      tr.appendChild(tdRefId);
+      tr.appendChild(tdName);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+      tr.appendChild(td5);
+      tr.appendChild(td6);
+      tr.appendChild(td7);
+      tr.appendChild(td8);
+      tr.appendChild(td9);
+      tr.appendChild(td10);
+      tr.appendChild(td11);
+      tr.appendChild(td12);
+      tr.appendChild(tdTotal);
+
+      let tagRow = document.getElementById("tableTag").querySelector("tbody").querySelectorAll("tr").length;
+
+      const tableTag = document.getElementById("tableTag").querySelector("tbody");
+      tableTag.appendChild(tr);
+
+
+      // if (data.refId == 'tax' ||  data.refId == "other" ||  data.refId == "uncategorized")
+      // // Insert before monthly total
+      // tableTag.insertBefore(tr, tableTag.children[tagRow-1])
+      // else
+      // tableTag.insertBefore(tr, tableTag.children[0])
+    }
+
+    // Render and empty view
+    function renderEmptyTag(){
+
+      let tdEmpty = document.createElement('td');
+      let td1 = document.createElement('td');
+      let td2 = document.createElement('td');
+      let td3 = document.createElement('td');
+      let td4 = document.createElement('td');
+      let td5 = document.createElement('td');
+      let td6 = document.createElement('td');
+      let td7 = document.createElement('td');
+      let td8 = document.createElement('td');
+      let td9 = document.createElement('td');
+      let td10 = document.createElement('td');
+      let td11 = document.createElement('td');
+      let td12 = document.createElement('td');
+
+      tdEmpty.textContent = "No data"
+
+      let tr = document.createElement('tr');
+      tr.appendChild(tdEmpty);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+      tr.appendChild(td5);
+      tr.appendChild(td6);
+      tr.appendChild(td7);
+      tr.appendChild(td8);
+      tr.appendChild(td9);
+      tr.appendChild(td10);
+      tr.appendChild(td11);
+      tr.appendChild(td12);
+
+      const tableTag = document.getElementById("tableTag").querySelector("tbody");
+      // tableTag.insertBefore(tr, tableTag.children[0])
+      tableTag.appendChild(tr);
+    }
+
+    // Update Tag data based on month
+    function updateTag(data){
+
+      let checkTableCategoryInit = document.getElementById("tableTag").querySelectorAll("td[name=refid]");
+
+      checkTableCategoryInit.forEach((item) => {
+
+        if (item.textContent === data.refId){
+
+          let monthTxt = data.month+"";
+          let monthNum = parseInt(monthTxt.substring(4, 6));
+          // console.log(monthTxt)
+          // console.log(monthNum)
+
+          // Month Num = 1 -12
+          // + 2 to include the first hidden td for refId & second td for name
+          let tdItemIndex = monthNum+2;
+          let tdItem = item.parentNode.querySelectorAll("td")[tdItemIndex - 1];
+          // console.log(item.parentNode.querySelectorAll("td"))
+          // console.log(tdItem)
+          tdItem.textContent = data.total;
+
+          return;
+        }
+
+      });
+    }
+
+        // Update category total
+    function updateTagTotal(){
+
+      // let categoryItemTr = document.getElementById("tableCategory").querySelectorAll("tr[class=td-cat-item]");
+      let categoryItemTrLength = document.getElementById("tableTag").querySelectorAll("tr[class=td-tag-item]").length;
+
+      // let categoryTotalTr = document.getElementById("tableCategory").querySelector("tr[class=td-cat-revenue]");
+
+      let tableCategory = document.getElementById("tableTag");
+
+
+      // Calculate Category Revenue
+      // Loop through i (row) started with 1
+      for (let i = 1; i <= categoryItemTrLength; i++){
+
+        let rowSum = 0;
+
+        // Loop through j (col / month) started with 2 (1st col = td-hidden for refId, 2nd col = name)
+        for (let j = 0; j < 12; j++){
+          let k = j + 2;
+
+          // console.log(tableCategory.rows[j].cells[k].innerHTML)
+          rowSum = rowSum + parseFloat(tableCategory.rows[i].cells[k].innerHTML);
+
+        }
+        // Update category total revenue
+        // console.log(rowSum)
+        // console.log(tableCategory.rows[i].cells[14].innerHTML)
+        // cells 14 -> total
+        tableCategory.rows[i].cells[14].innerHTML = ""+ rowSum;
+      }
+
+    }
+
+
+    // Remove all tag item
+    function clearTagTable(){
+
+      let tbodyTag = document.getElementById("tableTag").querySelector("tbody");
+
+      let tbodyTrList = tbodyTag.querySelectorAll("tr");
+      tbodyTrList.forEach((item, index) => {
+        item.remove();
+      })
+
+    }
+
+
+    // Push data to chart
+    function updateData(chart, label, data) {
+
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        console.log(dataset.data);
+        // console.log(data.datasets[0].data);
+        dataset.data.push(data);
+      });
+      chart.update();
+    }
+
+    function addData(chart, label, data) {
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        console.log(dataset.data);
+        // console.log(data.datasets[0].data);
+        dataset.data = data;
+      });
+      chart.update();
+    }
+
+    // Check if Int
+    function isInt(n) {
+      return n % 1 === 0;
+    }
+
+  </script>
+
+  <script>
+		$( document ).ready(function() {
+
+      $('#btnSignOutModalUpdate').on('click', function (e) {
+
+        firebase.auth().signOut().then(() => {
+            // Sign-out successful.
+          }).catch((error) => {
+            // window.alert("Logging out failed");
+            func.showNotification('top','center', 'danger', 'error_outline', "Logging out failed." );
+
+          });
+      });
+
+		});
+
+  </script>
+
+</body>
+
+</html>
