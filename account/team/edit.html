@@ -464,11 +464,11 @@
                                     </span>
                                   </span>
                                   <select class="custom-select" id="empRole">
-                                    <option value="owner" style="display: none;">Owner</option>
-                                    <option value="superAdmin" style="display: none;">Super Admin</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="staff" selected>Staff</option>
-                                    <option value="assistant">Assistant</option>
+                                    <!-- <option value="owner" style="display: none;">Owner</option> -->
+                                    <option value="superAdmin" class="hidden" perm='team-superAdmin-add'>Super Admin</option>
+                                    <option value="admin" class="hidden" perm='team-admin-add'>Admin</option>
+                                    <option value="staff" class="hidden" perm='team-staff-add' selected>Staff</option>
+                                    <option value="assistant" class="hidden" perm='team-assistant-add'>Assistant</option>
                                     <option value="noRole">Not An Employee</option>
                                   </select>
                                 </div>
@@ -1036,12 +1036,6 @@
   <script src="../../assets/js/core/popper.min.js"></script>
   <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!-- Plugin for the momentJs  -->
-  <script src="../../assets/js/plugins/moment.min.js"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="../../assets/js/plugins/sweetalert2.js"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
@@ -1138,6 +1132,42 @@
 
               console.log(snapshots[1].data())
 
+              // Check org role & Redirection
+              if (role_empRole === ORG_ROLE_OWNER) {
+
+              }
+              else if (role_empRole === ORG_ROLE_SUPER_ADMIN &&
+              (snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN )){
+
+                alert('Unable to edit owner')
+                window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+              }
+              else if (role_empRole === ORG_ROLE_ADMIN){
+               if (snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN ||
+                snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ADMIN ){
+                  alert('Admin Unable to edit Admin/Owner/SuperAdmin')
+                  window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+
+                }
+                else {
+                  if (snapshots[1].data()[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_STAFF  && role_allowedPermissionArr.includes('editStaff') ||
+                  snapshots[1].data()[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ASSISTANT  && role_allowedPermissionArr.includes('editAssistant')){
+                    // CONTINUE
+                  }
+                  else {
+                    alert('Admin, but do not have permission to edit this person')
+                    // Redirection
+                    window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+                  }
+                }
+
+              }
+
+              else {
+                alert('Staff/Assistant / any other role cannot edit role')
+                // Redirection
+                window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+              }
               updatePageContent(currentEmpObj, currentRoleObj)
 
             }

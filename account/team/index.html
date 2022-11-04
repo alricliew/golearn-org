@@ -361,11 +361,10 @@
                         </span>
                       </span>
                       <select class="custom-select" id="empRole">
-                        <!-- <option value="owner" style="display: none;">Owner</option> -->
-                        <option value="superAdmin" style="display: none;">Super Admin</option>
-                        <option value="admin">Admin</option>
-                        <option value="staff" selected>Staff</option>
-                        <option value="assistant">Assistant</option>
+                        <option value="superAdmin" class="hidden" perm='team-superAdmin-add'>Super Admin</option>
+                        <option value="admin" class="hidden" perm='team-admin-add'>Admin</option>
+                        <option value="staff" class="hidden" perm='team-staff-add' selected>Staff</option>
+                        <option value="assistant" class="hidden" perm='team-assistant-add'>Assistant</option>
                         <option value="noRole">Not An Employee</option>
                       </select>
                     </div>
@@ -990,7 +989,7 @@
         <div class="container-fluid">
           <div class="row">
             <!-- Update button -->
-            <a href="javascript:;" class="btn btn-primary btn-round mr-1" id="btnAddClass" style="background-color: #2e74b6;" data-target="#addPersonModal" data-toggle="modal" onclick="$('#addPersonModal').appendTo('body');">Add Person<i class="material-icons" style="color: white; margin-left: 0.5em; ">east</i></a>
+            <a href="javascript:;" class="btn btn-primary btn-round mr-1 hidden" id="btnAddClass" style="background-color: #2e74b6;" data-target="#addPersonModal" data-toggle="modal" onclick="$('#addPersonModal').appendTo('body');" perm='team-add'>Add Person<i class="material-icons" style="color: white; margin-left: 0.5em; ">east</i></a>
           </div>
 
           <div class="row" id="allRole">
@@ -998,7 +997,7 @@
           </div>
 
           <!-- Owner row -->
-          <div class="row py-1" id="">
+          <div class="row py-1 d-none" id="">
             <div class="col-12 d-flex justify-content-center" name="owner">
               <div class="card-team p-3 bg-white rounded text-center" style="width:220px; position: relative;">
                 <div style="position: absolute; font-size:x-small; top: 0; right:1em;"><p class="m-0">Owner</p></div>
@@ -1018,7 +1017,7 @@
           </div>
 
           <!-- Super Admin row -->
-          <div class="row py-1" id="">
+          <div class="row py-1 d-none" id="">
             <div class="col-12 d-flex justify-content-center" name="owner">
               <div class="card-team p-3 bg-white rounded text-center" style="width:220px; position: relative;">
                 <div style="position: absolute; font-size:x-small; top: 0; right:1em;"><p class="m-0">Super Admin</p></div>
@@ -1039,7 +1038,7 @@
 
           <!-- Admin 1 row -->
           <!-- Admin-Staff  -->
-          <div class="admin-top" name="admin1" id="" style="border: dotted 1px;">
+          <div class="admin-top d-none" name="admin1" id="" style="border: dotted 1px;">
             <div class="row py-1">
               <div class="col-12 d-flex justify-content-center" name="owner">
                 <div class="card-team p-3 bg-white rounded text-center" style="width:220px; position: relative;">
@@ -1259,8 +1258,11 @@
           allRoleDoc.push(doc.data())
           renderRole(doc.data())
         })
-      })
 
+      })
+      .then(() => {
+        updateRoleView ()
+      })
     }
 
     function renderRole(data){
@@ -1285,12 +1287,37 @@
       // </div>
 
       let role = "";
-      if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER) role = 'Owner'
-      else if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN) role = 'Super Admin'
-      else if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ADMIN) role = 'Admin'
-      else if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_STAFF) role = 'Staff'
-      else if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ASSISTANT) role = 'Assistant'
-      else  role = 'No Role'
+      let perm = "";
+      let pointerEventsClass = "pointer-events-none"
+      if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER) {
+        role = 'Owner';
+        perm = '';
+
+        if (role_empRole === ORG_ROLE_OWNER)
+          pointerEventsClass = ""
+      }
+      else if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN) {
+        role = 'Super Admin'
+        perm = ''
+        if (role_empRole === ORG_ROLE_OWNER || role_empRole === ORG_ROLE_SUPER_ADMIN)
+          pointerEventsClass = ""
+      }
+      else if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ADMIN){
+         role = 'Admin'
+         perm = 'team-admin-edit'
+        }
+      else if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_STAFF) {
+        role = 'Staff'
+        perm = 'team-staff-edit'
+      }
+      else if (data[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ASSISTANT) {
+        role = 'Assistant'
+        perm = 'team-assistant-edit'
+      }
+      else {
+         role = 'No Role'
+         perm = 'team-noRole-edit'
+        }
 
       let status = "";
       if(data[ORG_ROLE_EMP_STATUS] === ORG_EMP_STATUS_NEW) status = 'NEW'
@@ -1305,13 +1332,13 @@
       let title =  data[ORG_ROLE_EMP_TITLE];
 
       let html = `
-        <div class="card-team p-3 bg-white rounded text-center" style="width:220px; position: relative; cursor: pointer;" data-empid="`+data[ORG_ROLE_EMP_ID]+`" data-roleid="`+data[ORG_ROLE_ID]+`" onclick="editEmployee(this)">
+        <div class="card-team p-3 bg-white rounded text-center `+pointerEventsClass+`" perm='`+perm+`' style="width:220px; position: relative; cursor: pointer;" data-empid="`+data[ORG_ROLE_EMP_ID]+`" data-roleid="`+data[ORG_ROLE_ID]+`" onclick="editEmployee(this)">
           <div style="position: absolute; font-size:x-small; top: 0; right:1em;"><p class="m-0"> ` + role + `</p></div>
           <div style="position: absolute; top: 3px; left:3px; z-index: 1;"><p class="m-0 px-2 text-white" style="border-radius: 30px; background: #2e74b6; font-size:0.5rem; "> ` + status + `</p></div>
           <div class="row">
             <div class="col-4">
               <div style="height: 50px;width: 50px;">
-                <img class="img" id="tutorImgUrl" style="height: 100%; width:100%; object-fit: cover; border-radius: 50%; pointer-events: auto;" src="`+imgUrl+`"/>
+                <img class="img" id="tutorImgUrl" style="height: 100%; width:100%; object-fit: cover; border-radius: 50%;" src="`+imgUrl+`"/>
               </div>
             </div>
             <div class="col-8 text-left">
@@ -1322,7 +1349,7 @@
         </div>
       `
       let top = document.createElement('div');
-      top.className = 'col-12  py-1'
+      top.className = 'col-12 py-1'
       top.setAttribute('name', data[ORG_ROLE_ID])
       top.innerHTML = html;
 

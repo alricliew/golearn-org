@@ -702,12 +702,6 @@
   <script src="../../assets/js/core/popper.min.js"></script>
   <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!-- Plugin for the momentJs  -->
-  <script src="../../assets/js/plugins/moment.min.js"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="../../assets/js/plugins/sweetalert2.js"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
   <!-- Notifications Plugin -->
   <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
@@ -717,8 +711,6 @@
   <script src="../../assets/js/common.js" type="text/javascript"></script>
   <!-- General Info -->
   <script src="../../assets/js/const.js" type="text/javascript"></script>
-  <!-- Global Var -->
-  <!-- <script src="../../assets/js/globalvar.js" type="text/javascript"></script> -->
   <!-- Core Js -->
   <script src="../../assets/js/org-core.js" type="text/javascript"></script>
 
@@ -893,7 +885,8 @@
         //   btnAddClass.setAttribute("data-target", "#limitReachModal");
         // }
 
-
+        // Update Role View
+        updateRoleView()
       });
 
     };
@@ -1116,10 +1109,11 @@
       }
 
       btn_announcement.innerHTML = blogsHtml_btn;
-      btn_announcement.className = "btn btn-primary btn-sm btn-round";
+      btn_announcement.className = "btn btn-primary btn-sm btn-round hidden";
       btn_announcement.setAttribute("style","background-color: white; color: #2e74b6; margin: 0.1rem; padding: 0.2rem; box-shadow: 2px 2px 4px rgba(46, 46, 46, 0.8);");
       btn_announcement.setAttribute("data-toggle","modal");
       btn_announcement.setAttribute("data-id", doc.data().id);
+      btn_announcement.setAttribute("perm","teach-class-edit");
       if (doc.data().announcement == '' || doc.data().announcement == null){
         btn_announcement.setAttribute("data-announcement",  "");
       }else{
