@@ -22,12 +22,12 @@ var ent_url, ent_orgId, ent_accIdArr, ent_oid,  ent_aid, ent_type, ent_lastOnlin
 // 3. Additional Checks - In organization / account pages
 // 3.1. TODO: Check if Org User has role(s) & permissions in this entity in storage. [loadUserRole()]
 // 3.2. Check if Organization / Account entity exists in storage [loadOrg()]
-async function AuthCheck(){
+function AuthCheck(){
   firebase.auth().onAuthStateChanged(function(user){
     if(!user){
       // Return to login if user does not exist.
       console.log('No User. Redirect to https://org.golearn.com.my/login/')
-      window.location.href = "http://127.0.0.1:8080/login/"
+      window.location.href = "http://org.golearn.com.my/login/"
     }else{
 
       org_uid = user.uid;
@@ -66,7 +66,7 @@ async function loadOrgUserInfoObj(uid){
     org_name = (dataObj.name == null || dataObj.name == "")? "New Tutor" : dataObj.name;
     org_email = (dataObj.email == null || dataObj.email == "")? "" : dataObj.email;
     org_phone = (dataObj.phone == null || dataObj.phone == "")? "New Tutor" : dataObj.phone;
-    org_imgUrl = (dataObj.imgUrl == null || dataObj.imgUrl == "")? "https://app.golearn.com.my/assets/img/hello.gif" : dataObj.imgUrl;
+    org_imgUrl = (dataObj.imgUrl == null || dataObj.imgUrl == "")? "https://org.golearn.com.my/assets/img/hello.gif" : dataObj.imgUrl;
     org_accountStatus = dataObj.accountStatus; // bool
     org_lastOnline = dataObj.lastOnline;
     org_orgId = dataObj.orgId == null ?  "" : dataObj.orgId;
@@ -75,7 +75,7 @@ async function loadOrgUserInfoObj(uid){
     // Check if user logged in with other number. If true, logout
     if (org_current_uid != uid){
       console.log("Stored uid in sessionStorage: " + org_current_uid + " is not equal to latest uid: " + uid)
-      // window.location.href = "http://127.0.0.1:8080/login/";
+      firebase.auth().signOut();
     }
     // console.log(org_lastOnline)
     // let secondLastOnline = org_lastOnline.seconds;
@@ -192,8 +192,6 @@ async function loadUserInfo(uid){
 
     else {
       // console.log('No Org User found. Redirect to login')
-      // window.location.href = "http://127.0.0.1:8080/login/"
-
       return 'NO_USER'
     }
   })
@@ -203,7 +201,6 @@ async function loadUserInfo(uid){
     var promiseAll = [];
     if (snapshot === 'NO_USER'){
       console.log('No Org User found. Signout and Redirect to login')
-      // window.location.href = "http://127.0.0.1:8080/login/"
       firebase.auth().signOut()
     }
     else {
@@ -229,23 +226,7 @@ async function loadUserInfo(uid){
 
       return Promise.all(promiseAll)
     }
-
-
   })
-  .then(() => {
-    // alert('hi')
-  })
-
-  // .then((snapshot)=> {
-  //   if (snapshot === 'NO_USER'){
-  //     console.log('No Org User found. Signout and Redirect to login')
-  //     // window.location.href = "http://127.0.0.1:8080/login/"
-  //     firebase.auth().signOut()
-  //   }
-
-  // })
-
-
 }
 
 // Store role
@@ -402,6 +383,59 @@ function updateRoleView(){
   }
   // role_allowedPermissionArr
   // role_empRole
+
+  if (role_empRole === ORG_ROLE_OWNER) {
+
+  }
+  else if (role_empRole === ORG_ROLE_SUPER_ADMIN){
+
+  }
+  else if (role_empRole === ORG_ROLE_ADMIN){
+
+    // ROLE fields
+    // console.log('jiiii')
+    const roleSelect = bodyPermission.querySelectorAll(`.custom-select`)
+    roleSelect.forEach((ele) => {
+      let adminList = ele.querySelector(`[value='admin']`)
+      let staffList = ele.querySelector(`[value='staff']`)
+      let assistantList = ele.querySelector(`[value='assistant']`)
+
+      console.log(adminList)
+
+      if (role_allowedPermissionArr.includes('addAdmin')){
+        adminList.selected = true;
+        staffList.selected = false;
+        assistantList.selected = false;
+
+      }else if (role_allowedPermissionArr.includes('addStaff')){
+        adminList.selected = false;
+        staffList.selected = true;
+        assistantList.selected = false;
+      }
+      else if (role_allowedPermissionArr.includes('addAssistant')){
+        adminList.selected = false;
+        staffList.selected = false;
+        assistantList.selected = true;
+      }
+    })
+
+    // Redirection
+
+
+  }
+  else if (role_empRole === ORG_ROLE_STAFF){
+    // Redirection
+    if (window.location.pathname.includes('team/edit')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+  }
+  else if (role_empRole === ORG_ROLE_ASSISTANT){
+    // Redirection
+    if (window.location.pathname.includes('team/edit')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+  }
+  else if (role_empRole === ORG_ROLE_NO_ROLE){
+    // Redirection
+    if (window.location.pathname.includes('team/edit')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+  }
+
   const insight = bodyPermission.querySelectorAll(`[perm='insight']`)
   if (role_allowedPermissionArr.includes('viewInsight')){
     insight.forEach((ele) => {ele.classList.remove("hidden")})
@@ -427,7 +461,7 @@ function updateRoleView(){
     teachClassAdd.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     teachClassAdd.forEach((ele) => {ele.classList.add("hidden")})
-    if (window.location.href.includes('add-class.html')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+    if (window.location.href.includes('add-class')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
   }
 
   const teachClassEdit = bodyPermission.querySelectorAll(`[perm='teach-class-edit']`)
@@ -475,7 +509,7 @@ function updateRoleView(){
     teachStudentAdd.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     teachStudentAdd.forEach((ele) => {ele.classList.add("hidden")})
-    if (window.location.href.includes('add-student.html')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+    if (window.location.href.includes('add-student')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
   }
 
   const teachStudentEdit = bodyPermission.querySelectorAll(`[perm='teach-student-edit']`)
@@ -531,6 +565,38 @@ function updateRoleView(){
     finInvoice.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     finInvoice.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('invoice/')) window.location.href = '../' +'?url=' + orgUrl + "&ent=" + orgEnt;
+  }
+
+  const finInvoiceAdd = bodyPermission.querySelectorAll(`[perm='fin-invoice-add']`)
+  if (role_allowedPermissionArr.includes('addInv'))
+    finInvoiceAdd.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finInvoiceAdd.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('invoice/create-invoice')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+  }
+
+  const finInvoiceEdit = bodyPermission.querySelectorAll(`[perm='fin-invoice-edit']`)
+  if (role_allowedPermissionArr.includes('editInv'))
+    finInvoiceEdit.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finInvoiceEdit.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('invoice/edit-invoice')) window.location.href = './view' +'?url=' + orgUrl + "&ent=" + orgEnt;
+    if (window.location.pathname.includes('invoice/checker')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+
+  }
+  const finInvoiceRecordPayment = bodyPermission.querySelectorAll(`[perm='fin-invoice-record-payment']`)
+  if (role_allowedPermissionArr.includes('recordPaymentInv'))
+    finInvoiceRecordPayment.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finInvoiceRecordPayment.forEach((ele) => {ele.classList.add("hidden")})
+  }
+
+  const finInvoiceDel = bodyPermission.querySelectorAll(`[perm='fin-invoice-del']`)
+  if (role_allowedPermissionArr.includes('delInv'))
+    finInvoiceDel.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finInvoiceDel.forEach((ele) => {ele.classList.add("hidden")})
   }
 
   const finPayroll = bodyPermission.querySelectorAll(`[perm='fin-payroll']`)
@@ -538,26 +604,149 @@ function updateRoleView(){
     finPayroll.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     finPayroll.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('payroll/')) window.location.href = '../' +'?url=' + orgUrl + "&ent=" + orgEnt;
   }
+  const finPayrollAdd = bodyPermission.querySelectorAll(`[perm='fin-payroll-add']`)
+  if (role_allowedPermissionArr.includes('addPayroll'))
+    finPayrollAdd.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finPayrollAdd.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('payroll/run-payroll')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+
+  }
+  const finPayrollEdit = bodyPermission.querySelectorAll(`[perm='fin-payroll-edit']`)
+  if (role_allowedPermissionArr.includes('editPayroll'))
+    finPayrollEdit.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finPayrollEdit.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('payroll/history')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+  }
+  const finPayrollDel = bodyPermission.querySelectorAll(`[perm='fin-payroll-del']`)
+  if (role_allowedPermissionArr.includes('delPayroll'))
+    finPayrollDel.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finPayrollDel.forEach((ele) => {ele.classList.add("hidden")})
+  }
+  const finPayslipView = bodyPermission.querySelectorAll(`[perm='fin-payslip-view']`)
+  if (role_allowedPermissionArr.includes('viewPayslip')){
+    // finPayslipView.forEach((ele) => {ele.classList.remove("hidden")})
+    if (window.location.pathname.includes('payroll/run-payroll'))
+      finPayslipView.forEach((ele) => {ele.setAttribute('data-toggle', 'collapse')})
+    else if (window.location.pathname.includes('payroll/?'))
+      finPayslipView.forEach((ele) => {ele.setAttribute('data-toggle', 'modal')})
+  }
+  else {
+    // finPayslipView.forEach((ele) => {ele.classList.add("hidden")})
+    finPayslipView.forEach((ele) => {ele.removeAttribute('data-toggle')})
+  }
+
+  const finPayslipAdd = bodyPermission.querySelectorAll(`[perm='fin-payslip-add']`)
+  if (role_allowedPermissionArr.includes('addPayslip'))
+  finPayslipAdd.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finPayslipAdd.forEach((ele) => {ele.classList.add("hidden")})
+  }
+  const finPayslipEdit = bodyPermission.querySelectorAll(`[perm='fin-payslip-edit']`)
+  if (role_allowedPermissionArr.includes('editPayslip'))
+  finPayslipEdit.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finPayslipEdit.forEach((ele) => {ele.classList.add("hidden")})
+  }
+  const finPayslipRecordPayment = bodyPermission.querySelectorAll(`[perm='fin-payslip-record-payment']`)
+  if (role_allowedPermissionArr.includes('recordPaymentPayslip')){
+    finPayslipRecordPayment.forEach((ele) => {ele.classList.remove("hidden")})
+  }
+  else {
+    finPayslipRecordPayment.forEach((ele) => {ele.classList.add("hidden")})
+  }
+
+  const finPayslipDel = bodyPermission.querySelectorAll(`[perm='fin-payslip-del']`)
+  if (role_allowedPermissionArr.includes('delPayslip'))
+  finPayslipDel.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    finPayslipDel.forEach((ele) => {ele.classList.add("hidden")})
+  }
+
   const finTransaction = bodyPermission.querySelectorAll(`[perm='fin-transaction']`)
   if (role_allowedPermissionArr.includes('viewInv') || role_allowedPermissionArr.includes('viewPayroll'))
     finTransaction.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     finTransaction.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('transaction/')) window.location.href = '../' +'?url=' + orgUrl + "&ent=" + orgEnt;
   }
   const settings = bodyPermission.querySelectorAll(`[perm='settings']`)
   if (role_allowedPermissionArr.includes('editAccountProfile'))
     settings.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     settings.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('transaction/settings')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+
   }
   const team = bodyPermission.querySelectorAll(`[perm='team']`)
-  if (role_allowedPermissionArr.includes('viewAdmin') || role_allowedPermissionArr.includes('viewStaff') || role_allowedPermissionArr.includes('viewAssistant'))
+  if (role_allowedPermissionArr.includes('viewAdmin') || role_allowedPermissionArr.includes('viewStaff') || role_allowedPermissionArr.includes('viewAssistant')){
     team.forEach((ele) => {ele.classList.remove("hidden")})
+    team.forEach((ele) => {ele.classList.remove("pointer-events-none")})
+  }
   else {
     team.forEach((ele) => {ele.classList.add("hidden")})
+    team.forEach((ele) => {ele.classList.add("pointer-events-none")})
+    if (window.location.pathname.includes('team/')) window.location.href = '../' +'?url=' + orgUrl + "&ent=" + orgEnt;
+  }
+  const teamAdd = bodyPermission.querySelectorAll(`[perm='team-add']`)
+  if (role_allowedPermissionArr.includes('addAdmin') || role_allowedPermissionArr.includes('addStaff') || role_allowedPermissionArr.includes('addAssistant')){
+    teamAdd.forEach((ele) => {ele.classList.remove("hidden")})
+  }
+  else {
+    teamAdd.forEach((ele) => {ele.classList.add("hidden")})
   }
 
+  const teamAdminAdd = bodyPermission.querySelectorAll(`[perm='team-admin-add']`)
+  if (role_allowedPermissionArr.includes('addAdmin'))
+    teamAdminAdd.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    teamAdminAdd.forEach((ele) => {ele.classList.add("hidden")})
+  }
+
+  const teamAdminEdit = bodyPermission.querySelectorAll(`[perm='team-admin-edit']`)
+  if (role_allowedPermissionArr.includes('editAdmin')){
+    teamAdminEdit.forEach((ele) => {ele.classList.remove("pointer-events-none")})
+  }
+  else {
+    teamAdminEdit.forEach((ele) => {ele.classList.add("pointer-events-none")})
+  }
+  const teamAdminDel = bodyPermission.querySelectorAll(`[perm='team-admin-del']`)
+  if (role_allowedPermissionArr.includes('delAdmin'))
+    teamAdminDel.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    teamAdminDel.forEach((ele) => {ele.classList.add("hidden")})
+  }
+
+  const teamStaffAdd = bodyPermission.querySelectorAll(`[perm='team-staff-add']`)
+  if (role_allowedPermissionArr.includes('addStaff'))
+  teamStaffAdd.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    teamStaffAdd.forEach((ele) => {ele.classList.add("hidden")})
+  }
+  const teamStaffEdit = bodyPermission.querySelectorAll(`[perm='team-staff-edit']`)
+  if (role_allowedPermissionArr.includes('editStaff')){
+    teamStaffEdit.forEach((ele) => {ele.classList.remove("pointer-events-none")})
+  }
+  else {
+    teamStaffEdit.forEach((ele) => {ele.classList.add("pointer-events-none")})
+  }
+  const teamAssistantAdd = bodyPermission.querySelectorAll(`[perm='team-assistant-add']`)
+  if (role_allowedPermissionArr.includes('addAssistant'))
+  teamAssistantAdd.forEach((ele) => {ele.classList.remove("hidden")})
+  else {
+    teamAssistantAdd.forEach((ele) => {ele.classList.add("hidden")})
+  }
+  const teamAssistantEdit = bodyPermission.querySelectorAll(`[perm='team-assistant-edit']`)
+  if (role_allowedPermissionArr.includes('editAssistant')){
+    teamAssistantEdit.forEach((ele) => {ele.classList.remove("pointer-events-none")})
+  }
+  else {
+    teamAssistantEdit.forEach((ele) => {ele.classList.add("pointer-events-none")})
+  }
   // Redirection
 
 
@@ -641,7 +830,7 @@ async function loadOrg(){
   if (orgUrl == null || orgUrl == "" || orgEnt == null || orgEnt == "" || type === 'INVALID'){
     alert("LoadOrg: Invalid params or path. Redirect to home page")
     console.log("LoadOrg: Invalid params or path")
-    window.location.href = 'http://127.0.0.1:8080/'
+    window.location.href = 'http://org.golearn.com.my/'
   }
   else {
 
@@ -917,14 +1106,14 @@ async function loadOrgInfo(entId, type){
       }
       else{
         console.log('Not an owner or No role found. Redirect back to home page')
-        window.location.href = "http://127.0.0.1:8080/"
+        window.location.href = "http://org.golearn.com.my/"
       }
 
 
     }
     else {
       console.log('Entity does not exist: '+entId + " Redirect back to home page")
-      window.location.href = "http://127.0.0.1:8080/"
+      window.location.href = "http://org.golearn.com.my/"
     }
 
 
