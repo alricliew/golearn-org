@@ -37,7 +37,7 @@
     const orgUrl = new URL(window.location.href).searchParams.get("url");
     const orgEnt = new URL(window.location.href).searchParams.get("ent");
     if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
-      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+      window.location.href = 'http://org.golearn.com.my/'+'?url=' + orgUrl + "&ent=" + orgEnt;
   </script>
 </head>
 
@@ -878,6 +878,43 @@
                       </label>
                     </div>
 
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" id="addNoRole">
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                        Add Unassigned Role
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" id="editANoRole">
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                        Edit Unassigned Role
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" id="delNoRole">
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                        Delete Unassigned Role
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" id="viewNoRole">
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                        View Unassigned Role
+                      </label>
+                    </div>
+
                     <h6 class="">Account</h6>
                     <div class="form-check">
                       <label class="form-check-label">
@@ -1316,7 +1353,11 @@
       }
       else {
          role = 'No Role'
-         perm = 'team-noRole-edit'
+         perm = ''
+
+         if (role_empRole === ORG_ROLE_OWNER || role_empRole === ORG_ROLE_SUPER_ADMIN || role_empRole === ORG_ROLE_ADMIN)
+            pointerEventsClass = ""
+
         }
 
       let status = "";
@@ -1459,7 +1500,7 @@
         func.showNotification('top','center', 'success', 'check_circle', "Updated successfully!");
         $('#addPersonModal').modal('hide');
       }).then(() => {
-        loadPageInitFunc();
+        renderRole(roleData)
       })
 
 
