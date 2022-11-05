@@ -43,8 +43,110 @@
   <link href="../../assets/css/mc-calendar.min.css" rel="stylesheet"/>
   <link href="../../assets/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
   <link href="../../assets/css/intlTelInput.css"rel="stylesheet">
-  <link href="../../assets/css/tutor.css" rel="stylesheet" />
 
+  <style>
+    #time-slot-block {
+      padding: 0;
+      margin-bottom: 1em;
+      margin-top: 0.5em;
+    }
+    #time-slot-table {
+      margin: 0;
+      padding: 0;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .time-slot-table-thead-tr {
+      background-color: #2e74b6;
+      color: white;
+      font-weight: 500;
+      font-size: 0.8rem;
+      /* font-family: Verdana; */
+      letter-spacing: -1px;
+      text-align: center;
+    }
+
+    .time-slot-table-thead-tr-th_null {
+      background-color: #0b457c;
+      border: none;
+    }
+
+    .time-slot-table-thead-tr-th {
+      background-color: #2e74b6;
+      border: none;
+      /* padding : 0;
+      margin: 0;;
+      font-weight: 300;
+      font-size: 0.8rem;
+      font-family: Verdana;
+      color: white;
+      letter-spacing: -1px; */
+    }
+
+    .time-slot-table-thead-tr-th_shaded {
+      background-color: #2c6daa;
+      border: none;
+      /* padding : 0;
+      margin: 0;;
+      font-weight: 300;
+      font-size: 0.8rem;
+      font-family: Verdana;
+      color: white;
+      letter-spacing: -1px; */
+    }
+
+    .time-slot-table-tbody-item-row {
+      padding: 0;
+      text-align: center;
+      border: none;
+    }
+
+    .time-slot-table-first-col {
+      background-color: #4e4e4e;
+      padding: 0;
+      margin: 0;
+      font-weight: 500;
+      font-size: 0.8rem;
+      /* font-family: Verdana; */
+      letter-spacing: -1px;
+      color: white;
+      border: none;
+    }
+
+    .time-slot-table-first-col-shaded {
+      background-color: #313131;
+      padding: 0;
+      margin: 0;
+      font-weight: 500;
+      font-size: 0.8rem;
+      /* font-family: Verdana; */
+      letter-spacing: -1px;
+      color: white;
+      border: none;
+    }
+
+    .time-slot-table-tbody-item {
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      border: none;
+      text-align: center;
+      font-weight: 200;
+      font-size: 0.8rem;
+      color: #313131;
+      /* font-family: Verdana; */
+    }
+
+    .time-slot-table-tbody-item-shaded {
+      cursor: pointer;
+      border: none;
+      text-align: center;
+      font-weight: 200;
+      font-size: 0.8rem;
+      color: #313131;
+      /* font-family: Verdana; */
+    }
+  </style>
 </head>
 
 <body>
@@ -384,8 +486,6 @@
                               background-repeat: no-repeat;
                               background-size: 100%;
                               background-position: center center;">
-
-
                                 <div class="card-avatar" style="height: 150px; width: 150px; position: relative;">
 
                                   <a href="javascript:;" >
