@@ -198,29 +198,19 @@
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!-- Plugin for the momentJs  -->
-  <script src="../assets/js/plugins/moment.min.js"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="../assets/js/plugins/sweetalert2.js"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="../assets/js/plugins/jquery.validate.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <!-- International Telephone Input -->
-  <script src="../assets/js/plugins/intlTelInput/intlTelInput.js"></script>
-  <!-- Login specific -->
-  <!-- <script src="js/tutor-portal-auth.js" type="text/javascript"></script> -->
+  <script src="../assets/js/plugins/intlTelInput/intlTelInput.min.js"></script>
   <!-- Common constants -->
   <script src="../assets/js/common.js" type="text/javascript"></script>
   <!-- Core Tutor Js -->
-  <script src="../assets/js/tutor-core.js" type="text/javascript"></script>
+  <script src="../assets/js/org-core.js" type="text/javascript"></script>
 
   <!-- TEST -->
   <script>
-
-
     function logOut() {
       firebase.auth().signOut().then(() => {
       // Sign-out successful.
@@ -286,9 +276,9 @@
         // Handle org user
         if (snapshots != null && snapshots[0].exists ){
           // Login
-          // window.location.href = "http://127.0.0.1:8080/"
+          // window.location.href = "http://org.golearn.com.my/"
           console.log('Org User found. Redirect to home page')
-          // window.location.href = "../"
+          window.location.href = "../"
         }
         else {
           console.log('No Org User found. Waiting user to login to create Org User')
