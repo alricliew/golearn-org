@@ -11,12 +11,12 @@
   <meta property=og:title content="GoLearn School">
   <meta property=og:site_name content="GoLearn School">
   <meta property=og:type content=website>
-  <meta property=og:url content=https://app.golearn.com.my/school/class/edit-class.html>
-  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:url content=https://org.golearn.com.my/school/class/edit-class.html>
+  <meta property=og:image content=https://org.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
   <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
-  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
-  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
-  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <link rel=apple-touch-icon sizes=180x180 href=https://org.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://org.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://org.golearn.com.my/assets/img/icon-16x16.png>
   <!-- Fonts and icons -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <script src="https://kit.fontawesome.com/2bdd669e92.js" crossorigin="anonymous"></script>
@@ -2100,17 +2100,17 @@
       document.getElementById("stuAutoJoinEn").checked = data[CLASS_STUDENT_AUTO_JOIN_ENABLE];
       document.getElementById("tAddEditLessonEn").checked = data[CLASS_TUTOR_ADD_EDIT_LESSON_ENABLE];
       document.getElementById("tDelLessonEn").checked = data[CLASS_TUTOR_REMOVE_LESSON_ENABLE];
-      document.getElementById("inAutoJoinLink").value = 'https://app.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
+      document.getElementById("inAutoJoinLink").value = 'https://org.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
       if (data[CLASS_STUDENT_AUTO_JOIN_ENABLE]){
         document.getElementById("inAutoJoinLinkTop").style.display = 'initial';
         document.getElementById("btnAutoJoinLink2").className = "btn btn-success";
         document.getElementById("btnAutoJoinLink2").style.pointerEvents= 'auto';
-        document.getElementById("inAutoJoinLink2").value = 'https://app.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
+        document.getElementById("inAutoJoinLink2").value = 'https://org.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
       }else{
         document.getElementById("inAutoJoinLinkTop").style.display = 'none';
         document.getElementById("btnAutoJoinLink2").className = "btn btn-default";
         document.getElementById("btnAutoJoinLink2").style.pointerEvents= 'none';
-        document.getElementById("inAutoJoinLink2").value = 'https://app.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
+        document.getElementById("inAutoJoinLink2").value = 'https://org.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
       }
 
       if (data[CLASS_LABEL_ENABLE] == null || !data[CLASS_LABEL_ENABLE]){
@@ -4074,7 +4074,7 @@
       document.getElementById("btnCopyAutoJoinLink").setAttribute("onclick", "copyText('inAutoJoinLink')");
       let uriAdminId = encodeURIComponent(currentClassObj[CLASS_ADMIN_ID]);
       let uriClassId = encodeURIComponent(currentClassObj[CLASS_ID]);
-      document.getElementById("inAutoJoinLink").value = 'https://app.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
+      document.getElementById("inAutoJoinLink").value = 'https://org.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
       document.getElementById("tAddRibbonEn").removeAttribute("disabled");
       if (document.getElementById("tAddRibbonEn").checked){
         document.getElementById("inRibbonSettings").style.display = '';
