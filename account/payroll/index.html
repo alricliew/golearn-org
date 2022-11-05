@@ -32,7 +32,7 @@
     const orgUrl = new URL(window.location.href).searchParams.get("url");
     const orgEnt = new URL(window.location.href).searchParams.get("ent");
     if (orgUrl === null || orgUrl === "" || orgEnt === null || orgEnt === "")
-      window.location.href = 'http://org.golearn.com.my/'+'?url=' + orgUrl + "&ent=" + orgEnt;
+      window.location.href = 'http://127.0.0.1:8080/'+'?url=' + orgUrl + "&ent=" + orgEnt;
   </script>
   <!-- Tutor Portal specific CSS -->
   <link href="../../assets/css/tutor-portal.css" rel="stylesheet" />
@@ -743,10 +743,6 @@
   <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!-- Plugin for the momentJs  -->
   <script src="../../assets/js/plugins/moment.min.js"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="../../assets/js/plugins/sweetalert2.js"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="../../assets/js/plugins/jquery.validate.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
