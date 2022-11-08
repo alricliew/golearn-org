@@ -30,11 +30,12 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="./assets/css/material-kit.css?v=3.0.4" rel="stylesheet" />
-
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
   <script src="./assets/js/firebase.js"></script>
+  <!--GL Org CSS -->
+  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
 </head>
 
 <body class="index-page bg-gray-200">
@@ -305,7 +306,7 @@
             <div class="position-sticky" style="top:100px !important">
               <h4 class="">Welcome</h4>
               <h6 class="text-secondary font-weight-normal">All Education Organization in One Place</h6>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAccModal">Add Account</button>
+              <a class="btn btn-primary hidden" id="btnAddAccount" data-bs-toggle="modal" data-bs-target="#createAccModal">Add Account</a>
             </div>
 
           </div>
@@ -417,17 +418,14 @@
     // Page Specific Initialization
     function loadPageInitFunc(){
 
-      // updateHomePageView()
       // Load all roles
       loadAllRoles();
 
-      // loadRoleBasedOnOrgUserPhone();
-
-
-      // console.log(org_uid, org_name, org_email, org_phone, org_imgUrl,  org_accountStatus, org_lastOnline)
-
-      //
-
+      // Check user
+      // if (org_accountStatus === PREMIUM_ACCOUNT_2_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY ||
+      // org_accountStatus === PREMIUM_ACCOUNT_3_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY  ){
+      //   document.getElementById('btnAddAccount').classList.remove('hidden')
+      // }
     }
 
     function createNewAcc(){
@@ -546,7 +544,8 @@
             [ORG_ORG_TIME_SLOT_ARR] : emptyTimeSlot,
             [ORG_ORG_PREFERRED_SUBJECT_ARR] : [],
             [ORG_ORG_CORP]  : "",
-            [ORG_ORG_CORP_ID]  : ""
+            [ORG_ORG_CORP_ID]  : "",
+            [ORG_ORG_ADMIN_STATUS]: true,
           }
           promiseArrayLayer1.push(orgNewAccDocRef.set(newAccData))
           console.log(newAccData)
@@ -575,6 +574,7 @@
             [ORG_EMP_BANK_ACC]  : "",
             [ORG_EMP_EPF] : "",
             [ORG_EMP_SOCSO] : "",
+            [ORG_EMP_ADMIN_STATUS]: true,
           }
           console.log(newEmployeeData)
 
@@ -608,6 +608,7 @@
             [ORG_ROLE_ORG_NAME]  : name,
             [ORG_ROLE_ORG_IMG_URL] : "",
             [ORG_ROLE_ORG_COVER_IMG_URL]  : "",
+            [ORG_ROLE_ADMIN_STATUS]: true,
           }
           promiseArrayLayer1.push(orgNewRoleDocRef.set(newRoleData))
           console.log(newRoleData)
@@ -685,43 +686,35 @@
       roleOwnerDocRef.get().then((snapshots) => {
 
         var allDataObj = [];
+        let accountNum = 0;
 
         snapshots.forEach((doc) => {
           console.log(doc.data())
 
           renderRole(doc.data());
-
           let data = doc.data();
-          var dataObj = {
-            [ORG_ROLE_ID] : data[ORG_ROLE_ID],
-            [ORG_ROLE_UID] : data[ORG_ROLE_UID],
-            [ORG_ROLE_URL] : data[ORG_ROLE_URL],
-            [ORG_ROLE_ORG_ID] : data[ORG_ROLE_ORG_ID],
-            [ORG_ROLE_ACC_ID] :data[ORG_ROLE_ACC_ID],
-            [ORG_ROLE_TYPE] :data[ORG_ROLE_TYPE],
-            [ORG_ROLE_OID] :data[ORG_ROLE_OID],
-            [ORG_ROLE_EMP_STATUS] : data[ORG_ROLE_EMP_STATUS],
-            [ORG_ROLE_EMP_ID] :data[ORG_ROLE_EMP_ID],
-            [ORG_ROLE_EMP_NAME] :data[ORG_ROLE_EMP_NAME],
-            [ORG_ROLE_EMP_PHONE]  : data[ORG_ROLE_EMP_PHONE],
-            [ORG_ROLE_EMP_EMAIL]  : data[ORG_ROLE_EMP_EMAIL],
-            [ORG_ROLE_EMP_IMG_URL]  : data[ORG_ROLE_EMP_IMG_URL],
-            [ORG_ROLE_EMP_REF] : data[ORG_ROLE_EMP_REF],
-            [ORG_ROLE_REPORT_TO] : data[ORG_ROLE_REPORT_TO],
-            [ORG_ROLE_EMP_TITLE] : data[ORG_ROLE_EMP_TITLE],
-            [ORG_ROLE_EMP_ROLE] : data[ORG_ROLE_EMP_ROLE],
-            [ORG_ROLE_ALLOWED_PERMISSION_ARR] : data[ORG_ROLE_ALLOWED_PERMISSION_ARR],
-            [ORG_ROLE_ORG_NAME] : data[ORG_ROLE_ORG_NAME],
-            [ORG_ROLE_ORG_IMG_URL] :data[ORG_ROLE_ORG_IMG_URL],
-            [ORG_ROLE_ORG_COVER_IMG_URL] :data[ORG_ROLE_ORG_COVER_IMG_URL],
+
+          // Limitations
+          if (data[ORG_ROLE_TYPE] === ORG_TYPE_ACC){
+            accountNum  = accountNum + 1;
           }
 
-          allDataObj.push(dataObj)
 
         })
 
-        // Set as sessionStorage
-        // sessionStorage.setItem(SESSION_STORAGE_PROFILE_ORG_USER_ROLE, JSON.stringify(allDataObj));
+        if ( accountNum < 1 && (org_accountStatus === PREMIUM_ACCOUNT_2_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY)){
+          console.log('premium2')
+          document.getElementById('btnAddAccount').classList.remove('hidden')
+        }
+        else if (accountNum <= 10 && (org_accountStatus === PREMIUM_ACCOUNT_3_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY)) {
+          console.log('premium3')
+
+          document.getElementById('btnAddAccount').classList.remove('hidden')
+        }
+
+        else {
+          console.log(' Unable to add new acc')
+        }
 
       })
       .then(() => {
@@ -768,7 +761,12 @@
       let role_p = document.createElement('p');
       role_p.className = "mb-0";
       role_p.setAttribute("style","font-size: small;");
-      role_p.textContent =  data[ORG_ROLE_EMP_TITLE] + ', '+ role;
+      if (data[ORG_ROLE_EMP_TITLE] === ''){
+        role_p.textContent =  role;
+      }else {
+        role_p.textContent =  data[ORG_ROLE_EMP_TITLE] + ', '+ role;
+      }
+
 
       let detailWrap = document.createElement('div');
       detailWrap.className = "mt-2 ms-2";
@@ -800,41 +798,6 @@
 
       const allRole = document.getElementById("allRole");
       allRole.appendChild(top_div);
-    }
-
-    // Store role
-    function storeOrgUserRoleSession(data) {
-
-      var dataObj = {
-        [ORG_ROLE_ID] : data[ORG_ROLE_ID],
-        [ORG_ROLE_UID] : data[ORG_ROLE_UID],
-        [ORG_ROLE_URL] : data[ORG_ROLE_URL],
-        [ORG_ROLE_ORG_ID] : data[ORG_ROLE_ORG_ID],
-        [ORG_ROLE_ACC_ID] :data[ORG_ROLE_ACC_ID],
-        [ORG_ROLE_TYPE] :data[ORG_ROLE_TYPE],
-        [ORG_ROLE_OID] :data[ORG_ROLE_OID],
-        [ORG_ROLE_EMP_STATUS] : data[ORG_ROLE_EMP_STATUS],
-        // Employee Specific
-        [ORG_ROLE_EMP_ID] :data[ORG_ROLE_EMP_ID],
-        [ORG_ROLE_EMP_NAME] :data[ORG_ROLE_EMP_NAME],
-        [ORG_ROLE_EMP_PHONE]  : data[ORG_ROLE_EMP_PHONE],
-        [ORG_ROLE_EMP_EMAIL]  : data[ORG_ROLE_EMP_EMAIL],
-        [ORG_ROLE_EMP_IMG_URL]  : data[ORG_ROLE_EMP_IMG_URL],
-        // Role specific
-        [ORG_ROLE_EMP_REF] : data[ORG_ROLE_EMP_REF],
-        [ORG_ROLE_REPORT_TO] : data[ORG_ROLE_REPORT_TO],
-        [ORG_ROLE_EMP_TITLE] : data[ORG_ROLE_EMP_TITLE],
-        [ORG_ROLE_EMP_ROLE] : data[ORG_ROLE_EMP_ROLE],
-        [ORG_ROLE_ALLOWED_PERMISSION_ARR] : data[ORG_ROLE_ALLOWED_PERMISSION_ARR],
-        // Entity specific
-        [ORG_ROLE_ORG_NAME] : data[ORG_ROLE_ORG_NAME],
-        [ORG_ROLE_ORG_IMG_URL] :data[ORG_ROLE_ORG_IMG_URL],
-        [ORG_ROLE_ORG_COVER_IMG_URL] :data[ORG_ROLE_ORG_COVER_IMG_URL],
-
-      }
-      var allDataObj = [];
-
-
     }
 
 

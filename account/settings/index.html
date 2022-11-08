@@ -151,7 +151,23 @@
 
 <body>
 
-  <div class="wrapper ">
+  <div class="hidden" name="lockscreen" style="height:100vh; width:100vw;  background: white; position: absolute; z-index: 1050;">
+    <div class="container" style="background: transparent; height: 100vh; display: flex; vertical-align: middle; align-items: center; justify-content: center;">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center">
+          <h2>Cannot reach!</h2>
+          <p>This account is temporarily disabled. Please contact our <a href="https://golearn.com.my/contact-us">support</a> for more details. </p>
+          <a href="https://org.golearn.com.my" class="btn btn-outline-primary btn-round"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">west</i> Back to Home</a>
+        </div>
+        <div class="col-md-6 mr-auto" style="height: 400px; width: fit-content;">
+          <a href="javascript:;" >
+            <img class="img" id="tutorImgUrl3" style="height: 100%; width:100%; object-fit: cover; pointer-events: none; " src="https://org.golearn.com.my/assets/img/maintenance.gif"/>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="../../assets/img/sidebar-3.jpg">
       <div class="logo">
         <a href="../" class="simple-text logo-mini" style="padding: 0.5rem" id="logoName" name="param-link">
