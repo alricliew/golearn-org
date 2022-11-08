@@ -33,7 +33,7 @@
 
 <body>
 
-  <div class="wrapper ">
+  <div class="wrapper">
 
     <div class="main-panel">
       <!-- Navbar -->
@@ -665,7 +665,9 @@
                 [ORG_ORG_TIME_SLOT_ARR] : emptyTimeSlot,
                 [ORG_ORG_PREFERRED_SUBJECT_ARR] : [],
                 [ORG_ORG_CORP]  : "",
-                [ORG_ORG_CORP_ID]  : ""
+                [ORG_ORG_CORP_ID]  : "",
+                [ORG_ORG_ADMIN_STATUS] : ORG_ADMIN_STATUS_ACTIVE,
+
               }
               promiseArray.push(orgEntityDocRef.set(newOrgData))
 
@@ -688,9 +690,11 @@
                 [ORG_EMP_BANK_ACC]  : "",
                 [ORG_EMP_EPF] : "",
                 [ORG_EMP_SOCSO] : "",
+                [ORG_EMP_TAX_NO]  : "",
+                [ORG_EMP_ADMIN_STATUS] : ORG_ADMIN_STATUS_ACTIVE,
+
               }
               promiseArray.push(empOwnerDocRef.set(newEmployeeData))
-
 
               newRoleData = {
                 [ORG_ROLE_ID] : roleOwnerDocRef.id,
@@ -714,6 +718,8 @@
                 [ORG_ROLE_ORG_NAME]  : snapshots[0].data()[ORG_USER_NAME] + "'s Organization",
                 [ORG_ROLE_ORG_IMG_URL] : "",
                 [ORG_ROLE_ORG_COVER_IMG_URL]  : "",
+                [ORG_ROLE_ADMIN_STATUS] : ORG_ADMIN_STATUS_ACTIVE,
+
               }
               promiseArray.push(roleOwnerDocRef.set(newRoleData))
 
@@ -821,7 +827,9 @@
                 [ORG_ORG_TIME_SLOT_ARR] : emptyTimeSlot,
                 [ORG_ORG_PREFERRED_SUBJECT_ARR] : [],
                 [ORG_ORG_CORP]  : "",
-                [ORG_ORG_CORP_ID]  : ""
+                [ORG_ORG_CORP_ID]  : "",
+                [ORG_ORG_ADMIN_STATUS] : ORG_ADMIN_STATUS_ACTIVE,
+
               }
               promiseArray.push(orgEntityDocRef.set(newOrgData))
 
@@ -834,18 +842,19 @@
                 [ORG_EMP_TYPE] : ORG_TYPE_ORG,
                 [ORG_EMP_OID]  : dbUid,
                 [ORG_EMP_STATUS] : ORG_EMP_STATUS_ACTIVE,
-
                 [ORG_EMP_NAME]  : snapshots[1].data()[NAME_KEY],
                 [ORG_EMP_PHONE]  : dbPhone,
                 [ORG_EMP_EMAIL]  : snapshots[1].data()[EMAIL_KEY],
                 [ORG_EMP_GENDER]  : snapshots[1].data()[GENDER_KEY],
                 [ORG_EMP_IMG_URL]  : snapshots[1].data()[IMAGE_KEY],
-
                 [ORG_EMP_DATE_JOINED] : new Date(),
                 [ORG_EMP_BANK_NAME] : "",
                 [ORG_EMP_BANK_ACC]  : "",
                 [ORG_EMP_EPF] : "",
                 [ORG_EMP_SOCSO] : "",
+                [ORG_EMP_TAX_NO] : "",
+                [ORG_EMP_ADMIN_STATUS] : ORG_ADMIN_STATUS_ACTIVE,
+
               }
               promiseArray.push(empOwnerDocRef.set(newEmployeeData))
 
@@ -871,6 +880,8 @@
                 [ORG_ROLE_ORG_NAME]  : snapshots[1].data()[NAME_KEY] + "'s Organization",
                 [ORG_ROLE_ORG_IMG_URL] : "",
                 [ORG_ROLE_ORG_COVER_IMG_URL]  : "",
+                [ORG_ROLE_ADMIN_STATUS] : ORG_ADMIN_STATUS_ACTIVE,
+
               }
               promiseArray.push(roleOwnerDocRef.set(newRoleData))
 

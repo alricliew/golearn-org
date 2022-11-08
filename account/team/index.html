@@ -1465,19 +1465,19 @@
         [ORG_EMP_TYPE] : ORG_TYPE_ACC,
         [ORG_EMP_OID]  : ent_oid,
         [ORG_EMP_STATUS] : ORG_EMP_STATUS_NEW,
-
         [ORG_EMP_NAME]  : empName,
         [ORG_EMP_PHONE] : empPhone,
         [ORG_EMP_EMAIL] : empEmail,
         [ORG_EMP_GENDER]  : empGender,
         [ORG_EMP_IMG_URL]  : "",
-
         [ORG_EMP_DATE_JOINED] : new Date(),
         [ORG_EMP_BANK_NAME] : bankName,
         [ORG_EMP_BANK_ACC]  : bankAcc,
         [ORG_EMP_EPF] : epf,
         [ORG_EMP_SOCSO] : socsoNo,
         [ORG_EMP_TAX_NO]  : taxNo,
+        [ORG_EMP_ADMIN_STATUS] : ORG_ADMIN_STATUS_ACTIVE,
+
       }
 
       let roleData = {
@@ -1505,6 +1505,7 @@
         [ORG_ROLE_ORG_NAME]  : ent_name,
         [ORG_ROLE_ORG_IMG_URL] : ent_imgUrl,
         [ORG_ROLE_ORG_COVER_IMG_URL]  : ent_coverImgUrl,
+        [ORG_ROLE_ADMIN_STATUS]: ORG_ADMIN_STATUS_ACTIVE,
       }
 
       var promiseAll = []
