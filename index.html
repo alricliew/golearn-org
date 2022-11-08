@@ -545,7 +545,7 @@
             [ORG_ORG_PREFERRED_SUBJECT_ARR] : [],
             [ORG_ORG_CORP]  : "",
             [ORG_ORG_CORP_ID]  : "",
-            [ORG_ORG_ADMIN_STATUS]: true,
+            [ORG_ORG_ADMIN_STATUS]: ORG_ADMIN_STATUS_ACTIVE,
           }
           promiseArrayLayer1.push(orgNewAccDocRef.set(newAccData))
           console.log(newAccData)
@@ -574,7 +574,8 @@
             [ORG_EMP_BANK_ACC]  : "",
             [ORG_EMP_EPF] : "",
             [ORG_EMP_SOCSO] : "",
-            [ORG_EMP_ADMIN_STATUS]: true,
+            [ORG_EMP_TAX_NO]  : "",
+            [ORG_EMP_ADMIN_STATUS]: ORG_ADMIN_STATUS_ACTIVE,
           }
           console.log(newEmployeeData)
 
@@ -608,7 +609,7 @@
             [ORG_ROLE_ORG_NAME]  : name,
             [ORG_ROLE_ORG_IMG_URL] : "",
             [ORG_ROLE_ORG_COVER_IMG_URL]  : "",
-            [ORG_ROLE_ADMIN_STATUS]: true,
+            [ORG_ROLE_ADMIN_STATUS]: ORG_ADMIN_STATUS_ACTIVE,
           }
           promiseArrayLayer1.push(orgNewRoleDocRef.set(newRoleData))
           console.log(newRoleData)
@@ -985,6 +986,7 @@
 
     }
 
+    // Reject and delete the role
     function rejectRole(roleId, empId){
 
       document.getElementById('btnRejectRoleModalUpdate').textContent = 'Rejecting... Please wait'
@@ -1003,16 +1005,15 @@
           .collection('employee')
           .doc(empId)
 
-      let roleData = {
-        // [ORG_ROLE_UID]  : org_uid,
+      // let roleData = {
+      //   // [ORG_ROLE_UID]  : org_uid,
+      // }
 
-      }
 
-
-      let empData = {
-        // [ORG_EMP_UID]  : org_uid,
-        [ORG_EMP_STATUS] : ORG_EMP_STATUS_REJECTED,
-      }
+      // let empData = {
+      //   // [ORG_EMP_UID]  : org_uid,
+      //   [ORG_EMP_STATUS] : ORG_EMP_STATUS_REJECTED,
+      // }
 
       console.log(roleId, empId)
 
@@ -1020,21 +1021,23 @@
 
       var promiseAll = []
 
-      // promiseAll.push(empDocRef.update(empData));
-      // promiseAll.push(roleDocRef.update(roleData));
+      promiseAll.push(empDocRef.delete());
+      promiseAll.push(roleDocRef.delete());
 
       Promise.all(promiseAll).then(() => {
         func.showNotification('top','center', 'success', 'check_circle', "Updated successfully!");
         $('#acceptRoleModal').modal('hide');
       }).then(() => {
 
-        document.getElementById('btnRejectRoleModalUpdate').textContent = 'Confirm'
-        document.getElementById('btnRejectRoleModalUpdate').disabled = false;
+        window.location.reload();
 
-        EMP_ID_TEMP = "";
-        ROLE_ID_TEMP = "";
-        document.getElementById('roleId').setAttribute('value', '');
-        document.getElementById('empId').setAttribute('value', '');
+        // document.getElementById('btnRejectRoleModalUpdate').textContent = 'Confirm'
+        // document.getElementById('btnRejectRoleModalUpdate').disabled = false;
+
+        // EMP_ID_TEMP = "";
+        // ROLE_ID_TEMP = "";
+        // document.getElementById('roleId').setAttribute('value', '');
+        // document.getElementById('empId').setAttribute('value', '');
       })
 
     }
