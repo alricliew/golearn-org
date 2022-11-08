@@ -1032,6 +1032,9 @@ const ORG_ORG_TIME_SLOT_ARR = "timeSlotArr"
 const ORG_ORG_PREFERRED_SUBJECT_ARR = "preferredSubArr"
 const ORG_ORG_CORP = "corp"
 const ORG_ORG_CORP_ID = "corpId"
+const ORG_ORG_ADMIN_STATUS = 'adminStatus' // Set by admin to disable an acc/org
+    const ORG_ADMIN_STATUS_ACTIVE = "active"
+    const ORG_ADMIN_STATUS_INACTIVE = "inactive"
 
 // org/v1/role
 const ORG_ROLE_ID = "id";
@@ -1063,6 +1066,8 @@ const ORG_ROLE_ALLOWED_PERMISSION_ARR = "allowedPermissionArr"
 const ORG_ROLE_ORG_NAME = "orgName"
 const ORG_ROLE_ORG_IMG_URL = "orgImgUrl"
 const ORG_ROLE_ORG_COVER_IMG_URL = "orgCoverImgUrl"
+const ORG_ROLE_ADMIN_STATUS = 'adminStatus' // Set by admin to disable an acc/org
+
 
 // org/v1/employee
 const ORG_EMP_ID = "id";
@@ -1088,6 +1093,8 @@ const ORG_EMP_BANK_ACC = "bankAccNo"
 const ORG_EMP_EPF = "epf"
 const ORG_EMP_SOCSO = "socso"
 const ORG_EMP_TAX_NO = "taxNo"
+const ORG_EMP_ADMIN_STATUS = 'adminStatus' // Set by admin to disable an acc/org
+
 // const ORG_EMP_REF = "ref"
 // const ORG_EMP_REPORT_TO = "reportTo"
 // const ORG_EMP_IC = "ic"

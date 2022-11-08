@@ -13,7 +13,7 @@ role_empImgUrl, role_empRef, role_empTitle, role_empRole, role_allowedPermission
 var ent_id;
 var ent_url, ent_orgId, ent_accIdArr, ent_oid,  ent_aid, ent_type, ent_lastOnline, ent_rating, ent_ratingTimes, ent_ratingFinal,
   ent_accountStatus, ent_name, ent_phone, ent_email, ent_addr, ent_areaId, ent_stateId, ent_imgUrl, ent_coverImgUrl, ent_oneLiner, ent_intro,
-  ent_lan, ent_timeSlotArr, ent_preferredSubArr, ent_corp, ent_corpId;
+  ent_lan, ent_timeSlotArr, ent_preferredSubArr, ent_corp, ent_corpId, ent_adminStatus;
 
 // Check if user logged on
 // AuthCheck() Hierachy:
@@ -152,7 +152,7 @@ async function loadUserInfo(uid){
       org_name = (doc.data()[ORG_USER_NAME] == null || doc.data()[ORG_USER_NAME] == "")? "New User" : doc.data()[ORG_USER_NAME];
       org_email = (doc.data()[ORG_USER_EMAIL] == null || doc.data()[ORG_USER_EMAIL]  == "")? "" : doc.data()[ORG_USER_EMAIL] ;
       org_phone = (doc.data()[ORG_USER_PHONE]  == null || doc.data()[ORG_USER_PHONE] == "")? "" : doc.data()[ORG_USER_PHONE];
-      org_imgUrl = (doc.data()[ORG_USER_IMAGE_URL] == null || doc.data()[ORG_USER_IMAGE_URL] == "")? "https://app.golearn.com.my/assets/img/hello.gif" : doc.data()[ORG_USER_IMAGE_URL];
+      org_imgUrl = (doc.data()[ORG_USER_IMAGE_URL] == null || doc.data()[ORG_USER_IMAGE_URL] == "")? "https://org.golearn.com.my/assets/img/hello.gif" : doc.data()[ORG_USER_IMAGE_URL];
       org_accountStatus = doc.data()[ORG_USER_ACCOUNT_STATUS];
       org_lastOnline = doc.data()[ORG_USER_LAST_ONLINE];
       org_orgId = doc.data()[ORG_USER_ORG_ID] == null ?  "" : doc.data()[ORG_USER_ORG_ID];
@@ -321,6 +321,12 @@ function updateOrgUserView(){
 // Update Entity / Account / Organization View
 function updateEntityView(){
   document.getElementById('logoName').textContent = ent_name;
+
+  const lock = document.getElementsByName('lockscreen')[0]
+  // Hide lockscreen if status= active
+  if (ent_adminStatus === ORG_ADMIN_STATUS_ACTIVE) lock.classList.add('hidden')
+  else lock.classList.remove('hidden')
+
 }
 
 // Update View based on Role & Permission
@@ -880,6 +886,7 @@ async function loadOrg(){
           ent_preferredSubArr = data[ORG_ORG_PREFERRED_SUBJECT_ARR];
           ent_corp = data[ORG_ORG_CORP];
           ent_corpId = data[ORG_ORG_CORP_ID];
+          ent_adminStatus = data[ORG_ORG_ADMIN_STATUS]
 
         }
       })
@@ -1020,7 +1027,7 @@ async function loadOrgInfo(entId, type){
       // })
       // console.log(snapshots[1].size )
 
-      // If the Org user owned this account OR role(s) found
+      // If the Org user owned this account OR this user has a role(s) in this account.
       if (snapshots[0].data[ORG_ORG_OID] === org_uid || snapshots[1].size > 0){
         // Store Org User in Session
         storeOrgEntitySession(snapshots[0].data())
@@ -1154,6 +1161,7 @@ function storeOrgEntitySession(data){
   ent_preferredSubArr = data[ORG_ORG_PREFERRED_SUBJECT_ARR];
   ent_corp = data[ORG_ORG_CORP];
   ent_corpId = data[ORG_ORG_CORP_ID];
+  ent_adminStatus = data[ORG_ORG_ADMIN_STATUS]
 
   var dataObj = {
     [ORG_ORG_ID] : data[ORG_ORG_ID],
@@ -1183,6 +1191,8 @@ function storeOrgEntitySession(data){
     [ORG_ORG_PREFERRED_SUBJECT_ARR] :data[ORG_ORG_PREFERRED_SUBJECT_ARR],
     [ORG_ORG_CORP] :data[ORG_ORG_CORP],
     [ORG_ORG_CORP_ID] :data[ORG_ORG_CORP_ID],
+    [ORG_ORG_ADMIN_STATUS] : data[ORG_ORG_ADMIN_STATUS],
+
   }
   // console.log(dataObj)
   var allDataObj = [];
@@ -1220,100 +1230,6 @@ function storeOrgEntitySession(data){
   // sessionStorage.setItem('item', JSON.stringify(testArr));
 }
 
-function storeRoleSession(data){
-  // Update to Global vars
-  ent_id = data[ORG_ORG_ID];
-  ent_url = data[ORG_ORG_URL];
-  ent_orgId = data[ORG_ORG_ORG_ID];
-  ent_accIdArr = data[ORG_ORG_ACC_ID_ARR];
-  ent_oid = data[ORG_ORG_OID];
-  ent_aid = data[ORG_ORG_AID];
-  ent_type = data[ORG_ORG_TYPE];
-  ent_lastOnline = data[ORG_ORG_LAST_ONLINE];
-  ent_rating = data[ORG_ORG_RATING];
-  ent_ratingTimes = data[ORG_ORG_RATING_TIMES];
-  ent_ratingFinal = data[ORG_ORG_RATING_FINAL];
-  ent_accountStatus = data[ORG_ORG_STATUS];
-  ent_name = data[ORG_ORG_NAME];
-  ent_phone = data[ORG_ORG_PHONE];
-  ent_email = data[ORG_ORG_EMAIL];
-  ent_addr = data[ORG_ORG_ADDRESS];
-  ent_areaId = data[ORG_ORG_AREA];
-  ent_stateId = data[ORG_ORG_STATE];
-  ent_imgUrl = data[ORG_ORG_IMG_URL];
-  ent_coverImgUrl = data[ORG_ORG_COVER_IMG_URL];
-  ent_oneLiner = data[ORG_ORG_ONE_LINER];
-  ent_intro = data[ORG_ORG_INTRO];
-  ent_lan = data[ORG_ORG_LAN];
-  ent_timeSlotArr = data[ORG_ORG_TIME_SLOT_ARR];
-  ent_preferredSubArr = data[ORG_ORG_PREFERRED_SUBJECT_ARR];
-  ent_corp = data[ORG_ORG_CORP];
-  ent_corpId = data[ORG_ORG_CORP_ID];
-
-  var dataObj = {
-    [ORG_ORG_ID] : data[ORG_ORG_ID],
-    [ORG_ORG_URL] : data[ORG_ORG_URL],
-    [ORG_ORG_ORG_ID] : data[ORG_ORG_ORG_ID],
-    [ORG_ORG_ACC_ID_ARR] : data[ORG_ORG_ACC_ID_ARR],
-    [ORG_ORG_OID] :data[ORG_ORG_OID],
-    [ORG_ORG_AID] :data[ORG_ORG_AID],
-    [ORG_ORG_TYPE] :data[ORG_ORG_TYPE],
-    [ORG_ORG_LAST_ONLINE] :data[ORG_ORG_LAST_ONLINE],
-    [ORG_ORG_RATING] :data[ORG_ORG_RATING],
-    [ORG_ORG_RATING_TIMES] : data[ORG_ORG_RATING_TIMES],
-    [ORG_ORG_RATING_FINAL] : data[ORG_ORG_RATING_FINAL],
-    [ORG_ORG_STATUS] : data[ORG_ORG_STATUS],
-    [ORG_ORG_NAME] : data[ORG_ORG_NAME],
-    [ORG_ORG_PHONE] :data[ORG_ORG_PHONE],
-    [ORG_ORG_EMAIL] :data[ORG_ORG_EMAIL],
-    [ORG_ORG_ADDRESS] :data[ORG_ORG_ADDRESS],
-    [ORG_ORG_AREA] :data[ORG_ORG_AREA],
-    [ORG_ORG_STATE] :data[ORG_ORG_STATE],
-    [ORG_ORG_IMG_URL] : data[ORG_ORG_IMG_URL],
-    [ORG_ORG_COVER_IMG_URL] : data[ORG_ORG_COVER_IMG_URL],
-    [ORG_ORG_ONE_LINER] : data[ORG_ORG_ONE_LINER],
-    [ORG_ORG_INTRO] : data[ORG_ORG_INTRO],
-    [ORG_ORG_LAN] :data[ORG_ORG_LAN],
-    [ORG_ORG_TIME_SLOT_ARR] :data[ORG_ORG_TIME_SLOT_ARR],
-    [ORG_ORG_PREFERRED_SUBJECT_ARR] :data[ORG_ORG_PREFERRED_SUBJECT_ARR],
-    [ORG_ORG_CORP] :data[ORG_ORG_CORP],
-    [ORG_ORG_CORP_ID] :data[ORG_ORG_CORP_ID],
-  }
-  // console.log(dataObj)
-  var allDataObj = [];
-
-  // var testArr = [];
-  if (sessionStorage.getItem(SESSION_STORAGE_ORG_ENTITY) == null ){
-
-    allDataObj.push(dataObj)
-
-    // testArr = JSON.parse(sessionStorage.getItem('item'))
-    // testArr.push({'a': 1, 'b': 123})
-  }
-  else{
-    allDataObj = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_ORG_ENTITY))
-    // console.log(allDataObj)
-
-    // Update the item sessionStorage if already existed
-    let pushNew = true;
-    allDataObj.forEach((item, index) => {
-      if (item.id === data[ORG_ORG_ID]){
-        allDataObj[index] = dataObj;
-        pushNew = false;
-      }
-    })
-
-    if (pushNew)
-      allDataObj.push(dataObj)
-
-    // testArr = JSON.parse(sessionStorage.getItem('item'))
-    // testArr.push({'c': 1, 'd': 123})
-
-  }
-
-  sessionStorage.setItem(SESSION_STORAGE_ORG_ENTITY, JSON.stringify(allDataObj));
-  // sessionStorage.setItem('item', JSON.stringify(testArr));
-}
 
 // Sign out
 function signOutFunction(){
@@ -1396,8 +1312,8 @@ function checkDomainNameException(url){
   else if (result_us07web_zoom) return "http://www.google.com/s2/favicons?domain=https://zoom.us";
   else if (result_us08web_zoom) return "http://www.google.com/s2/favicons?domain=https://zoom.us";
   else if (result_us09web_zoom) return "http://www.google.com/s2/favicons?domain=https://zoom.us";
-  else if (result_teams_microsoft) return "https://app.golearn.com.my/assets/img/favicon-teams-32x32.png";
-  else if (result_classroom_google) return "https://app.golearn.com.my/assets/img/favicon-googleclassroom-32x32.png";
+  else if (result_teams_microsoft) return "https://org.golearn.com.my/assets/img/favicon-teams-32x32.png";
+  else if (result_classroom_google) return "https://org.golearn.com.my/assets/img/favicon-googleclassroom-32x32.png";
   else return "http://www.google.com/s2/favicons?domain="+url;
 }
 
