@@ -66,7 +66,7 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item" perm="home">
+          <li class="nav-item active" perm="home">
             <a class="nav-link" href="./" name="param-link">
               <i class="far fa-chart-bar fa-fw nav-icon"></i>
               <p>Dashboard</p>
@@ -181,6 +181,44 @@
 
 			<!-- Modal Start -->
 
+      <!-- Link Share modal -->
+      <div class="row">
+        <div class="modal fade" id="linkShareModal" tabindex="-1" role="dialog" aria-labelledby="linkShareModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <span style="font-weight: 400; margin-top: 1rem;">Ask for reviews to improve your profile and be better positioned in the search results!</span>
+                <div class="row" style="padding: 1rem 1rem; background: #f6f6f6; border-radius: 12px; margin: 1rem 0rem 2rem 0rem;" >
+                  <div class="col-md-9" style="padding: 0!important;">
+                    <textarea type="text" class="form-control" id="tutorReviewLink" style="background: transparent; word-break: break-all; resize: none;" rows="2"></textarea>
+                  </div>
+                  <div class="col-md-3 text-center" style="padding: 0!important;">
+                    <a href="javascript:;" class="btn btn-primary btn-round btn-sm" style="margin: 0;" onclick="copyText('tutorReviewLink')">Copy Link</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Modal -->
+      <div class="row">
+        <div class="modal fade" tabindex="-1" role="dialog" id="loadingModal" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="container-fluid">
+              <div class="row d-flex">
+                <span class="fa fa-spinner fa-spin fa-5x w-100" style="color: #fff ;"></span>
+                <div class="col align-self-center">
+                  <!-- <h5 class="modal-title" style="color: white;">Generating invoice in progress. </h5> -->
+                  <!-- <h5 class="modal-title" style="color: white;"> Please do not close this window.</h5> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
        <!-- Sign-out modal -->
        <div class="row">
         <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
@@ -204,9 +242,289 @@
         </div>
       </div>
 
+
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
+
+          <!-- Statistic Section -->
+
+          <div class="row">
+            <!-- Students -->
+            <div class="col-md-3">
+              <div class="card card-stats">
+                <div class="card-header card-header-primary card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-user-graduate fa-fw"></i>
+                  </div>
+                  <p class="card-category">Students</p>
+                  <h3 class="card-title" style="font-weight: bold;">
+                    <span id="studentNum">0</span>
+                  </h3>
+                </div>
+                <div class="card-footer">
+                  <!-- Back button -->
+                  <!-- <div class="stats">
+                    <div class="row d-flex" style="padding: 0; margin: 0;">
+                      <div class="p-2" style="padding: 0!important;">
+                        <i class="material-icons">update</i>
+                      </div>
+                      <div class="p-2" style="padding: 0!important;">
+                        <span id="studentLastEdit">-</span>
+                      </div>
+                      <div class="ml-auto p-2" style="padding: 0!important;">
+                        <i class="material-icons">update</i>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="stats">
+                    <i class="material-icons">access_time</i>
+                    <span id="studentLastEdit">-</span>
+                  </div>
+                  <div class="stats">
+                    <span style="cursor: pointer;" onclick="reloadStudentNum();">
+                      <i class="material-icons">refresh</i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Classes -->
+            <div class="col-md-3">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-chalkboard fa-fw"></i>
+                  </div>
+                  <p class="card-category">Classes</p>
+                  <h3 class="card-title" style="font-weight: bold;">
+                    <span id="classNum">0</span>
+                  </h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i>
+                    <span id="classLastEdit">-</span>
+                  </div>
+                  <div class="stats">
+                    <span style="cursor: pointer;" onclick="reloadClassNum();">
+                      <i class="material-icons">refresh</i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Teachers -->
+            <div class="col-md-3">
+              <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-chalkboard-teacher fa-fw"></i>
+                  </div>
+                  <p class="card-category">Teachers</p>
+                  <h3 class="card-title" style="font-weight: bold;">
+                    <span id="tutorNum">0</span>
+                  </h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i>
+                    <span id="tutorLastEdit">-</span>
+                  </div>
+                  <div class="stats">
+                    <span style="cursor: pointer;" onclick="reloadTutorNum();">
+                      <i class="material-icons">refresh</i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="col-md-3">
+              <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-user-cog fa-fw"></i>
+                  </div>
+                  <p class="card-category">Profile Completed</p>
+                  <h3 class="card-title" style="font-weight: bold; padding: 0 !important; margin: 0 !important;">
+
+                    <span id="profilePercentageNum" style="padding: 0; margin: 0;">0%</span>
+                  </h3>
+                </div>
+
+                <div class="card-footer">
+                  <a href="javascript:;" data-toggle="modal" data-target="#viewProfileModal" class="btn btn-primary btn-round btn-sm" style="margin: 0; padding-top: 0.2rem; padding-bottom: 0.2rem; display: none;">Preview</a>
+                  <span class="tooltiptext-trigger"  style="background-color: transparent; color: #2e74b6; font-weight: bold; font-size: small;">?
+                    <span class="tooltiptext-general" style="left: 40%; bottom: 30%; width: 200px;">
+                      <h6 >Profile</h6>
+                      <p style="font-weight: 300;"><span><i class="fas fa-minus-circle fa-fw" id="profilePic" style="color:red; font-size: small;"></i></span> Upload a profile picture</p>
+                      <p style="font-weight: 300;"><span><i class="fas fa-minus-circle fa-fw" id="profileBasic" style="color:red; font-size: small;"></i></span> Update basic details</p>
+                      <p style="font-weight: 300;"><span><i class="fas fa-minus-circle fa-fw" id="profileQualification" style="color:red; font-size: small;"></i></span> Add qualification</p>
+                      <p style="font-weight: 300;"><span><i class="fas fa-minus-circle fa-fw" id="profileApproach" style="color:red; font-size: small;"></i></span> Add teaching approach </p>
+                      <p style="font-weight: 300;"><span><i class="fas fa-minus-circle fa-fw" id="profileExp" style="color:red; font-size: small;"></i></span> Add past experience</p>
+                      <p style="font-weight: 300;"><span><i class="fas fa-minus-circle fa-fw" id="profileSubject" style="color:red; font-size: small;"></i></span> Preferred subjects</p>
+                      <p style="font-weight: 300;"><span><i class="fas fa-minus-circle fa-fw" id="profileArea" style="color:red; font-size: small;"></i></span> Teaching places</p>
+                    </span>
+                  </span>
+
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Profile view -->
+            <div class="col-md-3" style="display: none;">
+              <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-eye fa-fw"></i>
+                  </div>
+                  <p class="card-category"></p>
+                  <h3 class="card-title" id="main_subject_sentence">
+
+                  </h3>
+                </div>
+                <div class="card-body" style="text-align: left;">
+                  <h4 class="card-title">
+                    Profile Views
+                  </h4>
+                  <h3 class="card-title" id="profileViewNum" style="font-weight: bold;">
+                    0
+                  </h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Public Courses -->
+            <div class="col-md-3" style="display: none;">
+              <div class="card card-stats">
+                <div class="card-header card-header-secondary card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-book-open fa-fw"></i>
+                  </div>
+                  <p class="card-category"></p>
+                  <h3 class="card-title" id="main_subject_sentence">
+
+                  </h3>
+                </div>
+                <div class="card-body" style="text-align: left;">
+                  <h4 class="card-title">
+                    Public Courses
+                  </h4>
+                  <h3 class="card-title" id="publicCourseNum" style="font-weight: bold;">
+                    0
+                  </h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <!-- Info Section -->
+          <div class="row">
+
+            <!-- Revenue column -->
+            <div class="col-md-6">
+              <div class="card card-chart">
+                <div class="card-header card-header-success">
+                  <!-- <div class="ct-chart" id="dailySalesChart"></div> -->
+                  <canvas id="monthlyRevenueChart" width="400" height="400"></canvas>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">Monthly Revenue</h4>
+                  <p class="card-category" id="monthRevenueText">
+                    <!-- <span class="text-success" id="monthRevenueText"><i class="fa fa-long-arrow-down"></i> 0% </span> increase in this month sales.</p> -->
+                </div>
+                <div class="card-footer">
+                  <div class="stats align-self-center" id="monthRevenueLastUpdate">
+                    <i class="material-icons">update</i>
+                  </div>
+                  <div class="stats">
+                    <span style="cursor: pointer;" onclick="window.location = 'report/'; ">
+                      More Insights
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- User info -->
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card" style="margin-top: 0rem; ">
+                    <div class="card-body">
+
+                      <div style="display: inline-block; margin-top: 1rem;">
+                        <h4 style="color: #2e74b6;">
+                          My Public Profile
+                        </h4>
+                      </div>
+
+                      <!-- <div class="align-middle"  style="display: inline-block; margin-left: 8px; padding-bottom: 10px!important;  cursor: pointer;" id="shareProfilePublicUrl" onclick="window.open()">
+                        <div class="align-middle" style="height: 30px; width: 30px; display: inline-flex;">
+                          <img style=" width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 2px solid white;" class="tutor-profile-image" id="shareProfileImgUrl" src="https://golearn.com.my/assets/img/empty-photo.png">
+                        </div>
+
+                        <p class="align-middle" style="font-weight: bold; display: inline; " id="ratingBlock">
+                          <i class='fas fa-star' style='color: #ff9529;'></i> <span id="ratingBlockVal"></span>
+                          <span style="font-size: small; font-weight: 300; color: #686868;" id="ratingBlockReview"></span>
+                        </p>
+                      </div> -->
+
+
+                      <div class="row">
+                        <div class="col-md-12" style="margin-top: 0;">
+                          <!-- <span style="font-weight: 400;"> Share this link with your contacts.</span>  -->
+
+                          <div class="row" style="padding: 0.5rem 1rem; background: #f6f6f6; border-radius: 12px; margin-bottom: 1rem;" >
+                            <div class="col-md-9">
+                              <textarea type="text" class="form-control" id="tutorLink" style="background: transparent; word-break: break-all; resize: none;" rows="2" ></textarea>
+                            </div>
+                            <div class="col-md-3 text-center">
+                              <a href="javascript:;" class="btn btn-primary btn-round btn-sm" style="margin: 0;" onclick="copyText('tutorLink')">Copy</a>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12" style="margin-top: 0.5rem;">
+                          <span style="font-weight: 400; margin-top: 1rem;">Share with your friends, family and future students.</span>
+
+                          <div class="row justify-content-around" style="padding: 1rem 1rem; background: #f6f6f6; border-radius: 12px; margin-bottom: 2rem; margin-top: 1rem;" >
+                              <a id="btnFbShare" rel="nofollow noopener noreferrer" href="#" target="_blank" title="Click to share on Facebook"><i class="fab fa-facebook-f fa-lg" style="color: #4267B2;"></i></a>
+                              <a id="btnTelegramShare" rel="nofollow noopener noreferrer" href="#" target="_blank" title="Click to share on Telegram"><i class="fab fa-telegram-plane fa-lg" style="color: #0088CC;"></i></a>
+                              <a id="btnWhatsappShare" rel="nofollow noopener noreferrer" href="#" target="_blank" title="Click to share on WhatsApp"><i class="fab fa-whatsapp fa-lg" style="color: #128C7E;"></i></a>
+                              <a id="btnTwitterShare" rel="nofollow noopener noreferrer" href="#" target="_blank" title="Click to share on Twitter"><i class="fab fa-twitter fa-lg" style="color: #1DA1F2;"></i></a>
+                              <a id="btnLinkedInShare" rel="nofollow noopener noreferrer" href="#" target="_blank" title="Click to share on LinkedIn"><i class="fab fa-linkedin fa-lg" style="color: #0e76a8;"></i></a>
+                          </div>
+
+                          <span style="font-weight: 400; margin-top: 1rem;">Gain more <i class='fas fa-star' style='color: #ff9529;'></i> to improve your profile and be better positioned in the search results!</span>
+                          <a href="javascript:;" class="btn btn-primary btn-round btn-sm" data-toggle="modal" data-target="#linkShareModal">Get Review Link</a>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
 		    </div>
       </div>
     </div>
@@ -217,6 +535,8 @@
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Chartist JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
@@ -225,10 +545,94 @@
   <script src="../assets/js/common.js" type="text/javascript"></script>
   <!-- General Info -->
   <script src="../assets/js/const.js" type="text/javascript"></script>
-  <!-- Global Var -->
-  <!-- <script src="../assets/js/globalvar.js" type="text/javascript"></script> -->
   <!-- Core Organization -->
   <script src="../assets/js/org-core.js" type="text/javascript"></script>
+
+   <!-- Chart -->
+   <script>
+
+    // Monthly Revenue
+    const month = MyMonthAbr;
+    const labels = month;
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Monthly Revenue',
+        // data: [65, 59, 80, 81, 56, 55, 40],
+        data: [],
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        borderWidth: 1,
+
+      }]
+    };
+
+    const option = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+          display: false,
+          text: 'Chart.js Bar Chart'
+        }
+      },
+      scales: {
+
+        x: {
+          ticks: {
+            color: ['rgba(255, 255, 255, 0.9)'],
+          },
+          grid:{
+            display: true,
+            color: function(context) {
+
+              if (context.tick == null ){
+                return 'transparent';
+              }else if (context.tick.value == 0) {
+                return 'rgba(255, 255, 255, 0.9)';
+              } else if (context.tick.value > 0) {
+                return 'transparent';
+              }
+            }
+
+          },
+          beginAtZero: true,
+        },
+        y: {
+          ticks: {
+            color: 'rgba(255, 255, 255, 0.9)',
+          },
+          grid:{
+            display: true,
+            color: function(context) {
+
+              if (context.tick == null ){
+                return 'rgba(255, 255, 255, 0.3)';
+              }else if (context.tick.value == 0) {
+                return 'rgba(255, 255, 255, 1)';
+              } else if (context.tick.value > 0) {
+                return 'rgba(255, 255, 255, 0.3)';
+              }
+            }
+          },
+          beginAtZero: true,
+        },
+      }
+    }
+
+    const config = {
+      type: 'bar',
+      data: data,
+      options: option,
+    };
+
+    const ctx = document.getElementById('monthlyRevenueChart').getContext('2d');
+    const monthlyRevenueChart = new Chart(ctx, config);
+
+
+  </script>
 
   <script>
 
@@ -237,15 +641,526 @@
 
     // Page Specific Initialization
     function loadPageInitFunc(){
+      // Update page view
+      // updatePageView();
+
+      // Update general view
+      // updateGeneralView1();
+
+      // Disable loading
+      disableLoading();
+
+      // Update general statistic
+      loadGeneralNum();
+
+      // Load revenue chart
+      loadAllOrgRevenue();
+    }
+
+    // Load the student number
+    function loadGeneralNum(){
+      let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("General")
+          .where(NUM_ADMIN_ID, "==", ent_id)
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.size == 0) {
+          // console.log("Empty ");
+          clearDashboard();
+        }
+        else {
+          querySnapshot.forEach((doc) => {
+            console.log(doc.data());
+            updateDashboard(doc);
+          });
+
+        }
+      });
+
+
+    }
+
+    // Update dashboard view
+    function updateDashboard(doc){
+      let type = doc.data()[NUM_TYPE];
+      let value = doc.data()[NUM_VALUE];
+      let lastEdit = doc.data()[NUM_DATE_EDIT].toDate().toLocaleDateString("en-GB");
+
+      if (type === NUM_TYPE_STUDENT){
+        document.getElementById("studentNum").textContent = value;
+        document.getElementById("studentLastEdit").textContent = lastEdit;
+        lvl2StudentNum = value;
+      }
+      else if (type === NUM_TYPE_TEACHER){
+        document.getElementById("tutorNum").textContent = value;
+        document.getElementById("tutorLastEdit").textContent = lastEdit;
+      }
+      else if (type === NUM_TYPE_CLASS){
+        document.getElementById("classNum").textContent = value;
+        document.getElementById("classLastEdit").textContent = lastEdit;
+        lvl2ClassNum = value;
+      }
+      else if (type === NUM_TYPE_PUBLIC_COURSE){
+        document.getElementById("profileViewNum").textContent = value;
+      }
+      else if (type === NUM_TYPE_PROFILE_VIEW){
+        document.getElementById("publicCourseNum").textContent = value;
+      }
+      else{
+        // Do nothing
+      }
+
+    }
+
+    // reset dashboard view
+    function clearDashboard(){
+
+      document.getElementById("studentNum").textContent = 0;
+      document.getElementById("classNum").textContent = 0;
+      document.getElementById("tutorNum").textContent = 0;
+      document.getElementById("profileViewNum").textContent = 0;
+      document.getElementById("publicCourseNum").textContent = 0;
 
     }
 
 
+    // Load all organization level revenue
+    function loadAllOrgRevenue(){
+      let fullYear = new Date().getFullYear();
+      let month = new Date().getMonth();
+      // console.log(month);
+
+      let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Revenue")
+          .where(REV_ADMIN_ID, "==", ent_id)
+          .where(REV_TYPE, "==", REV_TYPE_ORG)
+          .where(REV_MONTH, "==", fullYear+"99")
+          .where(REV_STATUS, "==", true)
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+          console.log("Empty ");
+        }
+        else {
+          querySnapshot.forEach((doc) => {
+
+            let monthRevenueList = doc.data()[REV_DOC_TOTAL_ARR];
+
+            // monthRevenueList.forEach((item) =>{
+              // addData(monthlyRevenueChart, '', item);
+            // });
+            addData(monthlyRevenueChart, '', monthRevenueList);
+
+            let thisMonthRevenue = 0;
+            let lastMonthRevenue = 0;
+            let revenueGrowth = 0;
+            // console.log('month: '+month);
+            // console.log(monthRevenueList[month])
+            // console.log(monthRevenueList[month-1])
+            if (month > 0 ){
+              thisMonthRevenue = monthRevenueList[month];
+              lastMonthRevenue = monthRevenueList[month - 1];
+              revenueGrowth = (thisMonthRevenue -  lastMonthRevenue) / lastMonthRevenue * 100;
+            }else{
+              revenueGrowth = 0;
+            }
+            // console.log(revenueGrowth);
+
+            if (revenueGrowth>= 0){
+              document.getElementById('monthRevenueText').innerHTML = "<span class='text-success'><i class='fa fa-long-arrow-up'></i> "+parseFloat(revenueGrowth.toFixed(1))+"%  </span> increase in this month sales.";
+            }else if(revenueGrowth < 0) {
+              document.getElementById('monthRevenueText').innerHTML = "<span class='text-danger'><i class='fa fa-long-arrow-down'></i> "+parseFloat(revenueGrowth.toFixed(1))+"%  </span> decrease in this month sales.";
+            }else {
+              // revenueGrowth = nan or other unexpected value
+              document.getElementById('monthRevenueText').innerHTML = "<span class='text-success'><i class='fa fa-long-arrow-up'></i> 0%  </span> increase in this month sales.";
+            }
+
+            document.getElementById('monthRevenueLastUpdate').innerHTML = "<i class='material-icons'>access_time</i> Updated "+doc.data()[REV_DATE_EDIT].toDate().toLocaleDateString("en-GB");;
+
+          });
+        }
+
+      });
+
+    }
+
+    // Push data to chart
+    function updateData(chart, label, data) {
+
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        // console.log(dataset.data);
+
+        // console.log(data.datasets[0].data);
+        dataset.data.push(data);
+      });
+      chart.update();
+    }
+
+    function addData(chart, label, data) {
+
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        // console.log(dataset.data);
+        // console.log(data.datasets[0].data);
+        dataset.data = data;
+      });
+      chart.update();
+    }
+
+    // Update Page Specific View
+    function updatePageView(){
+
+      // Update sharing button
+      let url = encode64(ent_id);
+      let url_string = "https://golearn.com.my/tutor?tid="+ url;
+      let textMessage = "Hi. "+ ent_name +" is now teaching and giving private classes on GoLearn. Your recommendation would helpful to " +ent_name+ " and future students."
+      let textMessageWithUrl = "Hi. "+ ent_name +" is now teaching and giving private classes on GoLearn. Your recommendation would helpful to " +ent_name+ " and future students. Link: " +url_string;
+
+      document.getElementById("btnFbShare").href = "https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url_string)+"&quote="+textMessage;
+      document.getElementById("btnTwitterShare").href = "http://www.twitter.com/share?url="+ encodeURIComponent(url_string)+"&text=" + textMessage;
+      document.getElementById("btnWhatsappShare").href = "https://wa.me/?text="+ textMessageWithUrl;
+      document.getElementById("btnTelegramShare").href = "https://telegram.me/share/url?url="+ url_string+"&text=" + textMessage;
+      document.getElementById("btnLinkedInShare").href = "https://www.linkedin.com/shareArticle?mini=true&url="+ encodeURIComponent(url_string)+"&summary=" +textMessage +"&source=golearn.com.my";
+
+      // document.getElementById("tutorLink").value = "https://golearn.com.my/tutor/?tid="+ url;
+      // document.getElementById("tutorReviewLink").value = "https://app.golearn.com.my/c/r/review.html?tid="+ url;
+
+      // Update main content
+      let isHelloGifExist = false;
+      let helloGifArr = ent_imgUrl.match(/hello.gif/gi)
+      if (helloGifArr != null) {
+        if (helloGifArr.length > 0) {
+          isHelloGifExist = true;
+        }
+      }
+
+      let isEmptyPhotoPngExist;
+      let emptyPhotoPngArr = ent_imgUrl.match(/empty-photo.png/gi)
+      if (emptyPhotoPngArr != null) {
+        if (emptyPhotoPngArr.length > 0) {
+          isEmptyPhotoPngExist = true;
+        }
+      }
+
+      // Check if img is valid. If no, create a 2 chars avatar
+      if (ent_imgUrl == null || ent_imgUrl == ""
+        || ent_imgUrl == "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"
+        || isHelloGifExist || isEmptyPhotoPngExist) {
+        let AvatarText = ent_name[0] + ent_name[1];
+        tutorImgUrl.src = generateAvatar(AvatarText, "#eaeaea", "#f6f6f6", "100px");
+      }
+      else {
+        tutorImgUrl.src = ent_imgUrl;
+      }
+
+      // Enable the dummy profile
+      document.getElementById('btnIWantThisTutor').setAttribute('style','background-color: #2e74b6; pointer-events: auto; ');
+
+      // Update Dashboard > Profile
+      // let checker = 0; // max = 7
+      // if (ent_imgUrl != null && ent_imgUrl != "" && ent_imgUrl != "https://app.golearn.com.my/assets/img/hello.gif"){
+      //   document.getElementById("profilePic").style.color = "green";
+      //   document.getElementById("profilePic").className = "fas fa-check-circle fa-fw";
+      //   checker = checker + 1;
+      // }
+      // if (currentYearsExperience != null && currentYearsExperience != ""){
+      //   document.getElementById("profileBasic").style.color = "green";
+      //   document.getElementById("profileBasic").className = "fas fa-check-circle fa-fw";
+      //   checker = checker + 1;
+      // }
+      // if (currentQualification != null && currentQualification != ""){
+      //   document.getElementById("profileQualification").style.color = "green";
+      //   document.getElementById("profileQualification").className = "fas fa-check-circle fa-fw";
+      //   checker = checker + 1;
+      // }
+      // if (currentTutoringApproach != null && currentTutoringApproach != ""){
+      //   document.getElementById("profileApproach").style.color = "green";
+      //   document.getElementById("profileApproach").className = "fas fa-check-circle fa-fw";
+      //   checker = checker + 1;
+      // }
+      // if (currentTutoringExperience != null && currentTutoringExperience != ""){
+      //   document.getElementById("profileExp").style.color = "green";
+      //   document.getElementById("profileExp").className = "fas fa-check-circle fa-fw";
+      //   checker = checker + 1;
+      // }
+      // if (current_preferedSubjectList != null && current_preferedSubjectList != "" && current_preferedSubjectList.length > 0){
+      //   document.getElementById("profileSubject").style.color = "green";
+      //   document.getElementById("profileSubject").className = "fas fa-check-circle fa-fw";
+      //   checker = checker + 1;
+      // }
+      // if (current_preferedAreaList != null && current_preferedAreaList != "" && current_preferedAreaList.length > 0){
+      //   document.getElementById("profileArea").style.color = "green";
+      //   document.getElementById("profileArea").className = "fas fa-check-circle fa-fw";
+      //   checker = checker + 1;
+      // }
+
+      // // Get the percentage of completion. 7 is just the number of criteria contested
+      // let percentage = checker / 7 * 100;
+      // document.getElementById("profilePercentageNum").textContent = parseInt(percentage) + "%";
+
+    }
+
+
+    // Reload student number
+    function reloadStudentNum(){
+      $('#loadingModal').modal('show');
+
+      var docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Student")
+          .where(STU_ADMIN_ID, "==", ent_id)
+          .where(STU_STATUS_ADMIN, "==", true);
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+          // console.log("Empty ");
+          resetNum(0, NUM_TYPE_STUDENT);
+        }
+        else {
+          console.log("Found ");
+          querySnapshot.forEach((doc) => {
+
+            console.log(doc.data());
+            // updateDashboard(doc);
+          });
+
+          let stuNum = querySnapshot.docs.length;
+          // console.log(stuNum)
+          resetNum(stuNum, NUM_TYPE_STUDENT);
+        }
+
+      });
+
+    }
+
+    // Reload class number
+    function reloadClassNum(){
+      $('#loadingModal').modal('show');
+
+      var docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Class")
+          .where(CLASS_ADMIN_ID, "==", ent_id)
+          .where(STATUS_KEY, "==", true);
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+          // console.log("Empty ");
+          resetNum(0, NUM_TYPE_CLASS);
+        }
+        else {
+          console.log("Found ");
+          querySnapshot.forEach((doc) => {
+
+            console.log(doc.data());
+            // updateDashboard(doc);
+          });
+
+          let classNum = querySnapshot.docs.length;
+          console.log(classNum)
+          resetNum(classNum, NUM_TYPE_CLASS);
+        }
+
+      });
+
+    }
+
+    // Reload teacer number
+    function reloadTutorNum(){
+      $('#loadingModal').modal('show');
+
+      var docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Tutor")
+          .where(TUTOR_ADMIN_ID, "==", ent_id)
+          .where(TUTOR_STATUS_ADMIN, "in", [TUTOR_STATUS_TYPE_ACTIVE, TUTOR_STATUS_TYPE_PASSIVE]);
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+          // console.log("Empty ");
+          resetNum(0, NUM_TYPE_TEACHER);
+        }
+        else {
+          console.log("Found ");
+          querySnapshot.forEach((doc) => {
+            console.log(doc.data());
+          });
+
+          let tutorNum = querySnapshot.docs.length;
+          console.log(tutorNum)
+          resetNum(tutorNum, NUM_TYPE_TEACHER);
+        }
+
+      });
+
+    }
+
+    // Report: Update Student Number
+    function resetNum(value, type){
+
+      let docRef = db.collection("dev")
+        .doc("v2")
+        .collection("General")
+        .where(NUM_ADMIN_ID, "==", ent_id)
+        .where(NUM_TYPE, "==", type)
+        .limit(1);
+
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        if(querySnapshot.empty) {
+          console.log("Empty. create new doc ");
+          let reportDocRef = db.collection("dev")
+            .doc("v2")
+            .collection("General")
+            .doc();
+
+          reportData ={
+            [NUM_ID]: reportDocRef.id,
+            [NUM_ADMIN_ID]: ent_id,
+            [NUM_TYPE]: type,
+            [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 0 : parseInt(value),
+            [NUM_DATE_EDIT]: new Date(),
+          }
+
+          console.log(reportData)
+          reportDocRef
+            .set(reportData, { merge: true })
+            .then(() => {
+              // $('#loadingModal').modal('hide');
+              window.location.href='./';
+            });
+
+        }
+        else {
+          // console.log("Data found Update: ");
+
+          querySnapshot.forEach((doc) => {
+
+            console.log(doc.data());
+
+            let reportDocRef = db.collection("dev")
+              .doc("v2")
+              .collection("General")
+              .doc(doc.data()[NUM_ID]);
+
+
+            reportData ={
+              // [NUM_ID]: reportDocRef.id,
+              // [NUM_ADMIN_ID]: ent_id,
+              // [NUM_TYPE]: ,
+              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 0 : parseInt(value),
+              [NUM_DATE_EDIT]: new Date(),
+            }
+
+            console.log(reportData)
+            reportDocRef
+              .set(reportData, { merge: true })
+              .then(() => {
+                // window.location.href='./';
+                $('#loadingModal').modal("hide");
+                window.location.reload()
+              });
+
+          });
+
+
+        }
+
+
+      });
+
+    }
+
+    // // Sign out
+    // function signOutFunction(){
+    //   $('#signOutModal').modal('show');
+    //   $("#signOutModal").appendTo("body");
+    // }
+
+    // Copy a text based on element ID
+    function copyText(targetElemId){
+      /* Get the text field */
+      let copyText = document.getElementById(targetElemId);
+      // console.log(copyText)
+      // console.log(copyText.select())
+      /* Select the text field */
+      copyText.focus();
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+      /* Copy the text inside the text field */
+      navigator.clipboard.writeText(copyText.value);
+
+      func.showNotification('top','center', 'success', 'check_circle', "Link copied.");
+      /* Alert the copied text */
+      // alert("Copied the text: " + copyText.value);
+    }
+
+
+    // Disable loading screen
+    function disableLoading() {
+      let tutor_upper_block_loading = document.getElementsByTagName('body')[0].querySelectorAll(".loading")
+      // console.log(tutor_upper_block_loading);
+      tutor_upper_block_loading.forEach(function (row) {
+        row.setAttribute("style", "display: none;")
+      });
+
+    }
+
+    // Generate a 2 char avatar
+    function generateAvatar(text, foregroundColor, backgroundColor, fontSize) {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
+      canvas.width = 200;
+      canvas.height = 200;
+
+      // Draw background
+      context.fillStyle = backgroundColor;
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw text
+      context.font = "bold " + fontSize + " Arial";
+      context.fillStyle = foregroundColor;
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+      return canvas.toDataURL("image/png");
+    }
 
   </script>
 
   <script>
 		$( document ).ready(function() {
+
+      // Active Register Class Modal
+      $('#loadingModal').modal({
+        backdrop:'static',
+        keyboard:false,
+        show: false
+      });
 
 		});
 
