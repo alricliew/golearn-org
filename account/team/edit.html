@@ -475,13 +475,13 @@
                                       <h6>Role</h6>
                                       <p>A role is given to each person who logs into your account to <strong>define what they can and can't do</strong>. <br/>
                                         This means that some persons can have large control over your account while others will only be able to view certain content.<br/>
-                                        By default, 3 roles are offered. You may grant more or reduce the permissions of a person in <strong>Permissions</strong> below
+                                        By default, 4 roles are offered. You may grant more or reduce the permissions of a person in <strong>Permissions</strong> below
                                       </p>
                                     </span>
                                   </span>
                                   <select class="custom-select" id="empRole">
                                     <option value="owner" style="display: none;">Owner</option>
-                                    <option value="superAdmin" class="hidden" perm='team-superAdmin-add'>Super Admin</option>
+                                    <option value="superAdmin" class="hidden" perm='team-superAdmin-add'>Super Admin </option>
                                     <option value="admin" class="hidden" perm='team-admin-add'>Admin</option>
                                     <option value="staff" class="hidden" perm='team-staff-add' selected>Staff</option>
                                     <option value="assistant" class="hidden" perm='team-assistant-add'>Assistant</option>
@@ -841,6 +841,27 @@
                                   </label>
                                 </div>
 
+                                <h6 class="">Account</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="editAccountProfile">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Edit Account Profile
+                                  </label>
+                                </div>
+
+                                <h6 class="">Insight</h6>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewInsight">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Insights
+                                  </label>
+                                </div>
                               </div>
 
                               <!-- Role & Insight Permissions -->
@@ -954,47 +975,49 @@
                                     View Assistant
                                   </label>
                                 </div>
-
-                                <h6 class="">Account</h6>
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="" id="editAccountProfile">
+                                    <input class="form-check-input" type="checkbox" value="" id="addNoRole">
                                     <span class="form-check-sign">
                                       <span class="check"></span>
                                     </span>
-                                    Edit Account Profile
+                                    Add Unassigned Role
                                   </label>
                                 </div>
-                                <!-- <div class="form-check">
-                                  <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="" id="addAdmin">
-                                    <span class="form-check-sign">
-                                      <span class="check"></span>
-                                    </span>
-                                    Edit Account Business Profile
-                                  </label>
-                                </div> -->
-                                <h6 class="">Insight</h6>
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="" id="viewInsight">
+                                    <input class="form-check-input" type="checkbox" value="" id="editNoRole">
                                     <span class="form-check-sign">
                                       <span class="check"></span>
                                     </span>
-                                    View Insights
+                                    Edit Unassigned Role
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="delNoRole">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    Delete Unassigned Role
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewNoRole">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Unassigned Role
                                   </label>
                                 </div>
 
                               </div>
 
-
-                              <div class="col-md-4">
-
-                              </div>
                             </div>
 
                             <!-- Delete Employee & Role -->
-                            <div class="row">
+                            <div class="row hidden">
                               <div class="col-sm-12 text-left">
                                 <span class="" style="font-size: smaller; font-weight: 300; color: grey;">Remove This Person</span>
                                 <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em;">!
@@ -1244,10 +1267,25 @@
       empReportTo.value = roleData[ORG_ROLE_REPORT_TO];
       empRole.value = roleData[ORG_ROLE_EMP_ROLE];
 
-      if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN)
-        empRole.disabled = true
-      else{
-        empRole.disabled = false
+      // Check if the viewer's edit capability to edit
+      if (role_empRole === ORG_ROLE_OWNER){
+
+        if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER)
+          empRole.disabled = true
+        else
+          empRole.disabled = false
+      }
+      else if (role_empRole === ORG_ROLE_SUPER_ADMIN){
+        if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN)
+          empRole.disabled = true
+        else
+          empRole.disabled = false
+      }
+      else { // Admin / Staff / Assistant / Norole
+        if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN)
+          empRole.disabled = true
+        else
+          empRole.disabled = false
       }
 
       // let role_temp = "";
@@ -1430,45 +1468,31 @@
     }
 
     // Delete Teacher
-    function DeleteTeacher(tid){
-      var docRef = db.collection("dev")
-          .doc("v2")
-          .collection("Tutor")
-          .doc(tid);
+    function DeletePerson(){
 
-      var data = {
-        [TUTOR_DATE_EDIT]: new Date(),
-        [TUTOR_DATE_DEL] :  new Date(),
-        [TUTOR_STATUS_ADMIN]: TUTOR_STATUS_TYPE_DELETE,
-      }
+      console.log(empid, roleid)
+      let roleDocRef =
+        db.collection("org")
+          .doc('v1')
+          .collection('role')
+          .doc(roleid);
 
-      // ----- Get the Teacher Number doc ----- //
-      // So we can update it the next stage.
-      let teacherNumReportDocRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", ent_id)
-        .where(NUM_TYPE, "==", NUM_TYPE_TEACHER);
+      let empDocRef =
+        db.collection("org")
+          .doc('v1')
+          .collection('employee')
+          .doc(empid)
 
       var promiseAll = []
-      promiseAll.push(docRef.delete())
-      promiseAll.push(teacherNumReportDocRef.get())
 
-     Promise.all(promiseAll).then((snapshots) => {
+      promiseAll.push(empDocRef.delete());
+      promiseAll.push(roleDocRef.delete());
 
-
-        return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_TEACHER, 'desc', 1) )
+      Promise.all(promiseAll).then(() => {
+        func.showNotification('top','center', 'success', 'check_circle', "Updated successfully!");
+      }).then(() => {
+        window.location.reload();
       })
-      .then(() => {
-
-        window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
-
-      })
-      .catch((e) => {
-        alert(e.message)
-      })
-
-
 
     }
 
@@ -1549,9 +1573,9 @@
         }
       });
 
-      // Delete Class btn clicked
+      // Delete Person
       $('#btnDelTeacherModalUpdate').on('click', function (event) {
-        DeleteTeacher(currentTeacherObj[TUTOR_ID]);
+        DeletePerson();
       });
 
     });
@@ -1605,6 +1629,10 @@
     const editAssistant = document.getElementById('editAssistant');
     const delAssistant = document.getElementById('delAssistant');
     const viewAssistant = document.getElementById('viewAssistant');
+    const addNoRole = document.getElementById('addNoRole');
+    const editNoRole = document.getElementById('editNoRole');
+    const delNoRole = document.getElementById('delNoRole');
+    const viewNoRole = document.getElementById('viewNoRole');
 
     const editAccountProfile = document.getElementById('editAccountProfile');
     const viewInsight = document.getElementById('viewInsight');
@@ -1621,16 +1649,18 @@
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
       "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
       "viewInsight", "editAccountProfile"
       ]
     const disablePermissionArrAdmin =
-      [// "delInv", "delPayroll", "delPayslip",
+      [//"delInv", "delPayroll", "delPayslip",
       "addAdmin", "editAdmin", "delAdmin", "viewAdmin"]
     const  disablePermissionArrStaff =
       ["delInv", "delPayroll", "delPayslip",
       "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
       "viewInsight", "editAccountProfile"]
     const disablePermissionArrAssistant =
       ["delClass",
@@ -1641,6 +1671,7 @@
       "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
       "viewInsight", "editAccountProfile"
       ]
     const disablePermissionArrNoRole =
@@ -1655,37 +1686,26 @@
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
       "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
       "viewInsight", "editAccountProfile"
       ]
     function initPermissionBasedOnRole(role, permissionArr) {
-    //   const DefaultPermissions =
-    // ["addClass", "editClass", "delClass", "viewClass",
-    // "addLesson", "editLesson", "delLesson", "viewLesson",
-    // "addStudent", "editStudent", "delStudent", "viewStudent",
-    // "addTeacher", "editTeacher", "delTeacher", "viewTeacher",
-    // "addInv", "editInv", "recordPaymentInv", "delInv", "viewInv",
-    // "addPayroll", "editPayroll", "delPayroll", "viewPayroll",
-    // "addPayslip", "editPayslip", "recordPaymentPayslip", "delPayslip", "viewPayslip",
-    // "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
-    // "addStaff", "editStaff", "delStaff", "viewStaff",
-    // "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
-    // "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
-    // "viewInsight", "editAccountProfile"
-    // ]
+
       uncheckPermission();
 
       let checkPermissionArr = [];
       let disablePermissionArr = [];
       switch (role) {
         case ORG_ROLE_OWNER:
+          // Impossible to reach this role
           checkPermission(allPermissionArr);
           disablePermission(allPermissionArr);
-          finishingPermission();
+          // finishingPermission();
           break;
         case ORG_ROLE_SUPER_ADMIN:
           checkPermission(allPermissionArr);
           disablePermission(allPermissionArr);
-          finishingPermission();
+          // finishingPermission();
           break;
         case ORG_ROLE_ADMIN:
 
@@ -1699,6 +1719,7 @@
           "addPayslip", "editPayslip", "recordPaymentPayslip", "viewPayslip",
           "addStaff", "editStaff", "viewStaff",
           "addAssistant", "editAssistant", "viewAssistant",
+          "addNoRole", "editNoRole", "viewNoRole",
           "editAccountProfile"
           ]
           checkPermission(checkPermissionArr);
@@ -1896,6 +1917,12 @@
         viewAssistant.disabled = true;
       }else if (!addAssistant.checked && !editAssistant.checked && !delAssistant.checked){
         viewAssistant.disabled = false;
+      }
+      if (addNoRole.checked || editNoRole.checked || delNoRole.checked) {
+        viewNoRole.checked = true;
+        viewNoRole.disabled = true;
+      }else if (!addNoRole.checked && !editNoRole.checked && !delNoRole.checked){
+        viewNoRole.disabled = false;
       }
 
     }

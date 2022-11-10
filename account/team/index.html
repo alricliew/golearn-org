@@ -230,6 +230,13 @@
                       </div>
                       <div class="col-md-6">
                         <span class="" style="font-size: smaller; font-weight: 300; color: gray; padding-right: 2rem;">Phone*</span>
+                        <span class="tooltiptext-trigger">?
+                          <span class="tooltiptext-general">
+                            <h6>Phone</h6>
+                            <p>This person will see the <strong>first-time invitation</strong> to join this account based on the phone number.
+                              Make sure you enter the correct phone number. </p>
+                          </span>
+                        </span>
                         <div class="input-group">
                           <input id="empPhone" type="text" value='' class="form-control" data-compulsory="true">
                           <span id="valid-msg" class="hide" style="color: #42ba96;">✓ Valid</span>
@@ -372,62 +379,18 @@
                           <h6>Role</h6>
                           <p>A role is given to each person who logs into your account to <strong>define what they can and can't do</strong>. <br/>
                             This means that some persons can have large control over your account while others will only be able to view certain content.<br/>
-                            By default, 3 roles are offered. You may grant more or reduce the permissions of a person in <strong>Permissions</strong> below
+                            By default, 4 roles are offered. You may grant more or reduce the permissions of a person in <strong>Permissions</strong> below
                           </p>
                         </span>
                       </span>
                       <select class="custom-select" id="empRole">
-                        <option value="superAdmin" class="hidden" perm='team-superAdmin-add'>Super Admin</option>
+                        <option value="superAdmin" class="hidden" perm='team-superAdmin-add'>Super Admin (Limited to 1 Position)</option>
                         <option value="admin" class="hidden" perm='team-admin-add'>Admin</option>
                         <option value="staff" class="hidden" perm='team-staff-add' selected>Staff</option>
                         <option value="assistant" class="hidden" perm='team-assistant-add'>Assistant</option>
                         <option value="noRole">Not An Employee</option>
                       </select>
                     </div>
-
-
-
-                    <!-- <div class="form-group">
-                      <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Role</span>
-                      <span class="tooltiptext-trigger">?
-                        <span class="tooltiptext-general">
-                          <h6>Role</h6>
-                          <p>A role is given to each person who logs into your account to <strong>define what they can and can't do</strong>. <br/>
-                            This means that some persons can have large control over your account while others will only be able to view certain content.<br/>
-                            By default, 3 roles are offered. You may grant more or reduce the permissions of a person in <strong>Permissions</strong> below
-                          </p>
-                        </span>
-                      </span>
-                      <div class="form-group">
-                        <div class="form-check form-check-radio form-check-inline">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="empRole" id="empRoleAdmin" value="admin" data-compulsory="false">
-                            Admin
-                            <span class="circle">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                        </div>
-                        <div class="form-check form-check-radio form-check-inline">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="empRole" id="empRoleStaff" value="staff" data-compulsory="false" checked>
-                            Staff
-                            <span class="circle">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                        </div>
-                        <div class="form-check form-check-radio form-check-inline">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="empRole" id="empRoleAssistant" value="assistant" data-compulsory="false">
-                            Assistant
-                            <span class="circle">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                        </div>
-                      </div>
-                    </div> -->
 
                   </div>
 
@@ -668,7 +631,7 @@
                         View Invoice
                       </label>
                     </div>
-                    <div  class="form-check">
+                    <div  class="form-check text-dark" >
                       <h6 class="">Financial - Payroll
                         <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em; font-weight: 300;">!
                           <span class="tooltiptext-general" style="border: thin solid red;">
@@ -777,6 +740,28 @@
                           <span class="check"></span>
                         </span>
                         View Payslip
+                      </label>
+                    </div>
+
+                    <h6 class="">Account</h6>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" id="editAccountProfile">
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                        Edit Account Profile
+                      </label>
+                    </div>
+
+                    <h6 class="">Insight</h6>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" id="viewInsight">
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                        View Insights
                       </label>
                     </div>
 
@@ -905,7 +890,7 @@
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" id="editANoRole">
+                        <input class="form-check-input" type="checkbox" value="" id="editNoRole">
                         <span class="form-check-sign">
                           <span class="check"></span>
                         </span>
@@ -928,36 +913,6 @@
                           <span class="check"></span>
                         </span>
                         View Unassigned Role
-                      </label>
-                    </div>
-
-                    <h6 class="">Account</h6>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" id="editAccountProfile">
-                        <span class="form-check-sign">
-                          <span class="check"></span>
-                        </span>
-                        Edit Account Profile
-                      </label>
-                    </div>
-                    <!-- <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" id="addAdmin">
-                        <span class="form-check-sign">
-                          <span class="check"></span>
-                        </span>
-                        Edit Account Business Profile
-                      </label>
-                    </div> -->
-                    <h6 class="">Insight</h6>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" id="viewInsight">
-                        <span class="form-check-sign">
-                          <span class="check"></span>
-                        </span>
-                        View Insights
                       </label>
                     </div>
 
@@ -1306,11 +1261,25 @@
           .where(ORG_ROLE_ACC_ID, '==', ent_id);
 
       roleDocRef.get().then((snapshot) => {
+
+
+        let superAdminExist = false;
         snapshot.forEach((doc) => {
           console.log(doc.data())
           allRoleDoc.push(doc.data())
           renderRole(doc.data())
+
+          if (doc.data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN && role_empRole === ORG_ROLE_OWNER) {
+            superAdminExist = true
+          }
+
         })
+
+          if (!superAdminExist){
+            var teamSuperAdminAdd = bodyPermission.querySelectorAll(`[perm='team-superAdmin-add']`)
+            teamSuperAdminAdd.forEach((ele) => {ele.classList.remove("hidden")})
+          }
+
 
       })
       .then(() => {
@@ -1663,6 +1632,10 @@
     const editAssistant = document.getElementById('editAssistant');
     const delAssistant = document.getElementById('delAssistant');
     const viewAssistant = document.getElementById('viewAssistant');
+    const addNoRole = document.getElementById('addNoRole');
+    const editNoRole = document.getElementById('editNoRole');
+    const delNoRole = document.getElementById('delNoRole');
+    const viewNoRole = document.getElementById('viewNoRole');
 
     const editAccountProfile = document.getElementById('editAccountProfile');
     const viewInsight = document.getElementById('viewInsight');
@@ -1679,6 +1652,7 @@
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
       "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
       "viewInsight", "editAccountProfile"
       ]
     const disablePermissionArrAdmin =
@@ -1689,6 +1663,7 @@
       "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
       "viewInsight", "editAccountProfile"]
     const disablePermissionArrAssistant =
       ["delClass",
@@ -1699,6 +1674,7 @@
       "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
       "viewInsight", "editAccountProfile"
       ]
     const disablePermissionArrNoRole =
@@ -1713,37 +1689,26 @@
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
       "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
       "viewInsight", "editAccountProfile"
       ]
     function initPermissionBasedOnRole(role, permissionArr) {
-    //   const DefaultPermissions =
-    // ["addClass", "editClass", "delClass", "viewClass",
-    // "addLesson", "editLesson", "delLesson", "viewLesson",
-    // "addStudent", "editStudent", "delStudent", "viewStudent",
-    // "addTeacher", "editTeacher", "delTeacher", "viewTeacher",
-    // "addInv", "editInv", "recordPaymentInv", "delInv", "viewInv",
-    // "addPayroll", "editPayroll", "delPayroll", "viewPayroll",
-    // "addPayslip", "editPayslip", "recordPaymentPayslip", "delPayslip", "viewPayslip",
-    // "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
-    // "addStaff", "editStaff", "delStaff", "viewStaff",
-    // "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
-    // "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
-    // "viewInsight", "editAccountProfile"
-    // ]
+
       uncheckPermission();
 
       let checkPermissionArr = [];
       let disablePermissionArr = [];
       switch (role) {
         case ORG_ROLE_OWNER:
+          // Impossible to reach this role
           checkPermission(allPermissionArr);
           disablePermission(allPermissionArr);
-          finishingPermission();
+          // finishingPermission();
           break;
         case ORG_ROLE_SUPER_ADMIN:
           checkPermission(allPermissionArr);
           disablePermission(allPermissionArr);
-          finishingPermission();
+          // finishingPermission();
           break;
         case ORG_ROLE_ADMIN:
 
@@ -1757,6 +1722,7 @@
           "addPayslip", "editPayslip", "recordPaymentPayslip", "viewPayslip",
           "addStaff", "editStaff", "viewStaff",
           "addAssistant", "editAssistant", "viewAssistant",
+          "addNoRole", "editNoRole", "viewNoRole",
           "editAccountProfile"
           ]
           checkPermission(checkPermissionArr);
@@ -1954,6 +1920,12 @@
         viewAssistant.disabled = true;
       }else if (!addAssistant.checked && !editAssistant.checked && !delAssistant.checked){
         viewAssistant.disabled = false;
+      }
+      if (addNoRole.checked || editNoRole.checked || delNoRole.checked) {
+        viewNoRole.checked = true;
+        viewNoRole.disabled = true;
+      }else if (!addNoRole.checked && !editNoRole.checked && !delNoRole.checked){
+        viewNoRole.disabled = false;
       }
 
     }
