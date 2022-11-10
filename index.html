@@ -43,9 +43,7 @@
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
       <a class="navbar-brand  text-white " href="https://org.golearn.com.my" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" >
-        <!-- Material Kit 2 -->
         <img src="./assets/img/golearn-plain-white.svg" style="width: 150px; height: auto; opacity: 0.8;" alt=""></img>
-
       </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon mt-2">
@@ -75,16 +73,16 @@
             </a>
             <div class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages8">
               <div class="d-none d-lg-block">
-                <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+                <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 d-none">
                   Organization
                 </h6>
-                <a href="../organization/teams/" class="dropdown-item border-radius-md">
+                <a href="../organization/teams/" class="dropdown-item border-radius-md d-none">
                   <span>Employee</span>
                 </a>
-                <a href="../organization/report/" class="dropdown-item border-radius-md">
+                <a href="../organization/report/" class="dropdown-item border-radius-md d-none">
                   <span>Insight</span>
                 </a>
-                <a href="../organization/settings/" class="dropdown-item border-radius-md">
+                <a href="../organization/settings/" class="dropdown-item border-radius-md d-none">
                   <span>Update Information</span>
                 </a>
                 <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
@@ -98,16 +96,16 @@
                 </a>
               </div>
               <div class="d-lg-none">
-                <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+                <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 d-none">
                   Organization
                 </h6>
-                <a href="../organization/employee/" class="dropdown-item border-radius-md">
+                <a href="../organization/employee/" class="dropdown-item border-radius-md d-none">
                   <span>Employee</span>
                 </a>
-                <a href="../organization/report/" class="dropdown-item border-radius-md">
+                <a href="../organization/report/" class="dropdown-item border-radius-md d-none">
                   <span>Insight</span>
                 </a>
-                <a href="../organization/settings/" class="dropdown-item border-radius-md">
+                <a href="../organization/settings/" class="dropdown-item border-radius-md d-none">
                   <span>Update Information</span>
                 </a>
                 <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
@@ -708,10 +706,12 @@
       //   </a>
       // </div>
 
+      let coverImg = data[ORG_ROLE_ORG_COVER_IMG_URL] == "" ? './assets/img/bg2.jpg' : data[ORG_ROLE_ORG_COVER_IMG_URL]
+
 
       let blogsHtml_img = `
           <div style="height: 150px;">
-            <img class="w-100" style="object-fit: cover; " src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/material-design-system/assets/img/about-us.jpg" alt="aboutus">
+            <img class="w-100" style="object-fit: cover; " src="`+coverImg+`" alt="`+data[ORG_ROLE_ORG_NAME]+`">
           </div>`;
       let img_div = document.createElement('div');
       img_div.className = "card move-on-hover";
@@ -764,8 +764,6 @@
       let top_div = document.createElement('div');
       top_div.className = 'col-md-4 mt-md-3 mt-5'
       top_div.appendChild(aWrap)
-
-      console.log(top_div)
 
       const allRole = document.getElementById("allRole");
       allRole.appendChild(top_div);
