@@ -193,9 +193,9 @@
             <div id="empId" value=""></div>
 
             <p>Are you sure you want to accept this position?</p>
-            <p class="m-0">Name: <strong id="newOrgName"></strong></p>
+            <p class="m-0">Name: <strong id="newEmpName"></strong></p>
             <p class="m-0">Position: <strong id="newEmpTitle"></strong></p>
-            <p>Organization: <strong id="newEmpName"></strong></p>
+            <p>Organization: <strong id="newOrgName"></strong></p>
 
             <p style="font-style: italic;">If this offer is not meant for you, click <strong>Reject</strong></p>
           </div>
@@ -864,7 +864,11 @@
       let role_p = document.createElement('p');
       role_p.className = "mb-0";
       role_p.setAttribute("style","font-size: small;");
-      role_p.textContent =  data[ORG_ROLE_EMP_TITLE] + ', '+ role ;
+      if (data[ORG_ROLE_EMP_TITLE] === ''){
+        role_p.textContent =  role;
+      }else {
+        role_p.textContent =  data[ORG_ROLE_EMP_TITLE] + ', '+ role;
+      }
 
       let detailWrap = document.createElement('div');
       detailWrap.className = "mt-2 ms-2";
@@ -918,6 +922,7 @@
 
       let roleData = {
         [ORG_ROLE_UID]  : org_uid,
+        [ORG_ROLE_EMP_STATUS] : ORG_EMP_STATUS_ACTIVE,
       }
 
 
