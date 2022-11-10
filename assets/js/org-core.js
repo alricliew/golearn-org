@@ -323,9 +323,12 @@ function updateEntityView(){
   document.getElementById('logoName').textContent = ent_name;
 
   const lock = document.getElementsByName('lockscreen')[0]
+
   // Hide lockscreen if status= active
-  if (ent_adminStatus === ORG_ADMIN_STATUS_ACTIVE) lock.classList.add('hidden')
-  else lock.classList.remove('hidden')
+  if (lock != null){
+    if (ent_adminStatus === ORG_ADMIN_STATUS_ACTIVE && lock != null)lock.classList.add('hidden')
+    else lock.classList.remove('hidden')
+  }
 
 }
 
