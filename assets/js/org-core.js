@@ -322,6 +322,10 @@ function updateOrgUserView(){
 function updateEntityView(){
   document.getElementById('logoName').textContent = ent_name;
 
+  // const coverImgUrl = document.getElementsByName('cover-img-url')[0]
+  // coverImgUrl.style.display = "";
+  // coverImgUrl.src = ent_coverImgUrl;
+
   const lock = document.getElementsByName('lockscreen')[0]
 
   // Hide lockscreen if status= active
