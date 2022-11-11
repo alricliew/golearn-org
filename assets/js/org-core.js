@@ -252,7 +252,7 @@ function storeOrgUserSession(data) {
 // Update Org User View
 function updateOrgUserView(){
   // Set the nav user name.
-  document.getElementById("user").textContent = org_name;
+  // document.getElementById("user").textContent = org_name;
 
   // // Set badge and sidebar based on account status.
   // if (org_accountStatus == DEACTIVATED_ACCOUNT_STATUS_KEY || org_accountStatus == ACTIVE_ACCOUNT_STATUS_KEY ||
@@ -390,6 +390,9 @@ function updateRoleView(){
     })
 
   }
+
+  // Update Employee view
+  document.getElementById("user").textContent = role_empName;
 
   const insight = bodyPermission.querySelectorAll(`[perm='insight']`)
   if (role_allowedPermissionArr.includes('viewInsight')){
