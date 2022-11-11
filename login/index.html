@@ -200,7 +200,7 @@
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <!-- Material Dashboard -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <!-- International Telephone Input -->
   <script src="../assets/js/plugins/intlTelInput/intlTelInput.min.js"></script>
@@ -225,6 +225,22 @@
 
 
   <script>
+
+    const allPermissionArr =
+      ["addClass", "editClass", "delClass", "viewClass",
+      "addLesson", "editLesson", "delLesson", "viewLesson",
+      "addStudent", "editStudent", "delStudent", "viewStudent",
+      "addTeacher", "editTeacher", "delTeacher", "viewTeacher",
+      "addInv", "editInv", "recordPaymentInv", "delInv", "viewInv",
+      "addPayroll", "editPayroll", "delPayroll", "viewPayroll",
+      "addPayslip", "editPayslip", "recordPaymentPayslip", "delPayslip", "viewPayslip",
+      "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
+      "addStaff", "editStaff", "delStaff", "viewStaff",
+      "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
+      "viewOwner", "viewSuperAdmin",
+      "viewInsight", "editAccountProfile"
+      ]
 
     // Login Scenarios
     // 1. New Normal User login.
@@ -714,7 +730,7 @@
                 [ORG_ROLE_REPORT_TO] : "",
                 [ORG_ROLE_EMP_TITLE]  : "",
                 [ORG_ROLE_EMP_ROLE] : ORG_ROLE_OWNER,
-                [ORG_ROLE_ALLOWED_PERMISSION_ARR] : [],
+                [ORG_ROLE_ALLOWED_PERMISSION_ARR] : allPermissionArr,
                 [ORG_ROLE_ORG_NAME]  : snapshots[0].data()[ORG_USER_NAME] + "'s Organization",
                 [ORG_ROLE_ORG_IMG_URL] : "",
                 [ORG_ROLE_ORG_COVER_IMG_URL]  : "",
@@ -876,7 +892,7 @@
                 [ORG_ROLE_REPORT_TO] : "",
                 [ORG_ROLE_EMP_TITLE]  : "",
                 [ORG_ROLE_EMP_ROLE] : ORG_ROLE_OWNER,
-                [ORG_ROLE_ALLOWED_PERMISSION_ARR] : [],
+                [ORG_ROLE_ALLOWED_PERMISSION_ARR] : allPermissionArr,
                 [ORG_ROLE_ORG_NAME]  : snapshots[1].data()[NAME_KEY] + "'s Organization",
                 [ORG_ROLE_ORG_IMG_URL] : "",
                 [ORG_ROLE_ORG_COVER_IMG_URL]  : "",

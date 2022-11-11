@@ -438,7 +438,24 @@
         [TUTOR_TIME_SLOT_SUN_6PM_KEY]: TUTOR_TIME_SLOT_CLOSE_KEY,
       }
 
+      var allPermissionArr =
+      ["addClass", "editClass", "delClass", "viewClass",
+      "addLesson", "editLesson", "delLesson", "viewLesson",
+      "addStudent", "editStudent", "delStudent", "viewStudent",
+      "addTeacher", "editTeacher", "delTeacher", "viewTeacher",
+      "addInv", "editInv", "recordPaymentInv", "delInv", "viewInv",
+      "addPayroll", "editPayroll", "delPayroll", "viewPayroll",
+      "addPayslip", "editPayslip", "recordPaymentPayslip", "delPayslip", "viewPayslip",
+      "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
+      "addStaff", "editStaff", "delStaff", "viewStaff",
+      "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
+      "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
+      "viewOwner", "viewSuperAdmin",
+      "viewInsight", "editAccountProfile"
+      ]
+
       var promiseArray = [];
+
       // Get the orgId, oid and aid from Org User
 
       // Get all account entity that share the same 'url'.
@@ -569,7 +586,7 @@
             [ORG_ROLE_REPORT_TO] : "",
             [ORG_ROLE_EMP_TITLE]  : "",
             [ORG_ROLE_EMP_ROLE] : ORG_ROLE_OWNER,
-            [ORG_ROLE_ALLOWED_PERMISSION_ARR] : [],
+            [ORG_ROLE_ALLOWED_PERMISSION_ARR] : allPermissionArr,
             [ORG_ROLE_ORG_NAME]  : name,
             [ORG_ROLE_ORG_IMG_URL] : "",
             [ORG_ROLE_ORG_COVER_IMG_URL]  : "",
