@@ -272,7 +272,7 @@
               <a href="./" class="btn btn-outline-primary btn-round" id="btnBack" name="param-link"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">west</i> Back</a>
             </div>
             <div class="p-2">
-              <a href="javascript:;" class="btn btn-primary btn-round" id="btnSave"><i class="material-icons" style="color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;">save</i> Save</a>
+              <a href="javascript:;" class="btn btn-primary btn-round hidden" id="btnSave"><i class="material-icons" style="color: #ffffff; margin-right: 0.5em; padding-bottom: 0.2em;">save</i> Save</a>
             </div>
 
             <div class="ml-auto p-2">
@@ -485,7 +485,7 @@
                                     <option value="admin" class="hidden" perm='team-admin-add'>Admin</option>
                                     <option value="staff" class="hidden" perm='team-staff-add' selected>Staff</option>
                                     <option value="assistant" class="hidden" perm='team-assistant-add'>Assistant</option>
-                                    <option value="noRole">Not An Employee</option>
+                                    <option value="noRole" class="hidden" perm='team-noRole-add'>Not An Employee</option>
                                   </select>
                                 </div>
 
@@ -1011,13 +1011,30 @@
                                     View Unassigned Role
                                   </label>
                                 </div>
-
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewOwner">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Owner
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" id="viewSuperAdmin">
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                    View Super Admin
+                                  </label>
+                                </div>
                               </div>
 
                             </div>
 
                             <!-- Delete Employee & Role -->
-                            <div class="row hidden">
+                            <div class="row hidden" id="delPerson">
                               <div class="col-sm-12 text-left">
                                 <span class="" style="font-size: smaller; font-weight: 300; color: grey;">Remove This Person</span>
                                 <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em;">!
@@ -1112,7 +1129,7 @@
       autoHideDialCode: false,
       preferredCountries: ['my', 'sg'],
       separateDialCode: true,
-      utilsScript: "https://golearn.com.my/assets/js/plugins/intlTelInput/utils.js",
+      utilsScript: "https://org.golearn.com.my/assets/js/plugins/intlTelInput/utils.js",
       });
 
     // Store the current emp & role
@@ -1171,42 +1188,14 @@
 
               console.log(snapshots[1].data())
 
-              // Check org role & Redirection
-              if (role_empRole === ORG_ROLE_OWNER) {
+              checkIfUserCanViewThisPerson(currentRoleObj)
 
-              }
-              else if (role_empRole === ORG_ROLE_SUPER_ADMIN &&
-              (snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN )){
+              checkIfUserCanEditThisPerson(currentRoleObj)
 
-                alert('Unable to edit owner')
-                window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
-              }
-              else if (role_empRole === ORG_ROLE_ADMIN){
-               if (snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN ||
-                snapshots[1].data()[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ADMIN ){
-                  alert('Admin Unable to edit Admin/Owner/SuperAdmin')
-                  window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+              checkIfUserCanChangeTheRoleOfThisPerson(currentRoleObj)
 
-                }
-                else {
-                  if (snapshots[1].data()[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_STAFF  && role_allowedPermissionArr.includes('editStaff') ||
-                  snapshots[1].data()[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ASSISTANT  && role_allowedPermissionArr.includes('editAssistant')){
-                    // CONTINUE
-                  }
-                  else {
-                    alert('Admin, but do not have permission to edit this person')
-                    // Redirection
-                    window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
-                  }
-                }
+              checkIfUserCanDeleteThisPerson(currentRoleObj)
 
-              }
-
-              else {
-                alert('Staff/Assistant / any other role cannot edit role')
-                // Redirection
-                window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
-              }
               updatePageContent(currentEmpObj, currentRoleObj)
 
             }
@@ -1232,6 +1221,355 @@
 
       }
 
+    }
+
+
+    // Check  if the current user able to view or edit & save this newly loaded user.
+    // View is linked to the view[Role] perm. Edit & save is linked to the edit[Role] perm.
+    // Owner - Edit everyone. Unable to change permission
+    // SuperAdmin - Edit everyone except owner. Unable to change superadmin permission (basically himself)
+    // Admin - Based on the current user's permission. Cannot edit admin, superadmin and owner
+    const btnSave = document.getElementById('btnSave');
+
+    // Check user can clicked on person and view the details at edit page. If no, redirect back to team home page.
+    function checkIfUserCanViewThisPerson(roleData) {
+
+      // You can always view yourself
+      if (roleData[ORG_ROLE_UID] == org_uid){}
+      // Owner & super admin can view everyone
+      else if (role_empRole === ORG_ROLE_OWNER || role_empRole === ORG_ROLE_SUPER_ADMIN){}
+      // Owner
+      else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER) {
+        if (!role_allowedPermissionArr.includes('viewOwner')) {
+          window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+        }
+      }
+      // Super Admin
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_SUPER_ADMIN){
+        if (!role_allowedPermissionArr.includes('viewSuperAdmin')) {
+          window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+        }
+      }
+      // Admin
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ADMIN){
+        if (!role_allowedPermissionArr.includes('viewAdmin')) {
+          window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+        }
+      }
+      // Staff
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_STAFF){
+        if (!role_allowedPermissionArr.includes('viewStaff')) {
+          window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+        }
+      }
+      // Assistant
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ASSISTANT){
+        if (!role_allowedPermissionArr.includes('viewAssistant')) {
+          window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+        }
+      }
+      // Assistant
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_NO_ROLE){
+        if (!role_allowedPermissionArr.includes('viewNoRole')) {
+          window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+        }
+      }
+      // Other role
+      else {
+        alert('No View Role. Redirect back')
+        // Redirection
+        window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+      }
+
+    }
+
+    function checkIfUserCanEditThisPerson(roleData) {
+
+      // Owner - Eveyrone
+      if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER) {
+        // If you are the owner himself
+        if (role_empRole === ORG_ROLE_OWNER) {
+          enableSave()
+        }
+        else {
+          disableSave()
+          // Disable all fields
+          disableAllFields()
+        }
+
+
+
+        // Edit Permission
+        checkPermission(allPermissionArr);
+        disablePermission(allPermissionArr);
+      }
+      // Super Admin
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_SUPER_ADMIN){
+        // If you are the owner / superadmin himself
+        if (role_empRole === ORG_ROLE_OWNER || role_empRole === ORG_ROLE_SUPER_ADMIN) {
+          enableSave()
+        }
+        else {
+          disableSave()
+          // Disable all fields
+          disableAllFields()
+        }
+
+        // Edit Permission
+        checkPermission(allPermissionArr);
+        disablePermission(allPermissionArr);
+
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ADMIN){
+        if (role_allowedPermissionArr.includes('editAdmin')) {
+          enableSave()
+
+          // Edit Permission
+          checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+          disablePermission(disablePermissionArrAdmin);
+          finishingPermission();
+        }
+
+        else {
+          disableSave()
+
+          // Disable all fields
+          disableAllFields()
+
+          // Edit Permission
+          checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+          disablePermission(allPermissionArr);
+        }
+
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_STAFF){
+        if (role_allowedPermissionArr.includes('editStaff')) {
+          enableSave()
+
+          // Edit Permission
+          checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+          disablePermission(disablePermissionArrStaff);
+          finishingPermission();
+        }
+
+        else {
+          disableSave()
+
+          // Disable all fields
+          disableAllFields()
+
+          // Edit Permission
+          checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+          disablePermission(allPermissionArr);
+        }
+
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ASSISTANT){
+        if (role_allowedPermissionArr.includes('editAssistant')) {
+          enableSave()
+
+          // Edit Permission
+          checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+          disablePermission(disablePermissionArrAssistant);
+          finishingPermission();
+        }
+
+        else {
+          disableSave()
+
+          // Disable all fields
+          disableAllFields()
+
+          // Edit Permission
+          checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+          disablePermission(allPermissionArr);
+        }
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_NO_ROLE){
+        if (role_allowedPermissionArr.includes('editNoRole')) {
+          enableSave()
+
+          // Edit Permission
+          checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+          disablePermission(disablePermissionArrNoRole);
+          finishingPermission();
+        }
+
+        else {
+          disableSave()
+
+          // Disable all fields
+          disableAllFields()
+
+          // Edit Permission
+          checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
+          disablePermission(allPermissionArr);
+        }
+      }
+      else{
+        disableSave();
+
+        // Disable all fields
+        disableAllFields()
+
+        // Edit Permission
+        checkPermission([]);
+        disablePermission(allPermissionArr);
+      }
+
+    }
+
+    // Note: A current user need to have 'add[role]' permission to change a person's role
+    function checkIfUserCanChangeTheRoleOfThisPerson(roleData){
+
+      // Owner - Eveyrone
+      if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER) {
+        // Edit Role
+        disableRole()
+      }
+      // Super Admin
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_SUPER_ADMIN){
+
+        // Edit Role - Only owner can change a superadmin role
+        if (role_empRole === ORG_ROLE_OWNER) {
+          enableRole()
+        }else {
+          disableRole()
+        }
+
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ADMIN){
+        if (role_allowedPermissionArr.includes('addAdmin')) {
+          enableRole()
+        }
+        else {
+          disableRole()
+        }
+
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_STAFF){
+        if (role_allowedPermissionArr.includes('addStaff')) {
+          enableRole()
+        }
+        else {
+          disableRole()
+        }
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ASSISTANT){
+        if (role_allowedPermissionArr.includes('addAssistant')) {
+          enableRole()
+        }
+        else {
+          disableRole()
+        }
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_NO_ROLE){
+        if (role_allowedPermissionArr.includes('addNoRole')) {
+          enableRole()
+        }
+        else {
+          disableRole()
+        }
+      }
+      else{
+        disableRole()
+      }
+    }
+
+    const delPerson = document.getElementById('delPerson');
+    function checkIfUserCanDeleteThisPerson(roleData) {
+
+      // Owner - Cannot delete owner
+      if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER) {
+        disableDelete()
+      }
+      // Super Admin
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_SUPER_ADMIN){
+
+        // Only owner can delete a superadmin role
+        if (role_empRole === ORG_ROLE_OWNER) {
+          enableDelete()
+        }else {
+          disableDelete()
+        }
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ADMIN){
+        if (role_allowedPermissionArr.includes('delAdmin')) {
+          enableDelete()
+        }
+        else {
+          disableDelete()
+        }
+
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_STAFF){
+        if (role_allowedPermissionArr.includes('delStaff')) {
+          enableDelete()
+        }
+        else {
+          disableDelete()
+        }
+
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_ASSISTANT){
+        if (role_allowedPermissionArr.includes('delAssistant')) {
+          enableDelete()
+        }
+        else {
+          disableDelete()
+        }
+      }
+      else if (roleData[ORG_ROLE_EMP_ROLE]  === ORG_ROLE_NO_ROLE){
+        if (role_allowedPermissionArr.includes('delNoRole')) {
+          enableDelete()
+        }
+        else {
+          disableDelete()
+        }
+      }
+      else{
+        disableDelete()
+      }
+    }
+
+
+    function enableSave(){
+      btnSave.classList.remove("hidden")
+    }
+
+    function disableSave() {
+      btnSave.classList.add("hidden")
+    }
+
+    function enableRole(){
+      empRole.disabled = false;
+    }
+
+    function disableRole(){
+      empRole.disabled = true;
+    }
+
+    function disableAllFields(){
+
+      empName.disabled = true;
+      // empPhone.disabled = true;
+      // empGender.disabled = true;
+      empEmail.disabled = true;
+      bankName.disabled = true;
+      bankAcc.disabled = true;
+      epf.disabled = true;
+      socsoNo.disabled = true;
+      taxNo.disabled = true;
+      empRef.disabled = true;
+      empTitle.disabled = true;
+
+    }
+
+    function enableDelete() {
+      delPerson.classList.remove('hidden')
+    }
+    function disableDelete() {
+      delPerson.classList.add('hidden')
     }
 
     function updatePageContent(empData, roleData){
@@ -1266,64 +1604,6 @@
       empTitle.value = roleData[ORG_ROLE_EMP_TITLE];
       empReportTo.value = roleData[ORG_ROLE_REPORT_TO];
       empRole.value = roleData[ORG_ROLE_EMP_ROLE];
-
-      // Check if the viewer's edit capability to edit
-      if (role_empRole === ORG_ROLE_OWNER){
-
-        if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER)
-          empRole.disabled = true
-        else
-          empRole.disabled = false
-      }
-      else if (role_empRole === ORG_ROLE_SUPER_ADMIN){
-        if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN)
-          empRole.disabled = true
-        else
-          empRole.disabled = false
-      }
-      else { // Admin / Staff / Assistant / Norole
-        if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN)
-          empRole.disabled = true
-        else
-          empRole.disabled = false
-      }
-
-      // let role_temp = "";
-      // if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER || roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN ||
-      //   roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ADMIN ||roleData[ORG_ROLE_STAFF] === ORG_ROLE_ASSISTANT ||
-      //   roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_NO_ROLE ){
-      //   role_temp = roleData[ORG_ROLE_EMP_ROLE]
-      // }
-
-      // initPermissionBasedOnRole(roleData[ORG_ROLE_EMP_ROLE],  roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR])
-
-      uncheckPermission();
-
-      if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_OWNER){
-        checkPermission(allPermissionArr);
-        disablePermission(allPermissionArr);
-      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_SUPER_ADMIN){
-        checkPermission(allPermissionArr);
-        disablePermission(allPermissionArr);
-      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ADMIN){
-        checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
-        disablePermission(disablePermissionArrAdmin);
-        finishingPermission();
-      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_STAFF){
-        checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
-        disablePermission(disablePermissionArrStaff);
-        finishingPermission();
-      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_ASSISTANT){
-        checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
-        disablePermission(disablePermissionArrAssistant);
-        finishingPermission();
-      }else if (roleData[ORG_ROLE_EMP_ROLE] === ORG_ROLE_NO_ROLE){
-        checkPermission(roleData[ORG_ROLE_ALLOWED_PERMISSION_ARR]);
-        disablePermission(disablePermissionArrNoRole);
-      }else{
-        checkPermission([]);
-        disablePermission(allPermissionArr);
-      }
 
     }
 
@@ -1462,7 +1742,8 @@
         // Disable the submit button
         document.getElementById("btnSaveModalUpdate").removeAttribute('disabled');
         document.getElementById("btnSaveModalUpdate").textContent = "Confirm";
-        // getEmployeeAndRole();
+        getEmployeeAndRole();
+
       })
 
     }
@@ -1534,7 +1815,7 @@
 
           // Changing a new person's phone.
           if (oriPhone !== currentPhone && currentEmpObj[ORG_EMP_UID] === "" ){
-            alert("Warning: You're changing the person's phone.")
+            alert("Warning: You're changing the newly added person's phone ( " + oriPhone + " -> " +currentPhone+ " ). Only User " + currentPhone + " will see your invitation.")
 
 
         }
@@ -1633,6 +1914,8 @@
     const editNoRole = document.getElementById('editNoRole');
     const delNoRole = document.getElementById('delNoRole');
     const viewNoRole = document.getElementById('viewNoRole');
+    const viewOwner = document.getElementById('viewOwner');
+    const viewSuperAdmin = document.getElementById('viewSuperAdmin');
 
     const editAccountProfile = document.getElementById('editAccountProfile');
     const viewInsight = document.getElementById('viewInsight');
@@ -1648,19 +1931,19 @@
       "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
-      "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
       "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
+      "viewOwner", "viewSuperAdmin",
       "viewInsight", "editAccountProfile"
       ]
     const disablePermissionArrAdmin =
-      [//"delInv", "delPayroll", "delPayslip",
-      "addAdmin", "editAdmin", "delAdmin", "viewAdmin"]
+      ["delAdmin"]
     const  disablePermissionArrStaff =
       ["delInv", "delPayroll", "delPayslip",
       "addAdmin", "editAdmin", "delAdmin", "viewAdmin",
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
       "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
+      "viewOwner", "viewSuperAdmin",
       "viewInsight", "editAccountProfile"]
     const disablePermissionArrAssistant =
       ["delClass",
@@ -1672,6 +1955,7 @@
       "addStaff", "editStaff", "delStaff", "viewStaff",
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
       "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
+      "viewOwner", "viewSuperAdmin",
       "viewInsight", "editAccountProfile"
       ]
     const disablePermissionArrNoRole =
@@ -1687,6 +1971,7 @@
       "addAssistant", "editAssistant", "delAssistant", "viewAssistant",
       "addSuperAdmin", "editSuperAdmin", "delSuperAdmin", "viewSuperAdmin",
       "addNoRole", "editNoRole", "delNoRole", "viewNoRole",
+      "viewOwner", "viewSuperAdmin",
       "viewInsight", "editAccountProfile"
       ]
     function initPermissionBasedOnRole(role, permissionArr) {
@@ -1714,12 +1999,11 @@
           "addLesson", "editLesson", "delLesson", "viewLesson",
           "addStudent", "editStudent", "delStudent", "viewStudent",
           "addTeacher", "editTeacher", "delTeacher", "viewTeacher",
-          "addInv", "editInv", "recordPaymentInv", "viewInv",
-          "addPayroll", "editPayroll", "viewPayroll",
-          "addPayslip", "editPayslip", "recordPaymentPayslip", "viewPayslip",
-          "addStaff", "editStaff", "viewStaff",
-          "addAssistant", "editAssistant", "viewAssistant",
-          "addNoRole", "editNoRole", "viewNoRole",
+          "viewInv",
+          "viewPayroll",
+          "viewStaff",
+          "viewAssistant",
+          "viewNoRole",
           "editAccountProfile"
           ]
           checkPermission(checkPermissionArr);

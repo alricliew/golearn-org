@@ -390,60 +390,6 @@ function updateRoleView(){
     })
 
   }
-  // role_allowedPermissionArr
-  // role_empRole
-
-  if (role_empRole === ORG_ROLE_OWNER) {
-
-  }
-  else if (role_empRole === ORG_ROLE_SUPER_ADMIN){
-
-  }
-  else if (role_empRole === ORG_ROLE_ADMIN){
-
-    // ROLE fields
-    // console.log('jiiii')
-    const roleSelect = bodyPermission.querySelectorAll(`.custom-select`)
-    roleSelect.forEach((ele) => {
-      let adminList = ele.querySelector(`[value='admin']`)
-      let staffList = ele.querySelector(`[value='staff']`)
-      let assistantList = ele.querySelector(`[value='assistant']`)
-
-      console.log(adminList)
-
-      if (role_allowedPermissionArr.includes('addAdmin')){
-        adminList.selected = true;
-        staffList.selected = false;
-        assistantList.selected = false;
-
-      }else if (role_allowedPermissionArr.includes('addStaff')){
-        adminList.selected = false;
-        staffList.selected = true;
-        assistantList.selected = false;
-      }
-      else if (role_allowedPermissionArr.includes('addAssistant')){
-        adminList.selected = false;
-        staffList.selected = false;
-        assistantList.selected = true;
-      }
-    })
-
-    // Redirection
-
-
-  }
-  else if (role_empRole === ORG_ROLE_STAFF){
-    // Redirection
-    if (window.location.pathname.includes('team/edit')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
-  }
-  else if (role_empRole === ORG_ROLE_ASSISTANT){
-    // Redirection
-    if (window.location.pathname.includes('team/edit')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
-  }
-  else if (role_empRole === ORG_ROLE_NO_ROLE){
-    // Redirection
-    if (window.location.pathname.includes('team/edit')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
-  }
 
   const insight = bodyPermission.querySelectorAll(`[perm='insight']`)
   if (role_allowedPermissionArr.includes('viewInsight')){
@@ -692,15 +638,29 @@ function updateRoleView(){
 
   }
   const team = bodyPermission.querySelectorAll(`[perm='team']`)
-  if (role_allowedPermissionArr.includes('viewAdmin') || role_allowedPermissionArr.includes('viewStaff') || role_allowedPermissionArr.includes('viewAssistant')){
-    team.forEach((ele) => {ele.classList.remove("hidden")})
-    team.forEach((ele) => {ele.classList.remove("pointer-events-none")})
-  }
-  else {
+
+  // If the user does not have proper role or empty role, disable teams view
+  if (role_empRole === ORG_ROLE_NO_ROLE || role_empRole === ""){
     team.forEach((ele) => {ele.classList.add("hidden")})
     team.forEach((ele) => {ele.classList.add("pointer-events-none")})
     if (window.location.pathname.includes('team/')) window.location.href = '../' +'?url=' + orgUrl + "&ent=" + orgEnt;
   }
+  else {
+    team.forEach((ele) => {ele.classList.remove("hidden")})
+    team.forEach((ele) => {ele.classList.remove("pointer-events-none")})
+  }
+
+  // if (role_allowedPermissionArr.includes('viewAdmin') || role_allowedPermissionArr.includes('viewStaff') || role_allowedPermissionArr.includes('viewAssistant')
+  // || role_allowedPermissionArr.includes('viewSuperAdmin') || role_allowedPermissionArr.includes('viewOwner')){
+  //   team.forEach((ele) => {ele.classList.remove("hidden")})
+  //   team.forEach((ele) => {ele.classList.remove("pointer-events-none")})
+  // }
+  // else {
+  //   team.forEach((ele) => {ele.classList.add("hidden")})
+  //   team.forEach((ele) => {ele.classList.add("pointer-events-none")})
+  //   if (window.location.pathname.includes('team/')) window.location.href = '../' +'?url=' + orgUrl + "&ent=" + orgEnt;
+  // }
+
   const teamAdd = bodyPermission.querySelectorAll(`[perm='team-add']`)
   if (role_allowedPermissionArr.includes('addAdmin') || role_allowedPermissionArr.includes('addStaff') || role_allowedPermissionArr.includes('addAssistant')){
     teamAdd.forEach((ele) => {ele.classList.remove("hidden")})
@@ -716,13 +676,13 @@ function updateRoleView(){
     teamAdminAdd.forEach((ele) => {ele.classList.add("hidden")})
   }
 
-  const teamAdminEdit = bodyPermission.querySelectorAll(`[perm='team-admin-edit']`)
-  if (role_allowedPermissionArr.includes('editAdmin')){
-    teamAdminEdit.forEach((ele) => {ele.classList.remove("pointer-events-none")})
-  }
-  else {
-    teamAdminEdit.forEach((ele) => {ele.classList.add("pointer-events-none")})
-  }
+  // const teamAdminEdit = bodyPermission.querySelectorAll(`[perm='team-admin-edit']`)
+  // if (role_allowedPermissionArr.includes('editAdmin')){
+  //   teamAdminEdit.forEach((ele) => {ele.classList.remove("pointer-events-none")})
+  // }
+  // else {
+  //   teamAdminEdit.forEach((ele) => {ele.classList.add("pointer-events-none")})
+  // }
   const teamAdminDel = bodyPermission.querySelectorAll(`[perm='team-admin-del']`)
   if (role_allowedPermissionArr.includes('delAdmin'))
     teamAdminDel.forEach((ele) => {ele.classList.remove("hidden")})
@@ -736,32 +696,29 @@ function updateRoleView(){
   else {
     teamStaffAdd.forEach((ele) => {ele.classList.add("hidden")})
   }
-  const teamStaffEdit = bodyPermission.querySelectorAll(`[perm='team-staff-edit']`)
-  if (role_allowedPermissionArr.includes('editStaff')){
-    teamStaffEdit.forEach((ele) => {ele.classList.remove("pointer-events-none")})
-  }
-  else {
-    teamStaffEdit.forEach((ele) => {ele.classList.add("pointer-events-none")})
-  }
+  // const teamStaffEdit = bodyPermission.querySelectorAll(`[perm='team-staff-edit']`)
+  // if (role_allowedPermissionArr.includes('editStaff')){
+  //   teamStaffEdit.forEach((ele) => {ele.classList.remove("pointer-events-none")})
+  // }
+  // else {
+  //   teamStaffEdit.forEach((ele) => {ele.classList.add("pointer-events-none")})
+  // }
   const teamAssistantAdd = bodyPermission.querySelectorAll(`[perm='team-assistant-add']`)
   if (role_allowedPermissionArr.includes('addAssistant'))
   teamAssistantAdd.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     teamAssistantAdd.forEach((ele) => {ele.classList.add("hidden")})
   }
-  const teamAssistantEdit = bodyPermission.querySelectorAll(`[perm='team-assistant-edit']`)
-  if (role_allowedPermissionArr.includes('editAssistant')){
-    teamAssistantEdit.forEach((ele) => {ele.classList.remove("pointer-events-none")})
-  }
+
+  const teamNoRoleAdd = bodyPermission.querySelectorAll(`[perm='team-noRole-add']`)
+  if (role_allowedPermissionArr.includes('addNoRole'))
+  teamNoRoleAdd.forEach((ele) => {ele.classList.remove("hidden")})
   else {
-    teamAssistantEdit.forEach((ele) => {ele.classList.add("pointer-events-none")})
+    teamNoRoleAdd.forEach((ele) => {ele.classList.add("hidden")})
   }
-  // Redirection
-
-
-
 
   if (role_empRole === ORG_ROLE_OWNER || role_empRole === ORG_ROLE_SUPER_ADMIN ) updateOwnerRoleView();
+
   // Owner / SuperAdmin update
   function updateOwnerRoleView()
   {
