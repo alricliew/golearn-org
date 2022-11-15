@@ -2181,16 +2181,16 @@
 
         if (doc.exists){
 
-          bizName = (doc.data()[SET_BIZ_NAME] == null || doc.data()[SET_BIZ_NAME] == "") ? current_name : doc.data()[SET_BIZ_NAME];
-          bizPhone = (doc.data()[SET_BIZ_PHONE] == null || doc.data()[SET_BIZ_PHONE] == "") ? current_phone : doc.data()[SET_BIZ_PHONE];
+          bizName = (doc.data()[SET_BIZ_NAME] == null || doc.data()[SET_BIZ_NAME] == "") ? ent_name : doc.data()[SET_BIZ_NAME];
+          bizPhone = (doc.data()[SET_BIZ_PHONE] == null || doc.data()[SET_BIZ_PHONE] == "") ? ent_phone : doc.data()[SET_BIZ_PHONE];
           bizEmail = (doc.data()[SET_BIZ_EMAIL] == null || doc.data()[SET_BIZ_EMAIL] == "") ? "" : doc.data()[SET_BIZ_EMAIL];
           bizAddr = (doc.data()[SET_BIZ_ADDR] == null || doc.data()[SET_BIZ_ADDR] == "") ? "" : doc.data()[SET_BIZ_ADDR];
           bizImgUrl = (doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == "") ? "" : doc.data()[SET_BIZ_IMG_URL];
         }else {
           // If no business details, substitue it with user settings.
 
-          bizName = current_name;
-          bizPhone = current_phone;
+          bizName = ent_name;
+          bizPhone = ent_phone;
           bizEmail = "";
           bizAddr = "";
           bizImgUrl = "";
