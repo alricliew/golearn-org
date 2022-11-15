@@ -1433,11 +1433,44 @@ const DefaultPermissions =
 
 // Temporary Hard-coded settings
 // TODO: To be move to Settings > v1 > Profile > ...
-const ProfileSettings = ['aClassNum', 'aStudentNum', 'aTeacherNum', 'aPublicCourseNum'];
-const ProfileSettingsValue_Deactivated = [5, 50, 1, 0];
-const ProfileSettingsValue_Active = [5, 50, 1, 50];
-const ProfileSettingsValue_Premium = [50, 500, 1, 50];
-const ProfileSettingsValue_Org = [50, 500, 50, 50];
+// const ProfileSettings                  = ['aClassNum', 'aStudentNum', 'aTeacherNum', 'aPublicCourseNum'];
+// const ProfileSettingsValue_Deactivated = [10, 50, 0, 0];
+// const ProfileSettingsValue_Active      = [10, 50, 0, 50];
+// const ProfileSettingsValue_Premium1    = [20, 100, 0, 50];
+// const ProfileSettingsValue_Premium2    = [500, 1000, 10, 50];
+// const ProfileSettingsValue_Premium3    = [999, 9999, 999, 999];
+
+const ProfileSettingsValueDeactivate = {
+    classNum : 10,
+    studentNum : 50,
+    teacherNum : 0,
+    publicCourseNum : 0,
+}
+const ProfileSettingsValueActivate = {
+    classNum : 10,
+    studentNum : 50,
+    teacherNum : 0,
+    publicCourseNum : 50,
+}
+const ProfileSettingsValuePremium1 = {
+    classNum : 20,
+    studentNum : 100,
+    teacherNum : 0,
+    publicCourseNum : 50,
+}
+const ProfileSettingsValuePremium2 = {
+    classNum : 500,
+    studentNum : 1000,
+    teacherNum : 20,
+    publicCourseNum : 50,
+}
+const ProfileSettingsValuePremium3 = {
+    classNum : 999,
+    studentNum : 9999,
+    teacherNum : 999,
+    publicCourseNum : 999,
+}
+// const ProfileSettingsValue_Org  = [50, 500, 50, 50];
 
 // Class number settings based on account status
 const ClassNum_Deactivated = 10;
