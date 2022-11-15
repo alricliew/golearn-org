@@ -2515,8 +2515,6 @@
             .then((docSnapshot) => {
 
               if (docSnapshot.exists) {
-
-                // window.location.href = './'
                 // User exist. Move to Step 1.
                 setActiveStep(1);
                 setActivePanel(1);
@@ -2607,7 +2605,6 @@
                 db.collection("Tutor").doc(tutorId)
                   .set(docData, {merge: true})
                   .then(() => {
-                      // window.location.href = './'
 
                     // User exist. Move to Step 1.
                     setActiveStep(1);
