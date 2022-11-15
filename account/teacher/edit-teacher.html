@@ -849,73 +849,10 @@
         alert(e.message)
       })
 
-
-      // docRef.delete()
-      // .then(() => {
-      //   updateTeacherNum(1)
-      // });
-
-
-
     }
-
-    // Report: Update Teacher Number
-    function updateTeacherNum(value){
-
-      let docRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", ent_id)
-        .where(NUM_TYPE, "==", NUM_TYPE_TEACHER)
-        .limit(1);
-
-
-      docRef
-      .get()
-      .then((querySnapshot) => {
-
-        if(querySnapshot.empty) {
-          console.log("Empty. Do nothing ");
-
-        }
-        else {
-
-          querySnapshot.forEach((doc) => {
-
-            console.log(doc.data());
-
-            let reportDocRef = db.collection("dev")
-              .doc("v2")
-              .collection("General")
-              .doc(doc.data()[NUM_ID]);
-
-            reportData ={
-              // [NUM_ID]: reportDocRef.id,
-              // [NUM_ADMIN_ID]: ent_id,
-              // [NUM_TYPE]: ,
-              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(doc.data()[NUM_VALUE]) - parseInt(value),
-              [NUM_DATE_EDIT]: new Date(),
-            }
-
-            console.log(reportData)
-            reportDocRef
-              .set(reportData, { merge: true })
-              .then(() => {
-                window.location = './'
-              });
-
-          });
-
-
-        }
-
-
-      });
-
-    }
-
 
   </script>
+
   <script>
     $( document ).ready(function() {
 

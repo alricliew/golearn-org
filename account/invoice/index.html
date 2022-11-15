@@ -1060,7 +1060,7 @@
           sessionStorage.setItem(SESSION_STORAGE_INVOICE_CURRENT_DOC_KEY, JSON.stringify(doc.data()));
 
           // Redirect to view-invoice.html
-          window.location = './view.html?url=' + orgUrl + "&ent=" + orgEnt + "&iid=" + invDocId;
+          window.location.href = './view.html?url=' + orgUrl + "&ent=" + orgEnt + "&iid=" + invDocId;
 
         }
         else {

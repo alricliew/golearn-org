@@ -1043,50 +1043,6 @@
   <script>
 		$( document ).ready(function() {
 
-      // Class Announcement
-      // KEY, DATETIME, ID, JOB_STATUS and JOB_EXPLANATION var is global var used to simplify modal fire and hide.
-      var KEY = ""; // Extract info from data-* attributes
-      var DATETIME = ""; // Extract info from data-* attributes
-      var ID = ""; // Extract info from data-* attributes
-      var ANNOUNCEMENT = ""; // Extract info from data-* attributes
-
-      // Update Class Annoucement
-      $('#btnEditClassModalUpdate').on('click', function (e) {
-        var docData = {
-          [CLASS_ANNOUNCEMENT]: document.getElementById("modalClassAnnouncement").value,
-        }
-        // Set data
-        db.collection("dev")
-          .doc("v2")
-          .collection("Class")
-          .doc(ID)
-          .set(docData, {merge: true})
-          .then(() => {
-            window.location = './class.html';
-          })
-          .catch((error) => {
-              console.error("Error writing document: ", error);
-          });;
-
-			  $('#editClassModal').modal('hide');
-		  });
-
-      $('#editClassModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button/Components that triggered the modal
-        ID = button.data('id') // Extract info from data-* attributes
-        ANNOUNCEMENT = button.data('announcement') // Extract info from data-* attributes
-        // Load Desription
-        document.getElementById("modalClassAnnouncement").textContent = ANNOUNCEMENT;
-
-      });
-
-      // Clear key and fields in modal when modal dismiss
-      $('#editClassModal').on('hide.bs.modal', function (event) {
-        ID = "";
-        ANNOUNCEMENT = "";
-        document.getElementById("modalClassAnnouncement").textContent = "";
-      });
-
 
       // Create Teacher Profile Manually
       $('#btnCreateTutorManuallyModalConfirm').on('click', function (e) {

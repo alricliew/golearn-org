@@ -749,32 +749,6 @@
       window.location.href = './edit-student.html' + "?url=" + orgUrl_temp  +  "&ent=" + orgEnt_temp + "&sid=" + elem.getAttribute('data-id')
     }
 
-    // function editStudentFunction(elem){
-    //   // Get attribute and
-    //   if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_STUDENT_ALL_DOCS_KEY)) == null ){
-    //     console.log("Error: Impossible to reach this state");
-    //     // Because this func only trigger when there's active class loaded
-    //     return;
-    //   }else{
-
-    //     let Obj = null;
-    //     let allList = null;
-
-    //     // Set the fields
-    //     allList = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_STUDENT_ALL_DOCS_KEY));
-    //     allList.forEach((item) => {
-    //       if (item.id === elem.getAttribute('data-id')){
-    //         sessionStorage.setItem(SESSION_STORAGE_STUDENT_CURRENT_DOC_KEY, JSON.stringify(item));
-
-    //         window.location = './edit-student.html';
-
-    //       }
-
-    //     });
-
-    //   }
-		// }
-
 
     // Report: Update Student Number
     function updateStudentNum(value){
