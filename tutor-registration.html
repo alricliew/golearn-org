@@ -1,0 +1,1965 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>GoLearn School</title>
+  <meta name=description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <meta property=og:title content="GoLearn School">
+  <meta property=og:site_name content="GoLearn School">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://app.golearn.com.my/school/transaction/ >
+  <meta property=og:image content=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <meta property=og:description content="GoLearn School&trade; is Malaysia #1 teaching platform to run your tuition business and manage your lessons. Start now for Free!">
+  <link rel=apple-touch-icon sizes=180x180 href=https://app.golearn.com.my/assets/img/icon-apple-touch-180x180.png>
+  <link rel=icon type=image/png sizes=32x32 href=https://app.golearn.com.my/assets/img/icon-32x32.png>
+  <link rel=icon type=image/png sizes=16x16 href=https://app.golearn.com.my/assets/img/icon-16x16.png>
+  <!-- Fonts and icons -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" rel="stylesheet" type="text/css" />
+  <!-- Material Kit CSS -->
+  <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- Firebase Init -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+  <script src="assets/js/firebase.js"></script>
+  <!-- Tutor Portal specific CSS -->
+  <link href="assets/css/tutor-portal.css" rel="stylesheet" />
+  <link href="assets/css/multistepform.css" rel="stylesheet" />
+  <link href="assets/css/intlTelInput.css" rel="stylesheet">
+
+  <style>
+    .iti {
+      width: 100%;
+    }
+
+    .centered {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      /* bring your own prefixes */
+      transform: translate(-50%, -50%);
+    }
+    .loader {
+      border: 16px solid #f3f3f3; /* Light grey */
+      border-top: 16px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+      position: absolute;
+      z-index: 1500;
+      top: 50%;
+      left: 40%;
+      /* transform: translate(-50%, -50%); */
+
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+  </style>
+</head>
+
+<body>
+
+
+  <div class="wrapper ">
+
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Tutor Online Registration</a>
+          </div>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+            </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item" id="activationNavItem">
+                <a href="#" class="btn btn-primary btn-round btn-sm" style="visibility: hidden;" id="btnActivateAccount"></a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" href="javascript:;">
+                   Hi <span id="user"></span> !
+                </a>
+              </li>
+              <!-- <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									<p style="padding: 1em;" >No notification</p>
+                </div>
+              </li>
+
+			  			<li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="./edit-profile.html">Edit Profile</a>
+                  <a id="navPublicProfile" class="dropdown-item" href="#">My Public Profile</a>
+									<a class="display:block; dropdown-item" href="./about.html">About</a>
+									<div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:;" onclick="signOutFunction()" id="btn-logout">Log out</a>
+									<div class="dropdown-divider"></div>
+									<a style="font-weight: 500 ;padding: 0.5em ;text-align: center; width: 200px; background-color: #428dd4 ;display: block; color: #fff;" href="https://golearn.com.my/pricing/" target="_blank" id="btnUpgradeToPro">Upgrade to Pro</a>
+
+                </div>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+
+			<!-- Modal Start -->
+      <!-- Uploading Progress modal -->
+      <div class="row">
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Uploading...</h5>
+              </div>
+              <div class="modal-body" id="uploadModalBody">
+                <div id="myProgress" style="width: 100%; background-color: grey;">
+                  <div id="myBar" style="width: 1%; height: 30px; background-color: green;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Confirm modal -->
+      <div class="row">
+        <div class="modal fade" id="registerConfirmModal" tabindex="-1" role="dialog" aria-labelledby="registerConfirmModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" >Registration Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnRegisterConfirmModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sign-out modal -->
+      <div class="row">
+        <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signOutLabel">Logging Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="signOutModalBody">
+                Are you sure you want to continue?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSignOutModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="row text-center" style=" padding-bottom: 20px;">
+          <div class="col-md-9">
+            <span id="adminName" style="font-weight: 400;"></span>
+          </div>
+
+        </div>
+        <div class="container overflow-hidden">
+          <div class="row">
+            <!-- Invalid screen -->
+            <div class="col-md-9" id="invalid-screen" style="display: none;">
+              <h2 id="invalidScreenTitle">Invalid Registration Link...</h2>
+              <p id="invalidScreenDescription">Please contact the owner to fix this for you.</p>
+            </div>
+
+            <!-- Invalid screen -->
+            <div class="col-md-9" id="registration-complete-screen" style="display: none;">
+              <h2>You have completed your registration!</h2>
+              <a href="./" class="btn btn-outline-primary btn-round" id="btnBack">View my profile <i class="material-icons" style="color: #2e74b6; margin-right: 0.5em; padding-bottom: 0.2em;">east</i></a>
+
+            </div>
+
+
+            <!-- Main content -->
+            <div class="col-md-9" id="multisteps-form" style="padding-left: 0; padding-right: 0;">
+              <!--multisteps-form navbar-->
+              <div class="row" >
+                <div class="col-12 col-lg-12 ml-auto mr-auto mb-4">
+                  <div class="multisteps-form__progress">
+                    <button class="multisteps-form__progress-btn js-active" type="button" title="Login">Login</button>
+                    <button class="multisteps-form__progress-btn" type="button" title="Student Info">Tutor Profile</button>
+                  </div>
+                </div>
+              </div>
+
+              <!--multisteps-form-->
+              <div class="multisteps-form" >
+                <!--form panels-->
+                <div class="row">
+
+                  <div class="col-12">
+                    <form class="multisteps-form__form">
+
+                      <!-- Login form panel-->
+                      <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+                        <h4 class="multisteps-form__title">Login</h4>
+
+                        <div class="multisteps-form__content">
+
+                          <div class="row">
+
+                            <div class="col-md-12">
+
+                              <div class="social">
+                                <h4><span> <button class="btn btn-just-icon btn-round btn-primary">
+                                  <p>1</p>
+                                  </button></span> Enter Your Contact Number</h4>
+                              </div>
+
+
+                              <div class="card-body" style="padding-left: 0; padding-right: 0;">
+                                <div class="form-group  d-flex justify-content-center">
+                                  <div class="input-group">
+                                    <input id="phone" name="phone" type="tel"  class="form-control">
+                                    <span id="valid-msg" class="hide" style="color: #42ba96;">✓ Valid</span>
+                                    <span id="error-msg" class="hide" style="color: #F32013;"></span>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <div id="recaptcha-container"></div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <button id="btnVerify" class="btn btn-primary btn-round" data-dismiss="modal" type="button">
+                                      Verify
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="social">
+                                <h4 ><span> <button class="btn btn-just-icon btn-round btn-primary">
+                                  <p>2</p>
+                                  </button></span> Verification </h4>
+                                <p>Enter the 6-digit verification code from your SMS.</p>
+                              </div>
+
+                              <div class="card-body" style="padding-left: 0; padding-right: 0;">
+                                <div class="form-group">
+                                  <div class="input-group">
+
+                                    <div id="divOuter" style="width: 230px; overflow: hidden;">
+                                      <div id="divInner" style="left: 0; position: sticky;">
+                                        <input style="background-color: transparent; border: 0; width: 280px; letter-spacing: 30px; padding-left: 10px; margin-left:0em; background-position-x: 25px!important;  background-repeat: repeat-x; background-size: 40px 1px;  background-position: bottom; background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);" type="text" id="verificationCode" maxlength="6" placeholder="">
+                                      </div>
+                                    </div>
+
+                                    <!-- <div id="divOuter" style="width: 250px; overflow: hidden;">
+                                      <div id="divInner" style="left: 0; position: sticky;">
+                                        <input style="background-color: transparent; border: 0; width: 280px; letter-spacing: 31px;  padding-left: 20px; margin-left:0em; background-position-x: 0;  background-repeat: repeat-x;background-size: 40px 1px;  background-position: bottom; background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);" type="text" id="verificationCode" maxlength="6" placeholder="">
+                                      </div>
+                                    </div> -->
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <a href="#" class="btn btn-primary btn-round" id="btnLogin" type="button">Confirm and Login</a>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                          <div class="button-row d-flex mt-4">
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Tutor form panel-->
+                      <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <h4 class="multisteps-form__title">Edit Your Profile</h4>
+                        <div class="multisteps-form__content">
+                          <div class="row">
+                            <div class="col-md-12" id="tutorNull">
+                              <div class="card card-profile text-left" style="margin-top:4rem;">
+                                <div class="card-avatar" style="height: 150px;width: 150px;">
+                                  <a href="javascript:;" >
+                                    <img class="img" id="tutorImgUrl" style="height: 100%; width:100%; object-fit: cover; border-radius: 50%;" src="https://app.golearn.com.my/assets/img/empty-photo.png"/>
+                                  </a>
+                                </div>
+                                <div class="card-body">
+
+                                  <input type="file" id="select_image" name="image" style="display:none" accept="image/x-png,image/jpeg">
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Name</span>
+                                    <input type="text" class="form-control" id="name">
+                                  </div>
+                                  <!-- <div class="input-group" style="padding: 1rem;">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons">perm_identity</i>
+                                      </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="name" placeholder="Name" data-compulsory="true" oninput="this.className = 'form-control'">
+                                  </div> -->
+
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Phone</span>
+                                    <input id="phoneTutor" name="phone" type="tel"  class="form-control" readonly>
+                                    <span id="valid-msgTutor" class="hide" style="color: #42ba96;">✓ Valid</span>
+                                    <span id="error-msgTutor" class="hide" style="color: #F32013;"></span>
+                                  </div>
+
+                                  <!-- <div class="input-group" style="padding-top: 1.5rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 1rem;">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons">phone</i>
+                                      </span>
+                                    </div>
+                                    <input id="phoneTutor" name="phone" type="tel"  class="form-control" readonly>
+                                    <span id="valid-msgTutor" class="hide" style="color: #42ba96;">✓ Valid</span>
+                                    <span id="error-msgTutor" class="hide" style="color: #F32013;"></span>
+                                  </div> -->
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Email</span>
+                                    <input type="text" class="form-control" id="email">
+                                  </div>
+
+                                  <!-- <div class="input-group" style="padding-top: 1.5rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 1rem;">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons">email</i>
+                                      </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="email" placeholder="Email Address">
+                                  </div> -->
+
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                        <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Age</span>
+                                        <input type="number" class="form-control" id="age">
+                                      </div>
+                                      <!-- <div class="input-group" style="padding-top: 1.5rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 1rem;">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">
+                                            <i class="material-icons">contacts</i>
+                                          </span>
+                                        </div>
+                                        <input type="number" class="form-control" id="age" placeholder="Age" min="0" max="100">
+                                      </div> -->
+                                    </div>
+                                    <div class="col-md-9">
+                                      <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                        <span class="" style="font-weight: 300; color: gray; margin-bottom: 0;">Gender</span>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="form-check form-check-radio form-check-inline">
+                                          <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="genderRadios" id="radio-male" value="optionMale" >
+                                              Male
+                                            <span class="circle">
+                                              <span class="check"></span>
+                                            </span>
+                                          </label>
+                                        </div>
+                                        <div class="form-check form-check-radio form-check-inline">
+                                          <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="genderRadios" id="radio-female" value="optionFemale">
+                                              Female
+                                            <span class="circle">
+                                              <span class="check"></span>
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 1rem; padding-bottom: 0;">
+                                    <span style="font-weight: 300; color: gray; margin-bottom: 0;">Address</span>
+                                  </div>
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Address 1</span>
+                                    <input type="text" class="form-control" id="address1">
+                                  </div>
+
+                                  <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                    <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Address 2</span>
+                                    <input type="text" class="form-control" id="address2">
+                                  </div>
+                                  <!-- <div class="input-group" style="padding-top: 1.5rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 1rem;">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons" style="margin-left: 24px;"></i>
+                                      </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="address1" placeholder="Address 1">
+                                  </div> -->
+                                  <!-- <div class="input-group" style="padding-top: 0.5rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 1rem;">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons">place</i>
+                                      </span>
+                                    </div>
+                                    <input type="text" class="form-control" id="address2" placeholder="Address 2">
+                                  </div> -->
+
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                        <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">Postcode</span>
+                                        <input type="text" class="form-control" id="addressPostCode">
+                                      </div>
+                                      <!-- <div class="input-group" style="padding-top: 0.5rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 1rem;">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">
+                                            <i class="material-icons"  style="margin-left: 24px;" ></i>
+                                          </span>
+                                        </div>
+                                        <input type="number" class="form-control" id="addressPostCode" placeholder="Postcode">
+                                      </div> -->
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group" style="padding-left: 0.5rem; padding-right: 0.5rem;">
+                                        <span class="" style="font-size: smaller; font-weight: 300; color: gray; margin-bottom: 0;">State/Country</span>
+                                        <input type="text" class="form-control" id="addressState">
+                                      </div>
+                                      <!-- <div class="input-group" style="padding-top: 0.5rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 1rem;">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">
+                                          </span>
+                                        </div>
+                                        <input type="text" class="form-control" id="addressState" placeholder="State">
+                                      </div> -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <div class="button-row d-flex mt-4">
+                            <!-- <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button> -->
+                            <button class="btn btn-success ml-auto js-btn-send" type="button" title="Send" id="btnRegister" >Update & Join </button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+          <ul>
+            <!-- <li>
+            <a href="https://golearn.com.my/join-us" target="_blank">
+              Visit GoLearn Tutor
+            </a>
+            </li> -->
+          </ul>
+          </nav>
+          <!-- <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>
+            , made with <i class="material-icons">favorite</i> by <a href="#" >GoLearn Team</a>
+          </div> -->
+          <!-- your footer here -->
+        </div>
+      </footer>
+    </div>
+
+  </div>
+
+  <!-- Loading screen -->
+  <!-- background-color: #e4e4e463;  -->
+  <div class="" style="height: 100%; background-color: #e4e4e463; position: fixed; overflow: hidden; z-index: 1700;top: 0;left: 0; ">
+    <!-- <p>hihih</p> -->
+    <div class="loader"></div>
+  </div>
+
+  <script src="assets/js/core/jquery.min.js"></script>
+  <script src="assets/js/core/popper.min.js"></script>
+  <script src="assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="assets/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="assets/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="assets/js/plugins/jquery.validate.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <!-- Common constants -->
+  <script src="assets/js/common.js" type="text/javascript"></script>
+  <!-- General Info -->
+  <script src="assets/js/const.js" type="text/javascript"></script>
+  <!-- Core Tutor Js -->
+  <script src="assets/js/org-core.js" type="text/javascript"></script>
+  <!-- International Telephone Input -->
+  <script src="assets/js/plugins/intlTelInput/intlTelInput.js"></script>
+
+  <script>
+    // Global Variables for Tutor
+    var tutorId;
+    var current_name, current_email, current_phone, current_imgUri, current_nric,
+      current_address1, current_address2, current_addressPostCode, current_addressState, current_address,
+      currentYearsExperience, current_weburl;
+    // Global Variables for Entity
+    // var ent_id;
+    // var ent_url, ent_orgId, ent_accIdArr, ent_oid,  ent_aid, ent_type, ent_lastOnline, ent_rating, ent_ratingTimes, ent_ratingFinal,
+    //   ent_accountStatus, ent_name, ent_phone, ent_email, ent_addr, ent_areaId, ent_stateId, ent_imgUrl, ent_coverImgUrl, ent_oneLiner, ent_intro,
+    //   ent_lan, ent_timeSlotArr, ent_preferredSubArr, ent_corp, ent_corpId, ent_adminStatus;
+
+    var currentObj = null; // Session Storage for Dependant Module
+    // var action; // Action: JOINSTUDENT(enroll as student), JOINSTUDENTNCLASS (enroll as student and class)
+    const JOIN_AS_STUDENT = 'joinAsStudent';
+    const JOIN_AS_STUDENT_AND_CLASS = 'joinAsStudentNClass';
+    const JOIN_AS_STUDENT_AND_ADD_DEPENDANT = 'joinAsStudentNAddDependant';
+    const JOIN_AS_STUDENT_CLASS_AND_ADD_DEPENDANT = 'joinAsStudentClassNAddDependant';
+    const JOIN_AS_STUDENT_WITH_DEPID = 'joinAsStudentWithDepId'; // User selected a dependant
+    const JOIN_AS_STUDENT_AND_CLASS_WITH_DEPID = 'joinAsStudentNClassWithDepId';
+
+    var db = firebase.firestore();
+		db.settings({ timestampsInSnapshots: true });
+
+    // Phone
+    const inputPhone = document.querySelector("#phone");
+    const inputTutorPhone = document.querySelector("#phoneTutor");
+    const itiPhone = intlTelInput(inputPhone,{
+      autoHideDialCode: false,
+      nationalMode: false,
+      // onlyCountries: ['MY', 'SG', 'TH', 'ID', 'VN', 'PH', 'BN', 'US', 'GB', 'SA'],
+      preferredCountries: ['MY', 'SG'],
+      separateDialCode: true,
+      utilsScript: "assets/js/plugins/intlTelInput/utils.js",
+    });
+
+    var itiStudent = intlTelInput(inputTutorPhone,{
+      autoHideDialCode: false,
+      nationalMode: false,
+      // onlyCountries: ['MY', 'SG', 'TH', 'ID', 'VN', 'PH', 'BN', 'US', 'GB', 'SA'],
+      // preferredCountries: ['MY', 'SG', 'ID'],
+      separateDialCode: true,
+      utilsScript: "assets/js/plugins/intlTelInput/utils.js",
+      });
+
+    // Check URL
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    ent_id = url.searchParams.get("aid"); // Entity Id
+
+    // http://127.0.0.1:8080/tutor-portal/tutor-registration.html?aid=%2B60138252818
+    // ?aid=%2B60138252818
+    // console.log(ent_id);
+    // Check validity of URL params
+    if (ent_id === "" || ent_id == null){
+      // console.log('Invalid Url params');
+      invalidatePage(
+        "Invalid Registration Link...",
+        "Error 1010. Please contact the owner to fix this for you."
+      );
+    }
+    else{
+
+      // Step 1: Check if the Entity exists
+      let docRefAdmin = db.collection("org").doc("v1").collection("org").doc(ent_id);
+
+      docRefAdmin.get().then((doc) => {
+        if (doc.exists) {
+
+          ent_name = (doc.data()[ORG_ORG_NAME] == null || doc.data()[ORG_ORG_NAME] == "")? "New Tutor" : doc.data()[ORG_ORG_NAME];
+          ent_email = (doc.data()[ORG_ORG_EMAIL]  == null)? "" : doc.data()[ORG_ORG_EMAIL] ;
+          ent_phone= (doc.data()[ORG_ORG_PHONE]  == null)? "" : doc.data()[ORG_ORG_PHONE] ;
+          ent_imgUrl = (doc.data()[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : doc.data()[ORG_ORG_IMG_URL] ;
+          ent_accountStatus = doc.data()[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : doc.data()[ORG_ORG_STATUS];
+          ent_addr= (doc.data()[ORG_ORG_ADDRESS]  == null)? '' : doc.data()[ORG_ORG_ADDRESS];
+          ent_url = doc.data()[ORG_ORG_ADDRESS];
+
+          loadEntityInfo(ent_id)
+
+          document.getElementById("adminName").textContent = ent_name;
+
+        }
+        else {
+          // console.log("No such admin Id!");
+          invalidatePage(
+            "Unable to Proceed with Registration",
+            "Error 2020. Error loading your tutor profile."
+          );
+        }
+      })
+      .catch((error) => {
+        // Error: Invalid Tutor/ organization
+        console.log("Error getting document:", error);
+        invalidatePage(
+          "Unable to Proceed with Registration",
+          "Error 2010. Error loading your tutor profile."
+        );
+
+      });
+    }
+
+    function invalidatePage(title, desc){
+      let multisteps = document.getElementById("multisteps-form");
+      multisteps.setAttribute('style', 'display: none;');
+      let invalid_screen = document.getElementById("invalid-screen");
+      invalid_screen.className = 'centered';
+      invalid_screen.setAttribute('style', 'display: inline;');
+
+      let invalidScreenTitle = document.getElementById("invalidScreenTitle");
+      invalidScreenTitle.textContent = (title == null || title == "") ? "Invalid Registration Link..." : title;
+      let invalidScreenDescription = document.getElementById("invalidScreenDescription");
+      invalidScreenDescription.textContent = (desc == null || desc == "") ? "Please contact the owner to fix this for you." : desc;
+
+      let funcText = (title == null || title == "" || desc == null || desc == "") ?
+        "Invalid Link: Please contact the owner to fix this for you." :
+        title + ": " + desc;
+
+      func.showNotification('top','center', 'danger', 'error_outline', funcText );
+    }
+
+    function registrationCompletePage(){
+      let multisteps = document.getElementById("multisteps-form");
+      multisteps.setAttribute('style', 'display: none;');
+      let invalid_screen = document.getElementById("registration-complete-screen");
+      invalid_screen.className = 'centered';
+      invalid_screen.setAttribute('style', 'display: inline;');
+
+    }
+
+
+    // Get the number of teacher of admin.
+    function loadEntityInfo(id){
+
+      // Get the teacher limit based on accountStatus
+      limit = 1;
+      if (ent_accountStatus === PREMIUM_ACCOUNT_2_STATUS_KEY || ent_accountStatus === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY) {
+        limit = ProfileSettingsValuePremium2.teacherNum;
+      }
+      else if (ent_accountStatus === PREMIUM_ACCOUNT_3_STATUS_KEY || ent_accountStatus === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY){
+        limit = ProfileSettingsValuePremium3.teacherNum;
+      }
+      else {
+        invalidatePage(
+          "Registration is Closed",
+          "Error 3010. Limit reach! This account is no longer able to accept new teachers."
+        );
+
+        return;
+      }
+
+
+
+      let docRef = db.collection("dev")
+          .doc("v2")
+          .collection("Tutor")
+          .where(TUTOR_ADMIN_ID, "==", id)
+          .where(TUTOR_STATUS_ADMIN, "in", [TUTOR_STATUS_TYPE_ACTIVE, TUTOR_STATUS_TYPE_PASSIVE])
+          .limit(limit)
+
+      let currentTeacherNum = 0;
+
+      docRef
+      .get()
+      .then((querySnapshot) => {
+
+        currentTeacherNum = querySnapshot.size;
+
+      })
+      .then(() => {
+
+        console.log(currentTeacherNum)
+        console.log(ent_accountStatus)
+
+          // Check admin account status
+         if (ent_accountStatus === PREMIUM_ACCOUNT_2_STATUS_KEY || ent_accountStatus === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY){
+            if (currentTeacherNum >= ProfileSettingsValuePremium2.teacherNum){
+              invalidatePage(
+                "Registration is Closed",
+                "Error 3020. Limit reach! This account is no longer able to accept new teachers."
+              );
+            }
+          }
+          else if (ent_accountStatus === PREMIUM_ACCOUNT_3_STATUS_KEY || ent_accountStatus === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY){
+            if (currentTeacherNum > ProfileSettingsValuePremium3.teacherNum){
+              invalidatePage(
+                "Registration is Closed",
+                "Error 3030. Limit reach! This account is no longer able to accept new teachers."
+              );
+            }
+          }
+          else {
+            // Deactivated or other status
+            invalidatePage(
+                "Registration is Closed",
+                "Error 3040. This account is no longer able to accept new teachers."
+              );
+            }
+
+
+      });
+
+    };
+
+    // For Tutor's Authentification
+		firebase.auth().onAuthStateChanged(function(user){
+
+			if(!user){
+        // Return to login if user does not exist.
+
+        console.log("User not logged in. Wait user login.")
+				// window.location.href = "login.html"
+			}else{
+        // if the displayName is null, it means user register using Phone
+        if (firebase.auth().currentUser.displayName == null ){
+            tutorId = firebase.auth().currentUser.phoneNumber;
+        }else
+            tutorId = firebase.auth().currentUser.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
+
+        loadUserInfo(tutorId);
+
+			}
+		});
+
+
+    // Tutor Specific
+    function loadUserInfo(tutor_id){
+      // Tutor Id must be a phone with +60, no spacing or other chars
+      var docRef = db.collection("Tutor").doc(tutor_id);
+
+
+      docRef.get().then((doc) => {
+
+        if (doc.exists) {
+          // console.log("Document data:", doc.data());
+
+          current_name = (doc.data().name == null || doc.data().name == "")? "New Tutor" : doc.data().name;
+          current_email = (doc.data().email == null || doc.data().email == "")? "" : doc.data().email;
+          current_phone= (doc.data().phone == null || doc.data().phone == "")? "" : doc.data().phone;
+
+          current_age = (doc.data().age == null || doc.data().age == "")? "18" : doc.data().age;
+          current_gender= (doc.data().gender == 0)? "Male" : "Female";
+          current_imgUri = (doc.data().imgUrl == null || doc.data().imgUrl == "")? "https://app.golearn.com.my/assets/img/hello.gif" : doc.data().imgUrl;
+          current_accountStatus = doc.data().accountStatus;
+          current_address1= (doc.data().address1 == null || doc.data().address1 == "")? '' : doc.data().address1 + ', ';
+          current_address2= (doc.data().address2 == null || doc.data().address2 == "")? '' : doc.data().address2 + ', ';
+          current_addressPostCode= (doc.data().addressPostCode == null || doc.data().addressPostCode == "")? '' : doc.data().addressPostCode + ', ';
+          current_addressState= (doc.data().addressState == null || doc.data().addressState == "")? '' : doc.data().addressState;
+          current_address = current_address1 + current_address2 + current_addressPostCode + current_addressState;
+          currentYearsExperience = doc.data().yearsExperience; // number
+          // currentTutoringExperience = doc.data().tutoringExperience;
+          // currentTutoringApproach = doc.data().tutoringApproach;
+          // currentQualification= doc.data().qualification;
+          current_aweburl = doc.data().aWebUrl;
+
+          //------ tutor-registration.html specific Start -------------//
+          document.getElementById("tutorImgUrl").src = current_imgUri;
+          imgUrl_temp = current_imgUri;
+          document.getElementById("name").value = doc.data().name;
+          document.getElementById("email").value = doc.data().email;
+          // document.getElementById("phoneTutor").value = doc.data().phone;
+          itiStudent.setNumber(doc.id);
+          // itiStudent.setNumber(doc.data().phone);
+          document.getElementById("age").value = doc.data().age;
+          document.getElementById("address1").value = doc.data().address1;
+          document.getElementById("address2").value = doc.data().address2;
+          document.getElementById("addressPostCode").value = doc.data().addressPostCode;
+          document.getElementById("addressState").value = doc.data().addressState;
+
+          if (doc.data().gender === 0){ // Male
+            document.getElementById("radio-male").checked = true;
+          }else if (doc.data().gender === 1 ){
+            document.getElementById("radio-female").checked = true
+          }else{
+            document.getElementById("radio-male").checked = true;
+          }
+
+          // Re-Enable img upload and save button
+          document.getElementById("tutorImgUrl").setAttribute("style", "height: 100%; width:100%; object-fit: cover; border-radius: 50%; pointer-events: auto;");
+
+          document.getElementById("user").textContent = current_name;
+
+          //------ tutor-registration.html specific End -------------//
+
+          // User exist and logged in. Move to Step 1.
+          console.log("User logged in, profile exist")
+          setActiveStep(1);
+          setActivePanel(1);
+
+
+        }
+        else {
+          invalidatePage(
+            "User Not Found",
+            "Error 1020. Please refresh this page and repeat the steps again."
+          );
+        }
+      });
+
+    };
+
+
+    async function ValidateTutorInTutorDB(){
+
+      // Check if the ent_id & tutorId match. If exist, it means the the tutor already under the admin,
+      // so reactivate them (TUTOR_STATUS_TYPE_ACTIVE) & do not add the tutor to admin's tutor pool.
+      let docRef = db.collection("dev")
+        .doc("v2")
+        .collection("Tutor")
+        .where(TUTOR_ADMIN_ID, "==", ent_id)
+        .where(TUTOR_TUTOR_ID, "==", tutorId)
+        // .limit(1);
+
+      await docRef
+        .get()
+        .then((querySnapshots) => {
+
+          // Empty: CREATE NEW Tutor
+          if(querySnapshots.empty){
+            console.log('Step 1: Add Tutor to DB')
+            return Promise.resolve( AddTutorToTutorDB());
+          }
+          // NOTE: Both conditions below technically dont happen because once 'delete teacher' is performed, the whole class_tutor document is deleted
+          // If a tutor already joined, set the status back to active to reuse the tutor
+          else if (querySnapshots.size == 1) {
+
+            var promiseAll = [];
+
+            querySnapshots.forEach((doc) => {
+              promiseAll.push( SetAdminStatusToActive(doc.data()[TUTOR_ID], doc.data()[TUTOR_STATUS_ADMIN]) )
+            })
+
+            return Promise.all( promiseAll);
+
+          }
+          // If a tutor existed more than once in an account, delete all and readd back
+          else{
+
+            var promiseAll = [];
+            promiseAll.push("ADD_TUTOR") // Push a status so we can do something later stage
+
+            querySnapshots.forEach((doc) =>{
+
+              let tutorDocRef = db.collection("dev")
+              .doc("v2")
+              .collection("Tutor")
+              .doc(doc.id)
+
+              promiseAll.push(tutorDocRef.delete())
+
+            })
+
+            return Promise.all(promiseAll)
+
+          }
+        })
+        .then((snapshots) => {
+          console.log('Step 2: Check if need to readd tutor ADD_TUTOR: ')
+          console.log(snapshots)
+          // Add a new tutor after deleting repeating documents
+          if (snapshots == null){
+            console.log('Step 2.1: snapshots[0] is null ')
+
+          }
+          else if (snapshots[0] == null){
+            console.log('Step 2.2: snapshots[0] is null ')
+
+          }
+          else if (snapshots[0] === "ADD_TUTOR"){
+            return Promise.resolve( AddTutorToTutorDB());
+          }
+
+        })
+        .then(() => {
+
+          console.log('Step 3: Finishing')
+
+          $('#registerConfirmModal').modal('hide');
+
+          // Disable the confirm button
+          document.getElementById("btnRegisterConfirmModalUpdate").removeAttribute('disabled');
+          document.getElementById("btnRegisterConfirmModalUpdate").textContent = 'Confirm';
+
+          registrationCompletePage();
+        })
+        .catch((e) => {
+          invalidatePage(
+            "Registration Failed...",
+            "Error 1030. Please try again."
+          );
+          console.log(e.message)
+        })
+    }
+    // Set the statuses to active and update the details
+    async function SetAdminStatusToActive(docId, statusAdmin){
+      // NEW: Add tutor to the Tutor Module
+      let tutorModuleDocRef = db.collection("dev").doc("v2").collection('Tutor').doc(docId);
+      let tutorModuleData = {
+        [TUTOR_ADMIN_NAME]: ent_name,
+        [TUTOR_ADMIN_PHONE]: ent_phone,
+        [TUTOR_ADMIN_EMAIL]: ent_email,
+        [TUTOR_ADMIN_ADDR]: ent_addr,
+        [TUTOR_ADMIN_IMG_URL]: ent_imgUrl,
+        [TUTOR_ADMIN_WEB_URL]: ent_url,
+        // Tutor specific
+        [TUTOR_TUTOR_NAME]: document.getElementById("name").value,
+        [TUTOR_TUTOR_EMAIL]: document.getElementById("email").value,
+        [TUTOR_TUTOR_PHONE]: itiStudent.getNumber(), //document.getElementById("phoneTutor").value,
+        [TUTOR_TUTOR_AGE]: parseInt(document.getElementById("age").value, 10),
+        [TUTOR_TUTOR_GENDER]: gender_temp,
+        [TUTOR_TUTOR_ADDR]: final_address,
+        [TUTOR_TUTOR_IMG_URL]: imgUrl_temp,
+        [TUTOR_TUTOR_WEB_URL]: current_aweburl,
+
+        [TUTOR_DATE_EDIT]: new Date(),
+        [TUTOR_STATUS_ADMIN]: TUTOR_STATUS_TYPE_ACTIVE,
+        [TUTOR_STATUS_TUTOR]: TUTOR_STATUS_TYPE_ACTIVE,
+
+      }
+      // console.log()
+
+      await tutorModuleDocRef
+      .set(tutorModuleData, { merge: true })
+      .then(()=> {
+        func.showNotification('top','center', 'success', 'error_outline', "You are successfully registered!");
+
+        if (statusAdmin === TUTOR_STATUS_TYPE_ACTIVE || statusAdmin === TUTOR_STATUS_TYPE_PASSIVE) {
+          // registrationCompletePage();
+        }
+        else{
+          // Update the the Tutor Num before running registration Page Complete
+          return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_TEACHER, 'asc', 1) )
+
+        }
+
+      })
+    }
+
+
+    // Add New Tutor to Tutor Module
+    async function AddTutorToTutorDB(){
+
+      // NEW: Add tutor to the Tutor Module
+      let tutorModuleDocRef = db.collection("dev").doc("v2").collection('Tutor').doc();
+      let tutorModuleData = {
+        [TUTOR_ID]: tutorModuleDocRef.id,
+        [TUTOR_ADMIN_ID]: ent_id,
+        [TUTOR_TUTOR_ID]: tutorId,
+        [TUTOR_DATE_ADD]: new Date(),
+        [TUTOR_DATE_EDIT]: '',
+        [TUTOR_DATE_DEL]: '',
+        [TUTOR_STATUS_ADMIN]: TUTOR_STATUS_TYPE_ACTIVE,
+        [TUTOR_STATUS_TUTOR]: TUTOR_STATUS_TYPE_ACTIVE,
+        // Admin specific
+        [TUTOR_ADMIN_NAME]: ent_name,
+        [TUTOR_ADMIN_PHONE]: ent_phone,
+        [TUTOR_ADMIN_EMAIL]: ent_email,
+        [TUTOR_ADMIN_ADDR]: ent_addr,
+        [TUTOR_ADMIN_IMG_URL]: ent_imgUrl,
+        [TUTOR_ADMIN_WEB_URL]: ent_url,
+        // Tutor specific
+        [TUTOR_TUTOR_NAME]: document.getElementById("name").value,
+        [TUTOR_TUTOR_EMAIL]: document.getElementById("email").value,
+        [TUTOR_TUTOR_PHONE]: itiStudent.getNumber(), //document.getElementById("phoneTutor").value,
+        [TUTOR_TUTOR_AGE]: parseInt(document.getElementById("age").value, 10),
+        [TUTOR_TUTOR_GENDER]: gender_temp,
+        [TUTOR_TUTOR_ADDR]: final_address,
+        [TUTOR_TUTOR_IMG_URL]: imgUrl_temp,
+        [TUTOR_TUTOR_WEB_URL]: current_aweburl,
+        // Employement (Entered by Admin only)
+        [TUTOR_BANK_NAME]: '',
+        [TUTOR_AC_NO]: '',
+        [TUTOR_EPF]: '',
+        [TUTOR_SOCSO]: '',
+      }
+
+      console.log('Class_Tutor Data');
+      console.log(tutorModuleData);
+
+      await tutorModuleDocRef
+      .set(tutorModuleData, { merge: true })
+      .then(()=> {
+        func.showNotification('top','center', 'success', 'error_outline', "You are successfully registered!");
+        console.log('Step 2: Add Tutor to DB > Update teacher num')
+        return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_TEACHER, 'asc', 1))
+
+      });
+    }
+
+    var final_address, gender_temp;
+
+    // Main Step:  Update Tutor Profile
+    async function UpdateTutorProfile(){
+      // Step 1: Update tutor profile
+      // let gender_temp = 1;
+      let gender_string_temp = "Female";
+      if (document.getElementById("radio-male").checked){
+        gender_temp = 0;
+        gender_string_temp = "Male";
+      }else if (document.getElementById("radio-female").checked){
+        gender_temp = 1;
+        gender_string_temp = "Female";
+      }else{
+        gender_temp = 1;
+        gender_string_temp = "Female";
+      }
+      // console.log("imgUrl: "+ imgUrl_temp);
+
+      let docRef = db.collection("Tutor").doc(tutorId);
+
+      let data = {
+        [NAME_KEY]: document.getElementById("name").value,
+        [EMAIL_KEY]: document.getElementById("email").value,
+        [PHONE_KEY]: itiStudent.getNumber(),
+        [ADDRESS_1_KEY]: document.getElementById("address1").value,
+        [ADDRESS_2_KEY]: document.getElementById("address2").value,
+        [ADDRESS_POSTCODE_KEY]: document.getElementById("addressPostCode").value,
+        [ADDRESS_STATE_KEY]: document.getElementById("addressState").value,
+        // [IMAGE_KEY]: imgUrl_temp,
+        [AGE_KEY]: parseInt(document.getElementById("age").value, 10),
+        [GENDER_KEY]: gender_temp
+      }
+
+      console.log('Tutor Data');
+      console.log(data);
+      let docRefWithMerge = docRef.update( data);
+
+      // Update all active course
+      let final_address1 = (document.getElementById("address1").value == null ||  document.getElementById("address1").value == "")? '' : document.getElementById("address1").value + ", ";
+      let final_address2 = (document.getElementById("address1").value == null ||  document.getElementById("address1").value == "")? '' : document.getElementById("address2").value + ", ";
+      let final_addressPostCode = (document.getElementById("address1").value == null ||  document.getElementById("address1").value == "")? '' : document.getElementById("addressPostCode").value + ", ";
+      let final_addressState = (document.getElementById("address1").value == null ||  document.getElementById("address1").value == "")? '' : document.getElementById("addressState").value + ", ";
+      final_address = final_address1 + final_address2 +final_addressPostCode + final_addressState
+
+
+      // If admin is filling the form themselves, kill action
+      await ValidateTutorInTutorDB();
+
+      // func.showNotification('top','center', 'success', 'check_circle', "Your profile is updated.");
+
+    }
+
+  </script>
+
+  <script>
+
+    // Global var
+    var gState ='';
+    var gArea ='';
+    var gStateName='';
+    var gAreaName ='';
+
+    $( document ).ready(function() {
+
+      //------------- Login Panel -----------//
+      //Disable the step 1 button
+      document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
+      // document.getElementById("btnVerify").style.cursor='not-allowed';
+      // document.getElementById("btnVerify").disabled = true;
+
+      //Disable the step 2 button
+      document.getElementById("btnLogin").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
+      // document.getElementById("btnLogin").style.cursor='not-allowed';
+      // document.getElementById("btnLogin").disabled = true;
+
+      $('#btnVerify').on('click', function(){
+        // let number = itiPhone.getNumber();
+        // console.log(number);
+        phoneAuth();
+
+        document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
+        // document.getElementById("btnVerify").disabled = true;
+        document.getElementById("phone").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
+        // document.getElementById("phone").disabled = true;
+
+      });
+
+      $('#btnLogin').on('click', function(){
+        codeverify();
+      });
+
+      //---------------- Tutor Profile Panel ----------------//
+      // Script to trigger the select image
+      $('#tutorImgUrl').click(function(){
+         $('#select_image').trigger('click');
+      });
+
+
+      $('#btnRegisterConfirmModalUpdate').on('click', function(){
+
+        // Disable the submit button
+        document.getElementById("btnRegister").setAttribute('disabled', 'disabled');
+        document.getElementById("btnRegister").textContent = 'Please wait...';
+
+         // Disable the confirm button
+        document.getElementById("btnRegisterConfirmModalUpdate").setAttribute('disabled', 'disabled');
+        document.getElementById("btnRegisterConfirmModalUpdate").textContent = 'Please wait...';
+
+          // TODO: Create Tutor
+          UpdateTutorProfile();
+      });
+
+
+    });
+
+  </script>
+
+
+  <!-- Multiform-specific script -->
+  <script>
+    //DOM elements
+    const DOMstrings = {
+      stepsBtnClass: 'multisteps-form__progress-btn',
+      stepsBtns: document.querySelectorAll(`.multisteps-form__progress-btn`),
+      stepsBar: document.querySelector('.multisteps-form__progress'),
+      stepsForm: document.querySelector('.multisteps-form__form'),
+      stepsFormTextareas: document.querySelectorAll('.multisteps-form__textarea'),
+      stepFormPanelClass: 'multisteps-form__panel',
+      stepFormPanels: document.querySelectorAll('.multisteps-form__panel'),
+      stepPrevBtnClass: 'js-btn-prev',
+      stepNextBtnClass: 'js-btn-next',
+      stepSendBtnClass: 'js-btn-send' };
+
+
+    //remove class from a set of items
+    const removeClasses = (elemSet, className) => {
+
+      elemSet.forEach(elem => {
+
+        elem.classList.remove(className);
+
+      });
+
+    };
+
+    //return exect parent node of the element
+    const findParent = (elem, parentClass) => {
+
+      let currentNode = elem;
+
+      while (!currentNode.classList.contains(parentClass)) {
+        currentNode = currentNode.parentNode;
+      }
+
+      return currentNode;
+
+    };
+
+    //get active button step number
+    const getActiveStep = elem => {
+      return Array.from(DOMstrings.stepsBtns).indexOf(elem);
+    };
+
+    //set all steps before clicked (and clicked too) to active
+    const setActiveStep = activeStepNum => {
+
+      //remove active state from all the state
+      removeClasses(DOMstrings.stepsBtns, 'js-active');
+
+      //set picked items to active
+      DOMstrings.stepsBtns.forEach((elem, index) => {
+
+        if (index <= activeStepNum) {
+          elem.classList.add('js-active');
+        }
+
+      });
+    };
+
+    //get active panel
+    const getActivePanel = () => {
+
+      let activePanel;
+
+      DOMstrings.stepFormPanels.forEach(elem => {
+
+        if (elem.classList.contains('js-active')) {
+
+          activePanel = elem;
+
+        }
+
+      });
+
+      return activePanel;
+
+    };
+
+    //open active panel (and close unactive panels)
+    const setActivePanel = activePanelNum => {
+
+      //remove active class from all the panels
+      removeClasses(DOMstrings.stepFormPanels, 'js-active');
+
+      //show active panel
+      DOMstrings.stepFormPanels.forEach((elem, index) => {
+        if (index === activePanelNum) {
+
+          elem.classList.add('js-active');
+
+          setFormHeight(elem);
+
+        }
+      });
+
+    };
+
+    //set form height equal to current panel height
+    const formHeight = activePanel => {
+
+      const activePanelHeight = activePanel.offsetHeight;
+
+      DOMstrings.stepsForm.style.height = `${activePanelHeight}px`;
+
+    };
+
+    const setFormHeight = () => {
+      const activePanel = getActivePanel();
+
+      formHeight(activePanel);
+    };
+
+    //STEPS BAR CLICK FUNCTION
+    DOMstrings.stepsBar.addEventListener('click', e => {
+
+      //check if click target is a step button
+      const eventTarget = e.target;
+
+      if (!eventTarget.classList.contains(`${DOMstrings.stepsBtnClass}`)) {
+        return;
+      }
+
+      //get active button step number
+      const activeStep = getActiveStep(eventTarget);
+
+      // TODO Enable lines below to allow step bar
+      // //set all steps before clicked (and clicked too) to active
+      // setActiveStep(activeStep);
+
+      // //open active panel
+      // setActivePanel(activeStep);
+
+    });
+
+    //PREV/NEXT BTNS CLICK
+    DOMstrings.stepsForm.addEventListener('click', e => {
+      const eventTarget = e.target;
+
+      //find active panel
+      const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
+
+      let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
+      // console.log(action);
+
+      //check if we clicked on `PREV` or NEXT` buttons
+      if (eventTarget.classList.contains(`${DOMstrings.stepSendBtnClass}`))
+      {
+        validateForm(activePanelNum);
+
+        if (validateForm(activePanelNum)){
+
+          // TODO: Create Tutor
+          $('#registerConfirmModal').modal('show');
+
+
+        }else{
+          // If the compulsory fields is not filled up, return and do not proceed to add student
+          return;
+        }
+
+      }
+      else if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`)) {
+        activePanelNum--;
+        setActiveStep(activePanelNum);
+        setActivePanel(activePanelNum);
+      }
+      else if (eventTarget.classList.contains(`${DOMstrings.stepNextBtnClass}`)) {
+
+        let activePanelAllFilled = validateForm(activePanelNum);
+        console.log(activePanelAllFilled, activePanelNum );
+
+        if (activePanelAllFilled)
+        {
+          activePanelNum++;
+          setActiveStep(activePanelNum);
+          setActivePanel(activePanelNum);
+        }
+        else{
+            // inputPhone.className += " invalid";
+        }
+
+      }
+      else{
+        // Do nothing and return
+        return;
+
+      }
+
+      // setActiveStep(activePanelNum);
+      // setActivePanel(activePanelNum);
+    });
+
+    //SETTING PROPER FORM HEIGHT ONLOAD
+    window.addEventListener('load', setFormHeight, false);
+
+    //SETTING PROPER FORM HEIGHT ONRESIZE
+    window.addEventListener('resize', setFormHeight, false);
+
+    //changing animation via animation select !!!YOU DON'T NEED THIS CODE (if you want to change animation type, just change form panels data-attr)
+
+    const setAnimationType = newType => {
+      DOMstrings.stepFormPanels.forEach(elem => {
+        elem.dataset.animation = newType;
+      });
+    };
+
+    function validateForm(activePanelNum) {
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("multisteps-form__panel");
+      // y = x[activePanelNum].getElementsByTagName("input") && x[activePanelNum].querySelectorAll('[type="text"]');
+      y =x[activePanelNum].querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        // document.getElementsByClassName("step")[activePanelNum].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+  </script>
+
+  <!-- Upload Image -->
+  <script>
+
+    var fileinput = document.getElementById('select_image');
+
+    // var preview = document.getElementById('preview');
+
+    var form = document.getElementById('tutorImgUrl');
+
+    var imgUrl_temp;
+
+    // Img specific param
+    var imgFile, type, size;// name, imgFile is a jSON obj
+
+
+    function processfile(file) {
+
+        if( !( /image/i ).test( file.type ) )
+            {
+                alert( "File "+ file.name +" is not an image." );
+                return false;
+            }
+
+        // read the files
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onload = function (event) {
+          // blob stuff
+          var blob = new Blob([event.target.result]); // create blob...
+          window.URL = window.URL || window.webkitURL;
+          var blobURL = window.URL.createObjectURL(blob); // and get it's URL
+
+          // helper Image object
+          var image = new Image();
+          image.src = blobURL;
+          //preview.appendChild(image); // preview commented out, I am using the canvas instead
+          image.onload = function() {
+            // have to wait till it's loaded
+            var resized = resizeMe(image); // send it to canvas
+            var newinput = document.createElement("input");
+            newinput.type = 'hidden';
+            newinput.name = 'images[]';
+            newinput.value = resized; // put result from canvas into new hidden input
+            // form.appendChild(newinput);
+            // form.src = newinput;
+            form.src = resized;
+            var head = 'data:image/png;base64,';
+            // console.log(Math.round((resized.length - head.length)*3/4));
+            size = Math.round((resized.length - head.length)*3/4)
+
+            uploadImage(resized, type, size, width, height);
+          }
+        };
+    }
+
+    function readfiles(files) {
+
+        // remove the existing canvases and hidden inputs if user re-selects new pics
+        var existinginputs = document.getElementsByName('images[]');
+        var existingcanvases = document.getElementsByTagName('canvas');
+        while (existinginputs.length > 0) { // it's a live list so removing the first element each time
+          // DOMNode.prototype.remove = function() {this.parentNode.removeChild(this);}
+          form.removeChild(existinginputs[0]);
+          // preview.removeChild(existingcanvases[0]);
+        }
+
+        for (var i = 0; i < files.length; i++) {
+          // console.log(i)
+          processfile(files[i]); // process each file at once
+        }
+        fileinput.value = ""; //remove the original files from fileinput
+        // TODO remove the previous hidden inputs if user selects other files
+    }
+
+    // this is where it starts. event triggered when user selects files
+    fileinput.onchange = function(){
+      if ( !( window.File && window.FileReader && window.FileList && window.Blob ) ) {
+        alert('The File APIs are not fully supported in this browser.');
+        return false;
+        }
+      readfiles(fileinput.files);
+    }
+
+    // === RESIZE ====
+    var max_height = 1024;
+    var max_width = 1024;
+    var width = 0;
+    var height = 0;
+    function resizeMe(img) {
+
+      var canvas = document.createElement('canvas');
+
+      // console.log(width,height )
+      width = img.width;
+      height = img.height;
+      // calculate the width and height, constraining the proportions
+      if (width > height) {
+        if (width > max_width) {
+          //height *= max_width / width;
+          height = Math.round(height *= max_width / width);
+          width = max_width;
+        }
+      } else {
+        if (height > max_height) {
+          //width *= max_height / height;
+          width = Math.round(width *= max_height / height);
+          height = max_height;
+        }
+      }
+
+      // resize the canvas and draw the image data into it
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // preview.appendChild(canvas); // do the actual resized preview
+
+      return canvas.toDataURL("image/jpeg",0.7); // get the data from canvas as 70% JPG (can be also PNG, etc.)
+
+    }
+
+
+    // Upload image to dB
+    function uploadImage( file, type, size, width, height ){
+      if(file != null) {
+        $('#uploadModal').modal('show');
+
+        // Create a root reference
+        var storageRef = firebase.storage().ref("uploads");
+        // Create a reference to 'tutorId.<imgType>'
+        // var metadata = {
+        //   contentType: type,
+        //   id: tutorId,
+        //   size: size,
+        //   width: width,
+        //   height: height
+        // };
+        var metadata = {
+          contentType: type, // Predefined by firestore
+          customMetadata: {
+            'id': tutorId,
+            'size': size,
+            'width': width,
+            'height': height
+          }
+        };
+
+        // Upload file and metadata to the object 'images/mountains.jpg'
+        // var uploadTask = storageRef.child('images/' + tutorId).put(file, metadata);
+        var uploadTask = storageRef.child('images/' + tutorId).putString(file, 'data_url', metadata);
+
+        var elem = document.getElementById("myBar");
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          (snapshot) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            elem.style.width = progress + "%";
+
+            // if (progress == 100){
+            //   $('#uploadModal').modal('hide');
+            // }
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                // alert("Upload is paused. Please try again.")
+                // $('#uploadModal').modal('hide');
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload is paused. Please try again." );
+
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+
+          },
+          (error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+              case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                // alert("Upload failed. Please try again.")
+                func.showNotification('top','center', 'danger', 'error_outline', "You do not have permission to upload. Please contact us." );
+
+                $('#uploadModal').modal('hide');
+                break;
+              case 'storage/canceled':
+                // User canceled the upload
+                // alert("Upload canceled.")
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload canceled." );
+
+                $('#uploadModal').modal('hide');
+                break;
+
+              // ...
+
+              case 'storage/unknown':
+                // alert("Upload failed. Please try again.");
+                func.showNotification('top','center', 'danger', 'error_outline', "Upload failed. Please try again." );
+
+                $('#uploadModal').modal('hide');
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+            }
+          },
+          () => {
+            // Upload completed successfully, now we can get the download URL
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              imgUrl_temp = downloadURL;
+
+              // Once uploaded, update the new url
+              var docRef = db.collection("Tutor").doc(tutorId);
+              let data = {
+                [IMAGE_KEY]: imgUrl_temp
+              }
+
+              docRef.update(data, { merge: true });
+
+              return Promise.resolve(docRef);
+
+            })
+            .then(() => {
+              func.showNotification('top','center', 'success', 'check_circle', "Your profile picture is updated.");
+
+              $('#uploadModal').modal('hide');
+            });
+          }
+        );
+
+      }
+
+    }
+
+
+  </script>
+
+  <!-- Authentification -->
+  <script>
+    var coderesult;
+
+    window.onload=function () {
+      render();
+    };
+    function render() {
+        // window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+        // recaptchaVerifier.render();
+
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+          // 'size': 'normal',
+          'callback': (response) => {
+              // reCAPTCHA solved, allow signInWithPhoneNumber.
+              // ...
+              // Enable the step1 verify button
+              document.getElementById("btnVerify").setAttribute("style", "background-color: #2e74b6; cursor: pointer");
+              // document.getElementById("btnVerify").style.cursor='pointer';
+              // document.getElementById("btnVerify").disabled = false;
+
+          },
+          'expired-callback': () => {
+              // Response expired. Ask user to solve reCAPTCHA again.
+              // ...
+          }
+      });
+        recaptchaVerifier.render();
+
+    }
+    function phoneAuth() {
+      //get the number
+      // let number = document.getElementById('phone').value;
+      let number = itiPhone.getNumber();
+      console.log(number)
+      //phone number authentication function of firebase
+      //it takes two parameter first one is number,,,second one is recaptcha
+      firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function (confirmationResult) {
+          //s is in lowercase
+        window.confirmationResult=confirmationResult;
+        coderesult=confirmationResult;
+
+        // Enable the step2 button
+        document.getElementById("btnLogin").setAttribute("style", "background-color: #2e74b6; pointer");
+        // document.getElementById("btnLogin").style.cursor='pointer';
+        // document.getElementById("btnLogin").disabled = false;
+
+        func.showNotification('top','center', 'success', 'check_circle', "We just sent a 6-digit verification code to "+document.getElementById('phone').value );
+
+        console.log(coderesult);
+
+      }).catch(function (error) {
+
+        document.getElementById("phone").setAttribute("style", "background-color: #fff;");
+        document.getElementById("phone").disabled = false;
+
+        //Disable the step 1 button
+        document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
+        // document.getElementById("btnVerify").style.cursor='not-allowed';
+        // document.getElementById("btnVerify").disabled = true;
+
+        console.log("Phone Verification Failed Error Code: "+ error);
+        func.showNotification('top','center', 'danger', 'error_outline', "Phone Verification Failed. Please make sure you enter a valid phone number." );
+
+      });
+    }
+    function codeverify() {
+
+        let code=document.getElementById('verificationCode').value;
+        coderesult.confirm(code).then(function (result) {
+          // alert("Successfully registered");
+          let user=result.user;
+
+          let tutorId = null;
+          if (user.displayName == null ){
+              tutorId = user.phoneNumber;
+          }else
+              tutorId = user.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
+
+          // alert("Tutor Id: " + tutorId);
+          // console.log("Tutor registered, ID: " + tutorId);
+
+          const tutorRef = db.collection('Tutor').doc(tutorId);
+
+          tutorRef.get()
+            .then((docSnapshot) => {
+
+              if (docSnapshot.exists) {
+
+                // window.location.href = './'
+                // User exist. Move to Step 1.
+                setActiveStep(1);
+                setActivePanel(1);
+
+                loadUserInfo(tutorId);
+
+              }else {
+                // User does not exist. Register a new user.
+                var docData = {
+                  [TOKEN_KEY]: null,    //main
+                  [NAME_KEY] : 'New Tutor',    //main
+                  [EMAIL_KEY]  : "", //main
+                  [PHONE_KEY]  : itiPhone.getNumber(), //main
+                  [AGE_KEY]  : 18,
+                  [GENDER_KEY]  : 1, // Female
+                  [ADDRESS_1_KEY]  : "",
+                  [ADDRESS_2_KEY]  : "",
+                  [ADDRESS_POSTCODE_KEY]  : "",
+                  [ADDRESS_STATE_KEY]  : "",
+                  [IMAGE_KEY]  : "",
+                  [NRIC_KEY]  : "",
+                  [RATING_KEY]  : 0,
+                  [RATING_TIMES_KEY]  : 0,
+                  [RATING_FINAL_KEY]  : 0,
+                  [PROFILE_STATUS_KEY]  : [false, false, false, false], // (identity, phone, qualification, location)
+                  [CHECK_HOMETUTOR_KEY]  : false,  // Depreciated
+                  [CHECK_PRIVATETUTOR_KEY]  : false, // Depreciated
+                  [CHECK_GROUPTUTOR_KEY]  : false, // Depreciated
+                  [CHECK_ONLINETUTOR_KEY]  : false, // Depreciated
+                  [YEARS_EXPERIENCE_KEY]  : null,
+                  [TUTORING_EXPERIENCE_KEY]  : "",
+                  [TUTORING_APPROACH_KEY]  : "",
+                  [QUALIFICATION_KEY]  : "",
+                  [PREFERED_AREA_LIST_KEY]  : null,
+                  [PREFERED_SUBJECT_LIST_KEY]  : null,
+                  [AGENT_KEY]  : false,
+                  [ACCOUNT_STATUS_KEY]  : DEACTIVATED_ACCOUNT_STATUS_KEY,
+                  [CHECK_HOME_TUTOR_TO_STUDENT_KEY]  : false,
+                  [CHECK_HOME_STUDENT_TO_TUTOR_KEY]  : false,
+                  [CHECK_GROUP_KEY]  : false,
+                  [CHECK_ONLINE_KEY]  : false,
+                  [CHECK_ONLINE_GROUP_KEY]  : false,
+                  [CHECK_TEACHING_LANGUAGE_ENGLISH_KEY]  : false,
+                  [CHECK_TEACHING_LANGUAGE_BM_KEY]  : false,
+                  [CHECK_TEACHING_LANGUAGE_BC_KEY]  : false,
+                  [CHECK_TEACHING_LANGUAGE_BT_KEY]  : false,
+                  [CHECK_TEACHING_LANGUAGE_OTHER_KEY]  : false,
+                  [TUTOR_TIME_SLOT_MON_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_MON_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_MON_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_MON_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_TUE_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_TUE_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_TUE_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_TUE_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_WED_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_WED_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_WED_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_WED_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_THU_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_THU_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_THU_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_THU_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_FRI_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_FRI_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_FRI_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_FRI_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_SAT_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_SAT_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_SAT_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_SAT_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_SUN_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_SUN_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_SUN_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  [TUTOR_TIME_SLOT_SUN_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+                  // Create a placeholder for aWebUrl. This param can only initiated by admin
+                  // manually through https://golearn.com.my/admin/
+                  [ADMIN_WEB_URL_KEY]  : "",
+                  [ADMIN_PREMIUM_SUBJECT_LIMIT_KEY]  : 10,
+                  [ADMIN_PREMIUM_CONNECT_LIMIT_KEY]  : 0,
+                  [ADMIN_TOTAL_SUBJECT_LIMIT_KEY]  : 40,
+                  [ADMIN_TOTAL_CONNECT_LIMIT_KEY]  : 0,
+                  [ADMIN_PREFFERED_AREA_LIMIT_KEY]  : 5,
+                  [ADMIN_PREFERRED_SUBJECT_LIMIT_KEY]  : 40,
+                  [SYSTEM_LAST_ONLINE_KEY]  : firebase.firestore.Timestamp.fromDate(new Date())
+                }
+
+                db.collection("Tutor").doc(tutorId)
+                  .set(docData, {merge: true})
+                  .then(() => {
+                      // window.location.href = './'
+
+                    // User exist. Move to Step 1.
+                    setActiveStep(1);
+                    setActivePanel(1);
+
+                    console.log("Profile created. Reloading")
+                    loadUserInfo(tutorId);
+
+                  })
+                  .catch((error) => {
+                    func.showNotification('top','center', 'danger', 'error_outline', "Registration failed. Please try again" );
+                    // console.error("Error writing document: ", error);
+                  });
+
+                console.log("USer does not exist! Create a new one: "+ tutorId );
+                // alert("USer does not exist! Create a new one: "+ tutorId );
+
+              }
+          });
+
+        })
+        .catch(function (error) {
+          func.showNotification('top','center', 'danger', 'error_outline', "Phone Verification Failed. Please make sure you enter a valid 6-digit verification code." );
+          console.log("Phone Verification Failed. Please make sure you enter a valid 6-digit verification code."+  error.message);
+        });
+    }
+
+    // Use this after signin
+    // Source: https://firebase.google.com/docs/auth/admin/verify-id-tokens#android
+    function getToken(){
+      firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+        // Send token to your backend via HTTPS
+        userToken = idToken;
+        }).catch(function(error) {
+          // Handle error
+
+        });
+    }
+
+  </script>
+
+  <!-- Tel input script -->
+  <script>
+
+    var errorMsg = document.querySelector("#error-msg");
+    var validMsg = document.querySelector("#valid-msg");
+    var errorMsgStudent = document.querySelector("#error-msgTutor");
+    var validMsgStudent = document.querySelector("#valid-msgTutor");
+
+    // here, the index maps to the error code returned from getValidationError - see readme
+    var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    var reset = function() {
+      inputPhone.classList.remove("error");
+      errorMsg.innerHTML = "";
+      errorMsg.classList.add("hide");
+      validMsg.classList.add("hide");
+    };
+    var resetStudent = function() {
+      inputTutorPhone.classList.remove("error");
+      errorMsgStudent.innerHTML = "";
+      errorMsgStudent.classList.add("hide");
+      validMsgStudent.classList.add("hide");
+    };
+
+
+    // on blur: validate
+
+    inputPhone.addEventListener('blur', function() {
+      reset();
+      if (inputPhone.value.trim()) {
+        if (itiPhone.isValidNumber()) {
+          validMsg.classList.remove("hide");
+        } else {
+          inputPhone.classList.add("error");
+          var errorCode = itiPhone.getValidationError();
+          errorMsg.innerHTML = errorMap[errorCode];
+          errorMsg.classList.remove("hide");
+        }
+      }
+    });
+    inputTutorPhone.addEventListener('blur', function() {
+      resetStudent();
+      if (inputTutorPhone.value.trim()) {
+        if (itiStudent.isValidNumber()) {
+          validMsgStudent.classList.remove("hide");
+        } else {
+          inputTutorPhone.classList.add("error");
+          var errorCode = itiStudent.getValidationError();
+          errorMsgStudent.innerHTML = errorMap[errorCode];
+          errorMsgStudent.classList.remove("hide");
+        }
+      }
+    });
+
+
+    // on keyup / change flag: reset
+    inputPhone.addEventListener('change', reset);
+    inputPhone.addEventListener('keyup', reset);
+    inputTutorPhone.addEventListener('change', resetStudent);
+    inputTutorPhone.addEventListener('keyup', resetStudent);
+
+    // Validate fields in based on parents.
+    function ValidateFields(parentId){
+      // This function deals with validation of the form fields with data-compulsory = 'true'
+      var x, y, i, valid = true;
+      x = document.getElementById(parentId);
+
+      y =x.querySelectorAll('[data-compulsory="true"]');
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // console.log(y[i].value)
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false:
+          valid = false;
+        }
+      }
+      return valid; // return the valid status
+    }
+
+    // Validate fields - Phone Input specific.
+    function ValidatePhone(phoneId){
+      var valid = true;
+      let inPhone = document.querySelector("#"+phoneId);
+      // console.log(inPhone.value)
+      if (inPhone.value.trim()) {
+        if (itiGuardian.isValidNumber()) {
+          // Do nothing
+        } else {
+          inPhone.className += " invalid";
+          valid = false;
+        }
+      }
+      return valid; // return the valid status
+    }
+  </script>
+
+
+</body>
+
+</html>
