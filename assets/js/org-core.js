@@ -510,8 +510,9 @@ function updateRoleView(){
   }
 
   const teachTeacherDel = bodyPermission.querySelectorAll(`[perm='teach-teacher-del']`)
-  if (role_allowedPermissionArr.includes('delTeacher'))
+  if (role_allowedPermissionArr.includes('delTeacher')){
     teachTeacherDel.forEach((ele) => {ele.classList.remove("hidden")})
+  }
   else {
     teachTeacherDel.forEach((ele) => {ele.classList.add("hidden")})
   }
@@ -1397,6 +1398,8 @@ async function updateGeneralReportNum(adminId, type, dir, value){
       });
 
     }
+
+    return Promise.all(promiseAllLayer2)
 
   })
 
