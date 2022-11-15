@@ -2116,17 +2116,17 @@
       document.getElementById("stuAutoJoinEn").checked = data[CLASS_STUDENT_AUTO_JOIN_ENABLE];
       document.getElementById("tAddEditLessonEn").checked = data[CLASS_TUTOR_ADD_EDIT_LESSON_ENABLE];
       document.getElementById("tDelLessonEn").checked = data[CLASS_TUTOR_REMOVE_LESSON_ENABLE];
-      document.getElementById("inAutoJoinLink").value = 'https://org.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
+      document.getElementById("inAutoJoinLink").value = 'https://org.golearn.com.my/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
       if (data[CLASS_STUDENT_AUTO_JOIN_ENABLE]){
         document.getElementById("inAutoJoinLinkTop").style.display = 'initial';
         document.getElementById("btnAutoJoinLink2").className = "btn btn-success";
         document.getElementById("btnAutoJoinLink2").style.pointerEvents= 'auto';
-        document.getElementById("inAutoJoinLink2").value = 'https://org.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
+        document.getElementById("inAutoJoinLink2").value = 'https://org.golearn.com.my/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
       }else{
         document.getElementById("inAutoJoinLinkTop").style.display = 'none';
         document.getElementById("btnAutoJoinLink2").className = "btn btn-default";
         document.getElementById("btnAutoJoinLink2").style.pointerEvents= 'none';
-        document.getElementById("inAutoJoinLink2").value = 'https://org.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
+        document.getElementById("inAutoJoinLink2").value = 'https://org.golearn.com.my/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
       }
 
       if (data[CLASS_LABEL_ENABLE] == null || !data[CLASS_LABEL_ENABLE]){
@@ -4090,7 +4090,7 @@
       document.getElementById("btnCopyAutoJoinLink").setAttribute("onclick", "copyText('inAutoJoinLink')");
       let uriAdminId = encodeURIComponent(currentClassObj[CLASS_ADMIN_ID]);
       let uriClassId = encodeURIComponent(currentClassObj[CLASS_ID]);
-      document.getElementById("inAutoJoinLink").value = 'https://org.golearn.com.my/client/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
+      document.getElementById("inAutoJoinLink").value = 'https://org.golearn.com.my/online-registration.html?aid='+uriAdminId+'&cid='+uriClassId;
       document.getElementById("tAddRibbonEn").removeAttribute("disabled");
       if (document.getElementById("tAddRibbonEn").checked){
         document.getElementById("inRibbonSettings").style.display = '';
