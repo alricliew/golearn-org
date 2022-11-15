@@ -1381,7 +1381,7 @@
           // Generate Predefined message
           let line1 = "Hi "+ doc.data()[PAY_RECEIVER_NAME] + ","; //invObj[INV_RECEIVER_NAME]+ " ";
           let line2 = "\nHere's the payslip for this month. Click on the link below to view. ";
-          let line3 = "\nhttps://org.golearn.com.my/s/f/view.html?pid="+ doc.data()[PAY_ID]+ " ";
+          let line3 = "\nhttps://app.golearn.com.my/s/f/view.html?pid="+ doc.data()[PAY_ID]+ " ";
           let line4 = "\nAmount: " + "RM"+parseFloat(doc.data()[PAY_TOTAL]).toFixed(2);
           let line5 = "\nThank you! ";
           let finalline= line1 + line2 + line3  + line4 + line5;

@@ -885,8 +885,6 @@
       Promise.all(promiseAll)
       .then((snapshots) => {
 
-        console.log(snapshots[0])
-
         if (snapshots[0].exists) {
           let dataAdmin = snapshots[0].data()
           ent_name = (dataAdmin[ORG_ORG_NAME] == null || dataAdmin[ORG_ORG_NAME] == "")? "New Tutor" : dataAdmin[ORG_ORG_NAME];
