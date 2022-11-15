@@ -1600,11 +1600,16 @@
       promiseAll.push(empDocRef.set(empData));
       promiseAll.push(roleDocRef.set(roleData));
 
-      Promise.all(promiseAll).then(() => {
-        func.showNotification('top','center', 'success', 'check_circle', "Updated successfully!");
-        $('#addPersonModal').modal('hide');
-      }).then(() => {
+      Promise.all(promiseAll)
+      .then(() => {
         renderRole(roleData)
+        $('#addPersonModal').modal('hide');
+
+        func.showNotification('top','center', 'success', 'check_circle', "Updated successfully!");
+
+        document.getElementById('btnAddPersonModalConfirm').disabled = false;
+        document.getElementById('btnAddPersonModalConfirm').textContent = 'Confirm';
+
       })
 
 
@@ -1688,6 +1693,10 @@
           console.log('Phone existed')
         }
         else {
+
+          document.getElementById('btnAddPersonModalConfirm').disabled = true;
+          document.getElementById('btnAddPersonModalConfirm').textContent = 'Confirming. Please wait... ';
+
           console.log('createEmployeeAndRole')
 
           createEmployeeAndRole();
