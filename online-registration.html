@@ -1688,7 +1688,7 @@
     var gAreaName ='';
 
     $( document ).ready(function() {
-
+      $('#registerWaitModal').modal('hide');
       //------------- Login Panel -----------//
       //Disable the step 1 button
       document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1");
@@ -2088,8 +2088,8 @@
       const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
 
       let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
-      console.log(action);
-      console.log(currentObj);
+      // console.log(action);
+      // console.log(currentObj);
       //check if we clicked on `PREV` or NEXT` buttons
       if (eventTarget.classList.contains(`${DOMstrings.stepSendBtnClass}`))
       {
