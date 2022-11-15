@@ -692,7 +692,7 @@
                         </div>
                       </div>
                       <!-- Myself -->
-                      <div class="row tutor-wrapper text-center">
+                      <!-- <div class="row tutor-wrapper text-center">
                         <div class="col-md-2">
                           <div style="height: 50px; width: 50px; display: inline-block; position: relative; overflow: hidden; border-radius: 50%;">
                             <img id="viewTutorMySelfImgUrl" style="height: 100%;width: 100%; object-fit: cover;" src="../../assets/img/empty-photo.png"/>
@@ -710,7 +710,7 @@
                         <div class="col-md-2">
                           <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="btnSelectMyself" disabled>Myself</button>
                         </div>
-                      </div>
+                      </div> -->
 
                       <!-- Tutor List Start -->
 
@@ -2323,13 +2323,13 @@
     // Initialized page view
     function initMyselfAsTutor(){
 
-      // Update Myself in Add Teacher Modal
-      document.getElementById("viewTutorMySelfImgUrl").src = ent_imgUrl;
-      document.getElementById("viewTutorMySelfName").textContent = ent_name;
-      document.getElementById("viewTutorMySelfPhone").textContent = ent_phone;
-      document.getElementById("viewTutorMySelfAge").textContent = '-';
-      const btnSelectMyself = document.getElementById("btnSelectMyself");
-      btnSelectMyself.setAttribute('onclick', "AddNewTutorToDB("+ 0+", '"+ ent_id+"', `"+ent_name+"`, '"+ent_phone+"', `"+ent_imgUrl+"`)");
+      // // Update Myself in Add Teacher Modal
+      // document.getElementById("viewTutorMySelfImgUrl").src = ent_imgUrl;
+      // document.getElementById("viewTutorMySelfName").textContent = ent_name;
+      // document.getElementById("viewTutorMySelfPhone").textContent = ent_phone;
+      // document.getElementById("viewTutorMySelfAge").textContent = '-';
+      // const btnSelectMyself = document.getElementById("btnSelectMyself");
+      // btnSelectMyself.setAttribute('onclick', "AddNewTutorToDB("+ 0+", '"+ ent_id+"', `"+ent_name+"`, '"+ent_phone+"', `"+ent_imgUrl+"`)");
 
     }
 
@@ -4998,8 +4998,8 @@
         loadAllAdminTeachers(tutorBtnNum);
 
         // Specific to myself
-        const btnSelectMyself = document.getElementById('btnSelectMyself');
-        btnSelectMyself.setAttribute('onclick', "AddNewTutorToDB("+ tutorBtnNum+", '"+ ent_id+"', `"+ent_name+"`, '"+ent_phone+"', `"+ent_imgUrl+"`)");
+        // const btnSelectMyself = document.getElementById('btnSelectMyself');
+        // btnSelectMyself.setAttribute('onclick', "AddNewTutorToDB("+ tutorBtnNum+", '"+ ent_id+"', `"+ent_name+"`, '"+ent_phone+"', `"+ent_imgUrl+"`)");
 
       });
 
@@ -5007,7 +5007,9 @@
       $('#myTeacherModal').on('hidden.bs.modal', function (event) {
         // NOTE: div:gt(5) - get the 6th div child in the parent node.
         // NOTE: div:gt(7) - get the 7th div child in the parent node. (myself)
-        $('#add-tutor-modal-container div:gt(12)').remove();
+        // $('#add-tutor-modal-container div:gt(12)').remove();
+
+        $('#add-tutor-modal-container div:gt(5)').remove();
         tutorBtnNum = 0;
       });
 
