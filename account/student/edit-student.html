@@ -902,7 +902,9 @@
         console.log(data);
         var docRefWithMerge = docRef.set(data , { merge: true })
         .then(() => {
-          window.location = "./";
+
+          window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+
         }).catch((error) => {
           console.log("Error getting document:", error);
         });
@@ -937,7 +939,6 @@
 
           return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_STUDENT, 'desc', 1) )
 
-          // window.location = "./";
         })
         .then(() => {
           window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;

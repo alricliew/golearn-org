@@ -768,15 +768,15 @@
 
       // ----- Get the Teacher Number doc ----- //
       // So we can update it the next stage.
-      let teacherNumReportDocRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", ent_id)
-        .where(NUM_TYPE, "==", NUM_TYPE_TEACHER);
+      // let teacherNumReportDocRef = db.collection("dev")
+      //   .doc("v2")
+      //   .collection("General")
+      //   .where(NUM_ADMIN_ID, "==", ent_id)
+      //   .where(NUM_TYPE, "==", NUM_TYPE_TEACHER);
 
       var promiseAll = []
       promiseAll.push(docRef.delete())
-      promiseAll.push(teacherNumReportDocRef.get())
+      // promiseAll.push(teacherNumReportDocRef.get())
 
      Promise.all(promiseAll).then((snapshots) => {
 
