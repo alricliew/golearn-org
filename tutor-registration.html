@@ -271,7 +271,7 @@
                                 </div>
                                 <div class="form-group">
                                   <div class="input-group">
-                                    <button id="btnVerify" class="btn btn-primary btn-round" data-dismiss="modal" type="button">
+                                    <button id="btnVerify" class="btn btn-primary btn-round " type="button" disabled>
                                       Verify
                                     </button>
                                   </div>
@@ -304,7 +304,7 @@
                                 </div>
                                 <div class="form-group">
                                   <div class="input-group">
-                                    <a href="#" class="btn btn-primary btn-round" id="btnLogin" type="button">Confirm and Login</a>
+                                    <button href="#" class="btn btn-primary btn-round" id="btnLogin" type="button" disabled>Confirm and Login</button>
                                   </div>
                                 </div>
                               </div>
@@ -1105,25 +1105,16 @@
     $( document ).ready(function() {
 
       //------------- Login Panel -----------//
-      //Disable the step 1 button
-      document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
-      // document.getElementById("btnVerify").style.cursor='not-allowed';
-      // document.getElementById("btnVerify").disabled = true;
-
-      //Disable the step 2 button
-      document.getElementById("btnLogin").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
-      // document.getElementById("btnLogin").style.cursor='not-allowed';
-      // document.getElementById("btnLogin").disabled = true;
 
       $('#btnVerify').on('click', function(){
         // let number = itiPhone.getNumber();
         // console.log(number);
         phoneAuth();
 
-        document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
-        // document.getElementById("btnVerify").disabled = true;
-        document.getElementById("phone").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
-        // document.getElementById("phone").disabled = true;
+        console.log('')
+
+        // document.getElementById("phone").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
+        document.getElementById("phone").disabled = true;
 
       });
 
@@ -1650,9 +1641,7 @@
               // reCAPTCHA solved, allow signInWithPhoneNumber.
               // ...
               // Enable the step1 verify button
-              document.getElementById("btnVerify").setAttribute("style", "background-color: #2e74b6; cursor: pointer");
-              // document.getElementById("btnVerify").style.cursor='pointer';
-              // document.getElementById("btnVerify").disabled = false;
+              document.getElementById("btnVerify").removeAttribute("disabled");
 
           },
           'expired-callback': () => {
@@ -1675,10 +1664,12 @@
         window.confirmationResult=confirmationResult;
         coderesult=confirmationResult;
 
+        // Disable step 1 button
+        document.getElementById("btnVerify").setAttribute("disabled", true);
+
         // Enable the step2 button
-        document.getElementById("btnLogin").setAttribute("style", "background-color: #2e74b6; pointer");
-        // document.getElementById("btnLogin").style.cursor='pointer';
-        // document.getElementById("btnLogin").disabled = false;
+        document.getElementById("btnLogin").removeAttribute("disabled");
+
 
         func.showNotification('top','center', 'success', 'check_circle', "We just sent a 6-digit verification code to "+document.getElementById('phone').value );
 
@@ -1686,13 +1677,12 @@
 
       }).catch(function (error) {
 
-        document.getElementById("phone").setAttribute("style", "background-color: #fff;");
+        // document.getElementById("phone").setAttribute("style", "background-color: #fff;");
         document.getElementById("phone").disabled = false;
 
         //Disable the step 1 button
-        document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
-        // document.getElementById("btnVerify").style.cursor='not-allowed';
-        // document.getElementById("btnVerify").disabled = true;
+
+        document.getElementById("btnVerify").disabled = true;
 
         console.log("Phone Verification Failed Error Code: "+ error);
         func.showNotification('top','center', 'danger', 'error_outline', "Phone Verification Failed. Please make sure you enter a valid phone number." );

@@ -192,7 +192,7 @@
 
       <!-- Saving Modal -->
       <div class="row">
-        <div class="modal fade show" tabindex="-1" role="dialog" id="registerWaitModal" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" tabindex="-1" role="dialog" id="registerWaitModal" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered text-center" role="document">
             <div class="row">
               <span class="fa fa-spinner fa-spin fa-5x w-100" style="color: #fff ;"></span>
@@ -305,9 +305,7 @@
                                 </div>
                                 <div class="form-group">
                                   <div class="input-group">
-                                    <button id="btnVerify" class="btn btn-primary btn-round" data-dismiss="modal" type="button">
-                                      Verify
-                                    </button>
+                                    <button id="btnVerify" class="btn btn-primary btn-round" type="button" disabled>Verify</button>
                                   </div>
                                 </div>
                               </div>
@@ -334,7 +332,7 @@
                                 </div>
                                 <div class="form-group">
                                   <div class="input-group">
-                                    <a href="#" class="btn btn-primary btn-round" id="btnLogin" type="button">Confirm and Login</a>
+                                    <button href="#" class="btn btn-primary btn-round" id="btnLogin" type="button" disabled>Confirm and Login</button>
                                   </div>
                                 </div>
                               </div>
@@ -841,7 +839,7 @@
 
           action = JOIN_AS_STUDENT;
 
-          document.getElementById("classFullName").textContent = "Enroll as student: " + ent_name;
+          document.getElementById("classFullName").textContent = ent_name;
 
           $('#registerWaitModal').modal('hide');
 
@@ -877,9 +875,8 @@
     else{
 
       // Step 1: Check if the Admin exists
-      // let docRefAdmin = db.collection("Tutor").doc(adminId);
-      var docRefDate = db.collection("org").doc('v1').collection('org').doc(adminId);
-      var docRefClass = db.collection("dev").doc('v1').collection('Class').doc(classId);
+      var docRefAdmin = db.collection("org").doc('v1').collection('org').doc(adminId);
+      var docRefClass = db.collection("dev").doc('v2').collection('Class').doc(classId);
       var promiseAll = [];
 
       promiseAll.push(docRefAdmin.get());
@@ -888,14 +885,17 @@
       Promise.all(promiseAll)
       .then((snapshots) => {
 
+        console.log(snapshots[0])
+
         if (snapshots[0].exists) {
-          ent_name = (doc.data()[ORG_ORG_NAME] == null || doc.data()[ORG_ORG_NAME] == "")? "New Tutor" : doc.data()[ORG_ORG_NAME];
-          ent_email = (doc.data()[ORG_ORG_EMAIL]  == null)? "" : doc.data()[ORG_ORG_EMAIL] ;
-          ent_phone= (doc.data()[ORG_ORG_PHONE]  == null)? "" : doc.data()[ORG_ORG_PHONE] ;
-          ent_imgUrl = (doc.data()[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : doc.data()[ORG_ORG_IMG_URL] ;
-          ent_accountStatus = doc.data()[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : doc.data()[ORG_ORG_STATUS];
-          ent_addr= (doc.data()[ORG_ORG_ADDRESS]  == null)? '' : doc.data()[ORG_ORG_ADDRESS];
-          ent_url = doc.data()[ORG_ORG_ADDRESS];
+          let dataAdmin = snapshots[0].data()
+          ent_name = (dataAdmin[ORG_ORG_NAME] == null || dataAdmin[ORG_ORG_NAME] == "")? "New Tutor" : dataAdmin[ORG_ORG_NAME];
+          ent_email = (dataAdmin[ORG_ORG_EMAIL]  == null)? "" : dataAdmin[ORG_ORG_EMAIL] ;
+          ent_phone= (dataAdmin[ORG_ORG_PHONE]  == null)? "" : dataAdmin[ORG_ORG_PHONE] ;
+          ent_imgUrl = (dataAdmin[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : dataAdmin[ORG_ORG_IMG_URL] ;
+          ent_accountStatus = dataAdmin[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : dataAdmin[ORG_ORG_STATUS];
+          ent_addr= (dataAdmin[ORG_ORG_ADDRESS]  == null)? '' : dataAdmin[ORG_ORG_ADDRESS];
+          ent_url = dataAdmin[ORG_ORG_ADDRESS];
 
           // If admin is suspended. Invalidate page
           if (ent_accountStatus == SUSPENDED_ACCOUNT_STATUS_KEY){
@@ -920,14 +920,14 @@
           // Register students and join class.
           action = JOIN_AS_STUDENT_AND_CLASS;
 
-          document.getElementById("classFullName").textContent = doc.data()[CLASS_NAME];
+          document.getElementById("classFullName").textContent = snapshots[1].data()[CLASS_NAME];
 
           $('#registerWaitModal').modal('hide');
 
-          if(doc.data()[CLASS_STATUS] === CLASS_STATUS_INACTIVE){
+          if(snapshots[1].data()[CLASS_STATUS] === CLASS_STATUS_INACTIVE){
             invalidatePage(
               "Class is Not Available",
-              "Error 3220. "+doc.data()[CLASS_NAME]+" is no longer accepting new students");
+              "Error 3220. "+snapshots[1].data()[CLASS_NAME]+" is no longer accepting new students");
           }
 
 
@@ -1688,28 +1688,17 @@
     var gAreaName ='';
 
     $( document ).ready(function() {
+
       $('#registerWaitModal').modal('hide');
       //------------- Login Panel -----------//
-      //Disable the step 1 button
-      document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1");
-      document.getElementById("btnVerify").style.cursor='not-allowed';
-      document.getElementById("btnVerify").disabled = true;
-
-      //Disable the step 2 button
-      document.getElementById("btnLogin").setAttribute("style", "background-color: #c1c1c1");
-      document.getElementById("btnLogin").style.cursor='not-allowed';
-      document.getElementById("btnLogin").disabled = true;
 
       $('#btnVerify').on('click', function(){
         // let number = itiPhone.getNumber();
         // console.log(number);
         phoneAuth();
 
-        document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1");
-        document.getElementById("btnVerify").disabled = true;
-        document.getElementById("phone").setAttribute("style", "background-color: #c1c1c1");
+        // document.getElementById("phone").setAttribute("style", "background-color: #c1c1c1");
         document.getElementById("phone").disabled = true;
-
       });
 
 
@@ -1892,7 +1881,8 @@
       // Active Register Class Modal
       $('#registerWaitModal').modal({
         backdrop:'static',
-        keyboard:false
+        keyboard:false,
+        show: false
       });
 
       // Create and Register Modal
@@ -2460,9 +2450,7 @@
               // reCAPTCHA solved, allow signInWithPhoneNumber.
               // ...
               // Enable the step1 verify button
-              document.getElementById("btnVerify").setAttribute("style", "background-color: #2e74b6; cursor: pointer");
-              // document.getElementById("btnVerify").style.cursor='pointer';
-              // document.getElementById("btnVerify").disabled = false;
+              document.getElementById("btnVerify").removeAttribute("disabled");
 
           },
           'expired-callback': () => {
@@ -2485,10 +2473,11 @@
         window.confirmationResult=confirmationResult;
         coderesult=confirmationResult;
 
+        // Disable step 1 button
+        document.getElementById("btnVerify").setAttribute("disabled", true);
+
         // Enable the step2 button
-        document.getElementById("btnLogin").setAttribute("style", "background-color: #2e74b6; pointer");
-        // document.getElementById("btnLogin").style.cursor='pointer';
-        // document.getElementById("btnLogin").disabled = false;
+        document.getElementById("btnLogin").removeAttribute("disabled");
 
         func.showNotification('top','center', 'success', 'check_circle', "We just sent a 6-digit verification code to "+document.getElementById('phone').value );
 
@@ -2500,9 +2489,8 @@
         document.getElementById("phone").disabled = false;
 
         //Disable the step 1 button
-        document.getElementById("btnVerify").setAttribute("style", "background-color: #c1c1c1; cursor: not-allowed");
-        // document.getElementById("btnVerify").style.cursor='not-allowed';
-        // document.getElementById("btnVerify").disabled = true;
+        document.getElementById("btnVerify").setAttribute("disabled", true);
+
 
         console.log("Phone Verification Failed Error Code: "+ error);
         func.showNotification('top','center', 'danger', 'error_outline', "Phone Verification Failed. Please make sure you enter a valid phone number." );
