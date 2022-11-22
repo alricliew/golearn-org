@@ -1722,7 +1722,7 @@
       coverImgUrlEnt.setAttribute('style', `background: url("`+ent_coverImgUrl+`"); background-repeat: no-repeat; background-size: 100%; background-position: center center;`)
 
       // Init area / state
-      initAreaState();
+      initAreaState(ent_areaId, ent_stateId);
 
       //------ Description -------------//
       oneLinerEnt.value = ent_oneLiner;
@@ -1780,7 +1780,6 @@
     }
     // Init Area / State
     function initAreaState(areaId, stateId){
-
       // Set default
       if ( stateId == '' &&  areaId == '') {
         // ------State Dropdown init------- //
