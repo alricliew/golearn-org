@@ -1609,6 +1609,8 @@
     var timeSlotArr_temp = [];
     var preferredSubjectArr_temp = [];
     const PREFFERED_SUBJECT_LIMIT = 40;
+    var gState ='';
+    var gArea ='';
 
     var isFirstTimeLoad = true;
     var oriPreferredSubjectList = [];
@@ -1696,7 +1698,8 @@
       // Init temperary val
       timeSlotArr_temp = ent_timeSlotArr;
       preferredSubjectArr_temp = ent_preferredSubArr
-
+      gArea = ent_areaId;
+      gState = ent_stateId
 
       //-----------Preferred Subject -----------//
       initPreferredSubject();
@@ -1722,8 +1725,6 @@
       coverImgUrlEnt.setAttribute('style', `background: url("`+ent_coverImgUrl+`"); background-repeat: no-repeat; background-size: 100%; background-position: center center;`)
 
       // Init area / state
-      console.log(ent_areaId, ent_stateId)
-
       initAreaState(ent_areaId, ent_stateId);
 
       //------ Description -------------//
@@ -2193,8 +2194,6 @@
     // Global var
     var KEY = ""; // Extract info from data-* attributes
     var DATETIME = ""; // Extract info from data-* attributes
-    var gState ='';
-    var gArea ='';
 
     $( document ).ready(function() {
 
