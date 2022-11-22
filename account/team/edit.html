@@ -1178,14 +1178,14 @@
 
           if (snapshots[0].exists){
             currentEmpObj = snapshots[0].data()
-            console.log(snapshots[0].data())
+            // console.log(snapshots[0].data())
 
             oriPhone = snapshots[0].data()[ORG_EMP_PHONE]
 
             if (snapshots[1].exists){
               currentRoleObj = snapshots[1].data()
 
-              console.log(snapshots[1].data())
+              // console.log(snapshots[1].data())
 
               checkIfUserCanViewThisPerson(currentRoleObj)
 
@@ -1726,8 +1726,8 @@
       }
 
       var promiseAll = []
-      console.log(empData)
-      console.log(roleData)
+      // console.log(empData)
+      // console.log(roleData)
 
       promiseAll.push(empDocRef.update(empData));
       promiseAll.push(roleDocRef.update(roleData));

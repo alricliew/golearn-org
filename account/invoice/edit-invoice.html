@@ -4462,6 +4462,9 @@
             document.getElementById('btnSaveModalUpdate').textContent = 'Save'
 
             $('#saveModal').modal('hide');
+
+            func.showNotification('top','center', 'success', 'check_circle', "Invoice updated!");
+
           })
           .catch((error) => {
               console.log("Error getting document:", error);
@@ -4481,6 +4484,9 @@
           document.getElementById('btnSaveModalUpdate').textContent = 'Save'
 
           $('#saveModal').modal('hide');
+
+          func.showNotification('top','center', 'success', 'check_circle', "Invoice updated!");
+
         });
       }
 
