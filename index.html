@@ -1044,12 +1044,22 @@
       // Name input
       $('#name').on('keyup', function(){
 
+        // Replace all special characters with dash
         let str = this.value.replace(/[&\/\\#,+()$~%.'":;*?<>^{}!@_=\[\]`|\s]/g, '-').toLowerCase();
+        // console.log(str)
+        // Replace multiple dash with single dash
+        str_temp = str.replace(/-+/g, '-').toLowerCase();
+        // console.log(str_temp)
+        // Get rid of first and last dash
+        str_temp_2 = str_temp.slice(0,1) == '-' ? str_temp.substring(1): str_temp
+        // console.log(str_temp_2)
+        str_temp_3 = str_temp_2.slice(-1) == '-' ? str_temp_2.slice(0, -1): str_temp_2
+        // console.log(str_temp_3)
 
-        document.getElementById('url').value = str
+        document.getElementById('url').value = str_temp_3
 
         if (this.value.length > 5){
-          console.log(this.value)
+          // console.log(this.value)
           document.getElementById('btnUpdateCreateAccModal').removeAttribute('disabled')
         }
         else {
@@ -1109,6 +1119,7 @@
       });
 
 		});
+
 
   </script>
 </body>
