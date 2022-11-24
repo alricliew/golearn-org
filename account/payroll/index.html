@@ -907,6 +907,8 @@
             .doc("v2")
             .collection("Transaction")
             .where(TRANS_DOC_ID, '==', payslipId)
+            .where(TRANS_STATUS, "==", true)
+            // .orderBy(TRANS_DATE, 'desc');
             .limit(1);
 
             let transPromise = transDocRef.get();
@@ -923,17 +925,18 @@
 
         document.getElementById("card-load").style.display = "none";
 
-        if (snapshots != null && snapshots.size != 0){
+        if (snapshots != null && snapshots.length != 0){
 
           snapshots.forEach((snapshot) => {
 
             if (snapshot != null && snapshot.size != 0 ){
               snapshot.forEach((doc) => {
-                // console.log(doc.id);
                 renderTransDoc(doc);
               })
             }
           })
+          document.getElementById("noDataPlaceholder").style.display = 'none';
+
         }else {
           document.getElementById("noDataPlaceholder").style.display = '';
 
