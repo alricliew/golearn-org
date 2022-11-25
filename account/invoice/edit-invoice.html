@@ -1538,8 +1538,6 @@
     // Page Specific Initialization
     function loadPageInitFunc(){
 
-      loadUserSettings();
-
       // Enable Add Student Modal
       document.getElementById("invAllStudentLink").setAttribute('data-target', '#addStudentModal');
 
@@ -1735,16 +1733,6 @@
 
     }
 
-    // Load Tutor Settings
-    function loadUserSettings(){
-      // Tutor Id must be a phone with +60, no spacing or other chars
-      var docRef = db.collection("Settings").doc(ent_id);
-
-      docRef.get().then((doc) => {
-        // updatePageContent(doc);
-        $('#loadingModal').modal('hide');
-      })
-    }
     //---------- Init All Admin's Student details ----------//
     // Lesson Load More Button - Init
     const stuAdminLoadmore = document.querySelector('#btnAddAdminStudentModalLoadMore');
