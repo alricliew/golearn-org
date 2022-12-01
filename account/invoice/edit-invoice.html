@@ -1470,8 +1470,8 @@
         window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
       }
       else {
-        var invDocRef = db.collection("dev")
-        .doc("v2")
+        var invDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Invoice")
         .doc(iid);
 
@@ -1749,8 +1749,8 @@
     function loadAllAdminStudents(){
 
       // STUDENT Module
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .where(STU_ADMIN_ID, "==", ent_id)
           .where(STU_STATUS_ADMIN, "==", true)
@@ -1862,8 +1862,8 @@
       // Clear the existing invoice tables
       clearItems();
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .where(CLASS_VIEWER_ID_ARR, "array-contains", clientId)
           .where(CLASS_ADMIN_ID, "==", ent_id)
@@ -1919,8 +1919,8 @@
       let formattedMonth = ("0" + month).slice(-2);
 
       // Get all lessons of this month
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Lesson")
           .where("classId", "==", classDoc.data()[CLASS_ID])
           .where(LESSON_MONTH_TYPE, "==", parseInt(''+year+formattedMonth))
@@ -4045,8 +4045,8 @@
       document.getElementById('btnSaveModalUpdate').setAttribute('disabled', true);
       document.getElementById('btnSaveModalUpdate').textContent = 'Checking. Please wait ...';
 
-      var invDocRef = db.collection("dev")
-          .doc("v2")
+      var invDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Invoice")
           .doc(invId);
 
@@ -4103,8 +4103,8 @@
       console.log("*Invoice Data...")
       console.log(invData)
 
-      var transDocRef = db.collection("dev")
-          .doc("v2")
+      var transDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Transaction")
           .doc(transId);
 
@@ -4145,8 +4145,8 @@
         // Get the documents with the similar invoice id, and
         // Remove the corresponding id in REV_DOC_ID_ARR and total value in REV_DOC_TOTAL_ARR.
         // Update the doc with new value
-        var reportDocRef = db.collection("dev")
-          .doc("v2")
+        var reportDocRef = db.collection("Report")
+          .doc("v1")
           .collection("Revenue")
           .where(REV_ADMIN_ID, "==", ent_id)
           .where(REV_DOC_ID_ARR, "array-contains", invId)
@@ -4201,8 +4201,8 @@
               // console.log(revData)
 
               // Update it through batch
-              let revenueDocRef = db.collection("dev")
-                .doc("v2")
+              let revenueDocRef = db.collection("Report")
+                .doc("v1")
                 .collection("Revenue")
                 .doc(doc.id);
 
@@ -4258,8 +4258,8 @@
             // console.log(month)
 
             let revenueDocList = []
-            let reportDocRef = db.collection("dev")
-              .doc("v2")
+            let reportDocRef = db.collection("Report")
+              .doc("v1")
               .collection("Revenue")
               // .where(REV_REF_ID, "==", item.refId)
               .where(REV_ADMIN_ID, "==", ent_id)
@@ -4328,8 +4328,8 @@
                   let newTotal = newInvDocTotalArr.reduce((a, b) => a + b, 0);
 
                   // Get all the revDoc based on 'month'
-                  let reportDocRef = db.collection("dev")
-                    .doc("v2")
+                  let reportDocRef = db.collection("Report")
+                    .doc("v1")
                     .collection("Revenue")
                     .doc(doc.data()[REV_ID]);
 
@@ -4387,8 +4387,8 @@
                     let newTotal = newInvDocTotalArr.reduce((a, b) => a + b, 0);
 
                     // Get all the revDoc based on 'month'
-                    let reportDocRef = db.collection("dev")
-                      .doc("v2")
+                    let reportDocRef = db.collection("Report")
+                      .doc("v1")
                       .collection("Revenue")
                       .doc();
 
@@ -4493,8 +4493,8 @@
       console.log(month)
 
       let revenueDocList = []
-      let reportDocRef = db.collection("dev")
-        .doc("v2")
+      let reportDocRef = db.collection("Report")
+        .doc("v1")
         .collection("Revenue")
         // .where(REV_REF_ID, "==", item.refId)
         .where(REV_ADMIN_ID, "==", ent_id)
@@ -4555,8 +4555,8 @@
                 let newTotal = newInvDocTotalArr.reduce((a, b) => a + b, 0);
 
                 // Get all the revDoc based on 'month'
-                let reportDocRef = db.collection("dev")
-                  .doc("v2")
+                let reportDocRef = db.collection("Report")
+                  .doc("v1")
                   .collection("Revenue")
                   .doc(doc.data()[REV_ID]);
 
@@ -4607,8 +4607,8 @@
                   let newTotal = newInvDocTotalArr.reduce((a, b) => a + b, 0);
 
                   // Get all the revDoc based on 'month'
-                  let reportDocRef = db.collection("dev")
-                    .doc("v2")
+                  let reportDocRef = db.collection("Report")
+                    .doc("v1")
                     .collection("Revenue")
                     .doc();
 
@@ -5225,13 +5225,13 @@
 
     // Reload the data again
     async function reload(){
-      var invdocRef = db.collection("dev")
-        .doc("v2")
+      var invdocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Invoice")
         .doc(invId);
 
-      var transDocRef = db.collection("dev")
-        .doc("v2")
+      var transDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Transaction")
         .doc(transId);
 
@@ -5261,13 +5261,13 @@
 
     async function reload_old(){
 
-      var invdocRef = db.collection("dev")
-        .doc("v2")
+      var invdocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Invoice")
         .doc(invId);
 
-      var transDocRef = db.collection("dev")
-        .doc("v2")
+      var transDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Transaction")
         .doc(transId);
 
@@ -5641,7 +5641,7 @@
 
         // Load & populate all category
         var docRef = db.collection("Settings")
-          .doc("v2")
+          .doc("v1")
           .collection("category")
           .doc(ent_id)
 
@@ -5793,7 +5793,7 @@
 
         // Create a new category
         var setDocRef = db.collection("Settings")
-            .doc("v2")
+            .doc("v1")
             .collection("category")
             .doc(ent_id)
             .get();
@@ -5801,7 +5801,7 @@
         promiseAll.push(setDocRef);
 
         var singleSetdocRef = db.collection("Settings")
-          .doc("v2")
+          .doc("v1")
           .collection("category_single")
           .where(SET_CAT_SINGLE_TUTOR_ID, "==", ent_id)
           .get();
@@ -5861,7 +5861,7 @@
           if (!categoryExist){
 
             var newCatSingleDocRef = db.collection("Settings")
-              .doc("v2")
+              .doc("v1")
               .collection("category_single")
               .doc();
 
@@ -5880,7 +5880,7 @@
 
 
             var newCatDocRef = db.collection("Settings")
-            .doc("v2")
+            .doc("v1")
             .collection("category")
             .doc(ent_id);
 
@@ -5978,8 +5978,8 @@
 
         var batch = db.batch();
 
-        var invDocRef = db.collection("dev")
-          .doc("v2")
+        var invDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Invoice")
           .doc(invId);
 
@@ -5991,8 +5991,8 @@
         // console.log("*Invoice Data...")
         // console.log(invData)
 
-        var transDocRef = db.collection("dev")
-            .doc("v2")
+        var transDocRef = db.collection("Financial")
+            .doc("v1")
             .collection("Transaction")
             .doc(transId);
 
@@ -6013,8 +6013,8 @@
         // Get the Report documents with the similar invoice id, and
         // remove the corresponding id in REV_DOC_ID_ARR and REV_DOC_TOTAL_ARR.
         // Update the doc with new value
-        let reportDocRef = db.collection("dev")
-          .doc("v2")
+        let reportDocRef = db.collection("Report")
+          .doc("v1")
           .collection("Revenue")
           .where(REV_DOC_ID_ARR, "array-contains", invId)
           .where(REV_STATUS, "==", true);
@@ -6057,8 +6057,8 @@
               }
 
               // Update it through batch
-              let revenueDocRef = db.collection("dev")
-                .doc("v2")
+              let revenueDocRef = db.collection("Report")
+                .doc("v1")
                 .collection("Revenue")
                 .doc(doc.id);
 
@@ -6104,13 +6104,6 @@
           $('#btnDelModalUpdate').prop('disabled', true);
         }
       });
-
-      // Active Register Class Modal
-      // $('#loadingModal').modal({
-      //   backdrop:'static',
-      //   keyboard:false
-      // });
-      // $('#loadingModal').modal('show');
 
 		});
 

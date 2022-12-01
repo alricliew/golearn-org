@@ -1417,7 +1417,7 @@
     function loadUserSettings(){
 
       // Tutor Id must be a phone with +60, no spacing or other chars
-      var docRef = db.collection("dev").doc("v2").collection("Financial").doc(ent_id);
+      var docRef = db.collection("Settings").doc("v1").collection("Financial").doc(ent_id);
 
       docRef.get().then((doc) => {
 
@@ -1552,7 +1552,7 @@
       document.getElementById("btnEditClientModalUpdate").setAttribute('disabled', true);
       document.getElementById("btnEditClientModalUpdate").textContent = "Loading. Please wait...";
 
-      let clientDocRef = db.collection("dev")
+      let clientDocRef = db.collection("Class")
         .doc("v1")
         .collection("Student")
         .where(STU_ADMIN_ID, "==", ent_id)
@@ -1610,8 +1610,8 @@
     function loadAllAdminStudents(){
 
       // STUDENT Module
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .where(STU_ADMIN_ID, "==", ent_id)
           .where(STU_STATUS_ADMIN, "==", true)
@@ -1719,8 +1719,8 @@
       // Clear the existing invoice tables
       clearItems();
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .where(CLASS_VIEWER_ID_ARR, "array-contains", clientId)
           .where(CLASS_ADMIN_ID, "==", ent_id)
@@ -1775,8 +1775,8 @@
       console.log(''+year+formattedMonth);
 
       // Get all lessons of this month
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Lesson")
           .where("classId", "==", classDoc.data()[CLASS_ID])
           .where(LESSON_MONTH_TYPE, "==", parseInt(''+year+formattedMonth))
@@ -3677,13 +3677,13 @@
     //-------- Save and Create Invoice-----------------/
     function CreateInvoice() {
 
-      var invDocRef = db.collection("dev")
-        .doc("v2")
+      var invDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Invoice")
         .doc();
 
-      var transDocRef = db.collection("dev")
-        .doc("v2")
+      var transDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Transaction")
         .doc();
 

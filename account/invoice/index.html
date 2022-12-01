@@ -589,8 +589,8 @@
       if (paid) statusArr.push(TRANS_INV_STATUS_PAID);
       if(!draft && !unpaid && !paid) statusArr = [TRANS_INV_STATUS_DRAFT, TRANS_INV_STATUS_NEW, TRANS_INV_STATUS_PAID];
 
-      let sortInvDocRef = db.collection("dev")
-        .doc("v2")
+      let sortInvDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Transaction")
         .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
         .where(TRANS_DATE, ">=", startDate)
@@ -667,8 +667,8 @@
       if (paid) statusArr.push(TRANS_INV_STATUS_PAID);
       if(!draft && !unpaid && !paid) statusArr = [TRANS_INV_STATUS_DRAFT, TRANS_INV_STATUS_NEW, TRANS_INV_STATUS_PAID];
 
-      let sortInvDocRef = db.collection("dev")
-        .doc("v2")
+      let sortInvDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Transaction")
         .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
         .where(TRANS_DATE, ">=", startDate)
@@ -744,8 +744,8 @@
     function loadAllInvoice(){
       let today = new Date(2100, 12, 31);// Set a big date
 
-      let docRef = db.collection("dev")
-        .doc("v2")
+      let docRef = db.collection("Financial")
+        .doc("v1")
         .collection("Transaction")
         // .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
         .where(TRANS_SENDER_ID, "==", ent_id)
@@ -1043,8 +1043,8 @@
 		}
 
     function getInvoice(invoiceId){
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Invoice")
           .doc(invoiceId);
 

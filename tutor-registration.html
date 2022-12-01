@@ -726,8 +726,8 @@
 
 
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .where(TUTOR_ADMIN_ID, "==", id)
           .where(TUTOR_STATUS_ADMIN, "in", [TUTOR_STATUS_TYPE_ACTIVE, TUTOR_STATUS_TYPE_PASSIVE])
@@ -859,8 +859,8 @@
 
       // Check if the ent_id & tutorId match. If exist, it means the the tutor already under the admin,
       // so reactivate them (TUTOR_STATUS_TYPE_ACTIVE) & do not add the tutor to admin's tutor pool.
-      let docRef = db.collection("dev")
-        .doc("v2")
+      let docRef = db.collection("Class")
+        .doc("v1")
         .collection("Tutor")
         .where(TUTOR_ADMIN_ID, "==", ent_id)
         .where(TUTOR_TUTOR_ID, "==", tutorId)
@@ -896,8 +896,8 @@
 
             querySnapshots.forEach((doc) =>{
 
-              let tutorDocRef = db.collection("dev")
-              .doc("v2")
+              let tutorDocRef = db.collection("Class")
+              .doc("v1")
               .collection("Tutor")
               .doc(doc.id)
 
@@ -949,7 +949,7 @@
     // Set the statuses to active and update the details
     async function SetAdminStatusToActive(docId, statusAdmin){
       // NEW: Add tutor to the Tutor Module
-      let tutorModuleDocRef = db.collection("dev").doc("v2").collection('Tutor').doc(docId);
+      let tutorModuleDocRef = db.collection("Class").doc("v1").collection('Tutor').doc(docId);
       let tutorModuleData = {
         [TUTOR_ADMIN_NAME]: ent_name,
         [TUTOR_ADMIN_PHONE]: ent_phone,
@@ -996,7 +996,7 @@
     async function AddTutorToTutorDB(){
 
       // NEW: Add tutor to the Tutor Module
-      let tutorModuleDocRef = db.collection("dev").doc("v2").collection('Tutor').doc();
+      let tutorModuleDocRef = db.collection("Class").doc("v1").collection('Tutor').doc();
       let tutorModuleData = {
         [TUTOR_ID]: tutorModuleDocRef.id,
         [TUTOR_ADMIN_ID]: ent_id,

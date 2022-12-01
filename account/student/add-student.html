@@ -542,8 +542,8 @@
 
     // Add New Student
     function AddStudentToDB(){
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .doc();
 
@@ -580,12 +580,10 @@
         [STU_CHILD_SCHOOL]: document.getElementById("inStuSchool").value,
 
       }
-      console.log("Add New Student");
-
-      console.log(data);
+      // console.log("Add New Student");
+      // console.log(data);
       var docRefWithMerge = docRef.set(data)
       .then(() => {
-        // updateStudentNum(1);
 
         return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_STUDENT, 'asc', 1) )
         // window.location = "./";
@@ -595,83 +593,6 @@
       })
       .catch((error) => {
         console.log("Error getting document:", error);
-      });
-
-    }
-
-    // Report: Update Student Number
-    function updateStudentNum(value){
-
-      let docRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", ent_id)
-        .where(NUM_TYPE, "==", NUM_TYPE_STUDENT)
-        .limit(1);
-
-
-      docRef
-      .get()
-      .then((querySnapshot) => {
-
-        if(querySnapshot.empty) {
-          console.log("Empty. create new doc ");
-          let reportDocRef = db.collection("Report")
-            .doc("v2")
-            .collection("General")
-            .doc();
-
-          reportData ={
-            [NUM_ID]: reportDocRef.id,
-            [NUM_ADMIN_ID]: ent_id,
-            [NUM_TYPE]: NUM_TYPE_STUDENT,
-            [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(value),
-            [NUM_DATE_EDIT]: new Date(),
-          }
-
-          console.log(reportData)
-          reportDocRef
-            .set(reportData, { merge: true })
-            .then(() => {
-              $('#loadingModal').modal('hide');
-              window.location.href='./';
-            });
-
-        }
-        else {
-          // console.log("Data found Update: ");
-
-          querySnapshot.forEach((doc) => {
-
-            console.log(doc.data());
-
-            let reportDocRef = db.collection("Report")
-              .doc("v2")
-              .collection("General")
-              .doc(doc.data()[NUM_ID]);
-
-
-            reportData ={
-              // [NUM_ID]: reportDocRef.id,
-              // [NUM_ADMIN_ID]: ent_id,
-              // [NUM_TYPE]: ,
-              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(doc.data()[NUM_VALUE]) + parseInt(value),
-              [NUM_DATE_EDIT]: new Date(),
-            }
-
-            console.log(reportData)
-            reportDocRef
-              .set(reportData, { merge: true })
-              .then(() => {
-                window.location.href='./';
-              });
-
-          });
-
-
-        }
-
-
       });
 
     }
@@ -906,8 +827,8 @@
       {
         // Create Class btn is clicked
         // /Class/v1/Class/ZGeLtRmzIaOPuBkbhHTH
-        var docRef = db.collection("dev")
-          .doc("v2")
+        var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc();
 

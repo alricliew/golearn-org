@@ -1294,8 +1294,8 @@ async function updateGeneralReportNum(adminId, type, dir, value){
   // value = a positive value to be increased / decreased
   // Example  updateGeneralReportNum(adminId, NUM_TYPE_CLASS, 'asc', 1)
 
-  let docRef = db.collection("dev")
-    .doc("v2")
+  let docRef = db.collection("Report")
+    .doc("v1")
     .collection("General")
     .where(NUM_ADMIN_ID, "==", adminId)
     .where(NUM_TYPE, "==", type);
@@ -1311,8 +1311,8 @@ async function updateGeneralReportNum(adminId, type, dir, value){
 
     if(snapshot.size == 0 ) {
       console.log("Empty report. Create a new one ");
-      let reportDocRef = db.collection("dev")
-        .doc("v2")
+      let reportDocRef = db.collection("Report")
+        .doc("v1")
         .collection("General")
         .doc();
 
@@ -1338,8 +1338,8 @@ async function updateGeneralReportNum(adminId, type, dir, value){
 
       snapshot.forEach((doc) => {
         // console.log(doc.data());
-        let reportDocRef = db.collection("dev")
-          .doc("v2")
+        let reportDocRef = db.collection("Report")
+          .doc("v1")
           .collection("General")
           .doc(doc.data()[NUM_ID]);
 
@@ -1370,8 +1370,8 @@ async function updateGeneralReportNum(adminId, type, dir, value){
     else {
       snapshot.forEach((doc) => {
         // console.log(doc.data());
-        let reportDocRef = db.collection("dev")
-          .doc("v2")
+        let reportDocRef = db.collection("Report")
+          .doc("v1")
           .collection("General")
           .doc(doc.data()[NUM_ID]);
 

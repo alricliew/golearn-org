@@ -1720,8 +1720,8 @@
 
     // Load recent payrolls
     function loadRecentPayroll(){
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .where(PAYROLL_ADMIN_ID, '==', ent_id)
           .where(PAYROLL_STATUS, '==', true)
@@ -1802,8 +1802,8 @@
       let today = new Date(2100, 12, 31);// Set a big date
 
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .where(PAYROLL_ADMIN_ID, '==', ent_id)
           .where(PAYROLL_STATUS, '==', true)
@@ -1900,8 +1900,8 @@
       })
 
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .doc(payroll_id);
 
@@ -1913,43 +1913,12 @@
 
           console.log("Empty, Create a new payroll");
           func.showNotification('top','center', 'error', 'error_outline', "Payroll does not exist." );
-          // var payrollDocRef = db.collection("dev")
-          //   .doc("v2")
-          //   .collection("Payroll")
-          //   .doc();
-
-          // payrollId = payrollDocRef.id;
-
-          // var data = {
-          //   [PAYROLL_ID]: payrollId,
-          //   [PAYROLL_ADMIN_ID]: ent_id,
-          //   [PAYROLL_NAME]: payrollName,
-          //   [PAYROLL_DATE_START]: payrollStart,
-          //   [PAYROLL_DATE_END]: payrollEnd,
-          //   [PAYROLL_DOC_ID_ARR]: [],
-          //   [PAYROLL_DOC_TOTAL_ARR]: [],
-          //   [PAYROLL_TOTAL]: 0,
-          //   [PAYROLL_STATUS]: true,
-          // }
-
-          // payrollDocRef.set(data, { merge: true })
-          //   .then(() => {
-
-          //     // Load all active tutor
-          //     loadAllTutorInfo();
-
-          //     // Enable Step 2
-          //     enableStep2();
-
-          //     func.showNotification('top','center', 'success', 'check_circle', "Created new payroll." );
-
-          // });
 
         }
         else {
 
-          console.log("Load Single Payroll: Payroll found");
-          console.log(doc.data());
+          // console.log("Load Single Payroll: Payroll found");
+          // console.log(doc.data());
 
           // Get data from payroll
           payrollId = doc.data()[PAYROLL_ID];
@@ -2025,8 +1994,8 @@
 
       allTutorModuleDoc = []; // Init All Tutors Doc array
       // STUDENT Module
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .where(TUTOR_ADMIN_ID, "==", ent_id)
           .where(TUTOR_STATUS_ADMIN, "==", TUTOR_STATUS_TYPE_ACTIVE)
@@ -2175,7 +2144,7 @@
     function loadUserSettings(ent_id){
 
       // Tutor Id must be a phone with +60, no spacing or other chars
-      var docRef = db.collection("dev").doc("v2").collection("Financial").doc(ent_id);
+      var docRef = db.collection("Settings").doc("v1").collection("Financial").doc(ent_id);
 
       docRef.get().then((doc) => {
 
@@ -2249,8 +2218,8 @@
       //   .where('dueDate', '<', end)
       // );
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Lesson")
           .where("classId", "==", 'huLBbCGbdRDJmRnxTJGl')
           .where("status", "==", true)
@@ -2287,8 +2256,8 @@
       // console.log(payrollEnd)
 
       // Check if payroll existed
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .where(PAYROLL_ADMIN_ID, '==', ent_id)
           .where(PAYROLL_STATUS, '==', true)
@@ -2305,8 +2274,8 @@
 
           console.log("Empty, Create a new payroll");
 
-          var payrollDocRef = db.collection("dev")
-            .doc("v2")
+          var payrollDocRef = db.collection("Financial")
+            .doc("v1")
             .collection("Payroll")
             .doc();
 
@@ -2377,8 +2346,8 @@
     // Payroll found. Load payslips in a payroll.
     function loadAllPayslips(payrollId){
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payslip")
           .where(PAY_STATUS, '==', true)
           .where(PAY_PAYROLL_ID, '==', payrollId)
@@ -2607,8 +2576,8 @@
     // Load all active tutor
     function loadAllTutorInfo(){
       activeTutorList = []; // Init list
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .where(TUTOR_ADMIN_ID, "==", ent_id)
           .where(TUTOR_STATUS_ADMIN, "==", TUTOR_STATUS_TYPE_ACTIVE)
@@ -2666,8 +2635,8 @@
       //   tutor_id : tutor_id,
       // }
 
-      let docRef = db.collection("dev")
-        .doc("v2")
+      let docRef = db.collection("Class")
+        .doc("v1")
         .collection("Class")
         .where(CLASS_ADMIN_ID, "==", ent_id) // Admin ID
         .where(CLASS_TUTOR_ID_ARR, "array-contains", tutorData.tutor_id) // Tutor's Id
@@ -3189,8 +3158,8 @@
       console.log(payrollEnd)
       console.log(classData.classId )
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Lesson")
           .where("classId", "==", classData.classId)
           .where("status", "==", true)
@@ -6367,8 +6336,8 @@
       // Local var to indicate if Create New Payslip(create) or Updated an existing payslip(update)
       let updateType = '';
 
-      let payslipDocRef = db.collection("dev")
-        .doc("v2")
+      let payslipDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Payslip")
         .where(PAY_PAYROLL_ID, "==", payrollId)
         .where(PAY_RECEIVER_ID, "==", cardId);
@@ -6383,20 +6352,20 @@
 
         const promiseAll = [];
 
-        let payrollDocRef = db.collection("dev")
-          .doc("v2")
+        let payrollDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .doc(payrollId);
 
         if(querySnapshot.empty) {
 
-          let payslipDocRef1 = db.collection("dev")
-            .doc("v2")
+          let payslipDocRef1 = db.collection("Financial")
+            .doc("v1")
             .collection("Payslip")
             .doc();
 
-          let transDocRef = db.collection("dev")
-            .doc("v2")
+          let transDocRef = db.collection("Financial")
+            .doc("v1")
             .collection("Transaction")
             .doc();
 
@@ -6524,13 +6493,13 @@
             payDocId = doc.data()[PAY_ID];
             transDocId = doc.data()[PAY_TRANS_ID];
 
-            let payslipDocRef1 = db.collection("dev")
-              .doc("v2")
+            let payslipDocRef1 = db.collection("Financial")
+              .doc("v1")
               .collection("Payslip")
               .doc(payDocId);
 
-            let transDocRef = db.collection("dev")
-              .doc("v2")
+            let transDocRef = db.collection("Financial")
+              .doc("v1")
               .collection("Transaction")
               .doc(transDocId);
 
@@ -6696,8 +6665,8 @@
       let payDocId = '';
       let transDocId = '';
 
-      let payslipDocRef = db.collection("dev")
-        .doc("v2")
+      let payslipDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Payslip")
         .where(PAY_PAYROLL_ID, "==", payrollId)
         .where(PAY_RECEIVER_ID, "==", cardId);
@@ -6707,8 +6676,8 @@
       .get()
       .then((querySnapshot) => {
 
-        let payrollDocRef = db.collection("dev")
-          .doc("v2")
+        let payrollDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .doc(payrollId);
 
@@ -6725,13 +6694,13 @@
             payDocId = doc.data()[PAY_ID];
             transDocId = doc.data()[PAY_TRANS_ID];
 
-            let payslipDocRef1 = db.collection("dev")
-              .doc("v2")
+            let payslipDocRef1 = db.collection("Financial")
+              .doc("v1")
               .collection("Payslip")
               .doc(payDocId);
 
-            let transDocRef = db.collection("dev")
-              .doc("v2")
+            let transDocRef = db.collection("Financial")
+              .doc("v1")
               .collection("Transaction")
               .doc(transDocId);
 
@@ -6746,8 +6715,8 @@
               [TRANS_STATUS]: false,
             }
 
-            console.log("Transaction Data...")
-            console.log(transData)
+            // console.log("Transaction Data...")
+            // console.log(transData)
 
             // Get the index of the payslip doc no.
             let payslipDocIndex = payrollDocIdArr.indexOf(payDocId);
@@ -7318,8 +7287,8 @@
         let inPaymentAmount = document.getElementById("inPaymentAmount").value;
         let inPaymentNotes = document.getElementById("inPaymentNotes").value ;
 
-        let payslipDocRef = db.collection("dev")
-          .doc("v2")
+        let payslipDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payslip")
           .where(PAY_PAYROLL_ID, "==", payrollId)
           .where(PAY_RECEIVER_ID, "==", EMPLOYEE_CARD_ID);
@@ -7328,11 +7297,6 @@
         payslipDocRef
         .get()
         .then((querySnapshot) => {
-
-          // let payrollDocRef = db.collection("dev")
-          //   .doc("v2")
-          //   .collection("Payroll")
-          //   .doc(payrollId);
 
           if(querySnapshot.empty) {
 
@@ -7347,14 +7311,14 @@
 
               payDocId = doc.data()[PAY_ID];
               transDocId = doc.data()[PAY_TRANS_ID];
-              console.log(payDocId, transDocId);
-              let payslipDocRef1 = db.collection("dev")
-                .doc("v2")
+              // console.log(payDocId, transDocId);
+              let payslipDocRef1 = db.collection("Financial")
+                .doc("v1")
                 .collection("Payslip")
                 .doc(payDocId);
 
-              let transDocRef = db.collection("dev")
-                .doc("v2")
+              let transDocRef = db.collection("Financial")
+                .doc("v1")
                 .collection("Transaction")
                 .doc(transDocId);
 
@@ -7376,8 +7340,8 @@
                 [PAY_DATE_EDIT]: new Date(),
               }
 
-              console.log("*Payslip Data...")
-              console.log(data)
+              // console.log("*Payslip Data...")
+              // console.log(data)
 
 
               var transData = {
@@ -7385,8 +7349,8 @@
                 [TRANS_DATE_EDIT]: new Date(),
               }
 
-              console.log("Transaction Data...")
-              console.log(transData)
+              // console.log("Transaction Data...")
+              // console.log(transData)
 
               // Update Payslip
 

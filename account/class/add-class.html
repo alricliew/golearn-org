@@ -1203,8 +1203,8 @@
 
     // Create Class
     function CreateClass(){
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc();
 
@@ -1295,8 +1295,8 @@
 
       // ----- Get the Class Number doc ----- //
       // So we can update it the next stage.
-      let classNumReportDocRef = db.collection("dev")
-        .doc("v2")
+      let classNumReportDocRef = db.collection("Report")
+        .doc("v1")
         .collection("General")
         .where(NUM_ADMIN_ID, "==", ent_id)
         .where(NUM_TYPE, "==", NUM_TYPE_CLASS);
@@ -1308,68 +1308,6 @@
 
       Promise.all(promiseAll).then((snapshots) => {
 
-        // var promiseAllLayer2 = []
-        // console.log(snapshots[0])
-        // // console.log(snapshots[0].size)
-        // console.log(snapshots[1])
-        // console.log(snapshots[1].size)
-        // if(snapshots[1].size == 0 ) {
-        //   console.log("Empty class number report. create a new one ");
-        //   alert('Empty class number report. create a new one')
-        //   let reportDocRef = db.collection("dev")
-        //     .doc("v2")
-        //     .collection("General")
-        //     .doc();
-
-        //   let reportData ={
-        //     [NUM_ID]: reportDocRef.id,
-        //     [NUM_ADMIN_ID]: ent_id,
-        //     [NUM_TYPE]: NUM_TYPE_CLASS,
-        //     [NUM_VALUE]: 1,
-        //     [NUM_DATE_EDIT]: new Date(),
-        //   }
-        //   console.log(reportData)
-        //   promiseAllLayer2.push( reportDocRef.set(reportData, { merge: true }))
-        //   // reportDocRef
-        //   //   .set(reportData, { merge: true })
-        //   //   .then(() => {
-        //   //     window.location.href='./';
-        //   //   });
-        // }
-        // else if (snapshots[1].size > 1) {
-        //   console.log("More than 1 class number reports. Report Admin ");
-        //   alert('More than 1 class number reports. Report Admin')
-
-        // }
-        // else {
-        //   snapshots[1].forEach((doc) => {
-        //     // console.log(doc.data());
-        //     let reportDocRef = db.collection("dev")
-        //       .doc("v2")
-        //       .collection("General")
-        //       .doc(doc.data()[NUM_ID]);
-
-        //     let reportData ={
-        //       // [NUM_ID]: reportDocRef.id,
-        //       // [NUM_ADMIN_ID]: ent_id,
-        //       // [NUM_TYPE]: ,
-        //       [NUM_VALUE]: (doc.data()[NUM_VALUE] == null || doc.data()[NUM_VALUE] == "" || doc.data()[NUM_VALUE] == 0 || isNaN(doc.data()[NUM_VALUE])) ? 1 : parseInt(doc.data()[NUM_VALUE]) + 1,
-        //       [NUM_DATE_EDIT]: new Date(),
-        //     }
-        //     console.log(reportData)
-        //     promiseAllLayer2.push( reportDocRef.update(reportData))
-
-        //     // reportDocRef
-        //     //   .set(reportData, { merge: true })
-        //     //   .then(() => {
-        //     //     window.location.href='./';
-        //     //   });
-
-        //   });
-
-        // }
-
-        // return Promise.all(promiseAllLayer2)
 
         return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_CLASS, 'asc', 1) )
 
@@ -1381,92 +1319,6 @@
         alert(e.message)
       })
 
-
-      // docRef.set( docData, { merge: true })
-      // .then(() => {
-      //   // Report: Update the class num in Reporting
-      //   updateClassNum(1);
-
-      // });
-
-
-
-    }
-
-    // Report: Update Class Number
-    function updateClassNum(value){
-
-      let docRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", ent_id)
-        .where(NUM_TYPE, "==", NUM_TYPE_CLASS)
-        .limit(1);
-
-
-      docRef
-      .get()
-      .then((querySnapshot) => {
-
-        if(querySnapshot.size == 0 ) {
-          console.log("Empty. create new doc ");
-          let reportDocRef = db.collection("dev")
-            .doc("v2")
-            .collection("General")
-            .doc();
-
-          reportData ={
-            [NUM_ID]: reportDocRef.id,
-            [NUM_ADMIN_ID]: ent_id,
-            [NUM_TYPE]: NUM_TYPE_CLASS,
-            [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(value),
-            [NUM_DATE_EDIT]: new Date(),
-          }
-
-          console.log(reportData)
-          reportDocRef
-            .set(reportData, { merge: true })
-            .then(() => {
-              window.location.href='./';
-            });
-
-        }
-        else {
-          // console.log("Data found Update: ");
-
-          querySnapshot.forEach((doc) => {
-
-            console.log(doc.data());
-
-            let reportDocRef = db.collection("dev")
-              .doc("v2")
-              .collection("General")
-              .doc(doc.data()[NUM_ID]);
-
-
-            reportData ={
-              // [NUM_ID]: reportDocRef.id,
-              // [NUM_ADMIN_ID]: ent_id,
-              // [NUM_TYPE]: ,
-              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(doc.data()[NUM_VALUE]) + parseInt(value),
-              [NUM_DATE_EDIT]: new Date(),
-            }
-
-            console.log(reportData)
-            reportDocRef
-              .set(reportData, { merge: true })
-              .then(() => {
-                window.location.href='./';
-              });
-
-          });
-
-
-        }
-
-
-      });
-
     }
 
 
@@ -1476,8 +1328,8 @@
 
       allTutorModuleDoc = []; // Init All Tutors Doc array
       // STUDENT Module
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .where(TUTOR_ADMIN_ID, "==", ent_id)
           .where(TUTOR_STATUS_ADMIN, "==", TUTOR_STATUS_TYPE_ACTIVE)

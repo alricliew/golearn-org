@@ -656,8 +656,8 @@
 
     // Tutor Specific
     function loadAllTutorInfo(){
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .where(TUTOR_ADMIN_ID, "==", ent_id)
           .where(TUTOR_STATUS_ADMIN, "in", [TUTOR_STATUS_TYPE_ACTIVE, TUTOR_STATUS_TYPE_PASSIVE])
@@ -865,8 +865,8 @@
 
     // Update Student Info
     function AddTeacherToDB(docId){
-      let docRef = db.collection("dev")
-        .doc('v2')
+      let docRef = db.collection("Class")
+        .doc("v1")
         .collection('Tutor')
         .doc();
         // console.log("Img Src valid? ", isValidImgSrc(document.getElementById("viewTutorImgUrl").src))
@@ -903,107 +903,20 @@
         [TUTOR_SOCSO]: document.getElementById("inSocsoNo").value,
       }
 
-      console.log("Create Data: ")
-      console.log(data)
-
-      // ----- Get the Teacher Number doc ----- //
-      // So we can update it the next stage.
-      let teacherNumReportDocRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", ent_id)
-        .where(NUM_TYPE, "==", NUM_TYPE_TEACHER);
+      // console.log("Create Data: ")
+      // console.log(data)
 
       var promiseAll = []
       promiseAll.push(docRef.set(data))
-      // promiseAll.push(teacherNumReportDocRef.get())
 
       Promise.all(promiseAll).then((snapshots) => {
-
-        // var promiseAllLayer2 = []
-        // console.log(snapshots[0])
-        // // console.log(snapshots[0].size)
-        // console.log(snapshots[1])
-        // console.log(snapshots[1].size)
-        // if(snapshots[1].size == 0 ) {
-        //   console.log("Empty teacher number report. Create a new one ");
-        //   alert('Empty teacher number report. create a new one')
-        //   let reportDocRef = db.collection("dev")
-        //     .doc("v2")
-        //     .collection("General")
-        //     .doc();
-
-        //   let reportData ={
-        //     [NUM_ID]: reportDocRef.id,
-        //     [NUM_ADMIN_ID]: ent_id,
-        //     [NUM_TYPE]: NUM_TYPE_TEACHER,
-        //     [NUM_VALUE]: 1,
-        //     [NUM_DATE_EDIT]: new Date(),
-        //   }
-        //   console.log(reportData)
-        //   promiseAllLayer2.push( reportDocRef.set(reportData, { merge: true }))
-
-        // }
-        // else if (snapshots[1].size > 1) {
-        //   console.log("More than 1 teacher number reports. Report Admin ");
-        //   alert('More than 1 teacher number reports. Report Admin')
-        //   snapshots[1].forEach((doc) => {
-        //     // console.log(doc.data());
-        //     let reportDocRef = db.collection("dev")
-        //       .doc("v2")
-        //       .collection("General")
-        //       .doc(doc.data()[NUM_ID]);
-
-        //     let reportData ={
-        //       // [NUM_ID]: reportDocRef.id,
-        //       // [NUM_ADMIN_ID]: ent_id,
-        //       // [NUM_TYPE]: ,
-        //       [NUM_VALUE]: (doc.data()[NUM_VALUE] == null || doc.data()[NUM_VALUE] == "" || doc.data()[NUM_VALUE] == 0 || isNaN(doc.data()[NUM_VALUE])) ? 1 : parseInt(doc.data()[NUM_VALUE]) + 1,
-        //       [NUM_DATE_EDIT]: new Date(),
-        //     }
-        //     console.log(reportData)
-        //     promiseAllLayer2.push( reportDocRef.set(reportData, { merge: true }))
-
-        //   });
-
-        // }
-        // else {
-        //   snapshots[1].forEach((doc) => {
-        //     // console.log(doc.data());
-        //     let reportDocRef = db.collection("dev")
-        //       .doc("v2")
-        //       .collection("General")
-        //       .doc(doc.data()[NUM_ID]);
-
-        //     let reportData ={
-        //       // [NUM_ID]: reportDocRef.id,
-        //       // [NUM_ADMIN_ID]: ent_id,
-        //       // [NUM_TYPE]: ,
-        //       [NUM_VALUE]: (doc.data()[NUM_VALUE] == null || doc.data()[NUM_VALUE] == "" || doc.data()[NUM_VALUE] == 0 || isNaN(doc.data()[NUM_VALUE])) ? 1 : parseInt(doc.data()[NUM_VALUE]) + 1,
-        //       [NUM_DATE_EDIT]: new Date(),
-        //     }
-        //     console.log(reportData)
-        //     promiseAllLayer2.push( reportDocRef.update(reportData))
-
-        //   });
-
-        // }
-
-        // return Promise.all(promiseAllLayer2)
-
+        // Increment teacher num
         return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_TEACHER, 'asc', 1) )
       })
       .then(() => {
         window.location.reload()
-        // window.location.href='./' + window.location.search;
       })
 
-      // docRef
-      // .set(data)
-      // .then(()=> {
-      //   $('#createTutorModal').modal('hide');
-      //   window.location.reload();
-      // });
     }
 
     function isValidImgSrc(src){
@@ -1138,8 +1051,8 @@
 
 
           let docRef = db.collection("Tutor").doc(itiTutor.getNumber());
-          let tutorDocRef = db.collection("dev")
-          .doc('v2')
+          let tutorDocRef = db.collection("Class")
+          .doc("v1")
           .collection('Tutor')
           .where(TUTOR_ADMIN_ID, "==", ent_id)
           .where(TUTOR_TUTOR_ID, "==", itiTutor.getNumber())

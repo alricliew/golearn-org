@@ -289,30 +289,6 @@
         </div>
       </div>
 
-      <!-- Delete Student modal -->
-      <div class="row">
-        <div class="modal fade" id="delStuModal" tabindex="-1" role="dialog" aria-labelledby="delStuModalLabel" aria-hidden="true">
-          <div class="modal-dialog  modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="delStuModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnDelStuModalClose1">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" id="delStuModalBody">
-                <div id="delStuId" value=""></div>
-                Are you sure you want to continue?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDelStuModalClose2">Not Now</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnDelStuModalUpdate">Confirm</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Sign-out modal -->
       <div class="row">
         <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
@@ -396,7 +372,7 @@
             <!-- Student List Start -->
             <!-- <div class="col-md-12 card-student-item">
               <div class="row">
-                <div class="col-md-11" style="padding: 0;">
+                <div class="col-md-12" style="padding: 0;">
                   <div class="row" style="margin: 0;">
                     <div class="col-md-3">
                       <p>Alric Liew</p>
@@ -417,9 +393,6 @@
                       <p>12/2/2021</p>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-1">
-                  <a href="#" style="margin: 0; padding: 0.3em;" class="btn btn-sm btn-outline-danger btn-round" id="btnDelStudent" data-toggle="modal" data-target="#delStuModal" data-id="stuId" ><i class="material-icons" style="color: red;">remove</i></a>
                 </div>
               </div>
             </div> -->
@@ -521,8 +494,8 @@
     // Tutor Specific
     function loadAllStudentInfo(){
       // Tutor Id must be a phone with +60, no spacing or other chars
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .where(STU_ADMIN_ID, "==", ent_id)
           .where(STU_STATUS_ADMIN, "==", true)
@@ -612,9 +585,6 @@
     //     <div class="col-md-2">
     //       <p>12/2/2021</p>
     //     </div>
-    //     <div class="col-md-1">
-    //       <a href="#" style="margin: 0; padding: 0.3em;" class="btn btn-sm btn-outline-danger btn-round" id="btnDelStudent" data-toggle="modal" data-target="#delStuModal" data-id="stuId" ><i class="material-icons" style="color: red;">remove</i></a>
-    //     </div>
     //   </div>
     // </div>
       // Reference: https://codepen.io/Corsurath/pen/abbxNpj
@@ -637,19 +607,9 @@
       stuName_div.appendChild(stuName_p);
       stuName_div.appendChild(stuDetail_p);
 
-      // // Gender
-      // let stuGender_p = document.createElement('p');
-      // stuGender_p.textContent = (doc.data().childGender === 0) ? 'Male' : 'Female';
-      // let stuGender_div = document.createElement('div');
-      // stuGender_div.className = "col-md-1";
-      // stuGender_div.appendChild(stuGender_p);
-
       // Gurdian Phone
       let gurPhone_p = document.createElement('p');
       gurPhone_p.textContent = doc.data().gurPhone;
-      // let gurPhone_div = document.createElement('div');
-      // gurPhone_div.className = "col-md-2";
-      // gurPhone_div.appendChild(gurPhone_p);
 
       // Gurdian Name
       let gurName_p = document.createElement('p');
@@ -684,7 +644,6 @@
       let detail_div = document.createElement('div');
       detail_div.className = 'row';
       detail_div.setAttribute("style","margin: 0;");
-      // detail_div.appendChild(stuGender_div);
       detail_div.appendChild(gurName_div);
       detail_div.appendChild(stuName_div);
       // detail_div.appendChild(gurPhone_div);
@@ -697,36 +656,10 @@
       detail_top_div.setAttribute("data-id", doc.data().id);
       detail_top_div.appendChild(detail_div);
 
-      //Del btn
-      let blogsHtml_btn = '';
-      blogsHtml_btn += "<span class='fa-stack' style='vertical-align: middle; font-size: 73%; color: red; cursor: pointer; margin-right: 0.5rem;'><i class='fas fa-circle fa-stack-2x' style='text-shadow: 2px 2px 4px rgba(46, 46, 46, 0.8);'></i><i class='fas fa-minus fa-stack-1x fa-inverse'></i></span>";
-
-      // blogsHtml_btn += "<i class='material-icons' style='color: red;''>remove</i>";
-      let btn_a = document.createElement('a');
-      btn_a.innerHTML = blogsHtml_btn;
-      // btn_a.className = "btn btn-sm btn-outline-danger btn-round";
-      btn_a.setAttribute("id","btnDelStudent");
-      btn_a.setAttribute("href","javascript:;");
-      btn_a.setAttribute("style","margin: 0; padding: 0.4em; ");
-
-      btn_a.setAttribute("data-toggle","modal");
-      btn_a.setAttribute("data-target","#delStuModal");
-      btn_a.setAttribute("data-id", doc.data().id);
-      btn_a.setAttribute("data-studentname",  doc.data().childName);
-      let btn_div = document.createElement('div');
-      // btn_div.className = "col-md-1 align-self-center";
-
-      btn_div.className = "col-1";
-      btn_div.setAttribute("style"," margin-bottom: 12px; padding-top: 12px; padding-left: 0;padding-right: 0; border-top: solid thin #f8f8f8; minwidth: fix-content;");
-      // btn_div.setAttribute("style"," margin-bottom: 12px; margin-top: 12px;border-top: solid thin #fafafa");
-
-      btn_div.appendChild(btn_a);
-
       // Student Top
       let card_div = document.createElement('div');
       card_div.className = "row"
       card_div.appendChild(detail_top_div);
-      // card_div.appendChild(btn_div);
 
       // Card top
       let card_top_div = document.createElement('div');
@@ -749,64 +682,6 @@
       window.location.href = './edit-student.html' + "?url=" + orgUrl_temp  +  "&ent=" + orgEnt_temp + "&sid=" + elem.getAttribute('data-id')
     }
 
-
-    // Report: Update Student Number
-    function updateStudentNum(value){
-
-      let docRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", ent_id)
-        .where(NUM_TYPE, "==", NUM_TYPE_STUDENT)
-        .limit(1);
-
-
-      docRef
-      .get()
-      .then((querySnapshot) => {
-
-        if(querySnapshot.empty) {
-          console.log("Empty. Do nothing ");
-
-        }
-        else {
-          // console.log("Data found Update: ");
-
-          querySnapshot.forEach((doc) => {
-
-            console.log(doc.data());
-
-            let reportDocRef = db.collection("dev")
-              .doc("v2")
-              .collection("General")
-              .doc(doc.data()[NUM_ID]);
-
-
-            reportData ={
-              // [NUM_ID]: reportDocRef.id,
-              // [NUM_ADMIN_ID]: ent_id,
-              // [NUM_TYPE]: ,
-              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(doc.data()[NUM_VALUE]) - parseInt(value),
-              [NUM_DATE_EDIT]: new Date(),
-            }
-
-            console.log(reportData)
-            reportDocRef
-              .set(reportData, { merge: true })
-              .then(() => {
-                window.location.reload(true);
-              });
-
-          });
-
-
-        }
-
-
-      });
-
-    }
-
    // Copy a text based on element ID
    function copyText(targetElemId){
       /* Get the text field */
@@ -825,58 +700,8 @@
 
   </script>
   <script>
-    // Edit Lesson Modal
-    // Extract info from data-* attributes
-    var STUDENT_NAME = "";
-    var STUDENT_ID = "";
-    var START = "";
     $( document ).ready(function() {
-
-      // Delete Student Modal
-      $('#delStuModal').on('show.bs.modal', function (event) {
-        let button = $(event.relatedTarget) // Button that triggered the modal
-        STUDENT_ID = button.data('id') // Extract info from data-* attributes
-        STUDENT_NAME = button.data('studentname') // Extract info from data-* attributes
-
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('Delete '+ STUDENT_NAME);
-        // modal.find('#delStuId').set("value", STUDENT_ID);
-        document.getElementById("delStuId").setAttribute('value', STUDENT_ID);
-      });
-
-      $('#btnDelStuModalUpdate').on('click', function (e) {
-        let studentId = document.getElementById("delStuId").getAttribute('value');
-
-        var docRef = db.collection("dev")
-          .doc("v2")
-          .collection("Student")
-          .doc(studentId);
-
-        let data = {
-          [STU_DATE_DEL]: new Date(),
-          [STU_STATUS_ADMIN]: false,
-          // [STU_STATUS_USER]: true,
-        }
-        // console.log(studentId);
-        // console.log(data);
-        var docRefWithMerge = docRef.set(data , { merge: true })
-        .then(() => {
-
-          updateStudentNum(1);
-          // window.location.reload(true);
-        }).catch((error) => {
-          console.log("Error getting document:", error);
-        });
-
-
-      });
-
     });
-
-
-
   </script>
 
 </body>

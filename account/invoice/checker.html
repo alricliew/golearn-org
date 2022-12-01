@@ -665,8 +665,8 @@
       var gurIdArr = [];
       var gurNameArr = [];
 
-      let docRef = db.collection("dev")
-        .doc("v2")
+      let docRef = db.collection("Report")
+        .doc("v1")
         .collection("inv_check")
         .where(INV_CHECK_ADMIN_ID, "==", ent_id)
         .where(INV_CHECK_MONTH, "==", startDateMonth)
@@ -697,8 +697,8 @@
           console.log('No document found. Create a new documents')
 
           // Get all inv doc within the month
-          let invDocRef = db.collection("dev")
-            .doc("v2")
+          let invDocRef = db.collection("Financial")
+            .doc("v1")
             .collection("Invoice")
             .where(INV_SENDER_ID, "==", ent_id)
             .where(INV_ISSUE_DATE, ">=", new Date(startDate))
@@ -710,8 +710,8 @@
           promiseAll.push(invDocRef);
 
           // Get all the parents & student
-          let clientDocRef = db.collection("dev")
-            .doc("v2")
+          let clientDocRef = db.collection("Class")
+            .doc("v1")
             .collection("Student")
             .where(STU_ADMIN_ID, "==", ent_id)
             .where(STU_STATUS_ADMIN, "==", true)
@@ -854,8 +854,8 @@
 
         // Set a copy of the data to Report > v1 > inv_check
         if (snapshots != null){
-          let invCheckDocRef = db.collection("dev")
-            .doc("v2")
+          let invCheckDocRef = db.collection("Report")
+            .doc("v1")
             .collection("inv_check")
             .doc();
 
@@ -1172,8 +1172,8 @@
       var gurNameArr_curr = [];
 
 
-      let docRef = db.collection("dev")
-        .doc("v2")
+      let docRef = db.collection("Report")
+        .doc("v1")
         .collection("inv_check")
         .where(INV_CHECK_ADMIN_ID, "==", ent_id)
         .where(INV_CHECK_MONTH, "==", startDateMonth)
@@ -1209,8 +1209,8 @@
 
 
         // Get all inv doc within the month
-        let invDocRef = db.collection("dev")
-          .doc("v2")
+        let invDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Invoice")
           .where(INV_SENDER_ID, "==", ent_id)
           .where(INV_ISSUE_DATE, ">=", new Date(startDate))
@@ -1220,8 +1220,8 @@
           .get();
 
         // Get all the parents & student
-        let clientDocRef = db.collection("dev")
-          .doc("v2")
+        let clientDocRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .where(STU_ADMIN_ID, "==", ent_id)
           .where(STU_STATUS_ADMIN, "==", true)
@@ -1378,8 +1378,8 @@
         if (invCheckDocId == ''){ // No such document. Create a new one
 
           // console.log('No such document. Create a new one')
-          let invCheckDocRef = db.collection("dev")
-            .doc("v2")
+          let invCheckDocRef = db.collection("Report")
+            .doc("v1")
             .collection("inv_check")
             .doc();
 
@@ -1408,8 +1408,8 @@
         // runType === 'InvOnly'
         else if (runType === 'InvOnly'){
           // console.log('Update Invoices Only')
-          let invCheckDocRef = db.collection("dev")
-            .doc("v2")
+          let invCheckDocRef = db.collection("Report")
+            .doc("v1")
             .collection("inv_check")
             .doc(invCheckDocId);
 
@@ -1439,8 +1439,8 @@
         else if (runType === 'InvAndClient'){
           // console.log('Update Invoices & Clients')
 
-          let invCheckDocRef = db.collection("dev")
-            .doc("v2")
+          let invCheckDocRef = db.collection("Report")
+            .doc("v1")
             .collection("inv_check")
             .doc(invCheckDocId);
 

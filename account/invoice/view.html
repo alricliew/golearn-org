@@ -1198,8 +1198,8 @@
         window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
       }
       else {
-        var invDocRef = db.collection("dev")
-        .doc("v2")
+        var invDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Invoice")
         .doc(iid);
 
@@ -1857,13 +1857,13 @@
     }
 
     async function reload(){
-      var invdocRef = db.collection("dev")
-        .doc("v2")
+      var invdocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Invoice")
         .doc(invId);
 
-      var transDocRef = db.collection("dev")
-        .doc("v2")
+      var transDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Transaction")
         .doc(transId);
 
@@ -2242,13 +2242,13 @@
         document.getElementById('btnApproveDraftModalUpdate').setAttribute("disabled", "true");
         document.getElementById('btnApproveDraftModalUpdate').textContent = "Approving. Please wait ...";
 
-        var invDocRef = db.collection("dev")
-          .doc("v2")
+        var invDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Invoice")
           .doc(invId);
 
-        var transDocRef = db.collection("dev")
-          .doc("v2")
+        var transDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Transaction")
           .doc(transId);
 
@@ -2279,8 +2279,8 @@
         // Get the Report documents with the similar invoice id, and
         // remove the corresponding id in REV_DOC_ID_ARR and REV_DOC_TOTAL_ARR.
         // Update the doc with new value
-        let reportDocRef = db.collection("dev")
-          .doc("v2")
+        let reportDocRef = db.collection("Report")
+          .doc("v1")
           .collection("Revenue")
           .where(REV_DOC_ID_ARR, "array-contains", invId)
           .where(REV_STATUS, "==", true);
@@ -2326,8 +2326,8 @@
                 }
 
                 // Update it through batch
-                let revenueDocRef = db.collection("dev")
-                  .doc("v2")
+                let revenueDocRef = db.collection("Report")
+                  .doc("v1")
                   .collection("Revenue")
                   .doc(doc.id);
                 batch.update(revenueDocRef, revData);
@@ -2359,8 +2359,8 @@
             console.log(month)
 
             let revenueDocList = []
-            let reportDocRef = db.collection("dev")
-              .doc("v2")
+            let reportDocRef = db.collection("Report")
+              .doc("v1")
               .collection("Revenue")
               // .where(REV_REF_ID, "==", item.refId)
               .where(REV_ADMIN_ID, "==", ent_id)
@@ -2429,8 +2429,8 @@
                   let newTotal = newInvDocTotalArr.reduce((a, b) => a + b, 0);
 
                   // Get all the revDoc based on 'month'
-                  let reportDocRef = db.collection("dev")
-                    .doc("v2")
+                  let reportDocRef = db.collection("Report")
+                    .doc("v1")
                     .collection("Revenue")
                     .doc(doc.data()[REV_ID]);
 
@@ -2481,8 +2481,8 @@
                     let newTotal = newInvDocTotalArr.reduce((a, b) => a + b, 0);
 
                     // Get all the revDoc based on 'month'
-                    let reportDocRef = db.collection("dev")
-                      .doc("v2")
+                    let reportDocRef = db.collection("Report")
+                      .doc("v1")
                       .collection("Revenue")
                       .doc();
 
@@ -2587,13 +2587,13 @@
       // Record Payment
       $('#btnRecordPaymentModalUpdate').on('click', function (event) {
 
-        var invdocRef = db.collection("dev")
-          .doc("v2")
+        var invdocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Invoice")
           .doc(invId);
 
-        var transDocRef = db.collection("dev")
-          .doc("v2")
+        var transDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Transaction")
           .doc(transId);
 

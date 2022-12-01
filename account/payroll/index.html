@@ -804,8 +804,8 @@
 
     // Load recent payrolls
     function loadPayroll(){
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .where(PAYROLL_ADMIN_ID, '==', ent_id)
           .where(PAYROLL_STATUS, '==', true)
@@ -882,8 +882,8 @@
       // Reset the latestInvoiceDoc
       latestInvoiceDoc = null;
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .doc(payrollId)
           // .where(PAY_PAYROLL_ID, "==", payrollId)
@@ -903,8 +903,8 @@
 
           doc.data()[PAYROLL_DOC_ID_ARR].forEach((payslipId) => {
 
-            let transDocRef = db.collection("dev")
-            .doc("v2")
+            let transDocRef = db.collection("Financial")
+            .doc("v1")
             .collection("Transaction")
             .where(TRANS_DOC_ID, '==', payslipId)
             .where(TRANS_STATUS, "==", true)
@@ -970,8 +970,8 @@
       // Reset the latestInvoiceDoc
       latestInvoiceDoc = null;
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Transaction")
           // .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
           .where(TRANS_SENDER_ID, "==", ent_id)
@@ -1022,8 +1022,8 @@
     function loadAllPayslip(){
       let today = new Date(2100, 12, 31);// Set a big date
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Transaction")
           // .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
           .where(TRANS_SENDER_ID, "==", ent_id)
@@ -1295,8 +1295,8 @@
 
     // Render payslip preview
     function loadPayslipPreview(pay_id){
-      let payslipDocRef = db.collection("dev")
-        .doc("v2")
+      let payslipDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Payslip")
         .doc(pay_id);
 
@@ -1448,8 +1448,8 @@
     // Load record payment details when recordpayment modal launch
     function loadRecordPaymentDetail(PAY_ID){
 
-      let payslipDocRef = db.collection("dev")
-        .doc("v2")
+      let payslipDocRef = db.collection("Financial")
+        .doc("v1")
         .collection("Payslip")
         .doc(PAY_ID);
 
@@ -2465,14 +2465,14 @@
         let inPaymentAmount = document.getElementById("inPaymentAmount").value;
         let inPaymentNotes = document.getElementById("inPaymentNotes").value ;
 
-        let payslipDocRef = db.collection("dev")
-          .doc("v2")
+        let payslipDocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payslip")
           .doc(PAY_ID);
 
 
-        let transDocRef = db.collection("dev")
-            .doc("v2")
+        let transDocRef = db.collection("Financial")
+            .doc("v1")
             .collection("Transaction")
             .doc(TRANS_ID);
 
@@ -2485,13 +2485,13 @@
           if (snapshots[0].exists && snapshots[1].exists) {
             // console.log("Payslip found, update exisiting payslip.");
 
-            let payslipDocRef1 = db.collection("dev")
-              .doc("v2")
+            let payslipDocRef1 = db.collection("Financial")
+              .doc("v1")
               .collection("Payslip")
               .doc(PAY_ID);
 
-            let transDocRef1 = db.collection("dev")
-              .doc("v2")
+            let transDocRef1 = db.collection("Financial")
+              .doc("v1")
               .collection("Transaction")
               .doc(TRANS_ID);
 

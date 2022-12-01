@@ -517,8 +517,8 @@
       let today = new Date(2100, 12, 31);// Set a big date
 
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .where(PAYROLL_ADMIN_ID, '==', ent_id)
           .where(PAYROLL_STATUS, '==', true)
@@ -804,8 +804,8 @@
         if (inPayrollId == null || inPayrollId == ""){
           func.showNotification('top','center', 'danger', 'error_outline', "Unable to update payroll. Please reload this page and try again.");
         }
-        let docRef = db.collection("dev")
-          .doc("v2")
+        let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payroll")
           .doc(inPayrollId);
 
@@ -863,8 +863,8 @@
         // Delete Payroll if it is not null
         if (payrollCurrentObj != null){
 
-          let docRef = db.collection("dev")
-            .doc("v2")
+          let docRef = db.collection("Financial")
+            .doc("v1")
             .collection("Payroll")
             .doc(payrollCurrentObj[PAYROLL_ID]);
 
@@ -890,8 +890,8 @@
 
 
           // Get all payslips
-          let payslipdocRef = db.collection("dev")
-          .doc("v2")
+          let payslipdocRef = db.collection("Financial")
+          .doc("v1")
           .collection("Payslip")
           .where(PAY_PAYROLL_ID, "==", payrollCurrentObj[PAYROLL_ID]);
 
@@ -912,8 +912,8 @@
                 // console.log(doc.data()[PAY_ID])
                 // console.log(doc.data()[PAY_TRANS_ID])
 
-                let payslipRef = db.collection("dev")
-                  .doc("v2")
+                let payslipRef = db.collection("Financial")
+                  .doc("v1")
                   .collection("Payslip")
                   .doc(doc.data()[PAY_ID]);
                 var payData = {
@@ -924,8 +924,8 @@
                 // promiseLayer1.push(payslipRef.delete())
                 promiseLayer1.push(payslipRef.update(payData))
 
-                let transactionRef = db.collection("dev")
-                  .doc("v2")
+                let transactionRef = db.collection("Financial")
+                  .doc("v1")
                   .collection("Transaction")
                   .doc(doc.data()[PAY_TRANS_ID]);
                 var transData = {
@@ -957,59 +957,6 @@
 
             console.error("Error removing document: ", error);
           })
-
-
-          // payslipdocRef.get()
-          // .then((querySnapshot) => {
-
-          //   var batch = db.batch();
-
-          //   console.log("payslip found")
-          //   if (querySnapshot.empty){
-          //     reload();
-          //     func.showNotification('top','center', 'success', 'check_circle', "Payroll deleted!");
-
-          //   }
-          //   else {
-
-          //     querySnapshot.forEach((doc) => {
-          //       console.log("Deleting deleted! " + payrollCurrentObj[PAYROLL_ID]);
-          //       console.log(doc.data()[PAY_ID])
-          //       console.log(doc.data()[PAY_TRANS_ID])
-
-          //       let payslipRef = db.collection("dev")
-          //         .doc("v2")
-          //         .collection("Payslip")
-          //         .doc(doc.data()[PAY_ID]);
-
-          //       batch.delete(payslipRef);
-
-          //       let transactionRef = db.collection("dev")
-          //         .doc("v2")
-          //         .collection("Transaction")
-          //         .doc(doc.data()[PAY_TRANS_ID]);
-
-          //       batch.delete(transactionRef);
-
-
-          //     });
-
-          //     // Delete both trans and payslip doc. Reload
-          //     batch.commit().then(() => {
-          //       reload();
-          //       func.showNotification('top','center', 'success', 'check_circle', "Payroll deleted!");
-          //     });
-
-          //   }
-
-          // }).catch((error) => {
-          //   // Error loading payslips. Reload
-          //   reload();
-          //   func.showNotification('top','center', 'success', 'check_circle', "Payroll deleted!");
-
-          //   console.error("Error removing document: ", error);
-          // });
-
 
         }
         else{

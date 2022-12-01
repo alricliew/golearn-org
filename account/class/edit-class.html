@@ -1873,8 +1873,8 @@
         window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
       }
       else {
-        let docRef = db.collection("dev")
-          .doc("v2")
+        let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc(cid);
 
@@ -2338,8 +2338,8 @@
     // Update Class
     function UpdateClass(classId){
 
-      var docRef = db.collection("dev")
-        .doc("v2")
+      var docRef = db.collection("Class")
+        .doc("v1")
         .collection("Class")
         .doc(classId);
 
@@ -2414,8 +2414,8 @@
 
     // Delete Class
     function DeleteClass(classId){
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc(classId);
 
@@ -2434,72 +2434,11 @@
 
         return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_CLASS, 'desc', 1) )
 
-        // updateClassNum(1)
-        // window.location.href='./'
-
-
       })
       .then(() => {
         window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
       });
 
-
-    }
-
-    // Report: Update Class Number
-    function updateClassNum(value){
-
-      let docRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", ent_id)
-        .where(NUM_TYPE, "==", NUM_TYPE_CLASS)
-        .limit(1);
-
-
-      docRef
-      .get()
-      .then((querySnapshot) => {
-
-        if(querySnapshot.empty) {
-          console.log("Empty. Do nothing ");
-
-        }
-        else {
-          // console.log("Data found Update: ");
-
-          querySnapshot.forEach((doc) => {
-
-            // console.log(doc.data());
-
-            let reportDocRef = db.collection("dev")
-              .doc("v2")
-              .collection("General")
-              .doc(doc.data()[NUM_ID]);
-
-
-            reportData ={
-              // [NUM_ID]: reportDocRef.id,
-              // [NUM_ADMIN_ID]: ent_id,
-              // [NUM_TYPE]: ,
-              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(doc.data()[NUM_VALUE]) - parseInt(value),
-              [NUM_DATE_EDIT]: new Date(),
-            }
-
-            console.log(reportData)
-            reportDocRef
-              .set(reportData, { merge: true })
-              .then(() => {
-                window.location.href='./';
-              });
-
-          });
-
-
-        }
-
-
-      });
 
     }
 
@@ -2917,8 +2856,8 @@
     // Load Lesson Details
     function LoadLessonInfo(){
       let today = new Date(2100, 12, 31);// Set a big date
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Lesson")
           .where("classId", "==", currentClassObj[CLASS_ID])
           .where("status", "==", true)
@@ -2970,8 +2909,8 @@
 
     // Add New Lesson
     function UploadToDBLesson(){
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Lesson")
           .doc();
 
@@ -3012,8 +2951,8 @@
         LoadLessonInfo();
 
         // Change Last Update in Class Module
-        var classDocRef = db.collection("dev")
-          .doc("v2")
+        var classDocRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc(currentClassObj[CLASS_ID]);
 
@@ -3042,8 +2981,8 @@
         alert('Error: Update changes failed. Please try again.')
       }else{
 
-        let docRef = db.collection("dev")
-          .doc("v2")
+        let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Lesson")
           .doc(lessonId);
 
@@ -3082,8 +3021,8 @@
           LoadLessonInfo();
 
           // Change Last Update in Class Module
-          var classDocRef = db.collection("dev")
-            .doc("v2")
+          var classDocRef = db.collection("Class")
+            .doc("v1")
             .collection("Class")
             .doc(currentClassObj[CLASS_ID]);
 
@@ -3113,8 +3052,8 @@
         alert('Error: Update changes failed. Please try again.')
       }else{
 
-        let docRef = db.collection("dev")
-          .doc("v2")
+        let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Lesson")
           .doc(lessonId);
 
@@ -3144,8 +3083,8 @@
           LoadLessonInfo();
 
           // Change Last Update in Class Module
-          var classDocRef = db.collection("dev")
-            .doc("v2")
+          var classDocRef = db.collection("Class")
+            .doc("v1")
             .collection("Class")
             .doc(currentClassObj[CLASS_ID]);
 
@@ -3172,8 +3111,8 @@
     function loadAllStudents(){
       allClassStuDoc = []; // Reinit the array
       // Class_Student Module
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class_Student")
           .where("classId", "==", currentClassObj[CLASS_ID])
           .where("status", "==", true)
@@ -3327,8 +3266,8 @@
         if (id === doc.id) selectedStuModuleDoc = doc;
       });
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class_Student")
           .doc();
       let data = {
@@ -3378,8 +3317,8 @@
     // Add new studentId & parentID as viewer to Class DB
     // Note: Guardian ID is always valid. Sometime, childId is empty.
     function addStudentIdToClassDB(guardianId, childId, childName) {
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc(currentClassObj[CLASS_ID]);
 
@@ -3412,8 +3351,8 @@
 
     // Remove a studentId & parentID as viewer from Class DB
     function delStudentIdFromClassDB(guardianId, studentId, studentName) {
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc(currentClassObj[CLASS_ID]);
 
@@ -3473,8 +3412,8 @@
     function removeStudent(studentClassId, studentName, studentId, guardianId){
 
       // studentClassId is the id of student in Student_Class Module
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class_Student")
           .doc(studentClassId);
 
@@ -3494,8 +3433,8 @@
     function loadAllAdminStudents(){
 
       // STUDENT Module
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .where(STU_ADMIN_ID, "==", currentClassObj[CLASS_ADMIN_ID])
           .where(STU_STATUS_ADMIN, "==", true)
@@ -3608,8 +3547,8 @@
     // Edit the Feedback or approve a new student to Class_Student module in editStudentModal.
     function updateStudent(classStudentDocId, studentId, guardianId, studentName, studentFeedback, studenEnrollmentStatus){
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class_Student")
           .doc(classStudentDocId);
       let data = {};
@@ -3660,8 +3599,8 @@
 
       allTutorModuleDoc = []; // Init All Tutors Doc array
       // STUDENT Module
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .where(TUTOR_ADMIN_ID, "==", ent_id)
           .where(TUTOR_STATUS_ADMIN, "==", TUTOR_STATUS_TYPE_ACTIVE)
@@ -3803,8 +3742,8 @@
       // console.log(tutorName)
       // console.log(tutorPhone)
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc(currentClassObj[CLASS_ID]);
 
@@ -3883,8 +3822,8 @@
 
     // Remove Tutor 2 from Class
     function removeTutor2FromDB(){
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc(currentClassObj[CLASS_ID]);
 
@@ -4324,8 +4263,8 @@
     // Reload the page after edited something
     function reload(){
 
-      var docRef = db.collection("dev")
-        .doc("v2")
+      var docRef = db.collection("Class")
+        .doc("v1")
         .collection("Class")
         .doc(currentClassObj[CLASS_ID]);
 
@@ -5271,8 +5210,8 @@
       {
         // Create Class btn is clicked
         // /Class/v1/Class/ZGeLtRmzIaOPuBkbhHTH
-        var docRef = db.collection("dev")
-          .doc("v2")
+        var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc();
 
@@ -5626,7 +5565,7 @@
               imgUrl_temp = downloadURL;
 
               // Once uploaded, update the new url
-              let docRef = db.collection("dev").doc('v2').collection("Class").doc(currentClassObj[CLASS_ID]);
+              let docRef = db.collection("Class").doc('v2').collection("Class").doc(currentClassObj[CLASS_ID]);
               let docRefWithMerge = docRef.set({
                 [CLASS_IMG_URL]: imgUrl_temp
               }, { merge: true });

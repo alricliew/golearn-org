@@ -658,8 +658,8 @@
 
     // Load the student number
     function loadGeneralNum(){
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Report")
+          .doc("v1")
           .collection("General")
           .where(NUM_ADMIN_ID, "==", ent_id)
 
@@ -733,8 +733,8 @@
       let month = new Date().getMonth();
       // console.log(month);
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Report")
+          .doc("v1")
           .collection("Revenue")
           .where(REV_ADMIN_ID, "==", ent_id)
           .where(REV_TYPE, "==", REV_TYPE_ORG)
@@ -913,8 +913,8 @@
     function reloadStudentNum(){
       $('#loadingModal').modal('show');
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .where(STU_ADMIN_ID, "==", ent_id)
           .where(STU_STATUS_ADMIN, "==", true);
@@ -948,8 +948,8 @@
     function reloadClassNum(){
       $('#loadingModal').modal('show');
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .where(CLASS_ADMIN_ID, "==", ent_id)
           .where(STATUS_KEY, "==", true);
@@ -983,8 +983,8 @@
     function reloadTutorNum(){
       $('#loadingModal').modal('show');
 
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .where(TUTOR_ADMIN_ID, "==", ent_id)
           .where(TUTOR_STATUS_ADMIN, "in", [TUTOR_STATUS_TYPE_ACTIVE, TUTOR_STATUS_TYPE_PASSIVE]);
@@ -1015,8 +1015,8 @@
     // Report: Update Student Number
     function resetNum(value, type){
 
-      let docRef = db.collection("dev")
-        .doc("v2")
+      let docRef = db.collection("Report")
+        .doc("v1")
         .collection("General")
         .where(NUM_ADMIN_ID, "==", ent_id)
         .where(NUM_TYPE, "==", type)
@@ -1029,8 +1029,8 @@
 
         if(querySnapshot.empty) {
           console.log("Empty. create new doc ");
-          let reportDocRef = db.collection("dev")
-            .doc("v2")
+          let reportDocRef = db.collection("Report")
+            .doc("v1")
             .collection("General")
             .doc();
 
@@ -1058,8 +1058,8 @@
 
             console.log(doc.data());
 
-            let reportDocRef = db.collection("dev")
-              .doc("v2")
+            let reportDocRef = db.collection("Report")
+              .doc("v1")
               .collection("General")
               .doc(doc.data()[NUM_ID]);
 

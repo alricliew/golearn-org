@@ -760,8 +760,8 @@
 
     // Tutor Specific
     function loadAllClassInfo(){
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class")
           // .where("adminId", "==", ent_id)
           .where(CLASS_TUTOR_ID_ARR, "array-contains", ent_id)
@@ -1203,8 +1203,8 @@
           [CLASS_EDIT_MSG]: 'New announcement from '+ role_empName, // Update: CLASS_DATE_EDIT + CLASS_EDIT_MSG
         }
         // Set data
-        db.collection("dev")
-          .doc("v2")
+        db.collection("Class")
+          .doc("v1")
           .collection("Class")
           .doc(ID)
           .set(docData, {merge: true})

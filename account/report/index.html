@@ -714,8 +714,8 @@
       let month = new Date().getMonth();
       console.log(month)
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Report")
+          .doc("v1")
           .collection("Revenue")
           .where(REV_ADMIN_ID, "==", ent_id)
           .where(REV_TYPE, "==", REV_TYPE_ORG)
@@ -782,8 +782,8 @@
 
       let startMonth = parseInt(""+fullYear+"00");
       let endMonth = parseInt(""+fullYear+"12");
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Report")
+          .doc("v1")
           .collection("Revenue")
           .where(REV_ADMIN_ID, "==", ent_id)
           .where(REV_TYPE, "==", REV_TYPE_CAT)
@@ -1208,8 +1208,8 @@
 
       let startMonth = parseInt(""+fullYear+"00");
       let endMonth = parseInt(""+fullYear+"12");
-      let docRef = db.collection("dev")
-        .doc("v2")
+      let docRef = db.collection("Report")
+        .doc("v1")
         .collection("Revenue")
         .where(REV_ADMIN_ID, "==", ent_id)
         .where(REV_TYPE, "==", REV_TYPE_ORG)
@@ -1224,8 +1224,8 @@
 
         if(querySnapshot.empty) {
           console.log("Empty. create new doc ");
-          let orgRevDocRef = db.collection("dev")
-            .doc("v2")
+          let orgRevDocRef = db.collection("Report")
+            .doc("v1")
             .collection("Revenue")
             .doc();
 
@@ -1268,8 +1268,8 @@
             // Update org revenue
             querySnapshot.forEach((doc) => {
 
-              let orgRevDocRef = db.collection("dev")
-                .doc("v2")
+              let orgRevDocRef = db.collection("Report")
+                .doc("v1")
                 .collection("Revenue")
                 .doc(doc.data()[REV_ID]);
 
@@ -1342,8 +1342,8 @@
       var batch = db.batch();
 
       orgRevenueIdArr.forEach((id) => {
-        let docRef = db.collection("dev")
-          .doc("v2")
+        let docRef = db.collection("Report")
+          .doc("v1")
           .collection("Revenue")
           .doc(id)
         batch.delete(docRef);
@@ -1363,8 +1363,8 @@
 
       let startMonth = parseInt(""+fullYear+"00");
       let endMonth = parseInt(""+fullYear+"12");
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Report")
+          .doc("v1")
           .collection("Revenue")
           .where(REV_ADMIN_ID, "==", ent_id)
           .where(REV_TYPE, "==", REV_TYPE_TAG)

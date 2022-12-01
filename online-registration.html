@@ -895,8 +895,8 @@
       else{
 
         // Step 1: Check if the Admin exists
-        var docRefAdmin = db.collection("org").doc('v1').collection('org').doc(adminId);
-        var docRefClass = db.collection("dev").doc('v2').collection('Class').doc(classId);
+        var docRefAdmin = db.collection("org").doc("v1").collection("org").doc(adminId);
+        var docRefClass = db.collection("Class").doc("v1").collection("Class").doc(classId);
         var promiseAll = [];
 
         promiseAll.push(docRefAdmin.get());
@@ -1360,8 +1360,8 @@
       console.log('ValidateStudentInStudentDB: ',depId, addStuToClass );
       console.log('currentObj: ', currentObj );
       if (!(currentObj === null)){
-        let docRef = db.collection("dev")
-          .doc("v2")
+        let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .where("depId", "==", currentObj[DEP_ID])
           .where("adminId", "==", adminId)
@@ -1397,8 +1397,8 @@
     // Add New Student to Student Module
     async function AddStudentToStudentDB(dependantId, addStuToClass= false){
       // Tutor Id must be a phone with +60, no spacing or other chars
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Student")
           .doc();
 
@@ -1458,7 +1458,6 @@
       });
 
       // Update student number in Report > v1 > General
-      // updateStudentNum(1);
       await Promise.resolve( updateGeneralReportNum(adminId, NUM_TYPE_STUDENT, 'asc', 1) )
 
 
@@ -1470,8 +1469,8 @@
       // If currentObj is not null, means user selected a dependant. Check if the depId & adminId match
       // currentObj is Session Storage for Dependant list selected.
       if (!(currentObj === null)){
-        let docRef = db.collection("dev")
-          .doc("v2")
+        let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class_Student")
           .where(CLASS_STUDENT_DEPENDENT_ID, "==", currentObj[DEP_ID])
           .where(CLASS_STUDENT_CLASS_ID, "==", classId)
@@ -1500,8 +1499,8 @@
     async function AddStudentToClassDB(depId){
       // depId is passed all the way from create dependant.
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Class_Student")
           .doc();
 
@@ -1590,82 +1589,6 @@
       });
 
     }
-
-    // Report: Update Student Number
-    function updateStudentNum(value){
-
-      let docRef = db.collection("dev")
-        .doc("v2")
-        .collection("General")
-        .where(NUM_ADMIN_ID, "==", adminId)
-        .where(NUM_TYPE, "==", NUM_TYPE_STUDENT)
-        .limit(1);
-
-
-      docRef
-      .get()
-      .then((querySnapshot) => {
-
-        if(querySnapshot.empty) {
-          console.log("Empty. create new doc ");
-          let reportDocRef = db.collection("dev")
-            .doc("v2")
-            .collection("General")
-            .doc();
-
-          reportData ={
-            [NUM_ID]: reportDocRef.id,
-            [NUM_ADMIN_ID]: adminId,
-            [NUM_TYPE]: NUM_TYPE_STUDENT,
-            [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(value),
-            [NUM_DATE_EDIT]: new Date(),
-          }
-
-          console.log(reportData)
-          reportDocRef
-            .set(reportData, { merge: true })
-            .then(() => {
-
-            });
-
-        }
-        else {
-          // console.log("Data found Update: ");
-
-          querySnapshot.forEach((doc) => {
-
-            console.log(doc.data());
-
-            let reportDocRef = db.collection("dev")
-              .doc("v2")
-              .collection("General")
-              .doc(doc.data()[NUM_ID]);
-
-
-            reportData ={
-              // [NUM_ID]: reportDocRef.id,
-              // [NUM_ADMIN_ID]: tutorId,
-              // [NUM_TYPE]: ,
-              [NUM_VALUE]: (value == null || value == "" || value == 0 || isNaN(value)) ? 1 : parseInt(doc.data()[NUM_VALUE]) + parseInt(value),
-              [NUM_DATE_EDIT]: new Date(),
-            }
-
-            console.log(reportData)
-            reportDocRef
-              .set(reportData, { merge: true })
-              .then(() => {
-              });
-
-          });
-
-
-        }
-
-
-      });
-
-    }
-
 
     // Sign out
     function signOutFunction(){

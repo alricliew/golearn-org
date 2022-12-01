@@ -602,8 +602,8 @@
         // window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
       }
       else {
-        let docRef = db.collection("dev")
-          .doc("v2")
+        let docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .doc(tid);
 
@@ -721,9 +721,9 @@
 
     // Update Student Info
     function UpdateTeacherToDB(tid){
-      let docRef = db.collection("dev")
-        .doc('v2')
-        .collection('Tutor')
+      let docRef = db.collection("Class")
+        .doc("v1")
+        .collection("Tutor")
         .doc(tid);
 
       let data = {
@@ -754,8 +754,8 @@
 
     // Delete Teacher
     function DeleteTeacher(tid){
-      var docRef = db.collection("dev")
-          .doc("v2")
+      var docRef = db.collection("Class")
+          .doc("v1")
           .collection("Tutor")
           .doc(tid);
 
@@ -765,78 +765,11 @@
         [TUTOR_STATUS_ADMIN]: TUTOR_STATUS_TYPE_DELETE,
       }
 
-      // ----- Get the Teacher Number doc ----- //
-      // So we can update it the next stage.
-      // let teacherNumReportDocRef = db.collection("dev")
-      //   .doc("v2")
-      //   .collection("General")
-      //   .where(NUM_ADMIN_ID, "==", ent_id)
-      //   .where(NUM_TYPE, "==", NUM_TYPE_TEACHER);
-
       var promiseAll = []
       promiseAll.push(docRef.delete())
-      // promiseAll.push(teacherNumReportDocRef.get())
 
-     Promise.all(promiseAll).then((snapshots) => {
-
-        // var promiseAllLayer2 = []
-        // console.log(snapshots[0])
-        // // console.log(snapshots[0].size)
-        // console.log(snapshots[1])
-        // console.log(snapshots[1].size)
-        // if(snapshots[1].size == 0 ) {
-        //   console.log("Empty teacher number report. Ignore ");
-        //   alert('Empty teacher number report. Ignore. Impossible to reach this state')
-
-        // }
-        // else if (snapshots[1].size > 1) {
-        //   console.log("More than 1 teacher number reports. Report Admin ");
-        //   alert('More than 1 teacher number reports. Report Admin')
-
-        //   snapshots[1].forEach((doc) => {
-        //     // console.log(doc.data());
-        //     let reportDocRef = db.collection("dev")
-        //       .doc("v2")
-        //       .collection("General")
-        //       .doc(doc.data()[NUM_ID]);
-
-        //     let reportData ={
-        //       // [NUM_ID]: reportDocRef.id,
-        //       // [NUM_ADMIN_ID]: ent_id,
-        //       // [NUM_TYPE]: ,
-        //       [NUM_VALUE]: (doc.data()[NUM_VALUE] == null || doc.data()[NUM_VALUE] == "" || doc.data()[NUM_VALUE] == 0 || isNaN(doc.data()[NUM_VALUE])) ? 1 : parseInt(doc.data()[NUM_VALUE]) - 1,
-        //       [NUM_DATE_EDIT]: new Date(),
-        //     }
-        //     console.log(reportData)
-        //     promiseAllLayer2.push( reportDocRef.set(reportData, { merge: true }))
-
-        //   });
-
-        // }
-        // else {
-        //   snapshots[1].forEach((doc) => {
-        //     // console.log(doc.data());
-        //     let reportDocRef = db.collection("dev")
-        //       .doc("v2")
-        //       .collection("General")
-        //       .doc(doc.data()[NUM_ID]);
-
-        //     let reportData ={
-        //       // [NUM_ID]: reportDocRef.id,
-        //       // [NUM_ADMIN_ID]: ent_id,
-        //       // [NUM_TYPE]: ,
-        //       [NUM_VALUE]: (doc.data()[NUM_VALUE] == null || doc.data()[NUM_VALUE] == "" || doc.data()[NUM_VALUE] == 0 || isNaN(doc.data()[NUM_VALUE])) ? 1 : parseInt(doc.data()[NUM_VALUE]) - 1,
-        //       [NUM_DATE_EDIT]: new Date(),
-        //     }
-        //     console.log(reportData)
-        //     promiseAllLayer2.push( reportDocRef.update(reportData))
-
-        //   });
-
-        // }
-
-        // return Promise.all(promiseAllLayer2)
-
+      Promise.all(promiseAll).then((snapshots) => {
+        // Decrement teacher num
         return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_TEACHER, 'desc', 1) )
       })
       .then(() => {

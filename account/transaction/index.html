@@ -465,8 +465,8 @@
     function loadAllTransDoc(){
       let today = new Date(2100, 12, 31);// Set a big date
 
-      let docRef = db.collection("dev")
-          .doc("v2")
+      let docRef = db.collection("Financial")
+          .doc("v1")
           .collection("Transaction")
           .where(TRANS_VIEWER_ARR, "array-contains", ent_id)
           // .where(TRANS_TYPE, "==", TRANS_TYPE_PAY)
