@@ -809,150 +809,172 @@
     const classId = url.searchParams.get("cid");
 
 
+		firebase.auth().onAuthStateChanged(function(user){
+
+      if(!user){
+        // Return to login if user does not exist.
+      }else{
+        // if the displayName is null, it means user register using Phone
+        if (firebase.auth().currentUser.displayName == null ){
+            userId = firebase.auth().currentUser.phoneNumber;
+        }else
+            userId = firebase.auth().currentUser.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
+
+        loadUserInfo(userId);
+
+        loadAllDependantInfo(userId);
+
+        loadAdminAndClass()
+      }
+
+    });
+
     // ?aid=%2B60138252818&cid=asdadadadasad
-    // console.log(adminId, classId);
-    // Check validity of URL params
-    if (adminId === "" || adminId == null){
-      //  Error: Invalid class
-      console.log('Invalid Url params');
-      invalidatePage(
-        "Invalid Registration Link...",
-        "Error 1010. Please contact the class owner to fix this for you."
-      );
-    }
-    // Enrol only
-    else if (classId === "" || classId === null){
 
-      // Step 1: Check if the Admin exists
-      var docRefDate = db.collection("org").doc('v1').collection('org').doc(adminId);
-      docRefDate.get().then((doc) => {
-        if (doc.exists) {
-
-          // Only Register students
-          ent_name = (doc.data()[ORG_ORG_NAME] == null || doc.data()[ORG_ORG_NAME] == "")? "New Tutor" : doc.data()[ORG_ORG_NAME];
-          ent_email = (doc.data()[ORG_ORG_EMAIL]  == null)? "" : doc.data()[ORG_ORG_EMAIL] ;
-          ent_phone= (doc.data()[ORG_ORG_PHONE]  == null)? "" : doc.data()[ORG_ORG_PHONE] ;
-          ent_imgUrl = (doc.data()[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : doc.data()[ORG_ORG_IMG_URL] ;
-          ent_accountStatus = doc.data()[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : doc.data()[ORG_ORG_STATUS];
-          ent_addr= (doc.data()[ORG_ORG_ADDRESS]  == null)? '' : doc.data()[ORG_ORG_ADDRESS];
-          ent_url = doc.data()[ORG_ORG_ADDRESS];
-
-          action = JOIN_AS_STUDENT;
-
-          document.getElementById("classFullName").textContent = ent_name;
-
-          $('#registerWaitModal').modal('hide');
-
-          // If admin is suspended. Invalidate page
-          if (ent_accountStatus == SUSPENDED_ACCOUNT_STATUS_KEY){
-            console.log("Owner is suspended.");
-            invalidatePage(
-              "Class is Not Available",
-              "Error 2100. "+ent_name+"'s account is no longer active.");
-          }
-
-        }
-        else {
-          //  Error: Invalid Tutor/ organization
-          console.log("No such admin Id!");
-          invalidatePage(
-            "Invalid Registration Link...",
-            "Error 2020. Please contact the class owner to fix this for you."
-          );
-        }
-      }).catch((error) => {
-        // Error: Invalid Tutor/ organization
-        console.log("Error getting document:", error);
+    function loadAdminAndClass() {
+      if (adminId === "" || adminId == null){
+        //  Error: Invalid class
+        console.log('Invalid Url params');
         invalidatePage(
           "Invalid Registration Link...",
-          "Error 2010. Please contact the class owner to fix this for you."
+          "Error 1010. Please contact the class owner to fix this for you."
         );
+      }
+      // Enrol only
+      else if (classId === "" || classId === null){
 
-      });
+        // Step 1: Check if the Admin exists
+        var docRefDate = db.collection("org").doc('v1').collection('org').doc(adminId);
+        docRefDate.get().then((doc) => {
+          if (doc.exists) {
 
-    }
-    // Enrol & Join a Class
-    else{
+            // Only Register students
+            ent_name = (doc.data()[ORG_ORG_NAME] == null || doc.data()[ORG_ORG_NAME] == "")? "New Tutor" : doc.data()[ORG_ORG_NAME];
+            ent_email = (doc.data()[ORG_ORG_EMAIL]  == null)? "" : doc.data()[ORG_ORG_EMAIL] ;
+            ent_phone= (doc.data()[ORG_ORG_PHONE]  == null)? "" : doc.data()[ORG_ORG_PHONE] ;
+            ent_imgUrl = (doc.data()[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : doc.data()[ORG_ORG_IMG_URL] ;
+            ent_accountStatus = doc.data()[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : doc.data()[ORG_ORG_STATUS];
+            ent_addr= (doc.data()[ORG_ORG_ADDRESS]  == null)? '' : doc.data()[ORG_ORG_ADDRESS];
+            ent_url = doc.data()[ORG_ORG_ADDRESS];
 
-      // Step 1: Check if the Admin exists
-      var docRefAdmin = db.collection("org").doc('v1').collection('org').doc(adminId);
-      var docRefClass = db.collection("dev").doc('v2').collection('Class').doc(classId);
-      var promiseAll = [];
+            action = JOIN_AS_STUDENT;
 
-      promiseAll.push(docRefAdmin.get());
-      promiseAll.push(docRefClass.get());
+            document.getElementById("classFullName").textContent = ent_name;
 
-      Promise.all(promiseAll)
-      .then((snapshots) => {
+            $('#registerWaitModal').modal('hide');
 
-        if (snapshots[0].exists) {
-          let dataAdmin = snapshots[0].data()
-          ent_name = (dataAdmin[ORG_ORG_NAME] == null || dataAdmin[ORG_ORG_NAME] == "")? "New Tutor" : dataAdmin[ORG_ORG_NAME];
-          ent_email = (dataAdmin[ORG_ORG_EMAIL]  == null)? "" : dataAdmin[ORG_ORG_EMAIL] ;
-          ent_phone= (dataAdmin[ORG_ORG_PHONE]  == null)? "" : dataAdmin[ORG_ORG_PHONE] ;
-          ent_imgUrl = (dataAdmin[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : dataAdmin[ORG_ORG_IMG_URL] ;
-          ent_accountStatus = dataAdmin[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : dataAdmin[ORG_ORG_STATUS];
-          ent_addr= (dataAdmin[ORG_ORG_ADDRESS]  == null)? '' : dataAdmin[ORG_ORG_ADDRESS];
-          ent_url = dataAdmin[ORG_ORG_ADDRESS];
+            // If admin is suspended. Invalidate page
+            if (ent_accountStatus == SUSPENDED_ACCOUNT_STATUS_KEY){
+              console.log("Owner is suspended.");
+              invalidatePage(
+                "Class is Not Available",
+                "Error 2100. "+ent_name+"'s account is no longer active.");
+            }
 
-          // If admin is suspended. Invalidate page
-          if (ent_accountStatus == SUSPENDED_ACCOUNT_STATUS_KEY){
-            console.log("Owner is suspended.");
-            invalidatePage(
-              "Class is Not Available",
-              "Error 3100. "+ent_name+"'s account is no longer active.");
           }
-
-        }
-        else {
-          //  Error: Invalid Tutor/ organization
-          console.log("No such admin Id!");
-          invalidatePage(
+          else {
+            //  Error: Invalid Tutor/ organization
+            console.log("No such admin Id!");
+            invalidatePage(
               "Invalid Registration Link...",
-              "Error 3020. Please retry using the correct link."
-          );
-        }
-
-        // Step 2: Check if the class exists
-        if (snapshots[1].exists) {
-          // Register students and join class.
-          action = JOIN_AS_STUDENT_AND_CLASS;
-
-          document.getElementById("classFullName").textContent = snapshots[1].data()[CLASS_NAME];
-
-          $('#registerWaitModal').modal('hide');
-
-          if(snapshots[1].data()[CLASS_STATUS] === CLASS_STATUS_INACTIVE){
-            invalidatePage(
-              "Class is Not Available",
-              "Error 3220. "+snapshots[1].data()[CLASS_NAME]+" is no longer accepting new students");
+              "Error 2020. Please contact the class owner to fix this for you."
+            );
           }
-
-
-        }
-        else{
-
+        }).catch((error) => {
           // Error: Invalid Tutor/ organization
-          console.log("Admin found, but no such class Id!");
-          action = JOIN_AS_STUDENT;
-          func.showNotification('top','center', 'warning', 'error_outline', "Warning: The class that you are trying to join is currently not available. However, you may still proceed with registration." );
-
-          document.getElementById("classFullName").textContent = "Invalid class. Continue to enroll as student: "+ent_name;
-
-          $('#registerWaitModal').modal('hide');
-        }
-
-      })
-      .catch((error) => {
-        // Error: Error getting doc
-
-        console.log("Error getting document:", error);
-        invalidatePage(
-              "Invalid Registration Link...",
-              "Error 3010. Please contact the class owner to fix this for you."
+          console.log("Error getting document:", error);
+          invalidatePage(
+            "Invalid Registration Link...",
+            "Error 2010. Please contact the class owner to fix this for you."
           );
 
-      });
+        });
+
+      }
+      // Enrol & Join a Class
+      else{
+
+        // Step 1: Check if the Admin exists
+        var docRefAdmin = db.collection("org").doc('v1').collection('org').doc(adminId);
+        var docRefClass = db.collection("dev").doc('v2').collection('Class').doc(classId);
+        var promiseAll = [];
+
+        promiseAll.push(docRefAdmin.get());
+        promiseAll.push(docRefClass.get());
+
+        Promise.all(promiseAll)
+        .then((snapshots) => {
+
+          if (snapshots[0].exists) {
+            let dataAdmin = snapshots[0].data()
+            ent_name = (dataAdmin[ORG_ORG_NAME] == null || dataAdmin[ORG_ORG_NAME] == "")? "New Tutor" : dataAdmin[ORG_ORG_NAME];
+            ent_email = (dataAdmin[ORG_ORG_EMAIL]  == null)? "" : dataAdmin[ORG_ORG_EMAIL] ;
+            ent_phone= (dataAdmin[ORG_ORG_PHONE]  == null)? "" : dataAdmin[ORG_ORG_PHONE] ;
+            ent_imgUrl = (dataAdmin[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : dataAdmin[ORG_ORG_IMG_URL] ;
+            ent_accountStatus = dataAdmin[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : dataAdmin[ORG_ORG_STATUS];
+            ent_addr= (dataAdmin[ORG_ORG_ADDRESS]  == null)? '' : dataAdmin[ORG_ORG_ADDRESS];
+            ent_url = dataAdmin[ORG_ORG_ADDRESS];
+
+            // If admin is suspended. Invalidate page
+            if (ent_accountStatus == SUSPENDED_ACCOUNT_STATUS_KEY){
+              console.log("Owner is suspended.");
+              invalidatePage(
+                "Class is Not Available",
+                "Error 3100. "+ent_name+"'s account is no longer active.");
+            }
+
+          }
+          else {
+            //  Error: Invalid Tutor/ organization
+            console.log("No such admin Id!");
+            invalidatePage(
+                "Invalid Registration Link...",
+                "Error 3020. Please retry using the correct link."
+            );
+          }
+
+          // Step 2: Check if the class exists
+          if (snapshots[1].exists) {
+            // Register students and join class.
+            action = JOIN_AS_STUDENT_AND_CLASS;
+
+            document.getElementById("classFullName").textContent = snapshots[1].data()[CLASS_NAME];
+
+            $('#registerWaitModal').modal('hide');
+
+            if(snapshots[1].data()[CLASS_STATUS] === CLASS_STATUS_INACTIVE){
+              invalidatePage(
+                "Class is Not Available",
+                "Error 3220. "+snapshots[1].data()[CLASS_NAME]+" is no longer accepting new students");
+            }
+
+
+          }
+          else{
+
+            // Error: Invalid Tutor/ organization
+            console.log("Admin found, but no such class Id!");
+            action = JOIN_AS_STUDENT;
+            func.showNotification('top','center', 'warning', 'error_outline', "Warning: The class that you are trying to join is currently not available. However, you may still proceed with registration." );
+
+            document.getElementById("classFullName").textContent = "Invalid class. Continue to enroll as student: "+ent_name;
+
+            $('#registerWaitModal').modal('hide');
+          }
+
+        })
+        .catch((error) => {
+          // Error: Error getting doc
+
+          console.log("Error getting document:", error);
+          invalidatePage(
+                "Invalid Registration Link...",
+                "Error 3010. Please contact the class owner to fix this for you."
+            );
+
+        });
+
+      }
 
     }
 
@@ -983,25 +1005,6 @@
       invalid_screen.setAttribute('style', 'display: inline; padding-left: 0; padding-right: 0;');
       // func.showNotification('top','center', 'danger', 'error_outline', "Congratulation! Your registration is completed." );
     }
-
-		firebase.auth().onAuthStateChanged(function(user){
-
-			if(!user){
-        // Return to login if user does not exist.
-
-				// window.location.href = "login.html"
-			}else{
-        // if the displayName is null, it means user register using Phone
-        if (firebase.auth().currentUser.displayName == null ){
-            userId = firebase.auth().currentUser.phoneNumber;
-        }else
-            userId = firebase.auth().currentUser.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
-
-        loadUserInfo(userId);
-        loadAllDependantInfo(userId);
-
-			}
-		});
 
     // Tutor Specific
     function loadUserInfo(userId){

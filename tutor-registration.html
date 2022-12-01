@@ -601,56 +601,79 @@
     var url = new URL(url_string);
     ent_id = url.searchParams.get("aid"); // Entity Id
 
+
+    // For Tutor's Authentification
+		firebase.auth().onAuthStateChanged(function(user){
+
+      if(!user){
+        // Return to login if user does not exist.
+        console.log("User not logged in. Wait user login.")
+
+      }else{
+        // if the displayName is null, it means user register using Phone
+        if (firebase.auth().currentUser.displayName == null ){
+            tutorId = firebase.auth().currentUser.phoneNumber;
+        }else
+            tutorId = firebase.auth().currentUser.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
+
+        loadUserInfo(tutorId);
+
+        loadEntity()
+      }
+    });
+
     // http://127.0.0.1:8080/tutor-portal/tutor-registration.html?aid=%2B60138252818
     // ?aid=%2B60138252818
-    // console.log(ent_id);
-    // Check validity of URL params
-    if (ent_id === "" || ent_id == null){
-      // console.log('Invalid Url params');
-      invalidatePage(
-        "Invalid Registration Link...",
-        "Error 1010. Please contact the owner to fix this for you."
-      );
-    }
-    else{
+    function loadEntity() {
 
-      // Step 1: Check if the Entity exists
-      let docRefAdmin = db.collection("org").doc("v1").collection("org").doc(ent_id);
+      if (ent_id === "" || ent_id == null){
+        // console.log('Invalid Url params');
+        invalidatePage(
+          "Invalid Registration Link...",
+          "Error 1010. Please contact the owner to fix this for you."
+        );
+      }
+      else{
 
-      docRefAdmin.get().then((doc) => {
-        if (doc.exists) {
+        // Step 1: Check if the Entity exists
+        let docRefAdmin = db.collection("org").doc("v1").collection("org").doc(ent_id);
 
-          ent_name = (doc.data()[ORG_ORG_NAME] == null || doc.data()[ORG_ORG_NAME] == "")? "New Tutor" : doc.data()[ORG_ORG_NAME];
-          ent_email = (doc.data()[ORG_ORG_EMAIL]  == null)? "" : doc.data()[ORG_ORG_EMAIL] ;
-          ent_phone= (doc.data()[ORG_ORG_PHONE]  == null)? "" : doc.data()[ORG_ORG_PHONE] ;
-          ent_imgUrl = (doc.data()[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : doc.data()[ORG_ORG_IMG_URL] ;
-          ent_accountStatus = doc.data()[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : doc.data()[ORG_ORG_STATUS];
-          ent_addr= (doc.data()[ORG_ORG_ADDRESS]  == null)? '' : doc.data()[ORG_ORG_ADDRESS];
-          ent_url = doc.data()[ORG_ORG_ADDRESS];
+        docRefAdmin.get().then((doc) => {
+          if (doc.exists) {
 
-          loadEntityInfo(ent_id)
+            ent_name = (doc.data()[ORG_ORG_NAME] == null || doc.data()[ORG_ORG_NAME] == "")? "New Tutor" : doc.data()[ORG_ORG_NAME];
+            ent_email = (doc.data()[ORG_ORG_EMAIL]  == null)? "" : doc.data()[ORG_ORG_EMAIL] ;
+            ent_phone= (doc.data()[ORG_ORG_PHONE]  == null)? "" : doc.data()[ORG_ORG_PHONE] ;
+            ent_imgUrl = (doc.data()[ORG_ORG_IMG_URL]  == null)? "https://org.golearn.com.my/assets/img/hello.gif" : doc.data()[ORG_ORG_IMG_URL] ;
+            ent_accountStatus = doc.data()[ORG_ORG_STATUS]  == "" ? DEACTIVATED_ACCOUNT_STATUS_KEY : doc.data()[ORG_ORG_STATUS];
+            ent_addr= (doc.data()[ORG_ORG_ADDRESS]  == null)? '' : doc.data()[ORG_ORG_ADDRESS];
+            ent_url = doc.data()[ORG_ORG_ADDRESS];
 
-          document.getElementById("adminName").textContent = ent_name;
+            loadEntityInfo(ent_id)
 
-        }
-        else {
-          // console.log("No such admin Id!");
+            document.getElementById("adminName").textContent = ent_name;
+
+          }
+          else {
+            // console.log("No such admin Id!");
+            invalidatePage(
+              "Unable to Proceed with Registration",
+              "Error 2020. Error loading organization profile."
+            );
+          }
+        })
+        .catch((error) => {
+          // Error: Invalid Tutor/ organization
+          console.log("Error getting document:", error);
           invalidatePage(
             "Unable to Proceed with Registration",
-            "Error 2020. Error loading your tutor profile."
+            "Error 2010. Error loading organization profile."
           );
-        }
-      })
-      .catch((error) => {
-        // Error: Invalid Tutor/ organization
-        console.log("Error getting document:", error);
-        invalidatePage(
-          "Unable to Proceed with Registration",
-          "Error 2010. Error loading your tutor profile."
-        );
 
-      });
+        });
+      }
     }
+
 
     function invalidatePage(title, desc){
       let multisteps = document.getElementById("multisteps-form");
@@ -753,26 +776,6 @@
       });
 
     };
-
-    // For Tutor's Authentification
-		firebase.auth().onAuthStateChanged(function(user){
-
-			if(!user){
-        // Return to login if user does not exist.
-
-        console.log("User not logged in. Wait user login.")
-				// window.location.href = "login.html"
-			}else{
-        // if the displayName is null, it means user register using Phone
-        if (firebase.auth().currentUser.displayName == null ){
-            tutorId = firebase.auth().currentUser.phoneNumber;
-        }else
-            tutorId = firebase.auth().currentUser.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
-
-        loadUserInfo(tutorId);
-
-			}
-		});
 
 
     // Tutor Specific
