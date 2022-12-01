@@ -275,6 +275,8 @@
     // Check if an org user exist in org>v1>user>[uid]. If not, run first time login to create org user.
     // Check if an user exist in Tutor>[tutorId].
     function checkIfUserExist(uid, tutorId){
+      let promiseAll = [];
+
       let orgDocRef =
         db.collection("org")
           .doc('v1')
@@ -282,32 +284,60 @@
           .doc(uid)
           .get();
 
-      let tutorDocRef = db.collection("Tutor").doc(tutorId).get();
-
-      let promiseAll = [];
       promiseAll.push(orgDocRef);
-      // promiseAll.push(tutorDocRef);
+      // Check organzation entity belongs to the Org User
+      let orgEntityDocRef =
+          db.collection("org")
+            .doc('v1')
+            .collection('org')
+            .where(ORG_ORG_OID, '==', uid)
+            .where(ORG_ORG_TYPE, '==', ORG_TYPE_ORG)
+            .get();
+      promiseAll.push(orgEntityDocRef)
+
+      // Check the owner role exists
+      let roleOwnerDocRef =
+          db.collection("org")
+            .doc('v1')
+            .collection('role')
+            .where(ORG_ROLE_UID, '==', uid)
+            .where(ORG_ROLE_TYPE, '==', ORG_TYPE_ORG)
+            .where(ORG_ROLE_EMP_ROLE, '==', 'owner')
+            .get();
+      promiseAll.push(roleOwnerDocRef)
 
       Promise.all(promiseAll).then((snapshots) => {
         // Handle org user
         if (snapshots != null && snapshots[0].exists ){
+
+          let orgEntityDocNum = snapshots[1].size;
+          let orgOwnerRoleDocNum = snapshots[2].size;
+          console.log('number of org entity: ', orgEntityDocNum)
+          console.log('number of owner role doc: ', orgOwnerRoleDocNum)
+
+          // Org Entity & Owner role exist, skip
+          if (orgEntityDocNum == 1 && orgOwnerRoleDocNum == 1){
+            console.log('Org User found. Org Entity and owner Role exist. Redirect to home page')
+            // accountStatus available & reaching premium2/3.
+            window.location.href = "../"
+          }
+
+          else{
+            console.log('Org User found. But Org Entity and owner Role do not exist.')
+
+            // Wait for login
+          }
+
+
+
           // Login
           // window.location.href = "http://org.golearn.com.my/"
-          console.log('Org User found. Redirect to home page')
-          window.location.href = "../"
+          // console.log('Org User found. Redirect to home page')
+          // window.location.href = "../"
         }
         else {
           console.log('No Org User found. Waiting user to login to create Org User')
         }
-
-        // // Handle tutor
-        // if (snapshots != null && snapshots[1].exists){
-        //   // Save to sessionStorage
-        //   console.log('Tutor found. Acc Status: '+ snapshots[1].data()[ACCOUNT_STATUS_KEY])
-        //   // storeTutorSession(snapshots[1].data())
-        // }else {
-        //   console.log('No Tutor found.')
-        // }
 
       })
 
@@ -610,12 +640,14 @@
           else if (orgEntityDocNum == 0 && orgOwnerRoleDocNum == 0){
 
 
-            console.log('Org User found. Org Entity and owner Role do not exist. Create new.')
+            console.log('Org User found. But Org Entity and owner Role do not exist. Create new.')
 
             if (snapshots[0].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_2_STATUS_KEY ||
               snapshots[0].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY ||
               snapshots[0].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_3_STATUS_KEY ||
               snapshots[0].data()[ACCOUNT_STATUS_KEY] === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY){
+
+              console.log('Creating org entity and owner role')
 
               let newOrgDocRef =
                 db.collection("org")
@@ -751,9 +783,11 @@
           else{
             console.log('Org User found. System Error')
             alert('We detected something is wrong with your account! Please notice us to fix your issue and preserve your data.')
+
+            return null;
+
           }
 
-          return null;
         }
         // Org User does not exist, Create one
         else {

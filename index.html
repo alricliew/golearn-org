@@ -30,12 +30,13 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="./assets/css/material-kit.css?v=3.0.4" rel="stylesheet" />
+
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
   <script src="./assets/js/firebase.js"></script>
   <!--GL Org CSS -->
-  <link href="../../assets/css/golearn-org.css" rel="stylesheet" />
+  <link href="./assets/css/golearn-org.css" rel="stylesheet" />
 </head>
 
 <body class="index-page bg-gray-200">
@@ -88,7 +89,7 @@
                 <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
                   Account
                 </h6>
-                <a href="../profile/" class="dropdown-item border-radius-md">
+                <a href="./profile/" class="dropdown-item border-radius-md">
                   <span>My Profile</span>
                 </a>
                 <a href="javascript:;" class="dropdown-item border-radius-md" data-bs-toggle="modal" data-bs-target="#signOutModal" onclick="signOutFunction()">
@@ -111,7 +112,7 @@
                 <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
                   Account
                 </h6>
-                <a href="../profile/" class="dropdown-item border-radius-md">
+                <a href="./profile/" class="dropdown-item border-radius-md">
                   <span>My Profile</span>
                 </a>
                 <a href="javascript:;" class="dropdown-item border-radius-md" data-bs-toggle="modal" data-bs-target="#signOutModal" onclick="signOutFunction()">
@@ -233,7 +234,6 @@
       </div>
     </div>
   </div>
-
 
   <!-- Sign-out modal -->
   <div class="row">
@@ -363,9 +363,9 @@
   <script src="./assets/js/core/jquery.min.js"></script>
   <script src="./assets2/js/core/popper.min.js" type="text/javascript"></script>
   <script src="./assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+  <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!-- Control Center for Material UI Kit: parallax effects, scripts for the example pages etc -->
   <script src="./assets/js/material-kit.min.js?v=3.0.4" type="text/javascript"></script>
-  <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
 
   <!-- Notifications Plugin -->
   <script src="./assets/js/plugins/bootstrap-notify.js"></script>
@@ -558,8 +558,7 @@
             [ORG_EMP_TAX_NO]  : "",
             [ORG_EMP_ADMIN_STATUS]: ORG_ADMIN_STATUS_ACTIVE,
           }
-          console.log(newEmployeeData)
-
+          // console.log(newEmployeeData)
           promiseArrayLayer1.push(empOwnerDocRef.set(newEmployeeData))
 
           let orgNewRoleDocRef =
@@ -593,8 +592,7 @@
             [ORG_ROLE_ADMIN_STATUS]: ORG_ADMIN_STATUS_ACTIVE,
           }
           promiseArrayLayer1.push(orgNewRoleDocRef.set(newRoleData))
-          console.log(newRoleData)
-
+          // console.log(newRoleData)
 
           // TODO: Push acc id to Org User doc & Org Entity doc
           let orgUserDocRef =
@@ -649,7 +647,8 @@
         // Init the page again
 
         // loadPageInitFunc()
-        // window.reload()
+        window.location.reload();
+
       });
 
 
@@ -657,6 +656,11 @@
     }
 
     function loadAllRoles() {
+      var allRole = document.getElementById("allRole")
+      while (allRole.children.length > 1) {
+        allRole.removeChild(allRole.lastChild);
+      }
+
       // Check the owner role exists
       let roleOwnerDocRef =
         db.collection("org")
@@ -675,11 +679,8 @@
           document.getElementById('noRole').classList.remove('hidden')
         }
         snapshots.forEach((doc) => {
-          console.log(doc.data())
-
-
+          // console.log(doc.data())
           let data = doc.data();
-
           // Limitations
           if (data[ORG_ROLE_TYPE] === ORG_TYPE_ACC){
             renderRole(data);
@@ -689,6 +690,7 @@
 
         })
 
+        console.log(org_accountStatus)
         if ( accountNum < 1 && (org_accountStatus === PREMIUM_ACCOUNT_2_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY)){
           console.log('premium2')
           document.getElementById('btnAddAccount').classList.remove('hidden')
@@ -804,7 +806,7 @@
         var allDataObj = [];
 
         snapshots.forEach((doc) => {
-          console.log(doc.data())
+          // console.log(doc.data())
 
           renderNewRole(doc.data());
 

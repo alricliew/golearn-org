@@ -77,6 +77,14 @@ async function loadOrgUserInfoObj(uid){
       console.log("Stored uid in sessionStorage: " + org_current_uid + " is not equal to latest uid: " + uid)
       firebase.auth().signOut();
     }
+
+    // Check if existing user (premium2&3) that do not have organization due to previously a normal user.
+    if (org_orgId == "" && (org_accountStatus === PREMIUM_ACCOUNT_2_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY ||
+      org_accountStatus === PREMIUM_ACCOUNT_3_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY)){
+      console.log("Existing premium 2 & 3 user that do not have organization created")
+      firebase.auth().signOut();
+    }
+
     // console.log(org_lastOnline)
     // let secondLastOnline = org_lastOnline.seconds;
     // let secondCurrent = new Date().getTime() / 1000;
@@ -104,7 +112,6 @@ async function loadOrgUserInfoObj(uid){
         console.log("SESSION_STORAGE_PROFILE_ORG_USER exits, org_lastOnline: "+hoursEllapsed+", reload false")
         // Update the general view
         updateOrgUserView();
-
 
         // Load org when necessary
         var pathArray = window.location.pathname.split('/');
