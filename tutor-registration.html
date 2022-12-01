@@ -779,12 +779,12 @@
 
 
     // Tutor Specific
-    function loadUserInfo(tutor_id){
+    async function loadUserInfo(tutor_id){
       // Tutor Id must be a phone with +60, no spacing or other chars
       var docRef = db.collection("Tutor").doc(tutor_id);
 
 
-      docRef.get().then((doc) => {
+      var loadUser = docRef.get().then((doc) => {
 
         if (doc.exists) {
           // console.log("Document data:", doc.data());
@@ -844,13 +844,15 @@
 
 
         }
-        else {
-          invalidatePage(
-            "User Not Found",
-            "Error 1020. Please refresh this page and repeat the steps again."
-          );
-        }
+        // else {
+        //   invalidatePage(
+        //     "User Not Found",
+        //     "Error 1020. Please refresh this page and repeat the steps again."
+        //   );
+        // }
       });
+
+      await loadUser;
 
     };
 
@@ -1695,7 +1697,10 @@
     function codeverify() {
 
         let code=document.getElementById('verificationCode').value;
-        coderesult.confirm(code).then(function (result) {
+        coderesult.confirm(code)
+
+        // Layer 1: Get tutor
+        .then(function (result) {
           // alert("Successfully registered");
           let user=result.user;
 
@@ -1710,118 +1715,143 @@
 
           const tutorRef = db.collection('Tutor').doc(tutorId);
 
-          tutorRef.get()
-            .then((docSnapshot) => {
+          return Promise.resolve(tutorRef.get())
+        })
+        // Layer 2: If tutor not found, create a new one
+        .then((docSnapshot) => {
 
-              if (docSnapshot.exists) {
-                // User exist. Move to Step 1.
-                setActiveStep(1);
-                setActivePanel(1);
+          var promiseAll = []
 
-                loadUserInfo(tutorId);
+          if (docSnapshot.exists) {
+            // User exist. Move to Step 1.
+            // setActiveStep(1);
+            // setActivePanel(1);
 
-              }else {
-                // User does not exist. Register a new user.
-                var docData = {
-                  [TOKEN_KEY]: null,    //main
-                  [NAME_KEY] : 'New Tutor',    //main
-                  [EMAIL_KEY]  : "", //main
-                  [PHONE_KEY]  : itiPhone.getNumber(), //main
-                  [AGE_KEY]  : 18,
-                  [GENDER_KEY]  : 1, // Female
-                  [ADDRESS_1_KEY]  : "",
-                  [ADDRESS_2_KEY]  : "",
-                  [ADDRESS_POSTCODE_KEY]  : "",
-                  [ADDRESS_STATE_KEY]  : "",
-                  [IMAGE_KEY]  : "",
-                  [NRIC_KEY]  : "",
-                  [RATING_KEY]  : 0,
-                  [RATING_TIMES_KEY]  : 0,
-                  [RATING_FINAL_KEY]  : 0,
-                  [PROFILE_STATUS_KEY]  : [false, false, false, false], // (identity, phone, qualification, location)
-                  [CHECK_HOMETUTOR_KEY]  : false,  // Depreciated
-                  [CHECK_PRIVATETUTOR_KEY]  : false, // Depreciated
-                  [CHECK_GROUPTUTOR_KEY]  : false, // Depreciated
-                  [CHECK_ONLINETUTOR_KEY]  : false, // Depreciated
-                  [YEARS_EXPERIENCE_KEY]  : null,
-                  [TUTORING_EXPERIENCE_KEY]  : "",
-                  [TUTORING_APPROACH_KEY]  : "",
-                  [QUALIFICATION_KEY]  : "",
-                  [PREFERED_AREA_LIST_KEY]  : null,
-                  [PREFERED_SUBJECT_LIST_KEY]  : null,
-                  [AGENT_KEY]  : false,
-                  [ACCOUNT_STATUS_KEY]  : DEACTIVATED_ACCOUNT_STATUS_KEY,
-                  [CHECK_HOME_TUTOR_TO_STUDENT_KEY]  : false,
-                  [CHECK_HOME_STUDENT_TO_TUTOR_KEY]  : false,
-                  [CHECK_GROUP_KEY]  : false,
-                  [CHECK_ONLINE_KEY]  : false,
-                  [CHECK_ONLINE_GROUP_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_ENGLISH_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_BM_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_BC_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_BT_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_OTHER_KEY]  : false,
-                  [TUTOR_TIME_SLOT_MON_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_MON_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_MON_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_MON_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_TUE_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_TUE_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_TUE_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_TUE_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_WED_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_WED_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_WED_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_WED_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_THU_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_THU_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_THU_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_THU_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_FRI_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_FRI_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_FRI_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_FRI_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SAT_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SAT_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SAT_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SAT_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SUN_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SUN_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SUN_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SUN_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  // Create a placeholder for aWebUrl. This param can only initiated by admin
-                  // manually through https://golearn.com.my/admin/
-                  [ADMIN_WEB_URL_KEY]  : "",
-                  [ADMIN_PREMIUM_SUBJECT_LIMIT_KEY]  : 10,
-                  [ADMIN_PREMIUM_CONNECT_LIMIT_KEY]  : 0,
-                  [ADMIN_TOTAL_SUBJECT_LIMIT_KEY]  : 40,
-                  [ADMIN_TOTAL_CONNECT_LIMIT_KEY]  : 0,
-                  [ADMIN_PREFFERED_AREA_LIMIT_KEY]  : 5,
-                  [ADMIN_PREFERRED_SUBJECT_LIMIT_KEY]  : 40,
-                  [SYSTEM_LAST_ONLINE_KEY]  : firebase.firestore.Timestamp.fromDate(new Date())
-                }
+            // promiseAll.push( loadUserInfo(tutorId))
+            // loadUserInfo(tutorId);
 
-                db.collection("Tutor").doc(tutorId)
-                  .set(docData, {merge: true})
-                  .then(() => {
-                    // User exist. Move to Step 1.
-                    setActiveStep(1);
-                    setActivePanel(1);
+          }else {
+            // User does not exist. Register a new user.
+            var docData = {
+              [TOKEN_KEY]: null,    //main
+              [NAME_KEY] : 'New Tutor',    //main
+              [EMAIL_KEY]  : "", //main
+              [PHONE_KEY]  : itiPhone.getNumber(), //main
+              [AGE_KEY]  : 18,
+              [GENDER_KEY]  : 1, // Female
+              [ADDRESS_1_KEY]  : "",
+              [ADDRESS_2_KEY]  : "",
+              [ADDRESS_POSTCODE_KEY]  : "",
+              [ADDRESS_STATE_KEY]  : "",
+              [IMAGE_KEY]  : "",
+              [NRIC_KEY]  : "",
+              [RATING_KEY]  : 0,
+              [RATING_TIMES_KEY]  : 0,
+              [RATING_FINAL_KEY]  : 0,
+              [PROFILE_STATUS_KEY]  : [false, false, false, false], // (identity, phone, qualification, location)
+              [CHECK_HOMETUTOR_KEY]  : false,  // Depreciated
+              [CHECK_PRIVATETUTOR_KEY]  : false, // Depreciated
+              [CHECK_GROUPTUTOR_KEY]  : false, // Depreciated
+              [CHECK_ONLINETUTOR_KEY]  : false, // Depreciated
+              [YEARS_EXPERIENCE_KEY]  : null,
+              [TUTORING_EXPERIENCE_KEY]  : "",
+              [TUTORING_APPROACH_KEY]  : "",
+              [QUALIFICATION_KEY]  : "",
+              [PREFERED_AREA_LIST_KEY]  : null,
+              [PREFERED_SUBJECT_LIST_KEY]  : null,
+              [AGENT_KEY]  : false,
+              [ACCOUNT_STATUS_KEY]  : DEACTIVATED_ACCOUNT_STATUS_KEY,
+              [CHECK_HOME_TUTOR_TO_STUDENT_KEY]  : false,
+              [CHECK_HOME_STUDENT_TO_TUTOR_KEY]  : false,
+              [CHECK_GROUP_KEY]  : false,
+              [CHECK_ONLINE_KEY]  : false,
+              [CHECK_ONLINE_GROUP_KEY]  : false,
+              [CHECK_TEACHING_LANGUAGE_ENGLISH_KEY]  : false,
+              [CHECK_TEACHING_LANGUAGE_BM_KEY]  : false,
+              [CHECK_TEACHING_LANGUAGE_BC_KEY]  : false,
+              [CHECK_TEACHING_LANGUAGE_BT_KEY]  : false,
+              [CHECK_TEACHING_LANGUAGE_OTHER_KEY]  : false,
+              [TUTOR_TIME_SLOT_MON_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_MON_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_MON_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_MON_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_TUE_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_TUE_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_TUE_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_TUE_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_WED_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_WED_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_WED_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_WED_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_THU_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_THU_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_THU_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_THU_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_FRI_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_FRI_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_FRI_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_FRI_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_SAT_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_SAT_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_SAT_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_SAT_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_SUN_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_SUN_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_SUN_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              [TUTOR_TIME_SLOT_SUN_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
+              // Create a placeholder for aWebUrl. This param can only initiated by admin
+              // manually through https://golearn.com.my/admin/
+              [ADMIN_WEB_URL_KEY]  : "",
+              [ADMIN_PREMIUM_SUBJECT_LIMIT_KEY]  : 10,
+              [ADMIN_PREMIUM_CONNECT_LIMIT_KEY]  : 0,
+              [ADMIN_TOTAL_SUBJECT_LIMIT_KEY]  : 40,
+              [ADMIN_TOTAL_CONNECT_LIMIT_KEY]  : 0,
+              [ADMIN_PREFFERED_AREA_LIMIT_KEY]  : 5,
+              [ADMIN_PREFERRED_SUBJECT_LIMIT_KEY]  : 40,
+              [SYSTEM_LAST_ONLINE_KEY]  : firebase.firestore.Timestamp.fromDate(new Date())
+            }
 
-                    console.log("Profile created. Reloading")
-                    loadUserInfo(tutorId);
+            var newTutorDocRef = db.collection("Tutor").doc(tutorId)
+              .set(docData, {merge: true})
 
-                  })
-                  .catch((error) => {
-                    func.showNotification('top','center', 'danger', 'error_outline', "Registration failed. Please try again" );
-                    // console.error("Error writing document: ", error);
-                  });
+              // .then(() => {
+              //   // User exist. Move to Step 1.
+              //   setActiveStep(1);
+              //   setActivePanel(1);
 
-                console.log("USer does not exist! Create a new one: "+ tutorId );
-                // alert("USer does not exist! Create a new one: "+ tutorId );
+              //   console.log("Profile created. Reloading")
+              //   loadUserInfo(tutorId);
 
-              }
-          });
+              // })
+              // .catch((error) => {
+              //   func.showNotification('top','center', 'danger', 'error_outline', "Registration failed. Please try again" );
+              //   // console.error("Error writing document: ", error);
+              // });
+
+
+            promiseAll.push( newTutorDocRef)
+
+            console.log("USer does not exist! Create a new one: "+ tutorId );
+            // alert("USer does not exist! Create a new one: "+ tutorId );
+
+          }
+
+
+          return Promise.all(promiseAll)
+
+        })
+        // Layer 3: Done, load the user info
+        .then(() => {
+
+
+          return Promise.resolve( loadUserInfo(tutorId) )
+
+        })
+        // Layer 4: Done, l
+        .then(() => {
+          // Move to Step 1.
+          setActiveStep(1);
+          setActivePanel(1);
 
         })
         .catch(function (error) {

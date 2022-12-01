@@ -690,19 +690,15 @@
 
         })
 
-        console.log(org_accountStatus)
+        // console.log(org_accountStatus)
         if ( accountNum < 1 && (org_accountStatus === PREMIUM_ACCOUNT_2_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY)){
-          console.log('premium2')
           document.getElementById('btnAddAccount').classList.remove('hidden')
         }
         else if (accountNum <= 10 && (org_accountStatus === PREMIUM_ACCOUNT_3_STATUS_KEY || org_accountStatus === PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY)) {
-          console.log('premium3')
-
           document.getElementById('btnAddAccount').classList.remove('hidden')
         }
-
         else {
-          console.log(' Unable to add new acc')
+          console.log('Unable to add new acc')
         }
 
       })

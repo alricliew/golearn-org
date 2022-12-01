@@ -1007,12 +1007,11 @@
     }
 
     // Tutor Specific
-    function loadUserInfo(userId){
-      // Tutor Id must be a phone with +60, no spacing or other chars
-      var docRef = db.collection("Users").doc(userId);
+    async function loadUserInfo(userId){
 
-
-      docRef.get().then((doc) => {
+      var docRef = db.collection("Users").doc(userId)
+      .get()
+      .then((doc) => {
       // docRef.onSnapshot((doc) => {
 
         if (doc.exists) {
@@ -1043,6 +1042,8 @@
           //  Error: Invalid user
         }
       });
+
+      await docRef;
 
     };
 
@@ -2035,14 +2036,12 @@
             // User create a new dependant to join
 
             AddDependantToDB(false);
-            // ValidateStudentInStudentDB()
 
           }
           else if (action === JOIN_AS_STUDENT_CLASS_AND_ADD_DEPENDANT){
             // User create a new dependant to join. Add student to class.
 
             AddDependantToDB(true);
-            // ValidateStudentInStudentDB()
             // ValidateStudentInClassDB();
           }
           else if (action === JOIN_AS_STUDENT_WITH_DEPID){
@@ -2419,141 +2418,70 @@
     }
     function codeverify() {
 
-        let code=document.getElementById('verificationCode').value;
-        coderesult.confirm(code).then(function (result) {
-          // alert("Successfully registered");
-          let user=result.user;
+      let code=document.getElementById('verificationCode').value;
+      coderesult.confirm(code)
+      // Layer 1: Get User
+      .then(function (result) {
+        console.log('Layer: 1')
+        // alert("Successfully registered");
+        let user=result.user;
 
-          let tutorId = null;
-          if (user.displayName == null ){
-              tutorId = user.phoneNumber;
-          }else
-              tutorId = user.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
 
-          // alert("Tutor Id: " + tutorId);
-          // console.log("Tutor registered, ID: " + tutorId);
+        if (user.displayName == null ){
+          userId = user.phoneNumber;
+        }else
+          userId = user.email.replace("[^a-zA-Z0-9]", "_").toLowerCase();
 
-          const tutorRef = db.collection('Tutor').doc(tutorId);
+        const userRef = db.collection('Users').doc(userId);
 
-          tutorRef.get()
-            .then((docSnapshot) => {
+        return Promise.resolve(userRef.get())
 
-              if (docSnapshot.exists) {
-                // User exist. Move to Step 1.
-                setActiveStep(1);
-                setActivePanel(1);
+      })
+      // Layer 2: If user doesn't existed, create a new user
+      .then((docSnapshot) => {
+        console.log('Layer: 2 ')
+        var promiseAll = [];
 
-                loadUserInfo(tutorId);
+        if (docSnapshot.exists) {
+          // User exist. Move to next stage.
+          console.log('Layer: 2 ' + docSnapshot.exists)
+        }
+        // User does not exist. Register a new user.
+        else {
+          console.log("USer does not exist! Create a new one: "+ userId );
+          var docData = {
+            [TOKEN_KEY]: null,    //main
+            [NAME_KEY] : 'New User',    //main
+            [EMAIL_KEY]  : "", //main
+            [PHONE_KEY]  : itiPhone.getNumber(), //main
+            [ADDRESS_1_KEY]  : "",
+            [ADDRESS_2_KEY]  : "",
+            [ADDRESS_POSTCODE_KEY]  : "",
+            [ADDRESS_STATE_KEY]  : "",
+            [IMAGE_KEY]  : "",
+            [NRIC_KEY]  : "",
+            [SYSTEM_LAST_ONLINE_KEY]  : firebase.firestore.Timestamp.fromDate(new Date())
+          }
 
-              }else {
-                // User does not exist. Register a new user.
-                var docData = {
-                  [TOKEN_KEY]: null,    //main
-                  [NAME_KEY] : 'New Tutor',    //main
-                  [EMAIL_KEY]  : "", //main
-                  [PHONE_KEY]  : itiPhone.getNumber(), //main
-                  [AGE_KEY]  : 18,
-                  [GENDER_KEY]  : 1, // Female
-                  [ADDRESS_1_KEY]  : "",
-                  [ADDRESS_2_KEY]  : "",
-                  [ADDRESS_POSTCODE_KEY]  : "",
-                  [ADDRESS_STATE_KEY]  : "",
-                  [IMAGE_KEY]  : "",
-                  [NRIC_KEY]  : "",
-                  [RATING_KEY]  : 0,
-                  [RATING_TIMES_KEY]  : 0,
-                  [RATING_FINAL_KEY]  : 0,
-                  [PROFILE_STATUS_KEY]  : [false, false, false, false], // (identity, phone, qualification, location)
-                  [CHECK_HOMETUTOR_KEY]  : false,  // Depreciated
-                  [CHECK_PRIVATETUTOR_KEY]  : false, // Depreciated
-                  [CHECK_GROUPTUTOR_KEY]  : false, // Depreciated
-                  [CHECK_ONLINETUTOR_KEY]  : false, // Depreciated
-                  [YEARS_EXPERIENCE_KEY]  : null,
-                  [TUTORING_EXPERIENCE_KEY]  : "",
-                  [TUTORING_APPROACH_KEY]  : "",
-                  [QUALIFICATION_KEY]  : "",
-                  [PREFERED_AREA_LIST_KEY]  : null,
-                  [PREFERED_SUBJECT_LIST_KEY]  : null,
-                  [AGENT_KEY]  : false,
-                  [ACCOUNT_STATUS_KEY]  : DEACTIVATED_ACCOUNT_STATUS_KEY,
-                  [CHECK_HOME_TUTOR_TO_STUDENT_KEY]  : false,
-                  [CHECK_HOME_STUDENT_TO_TUTOR_KEY]  : false,
-                  [CHECK_GROUP_KEY]  : false,
-                  [CHECK_ONLINE_KEY]  : false,
-                  [CHECK_ONLINE_GROUP_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_ENGLISH_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_BM_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_BC_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_BT_KEY]  : false,
-                  [CHECK_TEACHING_LANGUAGE_OTHER_KEY]  : false,
-                  [TUTOR_TIME_SLOT_MON_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_MON_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_MON_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_MON_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_TUE_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_TUE_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_TUE_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_TUE_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_WED_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_WED_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_WED_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_WED_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_THU_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_THU_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_THU_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_THU_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_FRI_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_FRI_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_FRI_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_FRI_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SAT_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SAT_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SAT_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SAT_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SUN_8AM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SUN_12PM_KEY] : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SUN_3PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  [TUTOR_TIME_SLOT_SUN_6PM_KEY]  : TUTOR_TIME_SLOT_CLOSE_KEY,
-                  // Create a placeholder for aWebUrl. This param can only initiated by admin
-                  // manually through https://golearn.com.my/admin/
-                  [ADMIN_WEB_URL_KEY]  : "",
-                  [ADMIN_PREMIUM_SUBJECT_LIMIT_KEY]  : 10,
-                  [ADMIN_PREMIUM_CONNECT_LIMIT_KEY]  : 0,
-                  [ADMIN_TOTAL_SUBJECT_LIMIT_KEY]  : 40,
-                  [ADMIN_TOTAL_CONNECT_LIMIT_KEY]  : 0,
-                  [ADMIN_PREFFERED_AREA_LIMIT_KEY]  : 5,
-                  [ADMIN_PREFERRED_SUBJECT_LIMIT_KEY]  : 40,
-                  [SYSTEM_LAST_ONLINE_KEY]  : firebase.firestore.Timestamp.fromDate(new Date())
-                }
+          var userRef = db.collection("Users").doc(userId)
 
-                db.collection("Tutor").doc(tutorId)
-                  .set(docData, {merge: true})
-                  .then(() => {
+          promiseAll.push( userRef.set(docData, {merge: true}))
 
-                    // User exist. Move to Step 1.
-                    setActiveStep(1);
-                    setActivePanel(1);
+        }
 
-                    console.log("Profile created. Reloading")
-                    loadUserInfo(tutorId);
+        return Promise.all(promiseAll)
+      })
 
-                  })
-                  .catch((error) => {
-                    func.showNotification('top','center', 'danger', 'error_outline', "Registration failed. Please try again" );
-                    // console.error("Error writing document: ", error);
-                  });
-
-                console.log("USer does not exist! Create a new one: "+ tutorId );
-                // alert("USer does not exist! Create a new one: "+ tutorId );
-
-              }
-          });
-
-        })
-        .catch(function (error) {
-          func.showNotification('top','center', 'danger', 'error_outline', "Phone Verification Failed. Please make sure you enter a valid 6-digit verification code." );
-          console.log("Phone Verification Failed. Please make sure you enter a valid 6-digit verification code."+  error.message);
-        });
+      // Layer 3: Load User info
+      .then(() => {
+        console.log('Layer: 3')
+        console.log("Profile created. Reloading")
+        return Promise.resolve ( loadUserInfo(userId))
+      })
+      .catch(function (error) {
+        func.showNotification('top','center', 'danger', 'error_outline', "Phone Verification Failed. Please make sure you enter a valid 6-digit verification code." );
+        console.log("Phone Verification Failed. Please make sure you enter a valid 6-digit verification code."+  error.message);
+      });
     }
 
     // Use this after signin
