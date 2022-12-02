@@ -1475,6 +1475,8 @@
         // https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png'
         // https://github.com/softius/php-cross-domain-proxy
 
+        let imgtxt = doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL];
+        console.log(imgtxt)
         if (doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == ''){
           document.getElementById("previewTutorImgUrl").style.display = 'none';
           document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
@@ -1486,11 +1488,11 @@
             // 'https://murmuring-headland-66106.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
             // 'https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
             // 'https://cors-anywhere.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
-            doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  '../../assets/img/empty-photo.png' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL],
+            doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL],
             // doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+doc.data()[SET_BIZ_IMG_URL],
 
             function(dataUrl) {
-              // console.log('RESULT:', dataUrl)
+              console.log('RESULT:', dataUrl)
             },
           );
         }
