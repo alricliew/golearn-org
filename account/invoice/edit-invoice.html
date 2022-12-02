@@ -1626,8 +1626,6 @@
           reader.onloadend = function() {
             callback(reader.result);
           }
-          console.log("xhr.response")
-          console.log(xhr.response)
           reader.readAsDataURL(xhr.response);
         };
         xhr.open('GET', url);
