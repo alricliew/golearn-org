@@ -1477,7 +1477,7 @@
 
         // NOTE: Getting img blob directly from firestore is disallowed. we need a proxy server to hold the image.
         let imgtxt = doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL];
-        console.log(imgtxt)
+
         if (doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == ''){
           document.getElementById("previewTutorImgUrl").style.display = 'none';
           document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
@@ -1504,19 +1504,18 @@
 
           // NOTE: NEW
           toDataURLNew(
-          imgtxt,
-          function(dataUrl) {
-            var imgTarget = document.getElementById("previewTutorImgUrl");
-            imgTarget.src = dataUrl;
-            // console.log('RESULT:', dataUrl)
-          }
-        )
+            imgtxt,
+            function(dataUrl) {
+              var imgTarget = document.getElementById("previewTutorImgUrl");
+              imgTarget.src = dataUrl;
+              // console.log('RESULT:', dataUrl)
+            }
+          )
 
         }
 
         function toDataURLNew(url, callback) {
           var xhr = new XMLHttpRequest();
-          console.log('xhr:')
           xhr.onload = function() {
             var reader = new FileReader();
             reader.onloadend = function() {
@@ -1528,8 +1527,6 @@
           xhr.responseType = 'blob';
           xhr.send();
         }
-
-
 
         // document.getElementById("previewInvTitle").textContent = doc.data()[SET_BIZ_NAME];
         document.getElementById("previewInvBizName").textContent = (doc.data()[SET_BIZ_NAME] == null || doc.data()[SET_BIZ_NAME] == '') ? ent_name : doc.data()[SET_BIZ_NAME];

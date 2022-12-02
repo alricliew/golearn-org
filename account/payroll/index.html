@@ -1333,20 +1333,42 @@
 
           document.getElementById("previewBizName").textContent = bizName;
           document.getElementById("previewBizDetails").textContent = bizDetail;
+          let imgtxt = bizImgUrl == null || bizImgUrl == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+bizImgUrl;
           if (bizImgUrl == null || bizImgUrl == ''|| bizImgUrl == "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"){
             document.getElementById("previewTutorImgUrl").style.display = 'none';
             document.getElementById("previewTutorImgUrl").src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
           }
           else {
             $("#previewTutorImgUrl").css("display", "");
-            toDataURL(
-              bizImgUrl == null || bizImgUrl == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+bizImgUrl,
+            // toDataURL(
+            //   bizImgUrl == null || bizImgUrl == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+bizImgUrl,
+            //   function(dataUrl) {
+            //     // console.log('RESULT:', dataUrl)
+            //   },
+            // );
+            // NOTE: NEW
+            toDataURLNew(
+              imgtxt,
               function(dataUrl) {
+                var imgTarget = document.getElementById("previewTutorImgUrl");
+                imgTarget.src = dataUrl;
                 // console.log('RESULT:', dataUrl)
-              },
-            );
+              }
+            )
           }
-
+          function toDataURLNew(url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+              var reader = new FileReader();
+              reader.onloadend = function() {
+                callback(reader.result);
+              }
+              reader.readAsDataURL(xhr.response);
+            };
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+            xhr.send();
+          }
           document.getElementById("previewTitle").textContent = title;
           document.getElementById("previewRefNo").textContent = refNo;
           document.getElementById("previewDate").textContent = date;

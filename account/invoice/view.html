@@ -1354,18 +1354,43 @@
 
 
       // Preview
+      let imgtxt = invObj[INV_SENDER_IMG_URL] == null || invObj[INV_SENDER_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+invObj[INV_SENDER_IMG_URL];
+
       if (invObj[INV_SENDER_IMG_URL] == null || invObj[INV_SENDER_IMG_URL] == '' || invObj[INV_SENDER_IMG_URL] == "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"){
         document.getElementById("previewTutorImgUrl").style.display = 'none';
         document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
       }
       else {
-        toDataURL(
-          // https://murmuring-headland-66106.herokuapp.com/ is a proxy server
-          invObj[INV_SENDER_IMG_URL] == null || invObj[INV_SENDER_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+invObj[INV_SENDER_IMG_URL],
+        // toDataURL(
+        //   // https://murmuring-headland-66106.herokuapp.com/ is a proxy server
+        //   invObj[INV_SENDER_IMG_URL] == null || invObj[INV_SENDER_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+invObj[INV_SENDER_IMG_URL],
+        //   function(dataUrl) {
+        //     // console.log('RESULT:', dataUrl)
+        //   },
+        // );
+        // NOTE: NEW
+        toDataURLNew(
+          imgtxt,
           function(dataUrl) {
+            var imgTarget = document.getElementById("previewTutorImgUrl");
+            imgTarget.src = dataUrl;
             // console.log('RESULT:', dataUrl)
-          },
-        );
+          }
+        )
+
+      }
+      function toDataURLNew(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+          var reader = new FileReader();
+          reader.onloadend = function() {
+            callback(reader.result);
+          }
+          reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
       }
 
       document.getElementById("previewInvTitle").textContent = invObj[INV_TITLE];
