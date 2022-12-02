@@ -1475,50 +1475,71 @@
         // https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png'
         // https://github.com/softius/php-cross-domain-proxy
 
+        // NOTE: Getting img blob directly from firestore is disallowed. we need a proxy server to hold the image.
         let imgtxt = doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL];
         console.log(imgtxt)
-        // if (doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == ''){
-        //   document.getElementById("previewTutorImgUrl").style.display = 'none';
-        //   document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
-        // }
-        // else {
-        //   toDataURL(
-        //     // 'https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
-        //     // 'https://murmuring-headland-66106.herokuapp.com/https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
-        //     // 'https://murmuring-headland-66106.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
-        //     // 'https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
-        //     // 'https://cors-anywhere.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
-        //     doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL],
-        //     // doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+doc.data()[SET_BIZ_IMG_URL],
+        if (doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == ''){
+          document.getElementById("previewTutorImgUrl").style.display = 'none';
+          document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
+        }
+        else {
+          toDataURL(
+            // 'https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
+            // 'https://murmuring-headland-66106.herokuapp.com/https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
+            // 'https://murmuring-headland-66106.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
+            // 'https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
+            // 'https://cors-anywhere.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
+            doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL],
+            // doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+doc.data()[SET_BIZ_IMG_URL],
 
-        //     function(dataUrl) {
-        //       console.log('RESULT:', dataUrl)
-        //     },
-        //   );
-        // }
+            function(dataUrl) {
+              var imgTarget = document.getElementById("previewTutorImgUrl");
+              imgTarget.src = dataURL;
 
-        function toDataURL1(url, callback) {
-          var xhr = new XMLHttpRequest();
-          xhr.onload = function() {
-            var reader = new FileReader();
-            reader.onloadend = function() {
-              callback(reader.result);
-            }
-            reader.readAsDataURL(xhr.response);
-          };
-          xhr.open('GET', url);
-          xhr.responseType = 'blob';
-          xhr.send();
+              console.log('RESULT:', dataUrl)
+            },
+            'image/jpeg'
+          );
         }
 
-        toDataURL1(
-          imgtxt,
-          function(dataUrl) {
-            var imgTarget = document.getElementById("previewTutorImgUrl");
-            imgTarget.src = dataUrl;
-            console.log('RESULT:', dataUrl)
-          }
-        )
+        // function toDataURL1(url, callback) {
+        //   var xhr = new XMLHttpRequest();
+        //   xhr.onload = function() {
+        //     var reader = new FileReader();
+        //     reader.onloadend = function() {
+        //       callback(reader.result);
+        //     }
+        //     reader.readAsDataURL(xhr.response);
+        //   };
+        //   xhr.open('GET', url);
+        //   xhr.responseType = 'blob';
+        //   xhr.send();
+        // }
+
+        // toDataURL1(
+        //   imgtxt,
+        //   function(dataUrl) {
+
+        //     var canvas = document.createElement('CANVAS');
+        //     var ctx = canvas.getContext('2d');
+
+        //     canvas.height = this.naturalHeight;
+        //     canvas.width = this.naturalWidth;
+        //     ctx.drawImage(this, 0, 0);
+
+        //     dataURL = canvas.toDataURL(outputFormat);
+        //     // img.src = dataURL;
+        //     console.log(dataUrl)
+        //     var imgTarget = document.getElementById("previewTutorImgUrl");
+        //     imgTarget.src = dataUrl;
+        //     callback(dataUrl);
+
+        //     // dataURL = canvas.toDataURL(outputFormat);
+        //     // var imgTarget = document.getElementById("previewTutorImgUrl");
+        //     // imgTarget.src = dataUrl;
+        //     console.log('RESULT:', dataURL)
+        //   }
+        // )
 
 
         // document.getElementById("previewInvTitle").textContent = doc.data()[SET_BIZ_NAME];
@@ -5514,8 +5535,8 @@
         dataURL = canvas.toDataURL(outputFormat);
         // img.src = dataURL;
         console.log(dataURL)
-        var imgTarget = document.getElementById("previewTutorImgUrl");
-        imgTarget.src = dataURL;
+        // var imgTarget = document.getElementById("previewTutorImgUrl");
+        // imgTarget.src = dataURL;
         callback(dataURL);
       };
       // img.src = src;
