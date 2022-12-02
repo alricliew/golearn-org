@@ -919,6 +919,31 @@
         </div>
       </div>
 
+      <!-- Reactivate modal -->
+      <div class="row">
+        <div class="modal fade" id="reactivateModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Re-activate This Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>This action will restore the archived class details and lesson histories.<br/>
+                Teachers & students will be able to access this class.</p>
+                <p>Are you sure you want to continue?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnReactivateModalUpdate">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Delete Class modal -->
       <div class="row">
         <div class="modal fade" id="delClassModal" tabindex="-1" role="dialog" aria-labelledby="delClassModalLabel" aria-hidden="true">
@@ -980,9 +1005,9 @@
             <div class="p-2">
               <a href="./" class="btn btn-outline-primary btn-round" id="btnBack" name="param-link"><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em;">west</i> Back</a>
             </div>
-            <div class="p-2">
+            <!-- <div class="p-2">
               <a href="javascript:;" class="btn btn-outline-primary btn-round text-white hidden" id="btnSave" data-toggle="modal" data-target="#saveModal" style="background: #2e74b6;" perm="teach-class-edit"><i class="material-icons" style="color: #ffffff; margin-right: 0.5em;">save</i> Save</a>
-            </div>
+            </div> -->
           </div>
 
           <div class="row">
@@ -1638,7 +1663,7 @@
                           <div class="form-group">
                             <div class="form-check form-check-radio form-check-inline">
                               <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="classStatus" id="classStatusRadioActive" value="optionActive" data-compulsory="false" checked>
+                                <input disabled class="form-check-input" type="radio" name="classStatus" id="classStatusRadioActive" value="optionActive" data-compulsory="false" checked>
                                 Active
                                 <span class="circle">
                                   <span class="check"></span>
@@ -1647,7 +1672,7 @@
                             </div>
                             <div class="form-check form-check-radio form-check-inline">
                               <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="classStatus" id="classStatusRadioInactive" value="optionInactive" data-compulsory="false">
+                                <input disabled class="form-check-input" type="radio" name="classStatus" id="classStatusRadioInactive" value="optionInactive" data-compulsory="false">
                                 Inactive
                                 <span class="circle">
                                   <span class="check"></span>
@@ -1657,7 +1682,7 @@
                           </div>
 
                           <!-- Archive Class  -->
-                          <div class="row hidden" perm='teach-class-del'>
+                          <!-- <div class="row hidden" perm='teach-class-del'>
                             <div class="col-sm-12 text-left">
                               <span class="" style="font-size: smaller; font-weight: 400; color: grey;">Archive This Class</span>
                               <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em;">!
@@ -1674,10 +1699,31 @@
                             <div class="col-md-12" >
                               <a class="btn btn-sm btn-outline-danger btn-round" id="btnDelClass" style="color: red; background-color: white;" data-toggle='modal' data-target='#archiveClassModal'>Archive Class <i class="fas fa-exclamation-triangle" style="color: red;"></i></a>
                             </div>
+                          </div> -->
+
+                          <!-- Re-activate Class  -->
+                          <div class="row hidden" perm='teach-class-del'>
+                            <div class="col-sm-12 text-left">
+                              <span class="" style="font-size: smaller; font-weight: 400; color: grey;">Re-activate Class</span>
+                              <span class="tooltiptext-trigger">?
+                                <span class="tooltiptext-general">
+                                  <h6>Re-activate Class</h6>
+                                  <p>This action will restore the archived class details and lesson histories.</p>
+                                  <p>Teachers & students will be able to access this class.</p>
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="row hidden" perm='teach-class-del'>
+                            <div class="col-md-12" >
+                              <a class="btn btn-sm btn-outline-primary btn-round" id="btnDelClass" style="color: #2e74b6; background-color: white;" data-toggle='modal' data-target='#reactivateModal'>Re-activate Class</a>
+                            </div>
                           </div>
 
+
+
                           <!-- Delete Class  -->
-                          <!-- <div class="row hidden" perm='teach-class-del'>
+                          <div class="row hidden" perm='teach-class-del'>
                             <div class="col-sm-12 text-left">
                               <span class="" style="font-size: smaller; font-weight: 400; color: grey;">Delete This Class</span>
                               <span class="tooltiptext-trigger" style="background-color: red; padding: 0.2em 0.6em 0.2em 0.6em;">!
@@ -1692,7 +1738,7 @@
                             <div class="col-md-12" >
                               <a class="btn btn-sm btn-outline-danger btn-round" id="btnDelClass" style="color: red; background-color: white;" data-toggle='modal' data-target='#delClassModal'>Delete Class <i class="fas fa-exclamation-triangle" style="color: red;"></i></a>
                             </div>
-                          </div> -->
+                          </div>
 
 
                           <div class="button-row d-flex mt-4">
@@ -2463,7 +2509,7 @@
     }
 
     // Archive Class
-    function ArchiveClass(classId){
+    function ReactivateClass(classId){
       var docRef = db.collection("Class")
           .doc("v1")
           .collection("Class")
@@ -2471,48 +2517,113 @@
 
       var data = {
         // [CLASS_TYPE]: CLASS_TYPE_PRIVATE,
-        [CLASS_STATUS]: CLASS_STATUS_INACTIVE,
-        [CLASS_DATE_DEL]:  new Date(),
-        [CLASS_EDIT_MSG]: 'Deleted by '+ org_name, // Update: CLASS_DATE_EDIT + CLASS_EDIT_MSG
-        [STATUS_KEY]: false,
+        [CLASS_STATUS]: CLASS_STATUS_ACTIVE,
+        [CLASS_DATE_EDIT]:  new Date(),
+        [CLASS_EDIT_MSG]: 'Re-activated by '+ org_name, // Update: CLASS_DATE_EDIT + CLASS_EDIT_MSG
+        [STATUS_KEY]: true,
       }
-      // console.log("Saving...")
+      // console.log("Reactivating Class...")
       // console.log(data)
 
-      docRef.update(data)
+      docRef.update(data, { merge: true })
       .then(() => {
 
-        return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_CLASS, 'desc', 1) )
+        return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_CLASS, 'asc', 1) )
 
       })
       .then(() => {
-        window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+        window.location.href='./history.html?url=' + orgUrl + "&ent=" + orgEnt;
       });
 
 
     }
 
-
     // Delete Class
     function DeleteClass(classId){
+      // Delete all class_student
+      // Delete all lesson
+      // Delete class
 
-      var docRef = db.collection("Class")
+      var lessonDocRef = db.collection("Class")
+          .doc("v1")
+          .collection("Lesson")
+          .where(LESSON_CLASS_ID, "==", currentClassObj[CLASS_ID])
+
+      var classStudentDocRef = db.collection("Class")
+          .doc("v1")
+          .collection("Class_Student")
+          .where(CLASS_STUDENT_CLASS_ID, "==", currentClassObj[CLASS_ID])
+
+      var promiseAll = []
+      promiseAll.push(lessonDocRef.get())
+      promiseAll.push(classStudentDocRef.get())
+
+      Promise.all(promiseAll).then((snapshots) => {
+
+        var promiseAll = []
+        var pathArr = []
+        // console.log(snapshots[0].size)
+        // console.log(snapshots[0].length)
+        // console.log(snapshots[0].empty)
+
+        if (snapshots[0] != null && snapshots[0].size > 0){
+          snapshots[0].forEach((doc) => {
+            console.log(doc.data())
+
+            let lessonDocRef = db.collection("Class")
+              .doc("v1")
+              .collection("Lesson")
+              .doc(doc.id);
+            promiseAll.push(lessonDocRef.delete())
+            pathArr.push(lessonDocRef.path)
+          })
+        }
+
+        if (snapshots[1] != null && snapshots[1].size > 0){
+          snapshots[1].forEach((doc) => {
+            console.log(doc.data())
+
+            let classStudentDocRef = db.collection("Class")
+              .doc("v1")
+              .collection("Class_Student")
+              .doc(doc.id);
+
+            promiseAll.push(classStudentDocRef.delete())
+            pathArr.push(classStudentDocRef.path)
+
+          })
+        }
+
+        let classDocRef = db.collection("Class")
           .doc("v1")
           .collection("Class")
-          .doc(classId);
+          .doc(classId)
 
+        promiseAll.push(classDocRef.delete())
+        pathArr.push(classDocRef.path)
 
+        console.log(pathArr)
 
-
-      docRef.set(data, { merge: true })
-      .then(() => {
-
-        return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_CLASS, 'desc', 1) )
+        return Promise.all(promiseAll)
 
       })
       .then(() => {
-        window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
-      });
+        window.location.href='./history.html?url=' + orgUrl + "&ent=" + orgEnt;
+      })
+      .catch((e) => {
+
+        console.log(e.message)
+      })
+
+      // docRef.set(data, { merge: true })
+      // .then(() => {
+
+      //   return Promise.resolve( updateGeneralReportNum(ent_id, NUM_TYPE_CLASS, 'desc', 1) )
+
+      // })
+      // .then(() => {
+      //   window.location.href='./?url=' + orgUrl + "&ent=" + orgEnt;
+      // });
 
 
     }
@@ -5096,35 +5207,27 @@
           document.getElementById("btnAutoJoinLink2").style.pointerEvents= 'none';
         }
       });
-      // Advanced panel: Archive Class
-      $('#archiveClassModalIn').on('input', function(){
-        if (this.value === 'OK'){
-          $('#btnArchiveClassModalUpdate').prop('disabled', false);
+
+
+      // Advanced panel: Reactivate Class btn clicked
+      $('#btnReactivateModalUpdate').on('click', function (event) {
+        ReactivateClass(currentClassObj[CLASS_ID]);
+      });
+
+      // Advanced panel: Delete Class
+      $('#delClassModalIn').on('input', function(){
+        if (this.value === 'DELETE'){
+          $('#btnDelClassModalUpdate').prop('disabled', false);
         }
         else{
-          $('#btnArchiveClassModalUpdate').prop('disabled', true);
+          $('#btnDelClassModalUpdate').prop('disabled', true);
         }
       });
 
-      // Advanced panel: Archive Class btn clicked
-      $('#btnArchiveClassModalUpdate').on('click', function (event) {
-        ArchiveClass(currentClassObj[CLASS_ID]);
+      // Advanced panel: Delete Class btn clicked
+      $('#btnDelClassModalUpdate').on('click', function (event) {
+        DeleteClass(currentClassObj[CLASS_ID]);
       });
-
-      // // Advanced panel: Delete Class
-      // $('#delClassModalIn').on('input', function(){
-      //   if (this.value === 'DELETE'){
-      //     $('#btnDelClassModalUpdate').prop('disabled', false);
-      //   }
-      //   else{
-      //     $('#btnDelClassModalUpdate').prop('disabled', true);
-      //   }
-      // });
-
-      // // Advanced panel: Delete Class btn clicked
-      // $('#btnDelClassModalUpdate').on('click', function (event) {
-      //   DeleteClass(currentClassObj[CLASS_ID]);
-      // });
 
       // Update data - Save btn clicked
       $('#btnSaveModalUpdate').on('click', function (event) {

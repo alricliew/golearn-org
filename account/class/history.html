@@ -232,7 +232,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Classes</a>
+            <a class="navbar-brand" href="javascript:;">Classes <span><i class="material-icons" style="color: gray;">chevron_right</i></span>Older Classes</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -328,162 +328,6 @@
         </div>
       </div>
 
-      <!-- Add Class modal -->
-      <div class="row">
-        <div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="addClassModalLabel" aria-hidden="true">
-          <div class="modal-dialog  modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="addClassModalLabel">Add Class</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnAddClassModalClose1">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" id="addClassModalBody" style="height: 300px;">
-                <div class="container overflow-hidden">
-                  <!--multisteps-form-->
-                  <div class="multisteps-form">
-                    <!--progress bar-->
-                    <div class="row">
-                      <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
-                        <div class="multisteps-form__progress">
-                          <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">User Info</button>
-                          <button class="multisteps-form__progress-btn" type="button" title="Address">Address</button>
-                          <button class="multisteps-form__progress-btn" type="button" title="Order Info">Order Info</button>
-                          <button class="multisteps-form__progress-btn" type="button" title="Comments">Comments        </button>
-                        </div>
-                      </div>
-                    </div>
-                    <!--form panels-->
-                    <div class="row">
-                      <div class="col-12 col-lg-8">
-                        <form class="multisteps-form__form" style="height: 300px;">
-                          <!--single form panel-->
-                          <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
-                            <h3 class="multisteps-form__title">Your User Info</h3>
-                            <div class="multisteps-form__content">
-                              <div class="form-row mt-4">
-                                <div class="col-12 col-sm-6">
-                                  <input class="multisteps-form__input form-control" type="text" placeholder="First Name"/>
-                                </div>
-                                <div class="col-12 col-sm-6 mt-4 mt-sm-0">
-                                  <input class="multisteps-form__input form-control" type="text" placeholder="Last Name"/>
-                                </div>
-                              </div>
-                              <div class="form-row mt-4">
-                                <div class="col-12 col-sm-6">
-                                  <input class="multisteps-form__input form-control" type="text" placeholder="Login"/>
-                                </div>
-                                <div class="col-12 col-sm-6 mt-4 mt-sm-0">
-                                  <input class="multisteps-form__input form-control" type="email" placeholder="Email"/>
-                                </div>
-                              </div>
-                              <div class="form-row mt-4">
-                                <div class="col-12 col-sm-6">
-                                  <input class="multisteps-form__input form-control" type="password" placeholder="Password"/>
-                                </div>
-                                <div class="col-12 col-sm-6 mt-4 mt-sm-0">
-                                  <input class="multisteps-form__input form-control" type="password" placeholder="Repeat Password"/>
-                                </div>
-                              </div>
-                              <div class="button-row d-flex mt-4">
-                                <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
-                              </div>
-                            </div>
-                          </div>
-                          <!--single form panel-->
-                          <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
-                            <h3 class="multisteps-form__title">Your Address</h3>
-                            <div class="multisteps-form__content">
-                              <div class="form-row mt-4">
-                                <div class="col">
-                                  <input class="multisteps-form__input form-control" type="text" placeholder="Address 1"/>
-                                </div>
-                              </div>
-                              <div class="form-row mt-4">
-                                <div class="col">
-                                  <input class="multisteps-form__input form-control" type="text" placeholder="Address 2"/>
-                                </div>
-                              </div>
-                              <div class="form-row mt-4">
-                                <div class="col-12 col-sm-6">
-                                  <input class="multisteps-form__input form-control" type="text" placeholder="City"/>
-                                </div>
-                                <div class="col-6 col-sm-3 mt-4 mt-sm-0">
-                                  <select class="multisteps-form__select form-control">
-                                    <option selected="selected">State...</option>
-                                    <option>...</option>
-                                  </select>
-                                </div>
-                                <div class="col-6 col-sm-3 mt-4 mt-sm-0">
-                                  <input class="multisteps-form__input form-control" type="text" placeholder="Zip"/>
-                                </div>
-                              </div>
-                              <div class="button-row d-flex mt-4">
-                                <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-                                <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
-                              </div>
-                            </div>
-                          </div>
-                          <!--single form panel-->
-                          <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
-                            <h3 class="multisteps-form__title">Your Order Info</h3>
-                            <div class="multisteps-form__content">
-                              <div class="row">
-                                <div class="col-12 col-md-6 mt-4">
-                                  <div class="card shadow-sm">
-                                    <div class="card-body">
-                                      <h5 class="card-title">Item Title</h5>
-                                      <p class="card-text">Small and nice item description</p><a class="btn btn-primary" href="#" title="Item Link">Item Link</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-12 col-md-6 mt-4">
-                                  <div class="card shadow-sm">
-                                    <div class="card-body">
-                                      <h5 class="card-title">Item Title</h5>
-                                      <p class="card-text">Small and nice item description</p><a class="btn btn-primary" href="#" title="Item Link">Item Link</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="button-row d-flex mt-4 col-12">
-                                  <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-                                  <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <!--single form panel-->
-                          <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
-                            <h3 class="multisteps-form__title">Additional Comments</h3>
-                            <div class="multisteps-form__content">
-                              <div class="form-row mt-4">
-                                <textarea class="multisteps-form__textarea form-control" placeholder="Additional Comments and Requirements"></textarea>
-                              </div>
-                              <div class="button-row d-flex mt-4">
-                                <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-                                <button class="btn btn-success ml-auto" type="button" title="Send">Send</button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal" id="btnAddClassModalClose2">Not Now</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAddClassModalUpdate">Add</button>
-              </div> -->
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Sign-out modal -->
       <div class="row">
         <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel" aria-hidden="true">
@@ -535,22 +379,14 @@
       <!-- Main content -->
       <div class="content">
         <div class="container-fluid">
-          <!-- your content here -->
-
           <!-- Main content -->
-          <div class="row">
-            <!-- Update button -->
-            <div class="col-md-12 d-flex">
-              <a href="./add-class.html" class="btn btn-default btn-round hidden" id="btnAddClass" style="pointer-events: none;" name="param-link" perm="teach-class-add">Add Class <i class="material-icons" style="color: white; margin-left: 0.5em; ">east</i></a>
-              <div class="ml-auto my-auto " style="vertical-align: middle;">
-                <a class="hidden" href="./history.html" style="font-size: small;" name="param-link" perm='teach-class-del'>Older Classes</a>
-              </div>
+          <div class="row d-flex">
+            <div class="p-2">
+              <a href="./" class="btn btn-outline-primary btn-round" name="param-link" ><i class="material-icons" style="color: #2e74b6; margin-right: 0.5em;">west</i> Back</a>
             </div>
-            <!-- <div class="col-lg-6 col-md-6 col-sm-6 ">
-            </div> -->
           </div>
 
-          <!-- All Class -->
+          <!-- All Older Classes -->
           <div class="row" id="card-all-classes" style="margin-top: 1rem;">
 
             <div class="col-md-12 card-student">
@@ -741,8 +577,6 @@
     // Session Storage data
     var docsObj = [];
 
-    const btnAddClass = document.getElementById("btnAddClass");
-
     //---------- Load all class details ----------//
     // Lesson Load More Button - Init
     const classLoadmore = document.querySelector('#btnClassLoadMore');
@@ -768,7 +602,7 @@
           .collection("Class")
           // .where("adminId", "==", ent_id)
           .where(CLASS_TUTOR_ID_ARR, "array-contains", ent_id)
-          .where(STATUS_KEY, "==", true)
+          .where(STATUS_KEY, "==", false) // Show hidden class
           .orderBy(CLASS_STATUS, 'asc')
           .orderBy(CLASS_NAME, 'asc')
           .startAfter(latestClassDoc)
@@ -779,7 +613,7 @@
       docRef
       .get()
       .then((querySnapshot) => {
-        console.log(querySnapshot.size)
+        // console.log(querySnapshot.size)
         document.getElementById("card-load").style.display = "none";
 
         if (( querySnapshot == null || querySnapshot.size == 0) && latestClassDoc == null){
@@ -848,60 +682,6 @@
 
       // Limit classes to be added
       .then(() => {
-        btnAddClass.classList.add('btn-primary'); // btnAddClass.className = "btn btn-primary btn-round";
-        btnAddClass.classList.remove('btn-default');
-
-        btnAddClass.style.pointerEvents = "auto";
-        btnAddClass.setAttribute("onclick", "window.location = './add-class.html';");
-
-        // console.log(sessionStorage.getItem(SESSION_STORAGE_CLASS_NUM_KEY))
-        // if (current_accountStatus == DEACTIVATED_ACCOUNT_STATUS_KEY ||
-        //   current_accountStatus == ACTIVE_ACCOUNT_STATUS_KEY){
-        //   // Note: ClassNum_Active = ClassNum_Deactivated
-        //   if (adminClassNum >= ClassNum_Active){
-        //     btnAddClass.className = "btn btn-default btn-round";
-        //     btnAddClass.style.pointerEvents = "auto";
-        //     btnAddClass.setAttribute("data-toggle", "modal");
-        //     btnAddClass.setAttribute("data-target", "#limitReachModal");
-        //   }else {
-        //     btnAddClass.className = "btn btn-primary btn-round";
-        //     btnAddClass.style.pointerEvents = "auto";
-        //     btnAddClass.setAttribute("onclick", "window.location = './add-class.html';");
-        //   }
-        // }
-        // else if (current_accountStatus == PREMIUM_ACCOUNT_1_STATUS_KEY || current_accountStatus == PREMIUM_ACCOUNT_1_ACTIVE_STATUS_KEY){
-        //   if (adminClassNum >= ClassNum_Premium1){
-        //     btnAddClass.className = "btn btn-default btn-round";
-        //     btnAddClass.style.pointerEvents = "auto";
-        //     btnAddClass.setAttribute("data-toggle", "modal");
-        //     btnAddClass.setAttribute("data-target", "#limitReachModal");
-        //   }else {
-        //     btnAddClass.className = "btn btn-primary btn-round";
-        //     btnAddClass.style.pointerEvents = "auto";
-        //     btnAddClass.setAttribute("onclick", "window.location = './add-class.html';");
-        //   }
-        // }
-        // else if (current_accountStatus == PREMIUM_ACCOUNT_2_STATUS_KEY || current_accountStatus == PREMIUM_ACCOUNT_2_ACTIVE_STATUS_KEY ||
-        //   current_accountStatus == PREMIUM_ACCOUNT_3_STATUS_KEY || current_accountStatus == PREMIUM_ACCOUNT_3_ACTIVE_STATUS_KEY){
-        //   // Note: ClassNum_Premium2 = ClassNum_Premium3
-        //   if (adminClassNum >= ClassNum_Premium2){
-        //     btnAddClass.className = "btn btn-default btn-round";
-        //     btnAddClass.style.pointerEvents = "auto";
-        //     btnAddClass.setAttribute("data-toggle", "modal");
-        //     btnAddClass.setAttribute("data-target", "#limitReachModal");
-        //   }else {
-        //     btnAddClass.className = "btn btn-primary btn-round";
-        //     btnAddClass.style.pointerEvents = "auto";
-        //     btnAddClass.setAttribute("onclick", "window.location = './add-class.html';");
-        //   }
-        // }
-        // else {
-        //   // Deactivated or other status
-        //   btnAddClass.className = "btn btn-default btn-round";
-        //   btnAddClass.style.pointerEvents = "auto";
-        //   btnAddClass.setAttribute("data-toggle", "modal");
-        //   btnAddClass.setAttribute("data-target", "#limitReachModal");
-        // }
 
         // Update Role View based on Permission
         updateRoleView()
@@ -1246,7 +1026,7 @@
   <script>
 
     function editClassFunction(elem){
-      window.location.href = './edit-class.html' + "?url=" + orgUrl  +  "&ent=" + orgEnt + "&cid=" + elem.getAttribute('data-id')
+      window.location.href = './view.html' + "?url=" + orgUrl  +  "&ent=" + orgEnt + "&cid=" + elem.getAttribute('data-id')
     }
 
   </script>

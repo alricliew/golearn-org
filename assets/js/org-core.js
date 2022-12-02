@@ -430,7 +430,7 @@ function updateRoleView(){
     teachClassAdd.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     teachClassAdd.forEach((ele) => {ele.classList.add("hidden")})
-    if (window.location.href.includes('add-class')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
+    if (window.location.pathname.includes('add-class')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
   }
 
   const teachClassEdit = bodyPermission.querySelectorAll(`[perm='teach-class-edit']`)
@@ -445,6 +445,7 @@ function updateRoleView(){
     teachClassDel.forEach((ele) => {ele.classList.remove("hidden")})
   else {
     teachClassDel.forEach((ele) => {ele.classList.add("hidden")})
+    if (window.location.pathname.includes('class/history')) window.location.href = './' +'?url=' + orgUrl + "&ent=" + orgEnt;
   }
 
   const teachLessonAdd = bodyPermission.querySelectorAll(`[perm='teach-lesson-add']`)

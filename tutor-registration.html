@@ -784,7 +784,9 @@
       var docRef = db.collection("Tutor").doc(tutor_id);
 
 
-      var loadUser = docRef.get().then((doc) => {
+      var loadUser = docRef.get()
+      .then((doc) => {
+
 
         if (doc.exists) {
           // console.log("Document data:", doc.data());
@@ -844,12 +846,12 @@
 
 
         }
-        // else {
-        //   invalidatePage(
-        //     "User Not Found",
-        //     "Error 1020. Please refresh this page and repeat the steps again."
-        //   );
-        // }
+        else {
+          // invalidatePage(
+          //   "User Not Found",
+          //   "Error 1020. Please refresh this page and repeat the steps again."
+          // );
+        }
       });
 
       await loadUser;
