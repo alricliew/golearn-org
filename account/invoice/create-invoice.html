@@ -1483,6 +1483,7 @@
           document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
         }
         else {
+          // NOTE: DEPRECIATED
           // toDataURL(
           //   // 'https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
           //   // 'https://murmuring-headland-66106.herokuapp.com/https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
@@ -1500,9 +1501,20 @@
           //   },
           //   'image/jpeg'
           // );
+
+          // NOTE: NEW
+          toDataURLNew(
+          imgtxt,
+          function(dataUrl) {
+            var imgTarget = document.getElementById("previewTutorImgUrl");
+            imgTarget.src = dataUrl;
+            // console.log('RESULT:', dataUrl)
+          }
+        )
+
         }
 
-        function toDataURL1(url, callback) {
+        function toDataURLNew(url, callback) {
           var xhr = new XMLHttpRequest();
           console.log('xhr:')
           xhr.onload = function() {
@@ -1517,34 +1529,6 @@
           xhr.send();
         }
 
-
-        // let newUrl = imgtxt;
-        // let newUrl = doc.data()[SET_BIZ_IMG_URL];
-
-        toDataURL1(
-          imgtxt,
-          function(dataUrl) {
-
-            // var canvas = document.createElement('CANVAS');
-            // var ctx = canvas.getContext('2d');
-
-            // canvas.height = this.naturalHeight;
-            // canvas.width = this.naturalWidth;
-            // ctx.drawImage(this, 0, 0);
-
-            // dataURL = canvas.toDataURL(outputFormat);
-            // // img.src = dataURL;
-            // console.log(dataUrl)
-            // var imgTarget = document.getElementById("previewTutorImgUrl");
-            // imgTarget.src = dataUrl;
-            // callback(dataUrl);
-
-            // dataURL = canvas.toDataURL(outputFormat);
-            var imgTarget = document.getElementById("previewTutorImgUrl");
-            imgTarget.src = dataUrl;
-            console.log('RESULT:', dataUrl)
-          }
-        )
 
 
         // document.getElementById("previewInvTitle").textContent = doc.data()[SET_BIZ_NAME];
@@ -5565,8 +5549,8 @@
     function getBase64Image(img) {
       // Create an empty canvas element
       var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
 
       // Copy the image contents to the canvas
       var ctx = canvas.getContext("2d");
@@ -5576,7 +5560,7 @@
       // Firefox supports PNG and JPEG. You could check img.src to
       // guess the original format, but be aware the using "image/jpg"
       // will re-encode the image.
-      var dataURL = canvas.toDataURL("image/png");
+      var dataURL = canvas.toDataURL("image/jpg");
       console.log(dataURL)
       return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
       // return dataURL;
