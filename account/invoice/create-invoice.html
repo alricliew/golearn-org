@@ -1516,7 +1516,6 @@
 
         function toDataURLNew(url, callback) {
           var xhr = new XMLHttpRequest();
-          img.crossOrigin = 'Anonymous';
           xhr.onload = function() {
             var reader = new FileReader();
             reader.onloadend = function() {
