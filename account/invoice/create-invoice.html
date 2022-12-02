@@ -1483,23 +1483,23 @@
           document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
         }
         else {
-          toDataURL(
-            // 'https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
-            // 'https://murmuring-headland-66106.herokuapp.com/https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
-            // 'https://murmuring-headland-66106.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
-            // 'https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
-            // 'https://cors-anywhere.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
-            doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL],
-            // doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+doc.data()[SET_BIZ_IMG_URL],
+          // toDataURL(
+          //   // 'https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
+          //   // 'https://murmuring-headland-66106.herokuapp.com/https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
+          //   // 'https://murmuring-headland-66106.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
+          //   // 'https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
+          //   // 'https://cors-anywhere.herokuapp.com/https://golearn.com.my/wp-content/uploads/Home-3-Simple-Steps-Photo-1-1-1536x1257.png',
+          //   doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://golearn.com.my/proxy.php?csurl='+doc.data()[SET_BIZ_IMG_URL],
+          //   // doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+doc.data()[SET_BIZ_IMG_URL],
 
-            function(dataUrl) {
-              // var imgTarget = document.getElementById("previewTutorImgUrl");
-              // imgTarget.src = dataURL;
+          //   function(dataUrl) {
+          //     // var imgTarget = document.getElementById("previewTutorImgUrl");
+          //     // imgTarget.src = dataURL;
 
-              console.log('RESULT 1:', dataUrl)
-            },
-            'image/jpeg'
-          );
+          //     console.log('RESULT 1:', dataUrl)
+          //   },
+          //   'image/jpeg'
+          // );
         }
 
         function toDataURL1(url, callback) {
@@ -1540,8 +1540,8 @@
             // callback(dataUrl);
 
             // dataURL = canvas.toDataURL(outputFormat);
-            // var imgTarget = document.getElementById("previewTutorImgUrl");
-            // imgTarget.src = dataUrl;
+            var imgTarget = document.getElementById("previewTutorImgUrl");
+            imgTarget.src = dataUrl;
             console.log('RESULT:', dataUrl)
           }
         )
