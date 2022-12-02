@@ -1506,9 +1506,10 @@
           toDataURLNew(
             imgtxt,
             function(dataUrl) {
+              console.log(dataUrl)
               var imgTarget = document.getElementById("previewTutorImgUrl");
               imgTarget.src = dataUrl;
-              console.log('RESULT:', dataUrl)
+              // console.log('RESULT:', dataUrl)
             }
           )
 
@@ -1524,8 +1525,6 @@
             reader.readAsDataURL(xhr.response);
           };
           xhr.open('GET', url);
-          // xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
-          // xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
           xhr.responseType = 'blob';
           xhr.send();
         }
