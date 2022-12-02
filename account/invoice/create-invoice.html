@@ -5478,6 +5478,7 @@
       var dataURL;
       img.crossOrigin = 'Anonymous';
       img.src = src;
+      console.log(src)
       img.onload = function() {
         var canvas = document.createElement('CANVAS');
         var ctx = canvas.getContext('2d');
@@ -5485,9 +5486,10 @@
         canvas.height = this.naturalHeight;
         canvas.width = this.naturalWidth;
         ctx.drawImage(this, 0, 0);
+
         dataURL = canvas.toDataURL(outputFormat);
         // img.src = dataURL;
-        // console.log(dataURL)
+        console.log(dataURL)
         var imgTarget = document.getElementById("previewTutorImgUrl");
         imgTarget.src = dataURL;
         callback(dataURL);
