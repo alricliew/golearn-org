@@ -1493,53 +1493,58 @@
             // doc.data()[SET_BIZ_IMG_URL] == null || doc.data()[SET_BIZ_IMG_URL] == '' ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+doc.data()[SET_BIZ_IMG_URL],
 
             function(dataUrl) {
-              var imgTarget = document.getElementById("previewTutorImgUrl");
-              imgTarget.src = dataURL;
+              // var imgTarget = document.getElementById("previewTutorImgUrl");
+              // imgTarget.src = dataURL;
 
-              console.log('RESULT:', dataUrl)
+              console.log('RESULT 1:', dataUrl)
             },
             'image/jpeg'
           );
         }
 
-        // function toDataURL1(url, callback) {
-        //   var xhr = new XMLHttpRequest();
-        //   xhr.onload = function() {
-        //     var reader = new FileReader();
-        //     reader.onloadend = function() {
-        //       callback(reader.result);
-        //     }
-        //     reader.readAsDataURL(xhr.response);
-        //   };
-        //   xhr.open('GET', url);
-        //   xhr.responseType = 'blob';
-        //   xhr.send();
-        // }
+        function toDataURL1(url, callback) {
+          var xhr = new XMLHttpRequest();
+          console.log('xhr:')
+          xhr.onload = function() {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+              callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+          };
+          xhr.open('GET', url);
+          xhr.responseType = 'blob';
+          xhr.send();
+        }
 
-        // toDataURL1(
-        //   imgtxt,
-        //   function(dataUrl) {
 
-        //     var canvas = document.createElement('CANVAS');
-        //     var ctx = canvas.getContext('2d');
+        // let newUrl = imgtxt;
+        // let newUrl = doc.data()[SET_BIZ_IMG_URL];
 
-        //     canvas.height = this.naturalHeight;
-        //     canvas.width = this.naturalWidth;
-        //     ctx.drawImage(this, 0, 0);
+        toDataURL1(
+          imgtxt,
+          function(dataUrl) {
 
-        //     dataURL = canvas.toDataURL(outputFormat);
-        //     // img.src = dataURL;
-        //     console.log(dataUrl)
-        //     var imgTarget = document.getElementById("previewTutorImgUrl");
-        //     imgTarget.src = dataUrl;
-        //     callback(dataUrl);
+            // var canvas = document.createElement('CANVAS');
+            // var ctx = canvas.getContext('2d');
 
-        //     // dataURL = canvas.toDataURL(outputFormat);
-        //     // var imgTarget = document.getElementById("previewTutorImgUrl");
-        //     // imgTarget.src = dataUrl;
-        //     console.log('RESULT:', dataURL)
-        //   }
-        // )
+            // canvas.height = this.naturalHeight;
+            // canvas.width = this.naturalWidth;
+            // ctx.drawImage(this, 0, 0);
+
+            // dataURL = canvas.toDataURL(outputFormat);
+            // // img.src = dataURL;
+            // console.log(dataUrl)
+            // var imgTarget = document.getElementById("previewTutorImgUrl");
+            // imgTarget.src = dataUrl;
+            // callback(dataUrl);
+
+            // dataURL = canvas.toDataURL(outputFormat);
+            // var imgTarget = document.getElementById("previewTutorImgUrl");
+            // imgTarget.src = dataUrl;
+            console.log('RESULT:', dataUrl)
+          }
+        )
 
 
         // document.getElementById("previewInvTitle").textContent = doc.data()[SET_BIZ_NAME];
@@ -1587,6 +1592,45 @@
       }
 
     }
+
+    function toDataURL(src, callback, outputFormat) {
+      var img = new Image();
+      // var img = document.getElementById("tutorImgUrl");
+      var dataURL;
+      img.crossOrigin = 'Anonymous';
+      img.src = src;
+      console.log(src)
+
+      img.onload = function() {
+        var canvas = document.createElement('CANVAS');
+        var ctx = canvas.getContext('2d');
+
+        canvas.height = this.naturalHeight;
+        canvas.width = this.naturalWidth;
+        ctx.drawImage(this, 0, 0);
+
+        dataURL = canvas.toDataURL(outputFormat);
+        // img.src = dataURL;
+        console.log(dataURL)
+        var imgTarget = document.getElementById("previewTutorImgUrl");
+        imgTarget.src = dataURL;
+        callback(dataURL);
+      };
+      // img.src = src;
+      // img.src = dataURL;
+      if (img.complete || img.complete === undefined) {
+        img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+        img.src = src;
+      }
+    }
+
+    // toDataURL(
+    //   'https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
+    //   function(dataUrl) {
+        // console.log('RESULT:', dataUrl)
+    //   }
+    // )
+
 
     // Auto Assign Clients
     function autoAssignClient(decodeId) {
@@ -5517,42 +5561,6 @@
       html2pdf().set(opt).from(element).save();
     }
 
-    function toDataURL(src, callback, outputFormat) {
-      var img = new Image();
-      // var img = document.getElementById("tutorImgUrl");
-      var dataURL;
-      img.crossOrigin = 'Anonymous';
-      img.src = src;
-      console.log(src)
-      img.onload = function() {
-        var canvas = document.createElement('CANVAS');
-        var ctx = canvas.getContext('2d');
-
-        canvas.height = this.naturalHeight;
-        canvas.width = this.naturalWidth;
-        ctx.drawImage(this, 0, 0);
-
-        dataURL = canvas.toDataURL(outputFormat);
-        // img.src = dataURL;
-        console.log(dataURL)
-        // var imgTarget = document.getElementById("previewTutorImgUrl");
-        // imgTarget.src = dataURL;
-        callback(dataURL);
-      };
-      // img.src = src;
-      // img.src = dataURL;
-      if (img.complete || img.complete === undefined) {
-        img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-        img.src = src;
-      }
-    }
-
-    // toDataURL(
-    //   'https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0',
-    //   function(dataUrl) {
-        // console.log('RESULT:', dataUrl)
-    //   }
-    // )
 
     function getBase64Image(img) {
       // Create an empty canvas element
