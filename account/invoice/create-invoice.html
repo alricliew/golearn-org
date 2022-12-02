@@ -1527,7 +1527,9 @@
             reader.readAsDataURL(xhr.response);
           };
           xhr.open('GET', url);
-          xhr.responseType = 'blob';
+          // xhr.responseType = 'blob';
+          xhr.responseType = 'text';
+
           xhr.send();
         }
 
