@@ -1901,7 +1901,6 @@
     const cid = new URL(window.location.href).searchParams.get("cid");
 
     getClassObj(cid);
-    // getClassObject();
 
     // Initialization
     AuthCheck();
@@ -1965,33 +1964,6 @@
 
           }
         })
-      }
-    }
-
-    function getClassObject(){
-      // Check if there are valid class data in session storage.
-      if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CLASS_CURRENT_DOC_KEY)) == null ||
-        JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CLASS_CURRENT_DOC_KEY)).id == null ||
-        JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CLASS_CURRENT_DOC_KEY)).id == '' ){
-        // Return to class.html if invalid class obj
-        func.showNotification('top','center', 'danger', 'error_outline', "Error: No class selected." );
-        window.location.href='./';
-
-      }else{
-        // Set the fields
-        currentClassObj = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CLASS_CURRENT_DOC_KEY));
-        // console.log("currentClassObj");
-        // console.log(currentClassObj);
-        updatePageContent(currentClassObj);
-
-        // If user is NOT the admin of this class, disable non admin edits
-        // console.log('SESSION_STORAGE_CLASS_NON_ADMIN_KEY')
-        // console.log(JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CLASS_NON_ADMIN_KEY)));
-
-        if (JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CLASS_NON_ADMIN_KEY))){
-          disableAllEditsForNonAdmin();
-        }
-
       }
     }
 
@@ -4222,90 +4194,6 @@
 
     }
 
-    // Used when user is not Admin
-    function disableAllEditsForNonAdmin() {
-
-      if (!currentClassObj[CLASS_TUTOR_ADD_EDIT_LESSON_ENABLE]){
-
-        // Lesson Panel
-        document.getElementById("btnEditLessonModalUpdate").style.pointerEvents= 'none';
-        document.getElementById("btnEditLessonModalUpdate").style.backgroundColor = 'grey';
-        // document.getElementById("btnDelLessonModalUpdate").style.pointerEvents= 'none';
-        // document.getElementById("btnDelLessonModalUpdate").style.backgroundColor = 'grey';
-        document.getElementById("btnAddLesson").style.pointerEvents= 'none';
-        document.getElementById("btnAddLesson").style.backgroundColor = '#e9ecef';
-
-      }
-
-      if (!currentClassObj[CLASS_TUTOR_REMOVE_LESSON_ENABLE]){
-        // Lesson Panel
-        // document.getElementById("btnEditLessonModalUpdate").style.pointerEvents= 'none';
-        // document.getElementById("btnEditLessonModalUpdate").style.backgroundColor = 'grey';
-        document.getElementById("btnDelLessonModalUpdate").style.pointerEvents= 'none';
-        document.getElementById("btnDelLessonModalUpdate").style.backgroundColor = 'grey';
-        // document.getElementById("btnAddLesson").style.pointerEvents= 'none';
-        // document.getElementById("btnAddLesson").style.backgroundColor = '#e9ecef';
-      }
-
-      // Common settings
-      document.getElementById("advancedSettingsTab").style.display = 'none';
-      document.getElementById("publicTab").style.display = 'none';
-
-      // General Panel
-      // document.getElementById("inClassAnnouncement").setAttribute("readonly", true);
-      // document.getElementById("inClassAnnouncement").disabled=true;
-      // document.getElementById("inClassAnnouncement").style.backgroundColor = "#e9ecef" ;
-      document.getElementById("inClassName").setAttribute("readonly", true);
-      document.getElementById("inClassName").disabled=true;
-      document.getElementById("inClassName").style.backgroundColor = "#e9ecef" ;
-      // document.getElementById("inClassDesc").setAttribute("readonly", true);
-      // document.getElementById("inClassDesc").disabled=true;
-      // document.getElementById("inClassDesc").style.backgroundColor = "#e9ecef" ;
-      // document.getElementById("inVenue").setAttribute("readonly", true);
-      // document.getElementById("inVenue").disabled=true;
-      // document.getElementById("inVenue").style.backgroundColor = "#e9ecef" ;
-      // document.getElementById("inUrlClass").setAttribute("readonly", true);
-      // document.getElementById("inUrlClass").disabled=true;
-      // document.getElementById("inUrlClass").style.backgroundColor = "#e9ecef" ;
-      // document.getElementById("inUrlGroup").setAttribute("readonly", true);
-      // document.getElementById("inUrlGroup").disabled=true;
-      // document.getElementById("inUrlGroup").style.backgroundColor = "#e9ecef" ;
-      // document.getElementById("inUrlMaterial").setAttribute("readonly", true);
-      // document.getElementById("inUrlMaterial").disabled=true;
-      // document.getElementById("inUrlMaterial").style.backgroundColor = "#e9ecef" ;
-
-
-      // Time Slot Panel
-      // document.getElementById("btnAddTimeSlot").style.pointerEvents= 'none';
-      // document.getElementById("btnAddTimeSlot").style.backgroundColor = '#e9ecef';
-      // document.getElementById("timeSlot-container").style.pointerEvents= 'none';
-      // document.getElementById("timeSlot-container").style.backgroundColor = '#e9ecef';
-
-      // Student Panel
-      document.getElementById("btnAddStudent").style.pointerEvents= 'none';
-      document.getElementById("btnAddStudent").style.backgroundColor = '#e9ecef';
-      document.getElementById("btnEditStudentModalUpdate").style.pointerEvents= 'none';
-      document.getElementById("btnEditStudentModalUpdate").style.backgroundColor = 'grey';
-      document.getElementById("btnDelStudentModalUpdate").style.pointerEvents= 'none';
-      document.getElementById("btnDelStudentModalUpdate").style.backgroundColor = 'grey';
-
-      // Tutor Panel
-      document.getElementById("btnAddTeacher1").style.pointerEvents = 'none';
-      document.getElementById("btnAddTeacher1").style.backgroundColor = '#e9ecef';
-      document.getElementById("btnAddTeacher2").style.pointerEvents = 'none';
-      document.getElementById("btnAddTeacher2").style.backgroundColor = '#e9ecef';
-      document.getElementById("btnDelTeacher2").style.pointerEvents = 'none';
-      document.getElementById("btnDelTeacher2").style.backgroundColor = '#e9ecef';
-
-      // Fee Panel
-      document.getElementById("inFee").setAttribute("readonly", true);
-      document.getElementById("inFee").disabled=true;
-      document.getElementById("inFee").style.backgroundColor = "#e9ecef" ;
-      document.getElementById("feeTypePerMonthRadio").setAttribute("disabled", true);
-      document.getElementById("feeTypePerHourRadio").setAttribute("disabled", true);
-
-    }
-
 
     // Check the student limit
     // TODO: Use settings from Settings > v1 > Profile > ...
@@ -4352,8 +4240,6 @@
         if (doc.exists) {
           // console.log("Reload document");
           // console.log(doc.data());
-
-          // sessionStorage.setItem(SESSION_STORAGE_CLASS_CURRENT_DOC_KEY, JSON.stringify(doc.data()));
 
           // Reload page view
           getClassObj(cid);
