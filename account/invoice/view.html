@@ -1206,7 +1206,7 @@
         invDocRef.get().then((doc) => {
           if (doc.exists) {
 
-            console.log(doc.data())
+            // console.log(doc.data())
             // Store in lacal variable
             currentInvoiceObj = doc.data()
             invId = doc.data()[INV_ID]
@@ -2643,34 +2643,20 @@
           [INV_DATE_EDIT]: new Date(),
         }
 
-        console.log("*Invoice Data...")
-        console.log(invData)
+        // console.log("*Invoice Data...")
+        // console.log(invData)
 
         var promiseAll = []
         promiseAll.push(invdocRef.update(invData))
-
-        // invdocRef.update(invData,)
-        // .then(() => {
-
-        //   // reload views
-        //   reload();
-
-        // });
 
         var transData = {
           [TRANS_DOC_STATUS]: document.getElementById("statusPaid").checked ? TRANS_INV_STATUS_PAID : TRANS_PAY_STATUS_NEW,
           [TRANS_DATE_EDIT]: new Date()
         }
 
-        console.log("Transaction Data...")
-        console.log(transData)
+        // console.log("Transaction Data...")
+        // console.log(transData)
         promiseAll.push(transDocRef.update(transData))
-
-        // transDocRef.update(transData)
-        // .then(() => {
-        //   // window.location.href='./'
-        //   func.showNotification('top','center', 'success', 'check_circle', "Payment recorded" );
-        // });
 
         Promise.all(promiseAll).then(() => {
 

@@ -58,7 +58,7 @@
         setup: function (ed) {
           var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
           ed.on('keydown', function (e) {
-            console.log(tinymce_getContentLength());
+            // console.log(tinymce_getContentLength());
             invNotesOnChangeHandler();
             if (allowedKeys.indexOf(e.keyCode) != -1){
               return true;
@@ -105,7 +105,7 @@
           var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
 
           ed.on('keydown', function (e) {
-            console.log(tinymce_getContentLength());
+            // console.log(tinymce_getContentLength());
             invFooterNotesOnChangeHandler();
             if (allowedKeys.indexOf(e.keyCode) != -1){
               return true;
@@ -1422,7 +1422,6 @@
       docRef.get().then((doc) => {
 
         if (doc.exists){
-          console.log("Settings exist")
           updatePageContent(doc);
         }else {
           updatePageContent(null);
@@ -1508,7 +1507,7 @@
             function(dataUrl) {
               var imgTarget = document.getElementById("previewTutorImgUrl");
               imgTarget.src = dataUrl;
-              console.log('RESULT:', dataUrl)
+              // console.log('RESULT:', dataUrl)
             },
             function(e) {
               var imgTarget = document.getElementById("previewTutorImgUrl");
@@ -3295,7 +3294,7 @@
       // Create an empty <tr> element and add it to the last position of draggable items.
       var row = tableAdditionalItem.insertRow(draggableRowLastIndex + 1);
       row.className = 'additional'
-      console.log(draggableRowLastIndex);
+      // console.log(draggableRowLastIndex);
 
       // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
       // var cell1 = row.insertCell(0);

@@ -57,7 +57,7 @@
         setup: function (ed) {
           var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
           ed.on('keydown', function (e) {
-            console.log(tinymce_getContentLength());
+            // console.log(tinymce_getContentLength());
             invNotesOnChangeHandler();
             if (allowedKeys.indexOf(e.keyCode) != -1){
               return true;
@@ -101,7 +101,7 @@
           var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
 
           ed.on('keydown', function (e) {
-            console.log(tinymce_getContentLength());
+            // console.log(tinymce_getContentLength());
             invFooterNotesOnChangeHandler();
             if (allowedKeys.indexOf(e.keyCode) != -1){
               return true;
@@ -4083,7 +4083,6 @@
           .collection("Invoice")
           .doc(invId);
 
-      console.log(invId);
       // Issue date
       let issueDate = document.getElementById("invIssueDate").value;
       issueDate = issueDate.split("/");
@@ -4097,12 +4096,11 @@
 
       // Get all items, subtotal, additional items and grand total
       let allItemsArr = getAllItems2();
-      console.log(allItemsArr);
+      // console.log(allItemsArr);
 
       // Get Total
       let subTotal = calculateSubtotal2();
       let total = calculateTotal2(subTotal);
-
 
       var invData = {
         // [INV_ID]: invDocId,
@@ -4133,8 +4131,8 @@
         [INV_STATUS]: true,
       }
 
-      console.log("*Invoice Data...")
-      console.log(invData)
+      // console.log("*Invoice Data...")
+      // console.log(invData)
 
       var transDocRef = db.collection("Financial")
           .doc("v1")
@@ -4286,8 +4284,7 @@
             let issuedDate = document.getElementById("invIssueDate").value;
             let issuedDateComponent = issuedDate.split('/');
             month = parseInt(issuedDateComponent[2]+""+issuedDateComponent[1]);
-            // console.log(issuedDate)
-            console.log("Step 1: Get all the revDoc based on 'month' ")
+            // console.log("Step 1: Get all the revDoc based on 'month' ")
             // console.log(month)
 
             let revenueDocList = []
@@ -4324,18 +4321,18 @@
             querySnapshot.forEach((doc) => {
               refIdRevenueDocList.push(doc.data()[REV_REF_ID]);
             });
-            console.log('refIdRevenueDocList', refIdRevenueDocList);
+            // console.log('refIdRevenueDocList', refIdRevenueDocList);
 
             let refIdReportList = [];
             reportList.forEach((item) => {
               refIdReportList.push(item.refId);
             })
-            console.log('refIdReportList', refIdReportList);
+            // console.log('refIdReportList', refIdReportList);
 
             let differenceList = refIdReportList.filter(x => !refIdRevenueDocList.includes(x));
-            console.log('differenceList', differenceList);
+            // console.log('differenceList', differenceList);
 
-            console.log("Step  2.1 Update the existed reportDoc in batch")
+            // console.log("Step  2.1 Update the existed reportDoc in batch")
             // Step 2.1 Update the existed reportDoc in batch
             querySnapshot.forEach((doc) => {
               // console.log(doc.data());
@@ -4381,7 +4378,7 @@
                     [REV_STATUS]: true
                   }
 
-                  console.log(revData)
+                  // console.log(revData)
 
                   promiseArr.push(reportDocRef.update(revData))
 
@@ -4395,12 +4392,7 @@
 
             });
 
-            // // Commit the batch
-            // batchUpdate.commit().then(() => {
-
-            // });
-
-            console.log("Step  2.2 Create a new reportDoc for each item in differenceList")
+            // console.log("Step  2.2 Create a new reportDoc for each item in differenceList")
             // Step 2.2 Create a new reportDoc for each item in differenceList
             if (differenceList.length>0){
               differenceList.forEach((diffItem, diffIndex) => {
@@ -4425,7 +4417,7 @@
                       .collection("Revenue")
                       .doc();
 
-                    console.log("Updating: " + item.refId + "  - "+ reportDocRef.id);
+                    // console.log("Updating: " + item.refId + "  - "+ reportDocRef.id);
                     // Construct the new data
                     let revData ={
                       [REV_ID]: reportDocRef.id,
@@ -4457,14 +4449,8 @@
             }
             else {
               // Do nothing
-              console.log("Step  2.2: empty differenceList ")
+              // console.log("Step  2.2: empty differenceList ")
             }
-
-            // console.log("Step  2.2: Commit new document ")
-            // // Create new document
-            // batchUpdateNew.commit().then(() => {
-            //   reload();
-            // });
 
             return Promise.all(promiseArr);
 
@@ -4515,15 +4501,14 @@
 
     async function updateRevenueDoc(reportList, invDocId){
 
-      console.log("UpdateRevenueDoc ... ")
+      // console.log("UpdateRevenueDoc ... ")
       // Step 1: Get the ID of revDoc based on issuedDate, refId
       // Step 1: Get all the revDoc based on 'month'
       let issuedDate = document.getElementById("invIssueDate").value;
       let issuedDateComponent = issuedDate.split('/');
       let month = parseInt(issuedDateComponent[2]+""+issuedDateComponent[1]);
-      // console.log(issuedDate)
-      console.log("Step 1: Get all the revDoc based on 'month'  ")
-      console.log(month)
+      // console.log("Step 1: Get all the revDoc based on 'month'  ")
+      // console.log(month)
 
       let revenueDocList = []
       let reportDocRef = db.collection("Report")
@@ -5004,7 +4989,7 @@
         let refId = itemList.slice(item + 2, item + 3)[0];
         let cat = itemList.slice(item + 3, item + 4)[0];
         let tag_temp = itemList.slice(item + 4, item + 5)[0];
-        console.log(className, refId, cat, tag_temp)
+        // console.log(className, refId, cat, tag_temp)
         // let tag = (tag_temp == null || tag_temp == "") ? "" : tag_temp;
         let tagArray = (tag_temp == null || tag_temp == "") ? [] : tag_temp.split(",");
 
@@ -5049,7 +5034,7 @@
 
         subTotal = subTotal + subtotalItem;
 
-        console.log(ReportList);
+        // console.log(ReportList);
 
 
 
@@ -5093,12 +5078,12 @@
         else if (additionalSelector === 'Tax Rate (%)'){
           // console.log(additionalItem+' ('+additionalItemValue +'%)', amount);
           temp_amount = subTotal * (additionalItemValue) / 100;
-          console.log("Tax Rate (%):");
-          console.log("temp_amount: "+ temp_amount);
+          // console.log("Tax Rate (%):");
+          // console.log("temp_amount: "+ temp_amount);
           addItemTaxTotal = isNaN(temp_amount) ? addItemTaxTotal + 0 : addItemTaxTotal + temp_amount;
-          console.log("addItemTaxTotal: "+ addItemTaxTotal);
+          // console.log("addItemTaxTotal: "+ addItemTaxTotal);
           subTotal = subTotal * (100 + additionalItemValue) / 100;
-          console.log("subTotal after Tax: "+ subTotal);
+          // console.log("subTotal after Tax: "+ subTotal);
         }
         else
         {
@@ -5107,7 +5092,7 @@
           subTotal = subTotal;
         }
 
-        console.log("subTotal: "+ subTotal);
+        // console.log("subTotal: "+ subTotal);
       });
 
       let addItemOtherJson = {
