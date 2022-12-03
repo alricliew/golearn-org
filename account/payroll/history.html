@@ -853,10 +853,10 @@
 
       $('#btnDelPayrollModalUpdate').on('click', function (e) {
 
-        console.log("Deleting Payroll")
+        // console.log("Deleting Payroll")
         let payrollCurrentObj = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_PAYROLL_CURRENT_DOC_KEY));
-        console.log(payrollCurrentObj.id)
-        console.log(payrollCurrentObj.docIdArr)
+        // console.log(payrollCurrentObj.id)
+        // console.log(payrollCurrentObj.docIdArr)
 
         var promiseAll = [];
 
@@ -908,7 +908,7 @@
             else {
 
               snapshots[1].forEach((doc) => {
-                console.log("Deleting deleted! " + payrollCurrentObj[PAYROLL_ID]);
+                // console.log("Deleting deleted! " + payrollCurrentObj[PAYROLL_ID]);
                 // console.log(doc.data()[PAY_ID])
                 // console.log(doc.data()[PAY_TRANS_ID])
 

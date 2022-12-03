@@ -782,11 +782,6 @@
     // Store last document - Used for payroll
     var latestInvoiceDoc = null;
 
-    // Init session storage
-    sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_ALL_DOCS_KEY, null);
-    sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_CURRENT_DOC_KEY, null);
-
-
     // Initialization
     AuthCheck();
 
@@ -958,7 +953,7 @@
     function loadPayslipFixed(start, end){
 
       // Note: start/end is in seconds
-      console.log(start, end)
+      // console.log(start, end)
 
       // Reload the payslip views
       let studentItemList = document.getElementById('card-main').querySelectorAll('div.card-student-item');
@@ -1057,21 +1052,6 @@
 
         });
 
-        // Store all docs to sessionStorage. If loadmore is clicked, we concat the newly loaded and previous docs.
-        let allObjList = null;
-        // Set the fields
-        allObjList = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_PAYSLIP_ALL_DOCS_KEY));
-        if (allObjList == null ){
-          // console.log("First time loading the data");
-          sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_ALL_DOCS_KEY, JSON.stringify(docsObj));
-          sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_CURRENT_DOC_KEY, null);
-        }
-        else{
-          // console.log("Nth time loading the data");
-          allObjList = allObjList.concat(docsObj);
-          sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_ALL_DOCS_KEY, JSON.stringify(allObjList));
-          sessionStorage.setItem(SESSION_STORAGE_PAYSLIP_CURRENT_DOC_KEY, null);
-        }
 
         latestInvoiceDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
         // console.log(querySnapshot.docs.length)
@@ -1307,8 +1287,7 @@
 
         if (doc.exists) {
           // console.log("Payslip found, update exisiting payslip.");
-          console.log("Payslip found, update exisiting payslip.");
-          console.log(doc.data());
+          // console.log(doc.data());
 
           let payslipData = doc.data()[PAY_ITEMS_ARR]
           // Render Tables
@@ -1456,7 +1435,6 @@
             document.getElementById("viewTutorGenderRadioFemale").checked = item[TUTOR_TUTOR_GENDER] == 1 ? true: false;
             document.getElementById("viewTutorAge").value = item[TUTOR_TUTOR_AGE];
             document.getElementById("viewTutorImgUrl").src = item[TUTOR_TUTOR_IMG_URL];
-            console.log(item[TUTOR_TUTOR_WEB_URL])
             if (item[TUTOR_TUTOR_WEB_URL] == null || item[TUTOR_TUTOR_WEB_URL] == ''){
               document.getElementById("btnViewTutorModalFullProfile").disabled = true;
               document.getElementById("btnViewTutorModalFullProfile").setAttribute('href','#');
@@ -1622,7 +1600,7 @@
       let additionalItemStartIndex= payslipDataArr.indexOf('ADDITIONAL_ITEM');
       let totalStartIndex= payslipDataArr.indexOf('NET');
 
-      console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
+      // console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
 
       let type = payslipDataArr[0];
       let item = payslipDataArr.slice(itemStartIndex+1, subtotalStartIndex); //+1 to ignore the first indentifier
@@ -1693,7 +1671,7 @@
             payout: component[3],
           }
 
-          console.log(payslipItemData);
+          // console.log(payslipItemData);
 
           renderAllPayslipItems(payslipItemData);
 
@@ -2318,7 +2296,7 @@
           let action = row.getElementsByTagName("td")[3].getAttribute('data-selector');
           let item = parseFloat(row.getElementsByTagName("td")[3].getAttribute('data-item'));
           let amount = parseFloat(row.getElementsByTagName("td")[3].getAttribute('data-value'));
-          console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
+          // console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
           // console.log(action, item, amount)
           if (action === 'Discount ( - )'){
             temp_amount = -amount;
@@ -2371,8 +2349,7 @@
           let action = row.getElementsByTagName("td")[1].getAttribute('data-selector');
           let item = parseFloat(row.getElementsByTagName("td")[1].getAttribute('data-item'));
           let amount = parseFloat(row.getElementsByTagName("td")[1].getAttribute('data-value'));
-          console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
-
+          // console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
           // console.log(action, item, amount)
           if (action === 'Discount ( - )'){
             temp_amount = -amount;

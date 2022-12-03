@@ -1911,7 +1911,7 @@
 
         if(doc.empty) {
 
-          console.log("Empty, Create a new payroll");
+          // console.log("Empty, Create a new payroll");
           func.showNotification('top','center', 'error', 'error_outline', "Payroll does not exist." );
 
         }
@@ -2272,7 +2272,7 @@
 
         if(querySnapshot.empty) {
 
-          console.log("Empty, Create a new payroll");
+          // console.log("Empty, Create a new payroll");
 
           var payrollDocRef = db.collection("Financial")
             .doc("v1")
@@ -2293,7 +2293,7 @@
             [PAYROLL_STATUS]: true,
           }
 
-          console.log(data);
+          // console.log(data);
           payrollDocRef.set(data, { merge: true })
             .then(() => {
 
@@ -2312,11 +2312,7 @@
           func.showNotification('top','center', 'warning', 'error_outline', "Payroll already existed." );
 
           querySnapshot.forEach((doc) => {
-            console.log("Payroll found");
-            // console.log(doc.data()[PAYROLL_NAME]);
-            // console.log(doc.data()[PAYROLL_ID]);
-            // console.log(doc.data()[PAYROLL_DATE_START].toDate());
-            // console.log(doc.data()[PAYROLL_DATE_END].toDate());
+            // console.log("Payroll found");
 
             // Get data from payroll
             payrollId = doc.data()[PAYROLL_ID];
@@ -2358,8 +2354,8 @@
       .then((querySnapshot) => {
 
         querySnapshot.forEach((doc) => {
-          console.log("Payslip: ");
-          console.log(doc.data());
+          // console.log("Payslip: ");
+          // console.log(doc.data());
 
           // Step 1: Create data modal for Tutor Module
           let payslipData = {
@@ -2468,7 +2464,7 @@
                 payout: component[3],
               }
 
-              console.log(payslipItemData);
+              // console.log(payslipItemData);
 
               renderAllPayslipItems(payslipItemData);
 
@@ -3154,9 +3150,10 @@
       // let end = new Date('2021-11-13');
       // payrollStart = new Date(start);
       // payrollEnd = new Date(end);
-      console.log(payrollStart)
-      console.log(payrollEnd)
-      console.log(classData.classId )
+
+      // console.log(payrollStart)
+      // console.log(payrollEnd)
+      // console.log(classData.classId )
 
       let docRef = db.collection("Class")
           .doc("v1")
@@ -3175,10 +3172,8 @@
         // console.log('Tutor, Class Name  (Per Month) : '+tutorDoc.data()[TUTOR_TUTOR_NAME]+classDoc.data()[CLASS_NAME]);
 
         querySnapshot.forEach((doc) => {
-          // console.log(doc.data()[LESSON_DATE]);
-          // latestLessonDoc = doc.data()[LESSON_DATE];
 
-          console.log('Lesson Date: '+doc.data()[LESSON_DATE].toDate().toLocaleDateString("en-GB"));
+          // console.log('Lesson Date: '+doc.data()[LESSON_DATE].toDate().toLocaleDateString("en-GB"));
 
           let lesItemData = {
             tutor_id : classData.tutor_id,
@@ -4073,7 +4068,7 @@
           let action = row.getElementsByTagName("td")[3].getAttribute('data-selector');
           let item = parseFloat(row.getElementsByTagName("td")[3].getAttribute('data-item'));
           let amount = parseFloat(row.getElementsByTagName("td")[3].getAttribute('data-value'));
-          console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
+          // console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
           // console.log(action, item, amount)
           if (action === 'Discount ( - )'){
             temp_amount = -amount;
@@ -4126,7 +4121,7 @@
           let action = row.getElementsByTagName("td")[1].getAttribute('data-selector');
           let item = parseFloat(row.getElementsByTagName("td")[1].getAttribute('data-item'));
           let amount = parseFloat(row.getElementsByTagName("td")[1].getAttribute('data-value'));
-          console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
+          // console.log('addItemHeaderTrEleArrLength: '+addItemHeaderTrEleArrLength)
 
           // console.log(action, item, amount)
           if (action === 'Discount ( - )'){
@@ -4233,7 +4228,6 @@
             document.getElementById("viewTutorGenderRadioFemale").checked = item[TUTOR_TUTOR_GENDER] == 1 ? true: false;
             document.getElementById("viewTutorAge").value = item[TUTOR_TUTOR_AGE];
             document.getElementById("viewTutorImgUrl").src = item[TUTOR_TUTOR_IMG_URL];
-            console.log(item[TUTOR_TUTOR_WEB_URL])
             if (item[TUTOR_TUTOR_WEB_URL] == null || item[TUTOR_TUTOR_WEB_URL] == ''){
               document.getElementById("btnViewTutorModalFullProfile").disabled = true;
               document.getElementById("btnViewTutorModalFullProfile").setAttribute('href','#');
@@ -4286,7 +4280,7 @@
         const rectA = nodeA.getBoundingClientRect();
         const rectB = nodeB.getBoundingClientRect();
 
-        console.log(rectA.top, rectA.height / 2, rectB.top, rectB.height / 2, rectA.top + rectA.height / 2 < rectB.top + rectB.height / 2)
+        // console.log(rectA.top, rectA.height / 2, rectB.top, rectB.height / 2, rectA.top + rectA.height / 2 < rectB.top + rectB.height / 2)
         return rectA.top + rectA.height / 2 < rectB.top + rectB.height / 2;
     };
 
@@ -4296,7 +4290,7 @@
         const rectA = nodeA.getBoundingClientRect();
         const rectB = nodeB.getBoundingClientRect();
 
-        console.log(rectA.top, rectA.height / 2, rectB.top, rectB.height / 2, rectA.top + rectA.height / 2 < rectB.top + rectB.height / 2)
+        // console.log(rectA.top, rectA.height / 2, rectB.top, rectB.height / 2, rectA.top + rectA.height / 2 < rectB.top + rectB.height / 2)
 
         return rectA.top + rectA.height / 2 > rectB.top + rectB.height / 2;
     };
@@ -4585,8 +4579,8 @@
 
         // Check the active drag
         const advanced_check = document.getElementById('advanced_check');
-        console.log('advanced_check.checked')
-        console.log(advanced_check.checked)
+        // console.log('advanced_check.checked')
+        // console.log(advanced_check.checked)
         if (advanced_check.checked){
           // console.log('advanced_check.checked')
           endRowIndexFinal = endRowIndexAdv;
@@ -4599,8 +4593,8 @@
         // console.log('endRowIndexAdv: '+endRowIndexAdv)
         // console.log(endRowIndexFinal)
 
-        console.log([].slice.call(list.children))
-        console.log([].slice.call(listAdv.children))
+        // console.log([].slice.call(list.children))
+        // console.log([].slice.call(listAdv.children))
         isDraggingStarted = false;
 
         // Remove the `list` element
@@ -4741,7 +4735,7 @@
         let amount = parseFloat(row.getElementsByTagName("input")[2].value);
         let payout = parseFloat(row.getElementsByTagName("input")[3].value);
 
-        console.log(quantity, amount, payout)
+        // console.log(quantity, amount, payout)
 
         // Set the value of Amount at 5th cell
         if (isNaN(quantity) && isNaN(amount) && isNaN(payout)){
@@ -4845,7 +4839,7 @@
           netPay = netPay;
 
         }
-        console.log('Total: '+netPay);
+        // console.log('Total: '+netPay);
         // Set the value of Amount at 5th cell
         if (isNaN(temp_amount)){
           row.children[3].textContent = 'INVALID';
@@ -5018,7 +5012,7 @@
       // console.log(tbodyParent.parentNode.id)
 
       let selectedRowIndex = [].slice.call(tbodyParent.querySelectorAll('tr')).indexOf(trParent)
-      console.log(selectedRowIndex)
+      // console.log(selectedRowIndex)
 
       // Get target Table
       let targetTableId = (tbodyParent.parentNode.id === 'tableAdditionalItem')? 'tableAdditionalItemAdv' : 'tableAdditionalItem';
@@ -5026,7 +5020,7 @@
       // Get the corresponding TR elem in other tables
       let targetElem = document.getElementById(targetTableId).querySelectorAll('tr[class=additional]');
 
-      console.log(targetElem[selectedRowIndex])
+      // console.log(targetElem[selectedRowIndex])
       // Repeat the steps above.
       targetElem[selectedRowIndex].getElementsByTagName("a")[0].value = elem.textContent;
       targetElem[selectedRowIndex].getElementsByTagName("a")[0].textContent = elem.textContent;
@@ -5066,7 +5060,7 @@
       var tbodyParent = findAscendingTag(elem, "TBODY");
 
       let selectedRowIndex = [].slice.call(tbodyParent.querySelectorAll('tr')).indexOf(trParent)
-      console.log(selectedRowIndex)
+      // console.log(selectedRowIndex)
 
       // Get target Table
       let targetTableId = (tbodyParent.parentNode.id === 'tableAdditionalItem')? 'tableAdditionalItemAdv' : 'tableAdditionalItem';
@@ -5298,9 +5292,8 @@
 
     // Synchronize items description between tables
     function sync(elem){
-      // console.log(elem)
       let inputVal = elem.value
-      console.log(elem.value)
+      // console.log(elem.value)
 
       var trParent = findAscendingTag(elem, "TR");
       var tbodyParent = findAscendingTag(elem, "TBODY");
@@ -5310,11 +5303,11 @@
 
       // let selectedRowIndex = tbodyParent.index(trParent)
       let selectedRowIndex = [].slice.call(tbodyParent.querySelectorAll('tr')).indexOf(trParent)
-      console.log(trParent)
-      console.log(tbodyParent)
+      // console.log(trParent)
+      // console.log(tbodyParent)
       // console.log([].slice.call(tbodyParent.querySelectorAll('tr')).indexOf(trParent))
-      console.log(selectedRowIndex)
-      console.log(activeTableId)
+      // console.log(selectedRowIndex)
+      // console.log(activeTableId)
 
       // Get the inputs value and sync to corresponding elem in other tables
       let input1 = ''; // Items
@@ -5356,9 +5349,8 @@
 
     // Synchronize additional items between tables
     function syncAdditional(elem){
-      // console.log(elem)
       let inputVal = elem.value
-      console.log(elem.value)
+      // console.log(elem.value)
 
       var trParent = findAscendingTag(elem, "TR");
       var tbodyParent = findAscendingTag(elem, "TBODY");
@@ -5368,11 +5360,11 @@
 
       // let selectedRowIndex = tbodyParent.index(trParent)
       let selectedRowIndex = [].slice.call(tbodyParent.querySelectorAll('tr')).indexOf(trParent)
-      console.log(trParent)
-      console.log(tbodyParent)
+      // console.log(trParent)
+      // console.log(tbodyParent)
       // console.log([].slice.call(tbodyParent.querySelectorAll('tr')).indexOf(trParent))
-      console.log(selectedRowIndex)
-      console.log(activeTableId)
+      // console.log(selectedRowIndex)
+      // console.log(activeTableId)
 
       let targetTableId = (activeTableId === 'tableAdditionalItem')? 'tableAdditionalItemAdv' : 'tableAdditionalItem';
 
@@ -5385,7 +5377,7 @@
       // Get the inputs value and sync to corresponding elem in other tables
       let input1 =  trParent.getElementsByTagName("input")[0].value;
       let input2 =  trParent.getElementsByTagName("input")[1].value;
-      console.log(input1, input2)
+      // console.log(input1, input2)
 
       targetElem[selectedRowIndex].querySelectorAll('input')[0].value = input1;
       targetElem[selectedRowIndex].querySelectorAll('input')[1].value = input2;
@@ -5406,13 +5398,9 @@
 
       // Get the index of the TR tag with 'item' class.
       let selectedRowIndex = [].slice.call(tbodyParent.querySelectorAll('tr[class=item], tr[class=additional]')).indexOf(trParent)
-      console.log(trParent)
-      console.log(tbodyParent)
-      console.log(selectedRowIndex)
-      console.log(activeTableId)
-      console.log([].slice.call(tbodyParent.querySelectorAll('tr[class=item], tr[class=additional]')))
-      // console.log(tbodyParent.querySelectorAll('.item'))
-
+      // console.log(selectedRowIndex)
+      // console.log(activeTableId)
+      // console.log([].slice.call(tbodyParent.querySelectorAll('tr[class=item], tr[class=additional]')))
 
       // Get the existing table id and indentify the correspond table id. Same goes to tables for additional items
       // Get the corresponding TR elem in other tables
@@ -5609,7 +5597,7 @@
       let additionalItemStartIndex= payslipDataArr.indexOf('ADDITIONAL_ITEM');
       let totalStartIndex= payslipDataArr.indexOf('NET');
 
-      console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
+      // console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
 
       let type = payslipDataArr[0];
       let item = payslipDataArr.slice(itemStartIndex+1, subtotalStartIndex); //+1 to ignore the first indentifier
@@ -5642,7 +5630,7 @@
         renderAllInvoiceAdditionalItemsManual(components[0], components[1], components[2])
 
 
-        console.log(components[0], components[1], components[2], components[3]);
+        // console.log(components[0], components[1], components[2], components[3]);
       });
 
       if (type == 'ADVANCED'){
@@ -6032,7 +6020,7 @@
           let desc = row.children[1].getElementsByTagName("input")[0].value;
           let price = row.children[2].getElementsByTagName("input")[0].value;
           let amount = row.children[3].textContent;
-          console.log(desc, price, amount);
+          // console.log(desc, price, amount);
 
           // Generate the item
           let payslipItemData={
@@ -6194,7 +6182,7 @@
       let additionalItemStartIndex= payslipDataArr.indexOf('ADDITIONAL_ITEM');
       let totalStartIndex= payslipDataArr.indexOf('NET');
 
-      console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
+      // console.log(itemStartIndex, additionalItemStartIndex, subtotalStartIndex, totalStartIndex)
 
       let type = payslipDataArr[0];
       let item = payslipDataArr.slice(itemStartIndex+1, subtotalStartIndex); //+1 to ignore the first indentifier
@@ -6265,7 +6253,7 @@
             payout: component[3],
           }
 
-          console.log(payslipItemData);
+          // console.log(payslipItemData);
 
           renderAllPayslipItems(payslipItemData);
 
@@ -6369,7 +6357,7 @@
             .collection("Transaction")
             .doc();
 
-          console.log("Empty, Create a new Payslip");
+          // console.log("Empty, Create a new Payslip");
 
           payDocId = payslipDocRef1.id;
 
@@ -6414,8 +6402,8 @@
             [PAY_TRANS_ID]:transDocId,
           }
 
-          console.log("*Payslip Data...")
-          console.log(data)
+          // console.log("*Payslip Data...")
+          // console.log(data)
 
 
           var transData = {
@@ -6436,8 +6424,8 @@
             [TRANS_STATUS]: true,
           }
 
-          console.log("Transaction Data...")
-          console.log(transData)
+          // console.log("Transaction Data...")
+          // console.log(transData)
 
           payrollDocIdArr.push(payDocId);
           payrollDocTotalArr.push(netPay);
@@ -6456,28 +6444,8 @@
             [PAYROLL_TOTAL]: payrollTotal,
             // [PAYROLL_STATUS]: true,
           }
-          console.log("Payroll Data...")
-          console.log(payrollData);
-
-          // Create Payslip
-          // payslipDocRef1.set(data, { merge: true })
-          // .then(() => {
-
-          //   // Create Transaction
-          //   transDocRef.set(transData, { merge: true })
-          //   .then(() => {
-
-          //     // Update Payroll
-          //     payrollDocRef.set(payrollData, { merge: true })
-          //     .then(() => {
-          //       func.showNotification('top','center', 'success', 'check_circle', "Created new payslip." );
-          //       SetPayslipUpdateStatus(true, cardId);
-          //     });
-
-          //   });
-
-
-          // });
+          // console.log("Payroll Data...")
+          // console.log(payrollData);
 
           promiseAll.push(payslipDocRef1.set(data, { merge: true }));
           promiseAll.push(transDocRef.set(transData, { merge: true }));
@@ -6488,7 +6456,7 @@
         else {
           querySnapshot.forEach((doc) => {
 
-            console.log("Payslip found, update exisiting payslip.");
+            // console.log("Payslip found, update exisiting payslip.");
 
             payDocId = doc.data()[PAY_ID];
             transDocId = doc.data()[PAY_TRANS_ID];
@@ -6543,8 +6511,8 @@
               // [PAY_TRANS_ID]:transDocId,
             }
 
-            console.log("*Payslip Data...")
-            console.log(data)
+            // console.log("*Payslip Data...")
+            // console.log(data)
 
 
             var transData = {
@@ -6565,8 +6533,8 @@
               [TRANS_STATUS]: true, // Some payslips maybe deleted, when updating these payslips, set True to make them visible again.
             }
 
-            console.log("Transaction Data...")
-            console.log(transData)
+            // console.log("Transaction Data...")
+            // console.log(transData)
 
             // Get the index of the payslip doc no.
             let payslipDocIndex = payrollDocIdArr.indexOf(payDocId);
@@ -6597,29 +6565,8 @@
               [PAYROLL_TOTAL]: payrollTotal,
               // [PAYROLL_STATUS]: true,
             }
-            console.log("Payroll Data...")
-            console.log(payrollData);
-
-
-            // Update Payslip
-            // payslipDocRef1.set(data, { merge: true })
-            // .then(() => {
-
-            //   // Create Transaction
-            //   transDocRef.set(transData, { merge: true })
-            //   .then(() => {
-
-            //     // Update Payroll
-            //     payrollDocRef.set(payrollData, { merge: true })
-            //     .then(() => {
-            //       func.showNotification('top','center', 'success', 'check_circle', "Updated payslip." );
-            //       SetPayslipUpdateStatus(true, cardId);
-            //     });
-
-            //   });
-
-
-            // });
+            // console.log("Payroll Data...")
+            // console.log(payrollData);
 
             promiseAll.push(payslipDocRef1.set(data, { merge: true }));
             promiseAll.push(transDocRef.set(transData, { merge: true }));
@@ -6682,14 +6629,14 @@
           .doc(payrollId);
 
         if(querySnapshot.empty) {
-          console.log("Empty payslip, Skipped");
+          // console.log("Empty payslip, Skipped");
           removeElementBasedOnId(cardId);
         }
         else
         {
           querySnapshot.forEach((doc) => {
 
-            console.log("Payslip found, update exisiting payslip.");
+            // console.log("Payslip found, update exisiting payslip.");
 
             payDocId = doc.data()[PAY_ID];
             transDocId = doc.data()[PAY_TRANS_ID];
@@ -6741,8 +6688,8 @@
               [PAYROLL_TOTAL]: payrollTotal,
               // [PAYROLL_STATUS]: true,
             }
-            console.log("Payroll Data...")
-            console.log(payrollData);
+            // console.log("Payroll Data...")
+            // console.log(payrollData);
 
             // Update Payslip
             payslipDocRef1.set(data, { merge: true })
@@ -6994,7 +6941,7 @@
 
         let grossPay = calculateGrossPayDuringInit(inCustomEmployeeId);
         // document.getElementById("netpayview_"+cardId).value = netPayTextAdv;
-        console.log('grossPay '+grossPay);
+        // console.log('grossPay '+grossPay);
         calculateNetPayDuringInit(inCustomEmployeeId, grossPay);
 
       });
@@ -7016,12 +6963,12 @@
       $('#editPayslipModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget) // Button/Components that triggered the modal
         PAYSLIP_CARD_ID = button.data('cardid') // Extract info from data-* attributes
-        console.log(PAYSLIP_CARD_ID)
+        // console.log(PAYSLIP_CARD_ID)
         // document.getElementById("confirmEmployeeCardId").setAttribute('value', EMPLOYEE_CARD_ID);
         // document.getElementById("confirmEmployeeModalTitle").textContent = 'Create payslip for '+ EMPLOYEE_CARD_NAME;
 
         let payslipData = getPayslipData(PAYSLIP_CARD_ID);
-        console.log('payslipData: '+payslipData);
+        // console.log('payslipData: '+payslipData);
         loadPayslipModal(payslipData);
         assignDraggableWithElem(tableSimple);
         assignDraggableWithElem(tableAdv);
@@ -7120,8 +7067,8 @@
         PAYSLIP_CARD_ID = button.data('cardid') // Extract info from data-* attributes
 
         let payslipData = getPayslipData(PAYSLIP_CARD_ID);
-        console.log('payslipData: ');
-        console.log(payslipData);
+        // console.log('payslipData: ');
+        // console.log(payslipData);
 
         // Render Tables
         previewPayslip('preview', payslipData)
@@ -7335,7 +7282,7 @@
           {
             querySnapshot.forEach((doc) => {
 
-              console.log("Payslip found, update exisiting payslip.");
+              // console.log("Payslip found, update exisiting payslip.");
 
               payDocId = doc.data()[PAY_ID];
               transDocId = doc.data()[PAY_TRANS_ID];
@@ -7355,8 +7302,8 @@
               // let paymentDate = document.getElementById("inPaymentDate").value;
               let paymentDate = $('#inPaymentDate').data('daterangepicker').startDate.format('DD/MM/YYYY');
 
-              console.log('paymentDate');
-              console.log(paymentDate);
+              // console.log('paymentDate');
+              // console.log(paymentDate);
               paymentDate = paymentDate.split("/");
               let newPaymentDate = new Date( paymentDate[2], paymentDate[1] - 1, paymentDate[0]);
               let paymentDateFinal = firebase.firestore.Timestamp.fromDate(newPaymentDate);
