@@ -811,7 +811,7 @@
                           <div class="form-group">
 
                             <div style="height: 115px; width: 100%; display: inline-block; position: relative; overflow: hidden; cursor: pointer;">
-                              <img id="tutorImgUrl" style="height: 100%; width: auto;" src="../../assets/img/empty-photo.png"/>
+                              <img id="tutorImgUrl" style="height: 100%; width: auto;" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"/>
                             </div>
                             <input type="file" id="select_image" name="image" style="display:none" accept="image/x-png,image/jpeg"> </input>
 
@@ -1160,7 +1160,7 @@
                       <div class="form-group">
                         <!-- <canvas id="myCanvas" style="height: 150px;width: 225px; object-fit: cover;" ></canvas> -->
                         <div style="height: 115px;width: auto; display: inline-block; position: relative; overflow: hidden; cursor: pointer;">
-                          <img id="previewTutorImgUrl" style="height: 100%; width: auto; " src="../../assets/img/empty-photo.png" crossorigin="anonymous" alt = ""/>
+                          <img id="previewTutorImgUrl" style="height: 100%; width: auto; " src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" crossorigin="anonymous" alt = ""/>
                           <!-- <canvas id="myCanvas" ></canvas> -->
                         </div>
                       </div>
@@ -3787,9 +3787,8 @@
       // Get Total
       let subTotal = calculateSubtotal2();
       let total = calculateTotal2(subTotal);
-      console.log("tutorImgUrl");
-      console.log(document.getElementById("tutorImgUrl").src);
-      console.log(firebase.firestore.Timestamp.fromDate(new Date()))
+
+      // console.log(firebase.firestore.Timestamp.fromDate(new Date()))
       let invData = {
         [INV_ID]: invDocId,
         [INV_TRANS_ID]: transDocId,

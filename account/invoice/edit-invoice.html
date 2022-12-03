@@ -931,7 +931,7 @@
                           <div class="form-group">
 
                             <div style="height: 115px; width: 100%; display: inline-block; position: relative; overflow: hidden; cursor: pointer;">
-                              <img id="tutorImgUrl" style="height: 100%; width: auto;" src="../../assets/img/empty-photo.png"/>
+                              <img id="tutorImgUrl" style="height: 100%; width: auto;" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"/>
                             </div>
                             <input type="file" id="select_image" name="image" style="display:none" accept="image/x-png,image/jpeg"> </input>
 
@@ -1232,7 +1232,7 @@
                       <div class="form-group">
                         <!-- <canvas id="myCanvas" style="height: 150px;width: 225px; object-fit: cover;" ></canvas> -->
                         <div style="height: 115px;width: auto; display: inline-block; position: relative; overflow: hidden; cursor: pointer;">
-                          <img id="previewTutorImgUrl" style="height: 100%; width: auto; " src="../../assets/img/empty-photo.png" crossorigin="anonymous" alt = ""/>
+                          <img id="previewTutorImgUrl" style="height: 100%; width: auto; " src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" crossorigin="anonymous" alt = ""/>
                           <!-- <canvas id="myCanvas" ></canvas> -->
                         </div>
                       </div>
@@ -1554,7 +1554,7 @@
       document.getElementById("invBizDetails").innerHTML = invObj[INV_SENDER_DETAILS];
 
       // Check if logoUrl is null or a single transparent pixel
-      if (invObj[INV_SENDER_IMG_URL] == null || invObj[INV_SENDER_IMG_URL] == '' || invObj[INV_SENDER_IMG_URL] == "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"){
+      if (invObj[INV_SENDER_IMG_URL] == null || invObj[INV_SENDER_IMG_URL] == ''){
         document.getElementById("tutorImgUrl").style.display = 'none';
         document.getElementById("tutorImgUrl").src =  "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
       }
@@ -1599,13 +1599,13 @@
         document.getElementById("previewTutorImgUrl").src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
       }
       else{
-        toDataURL(
-         (invObj[INV_SENDER_IMG_URL] == null ||invObj[INV_SENDER_IMG_URL] == '') ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+invObj[INV_SENDER_IMG_URL],
+        // toDataURL(
+        //  (invObj[INV_SENDER_IMG_URL] == null ||invObj[INV_SENDER_IMG_URL] == '') ?  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D' : 'https://murmuring-headland-66106.herokuapp.com/'+invObj[INV_SENDER_IMG_URL],
 
-          function(dataUrl) {
-            // console.log('RESULT:', dataUrl)
-          },
-        );
+        //   function(dataUrl) {
+        //     // console.log('RESULT:', dataUrl)
+        //   },
+        // );
 
         // NOTE: NEW
         toDataURLNew(
