@@ -1374,12 +1374,16 @@
           function(dataUrl) {
             var imgTarget = document.getElementById("previewTutorImgUrl");
             imgTarget.src = dataUrl;
-            // console.log('RESULT:', dataUrl)
+          },
+          function(e) {
+            var imgTarget = document.getElementById("previewTutorImgUrl");
+            imgTarget.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
+            console.log(e)
           }
         )
 
       }
-      function toDataURLNew(url, callback) {
+      function toDataURLNew(url, callback, error) {
         var xhr = new XMLHttpRequest();
         xhr.onload = function() {
           var reader = new FileReader();
@@ -1387,6 +1391,9 @@
             callback(reader.result);
           }
           reader.readAsDataURL(xhr.response);
+        };
+        xhr.onerror= function(){
+          error('Image loading error')
         };
         xhr.open('GET', url);
         xhr.responseType = 'blob';

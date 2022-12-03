@@ -1506,29 +1506,32 @@
           toDataURLNew(
             imgtxt,
             function(dataUrl) {
-              console.log(dataUrl)
               var imgTarget = document.getElementById("previewTutorImgUrl");
               imgTarget.src = dataUrl;
-              // console.log('RESULT:', dataUrl)
+              console.log('RESULT:', dataUrl)
+            },
+            function(e) {
+              var imgTarget = document.getElementById("previewTutorImgUrl");
+              imgTarget.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
+              console.log(e)
             }
           )
 
         }
-
-        function toDataURLNew(url, callback) {
+        function toDataURLNew(url, callback, error) {
           var xhr = new XMLHttpRequest();
           xhr.onload = function() {
             var reader = new FileReader();
             reader.onloadend = function() {
               callback(reader.result);
             }
-            console.log("xhr.response")
-            console.log(xhr.response)
             reader.readAsDataURL(xhr.response);
+          };
+          xhr.onerror= function(){
+            error('Image loading error')
           };
           xhr.open('GET', url);
           xhr.responseType = 'blob';
-          // xhr.responseType = 'text';
           xhr.send();
         }
 
